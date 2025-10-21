@@ -40,7 +40,7 @@ export default function ProjectsPage() {
         />
         <button className="rounded bg-black px-3 py-2 text-white">Create</button>
       </form>
-      <ul className="divide-y rounded border bg-white">
+      <ul className="divide-y rounded border bg-black text-white">
         {projects.map((p) => (
           <li key={p.id} className="flex items-center justify-between p-3">
             <div>{p.name}</div>

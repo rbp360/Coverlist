@@ -36,13 +36,49 @@
       "artist": "Oasis",
       "durationSec": 269,
       "mbid": "9de3f212-2121-4c48-9240-96a52b512733",
-      "key": "C#m",
+      "key": "C#mIs this not auto",
       "tempo": 148,
       "createdAt": "2025-10-21T08:35:52.978Z",
-      "updatedAt": "2025-10-21T08:35:52.978Z"
+      "updatedAt": "2025-10-21T08:52:58.452Z",
+      "transposedKey": "Again auto?",
+      "notes": "Says tempo is 148 is this automatic??"
     }
   ],
-  "setlists": [],
+  "setlists": [
+    {
+      "id": "fa9bc7c9-bc31-4730-9c96-d284d015bf01",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "name": "New Setlist\\New stelist test",
+      "showArtist": true,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": false,
+      "items": [
+        {
+          "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
+          "type": "song",
+          "order": 0,
+          "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+          "title": "Wonderwall",
+          "artist": "Oasis",
+          "durationSec": 269
+        },
+        {
+          "id": "f52de97d-f54d-4205-a49b-d4dade90155a",
+          "type": "note",
+          "order": 1,
+          "note": "🎸 Tuning: 1/2 step down"
+        },
+        {
+          "id": "04605f69-bb70-43c4-92c6-1170767ccfa1",
+          "type": "note",
+          "order": 2,
+          "note": "🎸 Capo IV"
+        }
+      ],
+      "createdAt": "2025-10-21T08:45:11.572Z",
+      "updatedAt": "2025-10-21T08:45:39.284Z"
+    }
+  ],
   "invites": [],
   "settings": {
     "defaultSongGapSec": 30,

@@ -40,7 +40,7 @@ export default function SettingsPage() {
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold">Settings</h2>
-      <div className="rounded border bg-white p-3">
+      <div className="rounded border bg-black p-3 text-white">
         <div className="mb-1 font-medium">Default gap after each song</div>
         <div className="text-sm text-neutral-600 mb-2">
           Applies when enabled on a setlist. Range 20-120 seconds.
@@ -65,7 +65,7 @@ export default function SettingsPage() {
         {msg && <div className="mt-2 text-sm text-neutral-700">{msg}</div>}
       </div>
 
-      <div className="rounded border bg-white p-3">
+      <div className="rounded border bg-black p-3 text-white">
         <div className="mb-1 font-medium">Key/Tempo Enrichment</div>
         <div className="text-sm text-neutral-600 mb-2">
           Choose how enrichment works for key and tempo.

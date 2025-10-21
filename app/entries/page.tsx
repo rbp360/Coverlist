@@ -37,7 +37,7 @@ export default function EntriesPage() {
           </button>
         </div>
       </div>
-      <ul className="divide-y rounded border bg-white">
+      <ul className="divide-y rounded border bg-black text-white">
         {entries.map((e) => (
           <li key={e.id} className="flex items-center justify-between p-3">
             <div>

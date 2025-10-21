@@ -77,7 +77,7 @@ export default function ProjectSetlistsPage() {
         </button>
       </div>
       {pasteOpen && (
-        <div className="rounded border bg-white p-3">
+        <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 text-sm text-gray-700">
             Paste a setlist JSON here. Accepted shapes: full setlist object, an object with keys
             name/showArtist/items, or simply an array of items.
@@ -95,7 +95,7 @@ export default function ProjectSetlistsPage() {
           </div>
         </div>
       )}
-      <ul className="divide-y rounded border bg-white">
+      <ul className="divide-y rounded border bg-black text-white">
         {setlists.map((s) => (
           <li key={s.id} className="flex items-center justify-between p-3 gap-2">
             <div>

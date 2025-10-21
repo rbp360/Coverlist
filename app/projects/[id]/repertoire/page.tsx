@@ -101,7 +101,7 @@ export default function RepertoirePage() {
           Search
         </button>
       </div>
-      <div className="overflow-auto rounded border bg-white">
+      <div className="overflow-auto rounded border bg-black text-white">
         <table className="min-w-full text-sm">
           <thead className="bg-neutral-50 text-left text-neutral-700">
             <tr>

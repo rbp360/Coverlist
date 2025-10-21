@@ -346,7 +346,7 @@ export default function SetlistEditorPage() {
         </label>
       </div>
 
-      <div className="rounded border bg-white">
+      <div className="rounded border bg-black text-white">
         <ul className="divide-y">
           {sortedItems.map((it) => (
             <li
@@ -440,7 +440,7 @@ export default function SetlistEditorPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        <div className="rounded border p-3">
+        <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 font-medium">Add Song</div>
           <ul className="max-h-72 divide-y overflow-auto">
             {songs.map((s) => (
@@ -463,7 +463,7 @@ export default function SetlistEditorPage() {
             )}
           </ul>
         </div>
-        <div className="rounded border p-3">
+        <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 font-medium">Add Break</div>
           <div className="flex gap-2">
             <input
@@ -484,7 +484,7 @@ export default function SetlistEditorPage() {
           <div className="mt-1 text-xs text-gray-600">Minutes</div>
         </div>
 
-        <div className="rounded border p-3">
+        <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 font-medium">Add Note</div>
           <div className="flex gap-2">
             <input
@@ -511,7 +511,7 @@ export default function SetlistEditorPage() {
           </div>
         </div>
 
-        <div className="rounded border p-3">
+        <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 font-medium">Add Section</div>
           <div className="flex gap-2">
             <input

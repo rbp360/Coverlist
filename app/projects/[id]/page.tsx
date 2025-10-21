@@ -84,7 +84,7 @@ export default function ProjectDetailPage() {
         </div>
       </div>
       {project && (
-        <div className="rounded border bg-white p-3">
+        <div className="rounded border bg-black p-3 text-white">
           <div className="mb-1 font-medium">Members</div>
           <div className="text-sm text-neutral-700">
             Owner: <span className="text-neutral-500">{project.ownerId}</span>
@@ -101,7 +101,7 @@ export default function ProjectDetailPage() {
           </ul>
         </div>
       )}
-      <div className="rounded border bg-white p-3">
+      <div className="rounded border bg-black p-3 text-white">
         <div className="mb-2 font-medium">Share project</div>
         <div className="flex flex-wrap items-center gap-2">
           <input
@@ -172,7 +172,7 @@ export default function ProjectDetailPage() {
         <button className="rounded bg-black px-3 py-2 text-white">Search</button>
       </form>
       {message && <p className="text-sm text-gray-700">{message}</p>}
-      <ul className="divide-y rounded border bg-white">
+      <ul className="divide-y rounded border bg-black text-white">
         {results.map((r) => (
           <li
             key={`${r.mbid}-${r.title}-${r.artist}`}
