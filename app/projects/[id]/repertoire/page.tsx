@@ -103,7 +103,7 @@ export default function RepertoirePage() {
       </div>
       <div className="overflow-auto rounded border bg-black text-white">
         <table className="min-w-full text-sm">
-          <thead className="bg-neutral-50 text-left text-neutral-700">
+          <thead className="bg-black text-left text-white">
             <tr>
               <th className="p-2">Title</th>
               <th className="p-2">Artist</th>

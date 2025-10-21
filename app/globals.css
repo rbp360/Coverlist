@@ -48,3 +48,17 @@ body {
       sans-serif;
   }
 }
+
+/* Consistent dark inputs across the app */
+input,
+select,
+textarea {
+  background-color: #000;
+  color: #fff;
+  border-color: rgb(64 64 64); /* neutral-700 */
+}
+/* Placeholder color for dark theme */
+input::placeholder,
+textarea::placeholder {
+  color: rgb(163 163 163); /* neutral-400 */
+}
