@@ -75,6 +75,14 @@ export const db = {
     d.projects.push(project);
     writeDB(d);
   },
+  updateProject(project: DB['projects'][number]) {
+    const d = readDB();
+    const idx = d.projects.findIndex((p) => p.id === project.id);
+    if (idx !== -1) {
+      d.projects[idx] = project;
+      writeDB(d);
+    }
+  },
   addProjectMember(projectId: string, userId: string) {
     const d = readDB();
     const p = d.projects.find((x) => x.id === projectId);

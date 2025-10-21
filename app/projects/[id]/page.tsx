@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 type Result = {
   mbid?: string;
@@ -15,6 +15,8 @@ type Song = { id: string; title: string; artist: string; mbid?: string };
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [project, setProject] = useState<any | null>(null);
+  const [editingName, setEditingName] = useState(false);
+  const [nameDraft, setNameDraft] = useState('');
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
   const [genre, setGenre] = useState('');
@@ -35,6 +37,57 @@ export default function ProjectDetailPage() {
       if (rs.ok) setSongs((await rs.json()).songs);
     })();
   }, [id]);
+
+  // Revert helper for browser-back undo
+  const revertProjectName = useCallback(
+    async (prevName: string) => {
+      if (!prevName) return;
+      const res = await fetch(`/api/projects/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: prevName }),
+      });
+      if (res.ok) setProject(await res.json());
+    },
+    [id],
+  );
+
+  useEffect(() => {
+    function onPopState(e: PopStateEvent) {
+      const st = (e.state || {}) as any;
+      if (st && st.type === 'projectNameChange' && st.projectId === id) {
+        const prevName = String(st.prevName || '').trim();
+        if (prevName) revertProjectName(prevName);
+      }
+    }
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [id, revertProjectName]);
+
+  async function commitNameChange() {
+    if (!project) return;
+    const next = nameDraft.trim();
+    if (!next || next === project.name) {
+      setEditingName(false);
+      setNameDraft('');
+      return;
+    }
+    const prevName = project.name;
+    // Push history state to allow Back to revert
+    try {
+      history.pushState({ type: 'projectNameChange', projectId: id, prevName }, '');
+    } catch {}
+    const res = await fetch(`/api/projects/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: next }),
+    });
+    if (res.ok) {
+      setProject(await res.json());
+    }
+    setEditingName(false);
+    setNameDraft('');
+  }
 
   async function search(e: React.FormEvent) {
     e.preventDefault();
@@ -111,7 +164,47 @@ export default function ProjectDetailPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Project</h2>
+        <div className="flex items-center gap-2">
+          {!project && <h2 className="text-2xl font-semibold">Project</h2>}
+          {project && !editingName && (
+            <h2 className="text-2xl font-semibold">
+              {project.name}{' '}
+              <button
+                type="button"
+                className="ml-2 rounded border px-2 py-1 text-sm"
+                title="Rename project"
+                onClick={() => {
+                  setEditingName(true);
+                  setNameDraft(project.name || '');
+                }}
+              >
+                Edit
+              </button>
+            </h2>
+          )}
+          {project && editingName && (
+            <div className="flex items-center gap-2">
+              <input
+                className="rounded border px-3 py-2"
+                value={nameDraft}
+                onChange={(e) => setNameDraft(e.target.value)}
+                autoFocus
+              />
+              <button className="rounded border px-3 py-2" onClick={commitNameChange}>
+                Save
+              </button>
+              <button
+                className="rounded border px-3 py-2"
+                onClick={() => {
+                  setEditingName(false);
+                  setNameDraft('');
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
         <div className="flex gap-2 text-sm">
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/repertoire`}>
             Repertoire
