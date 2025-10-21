@@ -10,17 +10,17 @@ export default defineConfig({
   fullyParallel: true,
   reporter: [['list'], ['html', { outputFolder: 'e2e-report' }]],
   use: {
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
   },
   webServer: {
     command: `npm run dev -- -p ${PORT}`,
     url: BASE_URL,
     reuseExistingServer: true,
-    timeout: 180 * 1000
+    timeout: 180 * 1000,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] } }
-  ]
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+  ],
 });

@@ -4,10 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
 
-export async function POST(
-  _req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function POST(_req: Request, { params }: { params: { id: string } }) {
   const user = getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const source = db.getSetlist(params.id);

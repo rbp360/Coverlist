@@ -18,7 +18,13 @@ export async function POST(request: Request) {
   const parsed = projectCreateSchema.safeParse(json);
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
   const now = new Date().toISOString();
-  const project = { id: uuid(), name: parsed.data.name, ownerId: user.id, memberIds: [], createdAt: now };
+  const project = {
+    id: uuid(),
+    name: parsed.data.name,
+    ownerId: user.id,
+    memberIds: [],
+    createdAt: now,
+  };
   db.createProject(project);
   return NextResponse.json(project, { status: 201 });
 }

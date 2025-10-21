@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     durationSec: parsed.data.durationSec,
     mbid: parsed.data.mbid,
     createdAt: now,
-    updatedAt: now
+    updatedAt: now,
   };
   db.createSong(song);
   return NextResponse.json(song, { status: 201 });

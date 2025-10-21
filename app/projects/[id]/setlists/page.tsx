@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
@@ -64,17 +64,34 @@ export default function ProjectSetlistsPage() {
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold">Setlists</h2>
       <div className="flex flex-wrap items-center gap-2">
-        <input className="flex-1 rounded border px-3 py-2" value={name} onChange={(e) => setName(e.target.value)} />
-        <button className="rounded bg-black px-3 py-2 text-white" onClick={create}>Create</button>
-        <button className="rounded border px-3 py-2" onClick={() => setPasteOpen((v)=>!v)}>{pasteOpen ? 'Close' : 'Paste JSON'}</button>
+        <input
+          className="flex-1 rounded border px-3 py-2"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <button className="rounded bg-black px-3 py-2 text-white" onClick={create}>
+          Create
+        </button>
+        <button className="rounded border px-3 py-2" onClick={() => setPasteOpen((v) => !v)}>
+          {pasteOpen ? 'Close' : 'Paste JSON'}
+        </button>
       </div>
       {pasteOpen && (
         <div className="rounded border bg-white p-3">
-          <div className="mb-2 text-sm text-gray-700">Paste a setlist JSON here. Accepted shapes: full setlist object, an object with keys name/showArtist/items, or simply an array of items.</div>
-          <textarea className="h-40 w-full rounded border p-2 font-mono text-sm" value={pasteText} onChange={(e)=>setPasteText(e.target.value)} />
+          <div className="mb-2 text-sm text-gray-700">
+            Paste a setlist JSON here. Accepted shapes: full setlist object, an object with keys
+            name/showArtist/items, or simply an array of items.
+          </div>
+          <textarea
+            className="h-40 w-full rounded border p-2 font-mono text-sm"
+            value={pasteText}
+            onChange={(e) => setPasteText(e.target.value)}
+          />
           {pasteError && <div className="mt-2 text-sm text-red-600">{pasteError}</div>}
           <div className="mt-2 flex justify-end">
-            <button className="rounded bg-black px-3 py-2 text-white" onClick={pasteImport}>Create from JSON</button>
+            <button className="rounded bg-black px-3 py-2 text-white" onClick={pasteImport}>
+              Create from JSON
+            </button>
           </div>
         </div>
       )}
@@ -86,7 +103,9 @@ export default function ProjectSetlistsPage() {
               <div className="text-sm text-gray-600">{s.items.length} items</div>
             </div>
             <div className="flex items-center gap-2">
-              <Link className="rounded border px-3 py-1 text-sm" href={`/setlists/${s.id}`}>Edit</Link>
+              <Link className="rounded border px-3 py-1 text-sm" href={`/setlists/${s.id}`}>
+                Edit
+              </Link>
               <button
                 className="rounded border px-3 py-1 text-sm"
                 onClick={async () => {
@@ -95,7 +114,9 @@ export default function ProjectSetlistsPage() {
                     await load();
                   }
                 }}
-              >Copy</button>
+              >
+                Copy
+              </button>
             </div>
           </li>
         ))}

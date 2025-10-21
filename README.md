@@ -55,11 +55,13 @@ GitHub Actions workflow runs lint, typecheck, unit tests, then Playwright.
 Copy `.env.example` to `.env.local` and adjust as needed.
 
 Required variables:
+
 - JWT_SECRET: secret for signing auth cookies (set to a strong random value in production)
 
 Local demo storage:
+
 - User accounts and entries are stored in a JSON file at `data/db.json`.
-	Replace with a real database for production.
+  Replace with a real database for production.
 
 ## Troubleshooting
 

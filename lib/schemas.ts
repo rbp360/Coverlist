@@ -26,7 +26,7 @@ export const songImportSchema = z.object({
   title: z.string().min(1),
   artist: z.string().min(1),
   durationSec: z.number().optional(),
-  mbid: z.string().optional()
+  mbid: z.string().optional(),
 });
 
 export const searchQuerySchema = z.object({ q: z.string().min(2) });
@@ -53,5 +53,7 @@ export const setlistUpdateSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1).optional(),
   showArtist: z.boolean().optional(),
-  items: z.array(setlistItemSchema.extend({ id: z.string(), order: z.number().int().nonnegative() })).optional(),
+  items: z
+    .array(setlistItemSchema.extend({ id: z.string(), order: z.number().int().nonnegative() }))
+    .optional(),
 });

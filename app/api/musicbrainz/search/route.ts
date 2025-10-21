@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     mbid: r.id,
     title: r.title,
     artist: r['artist-credit']?.[0]?.name ?? 'Unknown',
-    durationSec: r.length ? Math.round(r.length / 1000) : undefined
+    durationSec: r.length ? Math.round(r.length / 1000) : undefined,
   }));
   return NextResponse.json({ results });
 }

@@ -7,12 +7,12 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          500: '#22c55e'
-        }
-      }
-    }
+          500: '#22c55e',
+        },
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };
 
 export default config;

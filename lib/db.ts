@@ -43,7 +43,9 @@ export const db = {
   },
   getProject(id: string, userId: string) {
     const d = readDB();
-    return d.projects.find((p) => p.id === id && (p.ownerId === userId || p.memberIds.includes(userId)));
+    return d.projects.find(
+      (p) => p.id === id && (p.ownerId === userId || p.memberIds.includes(userId)),
+    );
   },
   createProject(project: DB['projects'][number]) {
     const d = readDB();
@@ -136,5 +138,5 @@ export const db = {
     const d = readDB();
     d.setlists = d.setlists.filter((s) => s.id !== id);
     writeDB(d);
-  }
+  },
 };

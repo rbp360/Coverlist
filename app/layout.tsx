@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'SongDeck',
-  description: 'Every song. Every set. Every rehearsal. One place.'
+  description: 'Every song. Every set. Every rehearsal. One place.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -16,9 +16,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="text-brand-500">Song</span>Deck
             </a>
             <nav className="text-sm text-neutral-300 space-x-4">
-              <a href="/projects" className="hover:text-white">Projects</a>
-              <a href="/entries" className="hover:text-white">Entries</a>
-              <a href="/profile" className="hover:text-white">Profile</a>
+              <a href="/projects" className="hover:text-white">
+                Projects
+              </a>
+              <a href="/entries" className="hover:text-white">
+                Entries
+              </a>
+              <a href="/profile" className="hover:text-white">
+                Profile
+              </a>
             </nav>
           </div>
         </header>

@@ -5,10 +5,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { setlistCreateSchema } from '@/lib/schemas';
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const user = getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const project = db.getProject(params.id, user.id);
@@ -17,10 +14,7 @@ export async function GET(
   return NextResponse.json({ setlists });
 }
 
-export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: Request, { params }: { params: { id: string } }) {
   const user = getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const project = db.getProject(params.id, user.id);

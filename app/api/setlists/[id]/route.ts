@@ -4,10 +4,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { setlistUpdateSchema } from '@/lib/schemas';
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_req: Request, { params }: { params: { id: string } }) {
   const user = getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const setlist = db.getSetlist(params.id);
@@ -17,10 +14,7 @@ export async function GET(
   return NextResponse.json(setlist);
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
   const user = getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const existing = db.getSetlist(params.id);
@@ -43,10 +37,7 @@ export async function PUT(
   return NextResponse.json(updated);
 }
 
-export async function DELETE(
-  _request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(_request: Request, { params }: { params: { id: string } }) {
   const user = getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const existing = db.getSetlist(params.id);

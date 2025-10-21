@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     price: parsed.data.price,
     notes: parsed.data.notes,
     createdAt: now,
-    updatedAt: now
+    updatedAt: now,
   };
   db.createEntry(entry);
   return NextResponse.json(entry, { status: 201 });
