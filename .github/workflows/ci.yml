@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test -- --ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Start dev server
+        run: npm run dev &
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000
+      - name: Run Playwright tests
+        run: npm run test:e2e

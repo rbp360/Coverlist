@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+.next
+dist
+coverage
+e2e-report
+.git
+.github
+.vscode
+.DS_Store

@@ -1,0 +1,8 @@
+.next/
+node_modules/
+coverage/
+e2e-report/
+.env.local
+.env*
+npm-debug.log*
+package-lock.json

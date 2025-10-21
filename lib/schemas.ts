@@ -1,0 +1,57 @@
+import { z } from 'zod';
+
+export const signupSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
+});
+
+export const entryCreateSchema = z.object({
+  location: z.string().min(1),
+  item: z.string().min(1),
+  price: z.coerce.number().nonnegative(),
+  notes: z.string().optional(),
+});
+
+export const entryUpdateSchema = entryCreateSchema.partial();
+
+export const projectCreateSchema = z.object({ name: z.string().min(1) });
+
+export const songImportSchema = z.object({
+  projectId: z.string().min(1),
+  title: z.string().min(1),
+  artist: z.string().min(1),
+  durationSec: z.number().optional(),
+  mbid: z.string().optional()
+});
+
+export const searchQuerySchema = z.object({ q: z.string().min(2) });
+
+const setlistItemSchema = z.object({
+  id: z.string().optional(),
+  type: z.enum(['song', 'break', 'note']),
+  order: z.number().int().nonnegative().optional(),
+  songId: z.string().optional(),
+  title: z.string().optional(),
+  artist: z.string().optional(),
+  durationSec: z.number().int().nonnegative().optional(),
+  note: z.string().optional(),
+});
+
+export const setlistCreateSchema = z.object({
+  projectId: z.string().min(1),
+  name: z.string().min(1),
+  showArtist: z.boolean().default(true),
+  items: z.array(setlistItemSchema).optional(),
+});
+
+export const setlistUpdateSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1).optional(),
+  showArtist: z.boolean().optional(),
+  items: z.array(setlistItemSchema.extend({ id: z.string(), order: z.number().int().nonnegative() })).optional(),
+});
