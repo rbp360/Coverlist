@@ -55,6 +55,7 @@ export default function SetlistEditorPage() {
   const [overId, setOverId] = useState<string | null>(null);
   const [sectionTitle, setSectionTitle] = useState('Set 1');
   const [settings, setSettings] = useState<{ defaultSongGapSec: number } | null>(null);
+  const [pdfFontSize, setPdfFontSize] = useState(1.0);
 
   useEffect(() => {
     (async () => {
@@ -276,6 +277,23 @@ export default function SetlistEditorPage() {
           <button className="rounded border px-3 py-1 text-sm" onClick={copyJson}>
             Copy JSON
           </button>
+          <div className="flex items-center gap-2 rounded border px-2 py-1 text-sm">
+            <span>PDF font</span>
+            <input
+              type="range"
+              min={0.6}
+              max={1.6}
+              step={0.1}
+              value={pdfFontSize}
+              onChange={(e) => setPdfFontSize(parseFloat(e.target.value))}
+            />
+            <a
+              className="rounded border px-2 py-1"
+              href={`/api/setlists/${id}/print?fontSize=${pdfFontSize}`}
+            >
+              Export PDF
+            </a>
+          </div>
           <button className="rounded border px-3 py-1 text-sm" onClick={copyNow}>
             Copy
           </button>

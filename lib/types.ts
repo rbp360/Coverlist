@@ -71,6 +71,7 @@ export type Setlist = {
   items: SetlistItem[];
   date?: string; // ISO date for the show
   venue?: string;
+  time?: string; // e.g., 20:00
   addGapAfterEachSong?: boolean;
   hideItemDurations?: boolean;
   createdAt: string;

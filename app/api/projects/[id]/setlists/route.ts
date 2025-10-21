@@ -44,6 +44,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
     showTransposedKey: parsed.data.showTransposedKey ?? false,
     date: parsed.data.date,
     venue: parsed.data.venue,
+    time: parsed.data.time,
     addGapAfterEachSong: parsed.data.addGapAfterEachSong ?? false,
     items,
     createdAt: now,

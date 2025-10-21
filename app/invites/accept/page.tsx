@@ -1,11 +1,20 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+
+function AutoAccept({ onAccept }: { onAccept: (token: string) => void }) {
+  const params = useSearchParams();
+  const tokenFromUrl = params.get('token');
+  useEffect(() => {
+    if (tokenFromUrl) onAccept(tokenFromUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tokenFromUrl]);
+  return null;
+}
 
 export default function AcceptInvitePage() {
   const [tokenInput, setTokenInput] = useState('');
   const [message, setMessage] = useState<string | null>(null);
-  const params = useSearchParams();
   const router = useRouter();
 
   async function accept(token: string) {
@@ -25,17 +34,14 @@ export default function AcceptInvitePage() {
     }
   }
 
-  // Auto-accept if token in URL
-  const tokenFromUrl = params.get('token');
-  useEffect(() => {
-    if (tokenFromUrl) {
-      accept(tokenFromUrl);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokenFromUrl]);
+  // Auto-accept if token in URL (wrapped in Suspense per Next.js requirement)
+  // Use a child component that reads search params
 
   return (
     <div className="space-y-4">
+      <Suspense fallback={null}>
+        <AutoAccept onAccept={accept} />
+      </Suspense>
       <h2 className="text-2xl font-semibold">Accept Invite</h2>
       <p className="text-sm text-neutral-600">
         Paste the invite token you received to join the project.

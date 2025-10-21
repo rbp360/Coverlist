@@ -51,6 +51,7 @@ export const setlistCreateSchema = z.object({
   items: z.array(setlistItemSchema).optional(),
   date: z.string().optional(),
   venue: z.string().optional(),
+  time: z.string().optional(),
   addGapAfterEachSong: z.boolean().optional(),
 });
 
@@ -64,6 +65,7 @@ export const setlistUpdateSchema = z.object({
     .optional(),
   date: z.string().optional(),
   venue: z.string().optional(),
+  time: z.string().optional(),
   addGapAfterEachSong: z.boolean().optional(),
 });
 
