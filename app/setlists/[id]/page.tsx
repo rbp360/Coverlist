@@ -22,7 +22,7 @@ type Setlist = {
   venue?: string;
   addGapAfterEachSong?: boolean;
 };
-type Song = { id: string; title: string; artist: string; durationSec?: number };
+type Song = { id: string; title: string; artist: string; durationSec?: number; key?: string; tempo?: number };
 
 function fmt(sec?: number) {
   if (!sec) return '0:00';
@@ -216,6 +216,7 @@ export default function SetlistEditorPage() {
         showArtist: setlist.showArtist,
         date: setlist.date,
         venue: setlist.venue,
+        addGapAfterEachSong: setlist.addGapAfterEachSong,
         items: sortedItems.map((i) => ({
           type: i.type,
           songId: i.songId,
@@ -247,7 +248,9 @@ export default function SetlistEditorPage() {
           <button className="rounded border px-3 py-1 text-sm" onClick={toggleArtist}>
             {setlist.showArtist ? 'Hide' : 'Show'} artist
           </button>
-          <a className="rounded border px-3 py-1 text-sm" href="/settings">Settings</a>
+          <a className="rounded border px-3 py-1 text-sm" href="/settings">
+            Settings
+          </a>
           <button className="rounded border px-3 py-1 text-sm" onClick={copyJson}>
             Copy JSON
           </button>
@@ -282,9 +285,15 @@ export default function SetlistEditorPage() {
           />
         </label>
         <label className="flex items-center gap-2 text-sm">
-          <span className="w-16 text-neutral-400">Gaps</span>
-          <input type="checkbox" checked={!!setlist.addGapAfterEachSong} onChange={(e)=>save({ addGapAfterEachSong: e.target.checked })} />
-          <span className="text-xs text-neutral-500">Add {settings?.defaultSongGapSec ?? 0}s after each song</span>
+          <span className="w-56 text-neutral-400">Add gap after each song</span>
+          <input
+            type="checkbox"
+            checked={!!setlist.addGapAfterEachSong}
+            onChange={(e) => save({ addGapAfterEachSong: e.target.checked })}
+          />
+          <span className="text-xs text-neutral-500">
+            {settings?.defaultSongGapSec ?? 0}s per song
+          </span>
         </label>
       </div>
 
@@ -307,6 +316,15 @@ export default function SetlistEditorPage() {
                     {setlist.showArtist && it.artist && (
                       <span className="text-gray-500"> — {it.artist}</span>
                     )}
+                    {(() => {
+                      const song = songs.find((s) => s.id === it.songId);
+                      if (!song) return null;
+                      const bits: string[] = [];
+                      if (song.key) bits.push(song.key);
+                      if (song.tempo) bits.push(`${song.tempo} bpm`);
+                      if (bits.length === 0) return null;
+                      return <div className="text-sm text-neutral-600">{bits.join(' • ')}</div>;
+                    })()}
                   </div>
                 )}
                 {it.type === 'break' && (

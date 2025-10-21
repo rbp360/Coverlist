@@ -27,6 +27,7 @@ export default function RepertoirePage() {
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
   const [saving, setSaving] = useState<string | null>(null);
+  const [enriching, setEnriching] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     const qi = q.toLowerCase();
@@ -58,6 +59,20 @@ export default function RepertoirePage() {
       body: JSON.stringify({ id: song.id, ...patch }),
     });
     setSaving(null);
+    if (res.ok) {
+      const updated = await res.json();
+      setSongs((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
+    }
+  }
+
+  async function enrich(song: Song) {
+    setEnriching(song.id);
+    const res = await fetch(`/api/projects/${id}/songs/enrich`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ songId: song.id }),
+    });
+    setEnriching(null);
     if (res.ok) {
       const updated = await res.json();
       setSongs((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
@@ -96,6 +111,7 @@ export default function RepertoirePage() {
               <th className="p-2">Key</th>
               <th className="p-2">Transposed</th>
               <th className="p-2">Tempo</th>
+              <th className="p-2">Enrich</th>
               <th className="p-2">Notes</th>
               <th className="p-2">Link</th>
             </tr>
@@ -129,6 +145,16 @@ export default function RepertoirePage() {
                       saveField(s, { tempo: e.target.value ? Number(e.target.value) : undefined })
                     }
                   />
+                </td>
+                <td className="p-2">
+                  <button
+                    className="rounded border px-2 py-1 text-xs"
+                    onClick={() => enrich(s)}
+                    disabled={enriching === s.id}
+                    title="Stub enrichment for key & tempo"
+                  >
+                    {enriching === s.id ? 'Enriching…' : 'Enrich'}
+                  </button>
                 </td>
                 <td className="p-2">
                   <input

@@ -16,7 +16,7 @@ function ensureDB() {
       songs: [],
       setlists: [],
       invites: [],
-      settings: { defaultSongGapSec: 30 },
+      settings: { defaultSongGapSec: 30, enrichmentMode: 'stub', enrichOnImport: true },
     };
     fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2));
   }
@@ -34,6 +34,9 @@ function readDB(): DB {
   parsed.setlists = parsed.setlists || [];
   parsed.invites = parsed.invites || [];
   parsed.settings = parsed.settings || { defaultSongGapSec: 30 };
+  if (parsed.settings.defaultSongGapSec == null) parsed.settings.defaultSongGapSec = 30;
+  if (parsed.settings.enrichmentMode == null) parsed.settings.enrichmentMode = 'stub';
+  if (parsed.settings.enrichOnImport == null) parsed.settings.enrichOnImport = true;
   return parsed as DB;
 }
 

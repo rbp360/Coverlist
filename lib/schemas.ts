@@ -66,4 +66,12 @@ export const setlistUpdateSchema = z.object({
 
 export const settingsSchema = z.object({
   defaultSongGapSec: z.number().int().min(20).max(120),
+  enrichmentMode: z.enum(['none', 'stub']).optional(),
+  enrichOnImport: z.boolean().optional(),
+});
+
+export const settingsUpdateSchema = z.object({
+  defaultSongGapSec: z.number().int().min(20).max(120).optional(),
+  enrichmentMode: z.enum(['none', 'stub']).optional(),
+  enrichOnImport: z.boolean().optional(),
 });
