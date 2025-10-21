@@ -2,6 +2,8 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
+import { QUICK_NOTES } from '@/lib/presets';
+
 type Item = {
   id: string;
   type: 'song' | 'break' | 'note' | 'section';
@@ -126,6 +128,14 @@ export default function SetlistEditorPage() {
     const item: Item = { id: crypto.randomUUID(), type: 'note', order, note: noteText.trim() };
     save({ items: [...items, item] as any });
     setNoteText('');
+  }
+
+  function quickInsertNote(text: string) {
+    if (!setlist) return;
+    const items = [...setlist.items];
+    const order = items.length ? Math.max(...items.map((i) => i.order)) + 1 : 0;
+    const item: Item = { id: crypto.randomUUID(), type: 'note', order, note: text };
+    save({ items: [...items, item] as any });
   }
 
   function addSection() {
@@ -336,7 +346,8 @@ export default function SetlistEditorPage() {
                     {(() => {
                       const song = songs.find((s) => s.id === it.songId);
                       const tKey = it.transposedKey || song?.transposedKey;
-                      const title = setlist.showTransposedKey && tKey ? `${it.title} (${tKey})` : it.title;
+                      const title =
+                        setlist.showTransposedKey && tKey ? `${it.title} (${tKey})` : it.title;
                       return (
                         <>
                           {title}
@@ -462,10 +473,23 @@ export default function SetlistEditorPage() {
               className="flex-1 rounded border px-3 py-2"
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
+              placeholder="Type a note or choose a preset"
             />
             <button className="rounded bg-black px-3 py-2 text-white" onClick={addNote}>
               Add
             </button>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {QUICK_NOTES.map((p) => (
+              <button
+                key={p.label}
+                className="rounded border px-2 py-1 text-xs hover:bg-neutral-50"
+                title={p.text}
+                onClick={() => quickInsertNote(p.text)}
+              >
+                {p.label}
+              </button>
+            ))}
           </div>
         </div>
 
