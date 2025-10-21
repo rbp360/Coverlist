@@ -8,12 +8,17 @@ type Result = { mbid?: string; title: string; artist: string; durationSec?: numb
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [q, setQ] = useState('');
+  const [artist, setArtist] = useState('');
+  const [genre, setGenre] = useState('');
   const [results, setResults] = useState<Result[]>([]);
   const [message, setMessage] = useState<string | null>(null);
 
   async function search(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch(`/api/musicbrainz/search?q=${encodeURIComponent(q)}`);
+    const params = new URLSearchParams({ q });
+    if (artist.trim()) params.set('artist', artist.trim());
+    if (genre.trim()) params.set('genre', genre.trim());
+    const res = await fetch(`/api/musicbrainz/search?${params.toString()}`);
     if (res.ok) setResults((await res.json()).results);
   }
 
@@ -38,17 +43,32 @@ export default function ProjectDetailPage() {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Project</h2>
         <div className="flex gap-2 text-sm">
+          <Link className="rounded border px-3 py-1" href={`/projects/${id}/repertoire`}>
+            Repertoire
+          </Link>
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/setlists`}>
             Setlists
           </Link>
         </div>
       </div>
-      <form onSubmit={search} className="flex gap-2">
+      <form onSubmit={search} className="grid gap-2 md:grid-cols-4">
         <input
-          className="flex-1 rounded border px-3 py-2"
-          placeholder="Search songs (MusicBrainz)"
+          className="rounded border px-3 py-2"
+          placeholder="Title (e.g., Wonderwall)"
           value={q}
           onChange={(e) => setQ(e.target.value)}
+        />
+        <input
+          className="rounded border px-3 py-2"
+          placeholder="Artist (optional)"
+          value={artist}
+          onChange={(e) => setArtist(e.target.value)}
+        />
+        <input
+          className="rounded border px-3 py-2"
+          placeholder="Genre/Tag (optional)"
+          value={genre}
+          onChange={(e) => setGenre(e.target.value)}
         />
         <button className="rounded bg-black px-3 py-2 text-white">Search</button>
       </form>

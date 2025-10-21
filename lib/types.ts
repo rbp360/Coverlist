@@ -40,6 +40,7 @@ export type Song = {
   durationSec?: number;
   mbid?: string; // MusicBrainz recording id if available
   key?: string;
+  tempo?: number;
   transposedKey?: string;
   notes?: string;
   url?: string; // streaming link
