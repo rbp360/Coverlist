@@ -19,6 +19,7 @@ export default function ProjectDetailPage() {
   const [artist, setArtist] = useState('');
   const [genre, setGenre] = useState('');
   const [results, setResults] = useState<Result[]>([]);
+  const [page, setPage] = useState(1); // 1-based page index
   const [message, setMessage] = useState<string | null>(null);
   const [songs, setSongs] = useState<Song[]>([]);
   const [importing, setImporting] = useState<string | null>(null);
@@ -37,11 +38,15 @@ export default function ProjectDetailPage() {
 
   async function search(e: React.FormEvent) {
     e.preventDefault();
-    const params = new URLSearchParams({ q });
+    const params = new URLSearchParams({ q, limit: '30' });
     if (artist.trim()) params.set('artist', artist.trim());
     if (genre.trim()) params.set('genre', genre.trim());
     const res = await fetch(`/api/musicbrainz/search?${params.toString()}`);
-    if (res.ok) setResults((await res.json()).results);
+    if (res.ok) {
+      const data = await res.json();
+      setResults(data.results || []);
+      setPage(1); // reset to first page on new search
+    }
   }
 
   async function importSong(r: Result) {
@@ -206,7 +211,7 @@ export default function ProjectDetailPage() {
       </form>
       {message && <p className="text-sm text-gray-700">{message}</p>}
       <ul className="divide-y rounded border bg-black text-white">
-        {results.map((r) => {
+        {results.slice((page - 1) * 10, page * 10).map((r) => {
           const imported = isImported(r);
           const isBusy = importing === (r.mbid || `${r.title}|${r.artist}`);
           return (
@@ -246,6 +251,36 @@ export default function ProjectDetailPage() {
           <li className="p-4 text-sm text-gray-600">No results yet. Try searching.</li>
         )}
       </ul>
+      {/* Pagination controls */}
+      {results.length > 10 && (
+        <div className="mt-2 flex items-center justify-center gap-2">
+          <button
+            className="rounded border px-2 py-1 text-sm disabled:opacity-50"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+          >
+            Prev
+          </button>
+          {Array.from({ length: Math.min(3, Math.ceil(results.length / 10)) }, (_, i) => i + 1).map(
+            (p) => (
+              <button
+                key={p}
+                className={`rounded border px-2 py-1 text-sm ${page === p ? 'bg-white text-black' : ''}`}
+                onClick={() => setPage(p)}
+              >
+                {p}
+              </button>
+            ),
+          )}
+          <button
+            className="rounded border px-2 py-1 text-sm disabled:opacity-50"
+            onClick={() => setPage((p) => Math.min(Math.ceil(results.length / 10), p + 1))}
+            disabled={page >= Math.ceil(results.length / 10)}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }
