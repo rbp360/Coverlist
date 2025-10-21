@@ -3,7 +3,13 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-type Result = { mbid?: string; title: string; artist: string; durationSec?: number };
+type Result = {
+  mbid?: string;
+  title: string;
+  artist: string;
+  durationSec?: number;
+  release?: string;
+};
 type Song = { id: string; title: string; artist: string; mbid?: string };
 
 export default function ProjectDetailPage() {
@@ -212,9 +218,16 @@ export default function ProjectDetailPage() {
                 <div className="font-medium">
                   {r.title} <span className="text-gray-500">— {r.artist}</span>
                 </div>
-                {r.durationSec && (
+                {(r.durationSec || r.release) && (
                   <div className="text-sm text-gray-600">
-                    {Math.floor(r.durationSec / 60)}:{String(r.durationSec % 60).padStart(2, '0')}
+                    {r.durationSec != null && (
+                      <>
+                        {Math.floor(r.durationSec / 60)}:
+                        {String(r.durationSec % 60).padStart(2, '0')}
+                        {r.release ? ' • ' : ''}
+                      </>
+                    )}
+                    {r.release && <span className="text-xs text-gray-500">{r.release}</span>}
                   </div>
                 )}
               </div>

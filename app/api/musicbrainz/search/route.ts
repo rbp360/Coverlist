@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   if (artist) terms.push(`artist:${artist}`);
   if (genre) terms.push(`tag:${genre}`);
   const query = terms.join(' ');
-  const mbUrl = `https://musicbrainz.org/ws/2/recording?fmt=json&limit=${limit}&query=${encodeURIComponent(query)}`;
+  const mbUrl = `https://musicbrainz.org/ws/2/recording?fmt=json&limit=${limit}&inc=releases&query=${encodeURIComponent(query)}`;
   const res = await fetch(mbUrl, { headers: { 'User-Agent': 'SongDeck/0.1 (demo)' } });
   if (!res.ok) return NextResponse.json({ results: [] });
   const data = await res.json();
@@ -25,12 +25,14 @@ export async function GET(request: Request) {
       const title = r.title as string;
       const a = r['artist-credit']?.[0]?.name ?? 'Unknown';
       const durationSec = r.length ? Math.round(r.length / 1000) : undefined;
+      const release =
+        Array.isArray(r.releases) && r.releases.length > 0 ? r.releases[0]?.title : undefined;
       // naive score: title match + artist match + has duration
       let score = 0;
       if (q && title.toLowerCase().includes(q.toLowerCase())) score += 2;
       if (artist && a.toLowerCase().includes(artist.toLowerCase())) score += 2;
       if (durationSec) score += 1;
-      return { mbid: r.id, title, artist: a, durationSec, _score: score };
+      return { mbid: r.id, title, artist: a, durationSec, release, _score: score };
     })
     .sort((x: any, y: any) => (y._score ?? 0) - (x._score ?? 0))
     .map(({ _score, ...rest }: any) => rest);
