@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "id": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "email": "jamconnect123@gmail.com",
+      "passwordHash": "$2b$10$w9ORSdf9I6CcCtrpy26VW.ItzWb0h3/8u025rLHRsZkAVl8sXzY9q",
+      "createdAt": "2025-10-21T08:34:21.612Z"
+    }
+  ],
+  "entries": [
+    {
+      "id": "b8d95e4d-0d7f-4046-adc2-3db31081aae6",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "location": "LOcation",
+      "item": "Item",
+      "price": 2,
+      "notes": "Notes",
+      "createdAt": "2025-10-21T08:35:02.113Z",
+      "updatedAt": "2025-10-21T08:35:02.113Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "name": "test project",
+      "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "memberIds": [],
+      "createdAt": "2025-10-21T08:35:26.159Z"
+    }
+  ],
+  "songs": [
+    {
+      "id": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Wonderwall",
+      "artist": "Oasis",
+      "durationSec": 269,
+      "mbid": "9de3f212-2121-4c48-9240-96a52b512733",
+      "key": "C#m",
+      "tempo": 148,
+      "createdAt": "2025-10-21T08:35:52.978Z",
+      "updatedAt": "2025-10-21T08:35:52.978Z"
+    }
+  ],
+  "setlists": [],
+  "invites": [],
+  "settings": {
+    "defaultSongGapSec": 30,
+    "enrichmentMode": "stub",
+    "enrichOnImport": true
+  }
+}
