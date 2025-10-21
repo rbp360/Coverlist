@@ -22,6 +22,7 @@ export type DB = {
   projects: Project[];
   songs: Song[];
   setlists: Setlist[];
+  invites: Invite[];
 };
 
 export type Project = {
@@ -50,7 +51,7 @@ export type Song = {
 
 export type SetlistItem = {
   id: string;
-  type: 'song' | 'break' | 'note';
+  type: 'song' | 'break' | 'note' | 'section';
   order: number;
   songId?: string; // when type === 'song'
   title?: string; // for break/title override
@@ -65,6 +66,19 @@ export type Setlist = {
   name: string;
   showArtist: boolean;
   items: SetlistItem[];
+  date?: string; // ISO date for the show
+  venue?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Invite = {
+  id: string;
+  projectId: string;
+  email: string;
+  token: string;
+  status: 'pending' | 'accepted' | 'revoked';
+  invitedBy: string; // userId of inviter
   createdAt: string;
   updatedAt: string;
 };

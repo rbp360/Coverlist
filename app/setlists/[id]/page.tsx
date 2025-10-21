@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 type Item = {
   id: string;
-  type: 'song' | 'break' | 'note';
+  type: 'song' | 'break' | 'note' | 'section';
   order: number;
   title?: string;
   artist?: string;
@@ -12,7 +12,15 @@ type Item = {
   songId?: string;
   note?: string;
 };
-type Setlist = { id: string; name: string; showArtist: boolean; items: Item[]; projectId?: string };
+type Setlist = {
+  id: string;
+  name: string;
+  showArtist: boolean;
+  items: Item[];
+  projectId?: string;
+  date?: string;
+  venue?: string;
+};
 type Song = { id: string; title: string; artist: string; durationSec?: number };
 
 function fmt(sec?: number) {
@@ -32,6 +40,7 @@ export default function SetlistEditorPage() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [dragId, setDragId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
+  const [sectionTitle, setSectionTitle] = useState('Set 1');
 
   useEffect(() => {
     (async () => {
@@ -54,6 +63,17 @@ export default function SetlistEditorPage() {
   const sortedItems = useMemo(() => {
     return [...(setlist?.items || [])].sort((a, b) => a.order - b.order);
   }, [setlist]);
+
+  function sectionDurationFrom(index: number) {
+    const items = sortedItems;
+    let sum = 0;
+    for (let i = index + 1; i < items.length; i++) {
+      const it = items[i];
+      if (it.type === 'section') break;
+      if (it.durationSec) sum += it.durationSec;
+    }
+    return sum;
+  }
 
   async function save(next: Partial<Setlist>) {
     if (!setlist) return;
@@ -86,6 +106,19 @@ export default function SetlistEditorPage() {
     const item: Item = { id: crypto.randomUUID(), type: 'note', order, note: noteText.trim() };
     save({ items: [...items, item] as any });
     setNoteText('');
+  }
+
+  function addSection() {
+    if (!setlist || !sectionTitle.trim()) return;
+    const items = [...setlist.items];
+    const order = items.length ? Math.max(...items.map((i) => i.order)) + 1 : 0;
+    const item: Item = {
+      id: crypto.randomUUID(),
+      type: 'section',
+      order,
+      title: sectionTitle.trim(),
+    };
+    save({ items: [...items, item] as any });
   }
 
   async function removeItem(itemId: string) {
@@ -171,6 +204,8 @@ export default function SetlistEditorPage() {
       const data = {
         name: setlist.name,
         showArtist: setlist.showArtist,
+        date: setlist.date,
+        venue: setlist.venue,
         items: sortedItems.map((i) => ({
           type: i.type,
           songId: i.songId,
@@ -214,6 +249,26 @@ export default function SetlistEditorPage() {
         </div>
       </div>
 
+      <div className="grid gap-2 md:grid-cols-3">
+        <label className="flex items-center gap-2 text-sm">
+          <span className="w-16 text-neutral-400">Date</span>
+          <input
+            type="date"
+            className="flex-1 rounded border px-2 py-1"
+            defaultValue={setlist.date || ''}
+            onBlur={(e) => save({ date: e.target.value || undefined })}
+          />
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="w-16 text-neutral-400">Venue</span>
+          <input
+            className="flex-1 rounded border px-2 py-1"
+            defaultValue={setlist.venue || ''}
+            onBlur={(e) => save({ venue: e.target.value || undefined })}
+          />
+        </label>
+      </div>
+
       <div className="rounded border bg-white">
         <ul className="divide-y">
           {sortedItems.map((it) => (
@@ -241,6 +296,17 @@ export default function SetlistEditorPage() {
                   </div>
                 )}
                 {it.type === 'note' && <div className="text-sm text-gray-700">Note: {it.note}</div>}
+                {it.type === 'section' && (
+                  <div className="flex items-baseline gap-3">
+                    <div className="font-semibold uppercase tracking-wide text-neutral-500">
+                      {it.title}
+                    </div>
+                    <div className="text-xs text-neutral-500">
+                      Section total:{' '}
+                      {fmt(sectionDurationFrom(sortedItems.findIndex((x) => x.id === it.id)))}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-2">
                 {it.durationSec ? (
@@ -265,7 +331,7 @@ export default function SetlistEditorPage() {
         </ul>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-4">
         <div className="rounded border p-3">
           <div className="mb-2 font-medium">Add Song</div>
           <ul className="max-h-72 divide-y overflow-auto">
@@ -319,6 +385,20 @@ export default function SetlistEditorPage() {
               onChange={(e) => setNoteText(e.target.value)}
             />
             <button className="rounded bg-black px-3 py-2 text-white" onClick={addNote}>
+              Add
+            </button>
+          </div>
+        </div>
+
+        <div className="rounded border p-3">
+          <div className="mb-2 font-medium">Add Section</div>
+          <div className="flex gap-2">
+            <input
+              className="flex-1 rounded border px-3 py-2"
+              value={sectionTitle}
+              onChange={(e) => setSectionTitle(e.target.value)}
+            />
+            <button className="rounded bg-black px-3 py-2 text-white" onClick={addSection}>
               Add
             </button>
           </div>

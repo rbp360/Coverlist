@@ -7,11 +7,21 @@ type Result = { mbid?: string; title: string; artist: string; durationSec?: numb
 
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const [project, setProject] = useState<any | null>(null);
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
   const [genre, setGenre] = useState('');
   const [results, setResults] = useState<Result[]>([]);
   const [message, setMessage] = useState<string | null>(null);
+  const [invites, setInvites] = useState<any[]>([]);
+  const [inviteEmail, setInviteEmail] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`/api/projects/${id}`);
+      if (res.ok) setProject(await res.json());
+    })();
+  }, [id]);
 
   async function search(e: React.FormEvent) {
     e.preventDefault();
@@ -38,6 +48,28 @@ export default function ProjectDetailPage() {
     setMessage(res.ok ? 'Imported!' : 'Import failed');
   }
 
+  async function loadInvites() {
+    const res = await fetch(`/api/projects/${id}/invites`);
+    if (res.ok) setInvites((await res.json()).invites);
+  }
+
+  async function createInvite() {
+    const res = await fetch(`/api/projects/${id}/invites`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: inviteEmail }),
+    });
+    if (res.ok) {
+      setInviteEmail('');
+      loadInvites();
+    }
+  }
+
+  async function revokeInvite(inviteId: string) {
+    const res = await fetch(`/api/invites/${inviteId}/revoke`, { method: 'POST' });
+    if (res.ok) loadInvites();
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -50,6 +82,73 @@ export default function ProjectDetailPage() {
             Setlists
           </Link>
         </div>
+      </div>
+      {project && (
+        <div className="rounded border bg-white p-3">
+          <div className="mb-1 font-medium">Members</div>
+          <div className="text-sm text-neutral-700">
+            Owner: <span className="text-neutral-500">{project.ownerId}</span>
+          </div>
+          <ul className="mt-1 list-disc pl-5 text-sm">
+            {project.memberIds.length === 0 && (
+              <li className="text-neutral-600">No members yet.</li>
+            )}
+            {project.memberIds.map((m: string) => (
+              <li key={m}>
+                <span className="text-neutral-500">{m}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div className="rounded border bg-white p-3">
+        <div className="mb-2 font-medium">Share project</div>
+        <div className="flex flex-wrap items-center gap-2">
+          <input
+            className="rounded border px-3 py-2"
+            placeholder="Invite by email"
+            value={inviteEmail}
+            onChange={(e) => setInviteEmail(e.target.value)}
+          />
+          <button className="rounded bg-black px-3 py-2 text-white" onClick={createInvite}>
+            Invite
+          </button>
+          <button className="rounded border px-3 py-2" onClick={loadInvites}>
+            Refresh
+          </button>
+          <a
+            className="rounded border px-3 py-2"
+            href="/invites/accept"
+            title="Paste your token to accept an invite"
+          >
+            Accept invite
+          </a>
+        </div>
+        <ul className="mt-2 divide-y">
+          {invites.map((inv) => (
+            <li key={inv.id} className="flex items-center justify-between py-2 text-sm">
+              <div>
+                <div>
+                  {inv.email} — <span className="text-neutral-600">{inv.status}</span>
+                </div>
+                <div className="text-xs text-neutral-500">
+                  Token (dev): {inv.token} ·{' '}
+                  <a className="underline" href={`/invites/accept?token=${inv.token}`}>
+                    accept
+                  </a>
+                </div>
+              </div>
+              {inv.status === 'pending' && (
+                <button className="rounded border px-2 py-1" onClick={() => revokeInvite(inv.id)}>
+                  Revoke
+                </button>
+              )}
+            </li>
+          ))}
+          {invites.length === 0 && (
+            <li className="py-2 text-sm text-neutral-600">No invites yet.</li>
+          )}
+        </ul>
       </div>
       <form onSubmit={search} className="grid gap-2 md:grid-cols-4">
         <input

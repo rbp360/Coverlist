@@ -9,7 +9,14 @@ const DB_FILE = path.join(DATA_DIR, 'db.json');
 function ensureDB() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
   if (!fs.existsSync(DB_FILE)) {
-    const initial: DB = { users: [], entries: [], projects: [], songs: [], setlists: [] };
+    const initial: DB = {
+      users: [],
+      entries: [],
+      projects: [],
+      songs: [],
+      setlists: [],
+      invites: [],
+    };
     fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2));
   }
 }
@@ -24,6 +31,7 @@ function readDB(): DB {
   parsed.projects = parsed.projects || [];
   parsed.songs = parsed.songs || [];
   parsed.setlists = parsed.setlists || [];
+  parsed.invites = parsed.invites || [];
   return parsed as DB;
 }
 
@@ -138,5 +146,31 @@ export const db = {
     const d = readDB();
     d.setlists = d.setlists.filter((s) => s.id !== id);
     writeDB(d);
+  },
+  // Invites
+  listInvites(projectId: string) {
+    const d = readDB();
+    return d.invites.filter((i) => i.projectId === projectId);
+  },
+  createInvite(invite: DB['invites'][number]) {
+    const d = readDB();
+    d.invites.push(invite);
+    writeDB(d);
+  },
+  updateInvite(invite: DB['invites'][number]) {
+    const d = readDB();
+    const idx = d.invites.findIndex((i) => i.id === invite.id);
+    if (idx !== -1) {
+      d.invites[idx] = invite;
+      writeDB(d);
+    }
+  },
+  getInviteById(id: string) {
+    const d = readDB();
+    return d.invites.find((i) => i.id === id);
+  },
+  getInviteByToken(token: string) {
+    const d = readDB();
+    return d.invites.find((i) => i.token === token);
   },
 };

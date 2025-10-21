@@ -33,7 +33,7 @@ export const searchQuerySchema = z.object({ q: z.string().min(2) });
 
 const setlistItemSchema = z.object({
   id: z.string().optional(),
-  type: z.enum(['song', 'break', 'note']),
+  type: z.enum(['song', 'break', 'note', 'section']),
   order: z.number().int().nonnegative().optional(),
   songId: z.string().optional(),
   title: z.string().optional(),
@@ -47,6 +47,8 @@ export const setlistCreateSchema = z.object({
   name: z.string().min(1),
   showArtist: z.boolean().default(true),
   items: z.array(setlistItemSchema).optional(),
+  date: z.string().optional(),
+  venue: z.string().optional(),
 });
 
 export const setlistUpdateSchema = z.object({
@@ -56,4 +58,6 @@ export const setlistUpdateSchema = z.object({
   items: z
     .array(setlistItemSchema.extend({ id: z.string(), order: z.number().int().nonnegative() }))
     .optional(),
+  date: z.string().optional(),
+  venue: z.string().optional(),
 });
