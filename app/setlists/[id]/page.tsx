@@ -1,6 +1,6 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { QUICK_NOTES } from '@/lib/presets';
 
@@ -47,6 +47,8 @@ export default function SetlistEditorPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [setlist, setSetlist] = useState<Setlist | null>(null);
+  const [editingName, setEditingName] = useState(false);
+  const [nameDraft, setNameDraft] = useState('');
   const [breakTitle, setBreakTitle] = useState('Break');
   const [breakMin, setBreakMin] = useState(10);
   const [noteText, setNoteText] = useState('');
@@ -72,6 +74,33 @@ export default function SetlistEditorPage() {
       }
     })();
   }, [id]);
+
+  // Helper to revert name directly via API (avoids useEffect dep on `save`)
+  const revertName = useCallback(
+    async (prevName: string) => {
+      if (!prevName) return;
+      const res = await fetch(`/api/setlists/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: prevName }),
+      });
+      if (res.ok) setSetlist(await res.json());
+    },
+    [id],
+  );
+
+  // Handle browser back to undo last name change if present in history state
+  useEffect(() => {
+    function onPopState(e: PopStateEvent) {
+      const st = (e.state || {}) as any;
+      if (st && st.type === 'setlistNameChange' && st.setlistId === id) {
+        const prevName = String(st.prevName || '').trim();
+        if (prevName) revertName(prevName);
+      }
+    }
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [id, revertName]);
 
   const total = useMemo(() => {
     const base = (setlist?.items || []).reduce((sum, it) => sum + (it.durationSec || 0), 0);
@@ -259,10 +288,60 @@ export default function SetlistEditorPage() {
 
   if (!setlist) return <div>Loading…</div>;
 
+  async function commitNameChange() {
+    if (!setlist) return;
+    const next = nameDraft.trim();
+    if (!next || next === setlist.name) {
+      setEditingName(false);
+      setNameDraft('');
+      return;
+    }
+    const prevName = setlist.name;
+    // Push a history entry so browser Back will popstate and we can revert
+    try {
+      history.pushState(
+        { type: 'setlistNameChange', setlistId: id, prevName, newName: next },
+        '',
+        window.location.href,
+      );
+    } catch {}
+    await save({ name: next });
+    setEditingName(false);
+    setNameDraft('');
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">{setlist.name}</h2>
+        <div>
+          {editingName ? (
+            <input
+              className="rounded border bg-black px-2 py-1 text-2xl font-semibold text-white"
+              value={nameDraft}
+              autoFocus
+              onChange={(e) => setNameDraft(e.target.value)}
+              onBlur={commitNameChange}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') commitNameChange();
+                if (e.key === 'Escape') {
+                  setEditingName(false);
+                  setNameDraft('');
+                }
+              }}
+            />
+          ) : (
+            <h2
+              className="cursor-text text-2xl font-semibold hover:underline"
+              title="Click to rename"
+              onClick={() => {
+                setEditingName(true);
+                setNameDraft(setlist.name);
+              }}
+            >
+              {setlist.name}
+            </h2>
+          )}
+        </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">Total: {fmt(total)}</span>
           {setlist.addGapAfterEachSong && settings && (
