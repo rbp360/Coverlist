@@ -33,6 +33,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     ...('items' in parsed.data ? { items: parsed.data.items } : {}),
     ...('date' in parsed.data ? { date: parsed.data.date } : {}),
     ...('venue' in parsed.data ? { venue: parsed.data.venue } : {}),
+    ...('addGapAfterEachSong' in parsed.data ? { addGapAfterEachSong: parsed.data.addGapAfterEachSong } : {}),
     updatedAt: new Date().toISOString(),
   };
   db.updateSetlist(updated);

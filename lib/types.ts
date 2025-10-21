@@ -23,6 +23,7 @@ export type DB = {
   songs: Song[];
   setlists: Setlist[];
   invites: Invite[];
+  settings: Settings;
 };
 
 export type Project = {
@@ -68,6 +69,8 @@ export type Setlist = {
   items: SetlistItem[];
   date?: string; // ISO date for the show
   venue?: string;
+  addGapAfterEachSong?: boolean;
+  hideItemDurations?: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -81,4 +84,9 @@ export type Invite = {
   invitedBy: string; // userId of inviter
   createdAt: string;
   updatedAt: string;
+};
+
+export type Settings = {
+  // Global default gap to apply after each song when enabled on a setlist
+  defaultSongGapSec: number; // 20 - 120
 };

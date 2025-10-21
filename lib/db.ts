@@ -16,6 +16,7 @@ function ensureDB() {
       songs: [],
       setlists: [],
       invites: [],
+      settings: { defaultSongGapSec: 30 },
     };
     fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2));
   }
@@ -32,6 +33,7 @@ function readDB(): DB {
   parsed.songs = parsed.songs || [];
   parsed.setlists = parsed.setlists || [];
   parsed.invites = parsed.invites || [];
+  parsed.settings = parsed.settings || { defaultSongGapSec: 30 };
   return parsed as DB;
 }
 
@@ -40,6 +42,16 @@ function writeDB(db: DB) {
 }
 
 export const db = {
+  // Settings
+  getSettings() {
+    const d = readDB();
+    return d.settings;
+  },
+  updateSettings(next: Partial<DB['settings']>) {
+    const d = readDB();
+    d.settings = { ...d.settings, ...next };
+    writeDB(d);
+  },
   getUserByEmail(email: string): User | undefined {
     const d = readDB();
     return d.users.find((u) => u.email.toLowerCase() === email.toLowerCase());

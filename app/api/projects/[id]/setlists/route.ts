@@ -42,6 +42,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
     showArtist: parsed.data.showArtist ?? true,
     date: parsed.data.date,
     venue: parsed.data.venue,
+    addGapAfterEachSong: parsed.data.addGapAfterEachSong ?? false,
     items,
     createdAt: now,
     updatedAt: now,

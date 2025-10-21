@@ -20,6 +20,7 @@ type Setlist = {
   projectId?: string;
   date?: string;
   venue?: string;
+  addGapAfterEachSong?: boolean;
 };
 type Song = { id: string; title: string; artist: string; durationSec?: number };
 
@@ -41,6 +42,7 @@ export default function SetlistEditorPage() {
   const [dragId, setDragId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
   const [sectionTitle, setSectionTitle] = useState('Set 1');
+  const [settings, setSettings] = useState<{ defaultSongGapSec: number } | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -52,13 +54,18 @@ export default function SetlistEditorPage() {
           const rs = await fetch(`/api/projects/${s.projectId}/songs`);
           if (rs.ok) setSongs((await rs.json()).songs);
         }
+        const st = await fetch('/api/settings');
+        if (st.ok) setSettings(await st.json());
       }
     })();
   }, [id]);
 
   const total = useMemo(() => {
-    return (setlist?.items || []).reduce((sum, it) => sum + (it.durationSec || 0), 0);
-  }, [setlist]);
+    const base = (setlist?.items || []).reduce((sum, it) => sum + (it.durationSec || 0), 0);
+    if (!setlist?.addGapAfterEachSong || !settings) return base;
+    const songCount = (setlist.items || []).filter((i) => i.type === 'song').length;
+    return base + songCount * settings.defaultSongGapSec;
+  }, [setlist, settings]);
 
   const sortedItems = useMemo(() => {
     return [...(setlist?.items || [])].sort((a, b) => a.order - b.order);
@@ -67,11 +74,14 @@ export default function SetlistEditorPage() {
   function sectionDurationFrom(index: number) {
     const items = sortedItems;
     let sum = 0;
+    let songs = 0;
     for (let i = index + 1; i < items.length; i++) {
       const it = items[i];
       if (it.type === 'section') break;
       if (it.durationSec) sum += it.durationSec;
+      if (it.type === 'song') songs += 1;
     }
+    if (setlist?.addGapAfterEachSong && settings) sum += songs * settings.defaultSongGapSec;
     return sum;
   }
 
@@ -231,9 +241,13 @@ export default function SetlistEditorPage() {
         <h2 className="text-2xl font-semibold">{setlist.name}</h2>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">Total: {fmt(total)}</span>
+          {setlist.addGapAfterEachSong && settings && (
+            <span className="text-xs text-gray-500">(+{settings.defaultSongGapSec}s per song)</span>
+          )}
           <button className="rounded border px-3 py-1 text-sm" onClick={toggleArtist}>
             {setlist.showArtist ? 'Hide' : 'Show'} artist
           </button>
+          <a className="rounded border px-3 py-1 text-sm" href="/settings">Settings</a>
           <button className="rounded border px-3 py-1 text-sm" onClick={copyJson}>
             Copy JSON
           </button>
@@ -266,6 +280,11 @@ export default function SetlistEditorPage() {
             defaultValue={setlist.venue || ''}
             onBlur={(e) => save({ venue: e.target.value || undefined })}
           />
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="w-16 text-neutral-400">Gaps</span>
+          <input type="checkbox" checked={!!setlist.addGapAfterEachSong} onChange={(e)=>save({ addGapAfterEachSong: e.target.checked })} />
+          <span className="text-xs text-neutral-500">Add {settings?.defaultSongGapSec ?? 0}s after each song</span>
         </label>
       </div>
 
