@@ -96,30 +96,35 @@ export default function ProjectSetlistsPage() {
         </div>
       )}
       <ul className="divide-y rounded border bg-black text-white">
-        {setlists.map((s) => (
-          <li key={s.id} className="flex items-center justify-between p-3 gap-2">
-            <div>
-              <div className="font-medium">{s.name}</div>
-              <div className="text-sm text-gray-600">{s.items.length} items</div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Link className="rounded border px-3 py-1 text-sm" href={`/setlists/${s.id}`}>
-                Edit
-              </Link>
-              <button
-                className="rounded border px-3 py-1 text-sm"
-                onClick={async () => {
-                  const res = await fetch(`/api/setlists/${s.id}/copy`, { method: 'POST' });
-                  if (res.ok) {
-                    await load();
-                  }
-                }}
-              >
-                Copy
-              </button>
-            </div>
-          </li>
-        ))}
+        {setlists.map((s) => {
+          const songCount = (s.items || []).filter((it: any) => it?.type === 'song').length;
+          return (
+            <li key={s.id} className="flex items-center justify-between p-3 gap-2">
+              <div>
+                <div className="font-medium">{s.name}</div>
+                <div className="text-sm text-gray-600">
+                  {songCount} {songCount === 1 ? 'song' : 'songs'}
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Link className="rounded border px-3 py-1 text-sm" href={`/setlists/${s.id}`}>
+                  Edit
+                </Link>
+                <button
+                  className="rounded border px-3 py-1 text-sm"
+                  onClick={async () => {
+                    const res = await fetch(`/api/setlists/${s.id}/copy`, { method: 'POST' });
+                    if (res.ok) {
+                      await load();
+                    }
+                  }}
+                >
+                  Copy
+                </button>
+              </div>
+            </li>
+          );
+        })}
         {setlists.length === 0 && <li className="p-4 text-sm text-gray-600">No setlists yet.</li>}
       </ul>
     </div>
