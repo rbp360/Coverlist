@@ -13,4 +13,29 @@ export const QUICK_NOTES: QuickNotePreset[] = [
   { label: '🚨 Stop time', text: '🚨 Stop time figure' },
   { label: '🎶 Breakdown', text: '🎶 Breakdown section' },
   { label: '⭐ Encore', text: '⭐ Encore' },
+  // Tunings / Capos
+  { label: '🎸 Capo I', text: '🎸 Capo I' },
+  { label: '🎸 Capo IV', text: '🎸 Capo IV' },
+  { label: '🎸 Capo V', text: '🎸 Capo V' },
+  { label: '🎸 Drop D', text: '🎸 Tuning: Drop D' },
+  { label: '🎸 Open G', text: '🎸 Tuning: Open G' },
+  { label: '🎸 1/2 step down', text: '🎸 Tuning: 1/2 step down' },
+  // Cues
+  { label: '🎤 Call & response', text: '🎤 Call & response' },
+  { label: '🛑 Hard stop', text: '🛑 Hard stop' },
+  { label: '⬆️ Key change', text: '⬆️ Key change in last chorus' },
+  { label: '⚠️ Watch ending', text: '⚠️ Watch ending' },
+  { label: '⚡ Energy up', text: '⚡ Energy up' },
+  // Sections / Forms
+  { label: '🧱 Intro', text: '🧱 Intro' },
+  { label: '🧱 Outro', text: '🧱 Outro' },
+  { label: '🧱 Breakdown', text: '🧱 Breakdown' },
+  { label: '🔁 2x Chorus', text: '🔁 Chorus x2' },
+  { label: '🔁 4x Vamp', text: '🔁 Vamp x4 and fade' },
+  // Logistics
+  { label: '💧 Hydrate', text: '💧 Hydrate' },
+  { label: '🎚️ Click on', text: '🎚️ Click on' },
+  { label: '🎚️ Click off', text: '🎚️ Click off' },
+  { label: '🎧 IEM mix', text: '🎧 Check IEM mix' },
+  { label: '📻 Radio mics', text: '📻 Check radio mics' },
 ];
