@@ -1,4 +1,6 @@
 import './globals.css';
+import BackButton from '@/components/BackButton';
+
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -15,7 +17,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a href="/" className="text-xl font-semibold tracking-tight">
               <span className="text-brand-500">Song</span>Deck
             </a>
-            <nav className="text-sm text-neutral-300 space-x-4">
+            <nav className="text-sm text-neutral-300 space-x-4 flex items-center gap-3">
+              <BackButton fallback="/projects" />
               <a href="/projects" className="hover:text-white">
                 Projects
               </a>
