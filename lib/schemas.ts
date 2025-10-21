@@ -40,12 +40,14 @@ const setlistItemSchema = z.object({
   artist: z.string().optional(),
   durationSec: z.number().int().nonnegative().optional(),
   note: z.string().optional(),
+  transposedKey: z.string().optional(),
 });
 
 export const setlistCreateSchema = z.object({
   projectId: z.string().min(1),
   name: z.string().min(1),
   showArtist: z.boolean().default(true),
+  showTransposedKey: z.boolean().optional(),
   items: z.array(setlistItemSchema).optional(),
   date: z.string().optional(),
   venue: z.string().optional(),
@@ -56,6 +58,7 @@ export const setlistUpdateSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1).optional(),
   showArtist: z.boolean().optional(),
+  showTransposedKey: z.boolean().optional(),
   items: z
     .array(setlistItemSchema.extend({ id: z.string(), order: z.number().int().nonnegative() }))
     .optional(),

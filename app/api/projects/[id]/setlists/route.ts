@@ -34,12 +34,14 @@ export async function POST(request: Request, { params }: { params: { id: string 
     artist: it.artist,
     durationSec: it.durationSec,
     note: it.note,
+    transposedKey: it.transposedKey,
   }));
   const setlist = {
     id: uuid(),
     projectId: project.id,
     name: parsed.data.name,
     showArtist: parsed.data.showArtist ?? true,
+    showTransposedKey: parsed.data.showTransposedKey ?? false,
     date: parsed.data.date,
     venue: parsed.data.venue,
     addGapAfterEachSong: parsed.data.addGapAfterEachSong ?? false,

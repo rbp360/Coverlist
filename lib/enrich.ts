@@ -3,8 +3,30 @@ export type EnrichInput = { title: string; artist: string; mbid?: string };
 export type EnrichResult = { key?: string; tempo?: number };
 
 const KEYS = [
-  'C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#', 'F', 'Bb', 'Eb', 'Ab',
-  'Am', 'Em', 'Bm', 'F#m', 'C#m', 'G#m', 'Dm', 'Gm', 'Cm', 'Fm', 'Bbm', 'Ebm',
+  'C',
+  'G',
+  'D',
+  'A',
+  'E',
+  'B',
+  'F#',
+  'C#',
+  'F',
+  'Bb',
+  'Eb',
+  'Ab',
+  'Am',
+  'Em',
+  'Bm',
+  'F#m',
+  'C#m',
+  'G#m',
+  'Dm',
+  'Gm',
+  'Cm',
+  'Fm',
+  'Bbm',
+  'Ebm',
 ];
 
 function hash(str: string): number {

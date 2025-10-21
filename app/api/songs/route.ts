@@ -29,7 +29,11 @@ export async function POST(request: Request) {
   };
   const settings = db.getSettings();
   if (settings.enrichOnImport && settings.enrichmentMode === 'stub') {
-    const enriched = enrichKeyTempoStub({ title: song.title, artist: song.artist, mbid: song.mbid });
+    const enriched = enrichKeyTempoStub({
+      title: song.title,
+      artist: song.artist,
+      mbid: song.mbid,
+    });
     song.key = enriched.key;
     song.tempo = enriched.tempo;
   }

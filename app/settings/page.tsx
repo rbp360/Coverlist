@@ -67,19 +67,31 @@ export default function SettingsPage() {
 
       <div className="rounded border bg-white p-3">
         <div className="mb-1 font-medium">Key/Tempo Enrichment</div>
-        <div className="text-sm text-neutral-600 mb-2">Choose how enrichment works for key and tempo.</div>
+        <div className="text-sm text-neutral-600 mb-2">
+          Choose how enrichment works for key and tempo.
+        </div>
         <div className="flex flex-col gap-2">
           <label className="flex items-center gap-2 text-sm">
             <span className="w-32 text-neutral-500">Mode</span>
-            <select className="rounded border px-2 py-1" value={mode} onChange={(e)=>setMode(e.target.value as any)}>
+            <select
+              className="rounded border px-2 py-1"
+              value={mode}
+              onChange={(e) => setMode(e.target.value as any)}
+            >
               <option value="none">None</option>
               <option value="stub">Stub (deterministic)</option>
             </select>
           </label>
           <label className="flex items-center gap-2 text-sm">
             <span className="w-32 text-neutral-500">On import</span>
-            <input type="checkbox" checked={enrichOnImport} onChange={(e)=>setEnrichOnImport(e.target.checked)} />
-            <span className="text-xs text-neutral-500">Automatically enrich key/tempo when importing songs</span>
+            <input
+              type="checkbox"
+              checked={enrichOnImport}
+              onChange={(e) => setEnrichOnImport(e.target.checked)}
+            />
+            <span className="text-xs text-neutral-500">
+              Automatically enrich key/tempo when importing songs
+            </span>
           </label>
           <div>
             <button

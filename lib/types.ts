@@ -59,6 +59,7 @@ export type SetlistItem = {
   artist?: string; // optional display override
   durationSec?: number; // for break or override
   note?: string; // when type === 'note'
+  transposedKey?: string; // per-item override when type === 'song'
 };
 
 export type Setlist = {
@@ -66,6 +67,7 @@ export type Setlist = {
   projectId: string;
   name: string;
   showArtist: boolean;
+  showTransposedKey?: boolean;
   items: SetlistItem[];
   date?: string; // ISO date for the show
   venue?: string;

@@ -30,6 +30,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     ...existing,
     ...('name' in parsed.data ? { name: parsed.data.name } : {}),
     ...('showArtist' in parsed.data ? { showArtist: parsed.data.showArtist } : {}),
+    ...('showTransposedKey' in parsed.data ? { showTransposedKey: parsed.data.showTransposedKey } : {}),
     ...('items' in parsed.data ? { items: parsed.data.items } : {}),
     ...('date' in parsed.data ? { date: parsed.data.date } : {}),
     ...('venue' in parsed.data ? { venue: parsed.data.venue } : {}),

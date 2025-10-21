@@ -11,18 +11,28 @@ type Item = {
   durationSec?: number;
   songId?: string;
   note?: string;
+  transposedKey?: string;
 };
 type Setlist = {
   id: string;
   name: string;
   showArtist: boolean;
+  showTransposedKey?: boolean;
   items: Item[];
   projectId?: string;
   date?: string;
   venue?: string;
   addGapAfterEachSong?: boolean;
 };
-type Song = { id: string; title: string; artist: string; durationSec?: number; key?: string; tempo?: number };
+type Song = {
+  id: string;
+  title: string;
+  artist: string;
+  durationSec?: number;
+  key?: string;
+  tempo?: number;
+  transposedKey?: string;
+};
 
 function fmt(sec?: number) {
   if (!sec) return '0:00';
@@ -214,6 +224,7 @@ export default function SetlistEditorPage() {
       const data = {
         name: setlist.name,
         showArtist: setlist.showArtist,
+        showTransposedKey: setlist.showTransposedKey,
         date: setlist.date,
         venue: setlist.venue,
         addGapAfterEachSong: setlist.addGapAfterEachSong,
@@ -225,6 +236,7 @@ export default function SetlistEditorPage() {
           durationSec: i.durationSec,
           note: i.note,
           order: i.order,
+          transposedKey: i.transposedKey,
         })),
       };
       await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
@@ -295,6 +307,15 @@ export default function SetlistEditorPage() {
             {settings?.defaultSongGapSec ?? 0}s per song
           </span>
         </label>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="w-56 text-neutral-400">Show transposed key</span>
+          <input
+            type="checkbox"
+            checked={!!setlist.showTransposedKey}
+            onChange={(e) => save({ showTransposedKey: e.target.checked })}
+          />
+          <span className="text-xs text-neutral-500">Display as “Title (Bb)”</span>
+        </label>
       </div>
 
       <div className="rounded border bg-white">
@@ -312,18 +333,25 @@ export default function SetlistEditorPage() {
               <div>
                 {it.type === 'song' && (
                   <div className="font-medium">
-                    {it.title}
-                    {setlist.showArtist && it.artist && (
-                      <span className="text-gray-500"> — {it.artist}</span>
-                    )}
                     {(() => {
                       const song = songs.find((s) => s.id === it.songId);
-                      if (!song) return null;
-                      const bits: string[] = [];
-                      if (song.key) bits.push(song.key);
-                      if (song.tempo) bits.push(`${song.tempo} bpm`);
-                      if (bits.length === 0) return null;
-                      return <div className="text-sm text-neutral-600">{bits.join(' • ')}</div>;
+                      const tKey = it.transposedKey || song?.transposedKey;
+                      const title = setlist.showTransposedKey && tKey ? `${it.title} (${tKey})` : it.title;
+                      return (
+                        <>
+                          {title}
+                          {setlist.showArtist && it.artist && (
+                            <span className="text-gray-500"> — {it.artist}</span>
+                          )}
+                          {song && (song.key || song.tempo) ? (
+                            <div className="text-sm text-neutral-600">
+                              {[song.key, song.tempo ? `${song.tempo} bpm` : undefined]
+                                .filter(Boolean)
+                                .join(' • ')}
+                            </div>
+                          ) : null}
+                        </>
+                      );
                     })()}
                   </div>
                 )}
@@ -350,6 +378,20 @@ export default function SetlistEditorPage() {
                   <span className="text-sm text-gray-500">{fmt(it.durationSec)}</span>
                 ) : (
                   <span />
+                )}
+                {it.type === 'song' && (
+                  <input
+                    className="w-24 rounded border px-2 py-1 text-xs"
+                    placeholder="Key"
+                    defaultValue={it.transposedKey || ''}
+                    onBlur={(e) => {
+                      if (!setlist) return;
+                      const items = sortedItems.map((x) =>
+                        x.id === it.id ? { ...x, transposedKey: e.target.value || undefined } : x,
+                      );
+                      save({ items: items as any });
+                    }}
+                  />
                 )}
                 <button
                   className="rounded border px-2 py-1 text-xs"
