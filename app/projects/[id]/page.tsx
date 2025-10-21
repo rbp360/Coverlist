@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 type Result = { mbid?: string; title: string; artist: string; durationSec?: number };
+type Song = { id: string; title: string; artist: string; mbid?: string };
 
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -13,6 +14,8 @@ export default function ProjectDetailPage() {
   const [genre, setGenre] = useState('');
   const [results, setResults] = useState<Result[]>([]);
   const [message, setMessage] = useState<string | null>(null);
+  const [songs, setSongs] = useState<Song[]>([]);
+  const [importing, setImporting] = useState<string | null>(null);
   const [invites, setInvites] = useState<any[]>([]);
   const [inviteEmail, setInviteEmail] = useState('');
 
@@ -20,6 +23,9 @@ export default function ProjectDetailPage() {
     (async () => {
       const res = await fetch(`/api/projects/${id}`);
       if (res.ok) setProject(await res.json());
+      // Load existing songs for this project to detect already imported items
+      const rs = await fetch(`/api/projects/${id}/songs`);
+      if (rs.ok) setSongs((await rs.json()).songs);
     })();
   }, [id]);
 
@@ -34,6 +40,7 @@ export default function ProjectDetailPage() {
 
   async function importSong(r: Result) {
     setMessage(null);
+    setImporting(r.mbid || `${r.title}|${r.artist}`);
     const res = await fetch('/api/songs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,7 +52,27 @@ export default function ProjectDetailPage() {
         mbid: r.mbid,
       }),
     });
-    setMessage(res.ok ? 'Imported!' : 'Import failed');
+    if (res.ok) {
+      const created = await res.json();
+      setSongs((prev) => [...prev, created]);
+      setMessage('Imported!');
+      // Pop-up confirmation to make success obvious
+      try {
+        alert('Song imported successfully');
+      } catch {}
+    } else {
+      setMessage('Import failed');
+    }
+    setImporting(null);
+  }
+
+  function isImported(r: Result): boolean {
+    const norm = (s: string) => s.trim().toLowerCase();
+    return songs.some((s) =>
+      r.mbid && s.mbid
+        ? s.mbid === r.mbid
+        : norm(s.title) === norm(r.title) && norm(s.artist) === norm(r.artist),
+    );
   }
 
   async function loadInvites() {
@@ -173,26 +200,35 @@ export default function ProjectDetailPage() {
       </form>
       {message && <p className="text-sm text-gray-700">{message}</p>}
       <ul className="divide-y rounded border bg-black text-white">
-        {results.map((r) => (
-          <li
-            key={`${r.mbid}-${r.title}-${r.artist}`}
-            className="flex items-center justify-between p-3"
-          >
-            <div>
-              <div className="font-medium">
-                {r.title} <span className="text-gray-500">— {r.artist}</span>
-              </div>
-              {r.durationSec && (
-                <div className="text-sm text-gray-600">
-                  {Math.floor(r.durationSec / 60)}:{String(r.durationSec % 60).padStart(2, '0')}
+        {results.map((r) => {
+          const imported = isImported(r);
+          const isBusy = importing === (r.mbid || `${r.title}|${r.artist}`);
+          return (
+            <li
+              key={`${r.mbid}-${r.title}-${r.artist}`}
+              className="flex items-center justify-between p-3"
+            >
+              <div>
+                <div className="font-medium">
+                  {r.title} <span className="text-gray-500">— {r.artist}</span>
                 </div>
-              )}
-            </div>
-            <button className="rounded border px-3 py-1 text-sm" onClick={() => importSong(r)}>
-              Import
-            </button>
-          </li>
-        ))}
+                {r.durationSec && (
+                  <div className="text-sm text-gray-600">
+                    {Math.floor(r.durationSec / 60)}:{String(r.durationSec % 60).padStart(2, '0')}
+                  </div>
+                )}
+              </div>
+              <button
+                className={`rounded border px-3 py-1 text-sm ${imported ? 'opacity-50 cursor-not-allowed' : ''}`}
+                onClick={() => !imported && !isBusy && importSong(r)}
+                disabled={imported || isBusy}
+                title={imported ? 'Already imported' : 'Import this song'}
+              >
+                {imported ? 'Already imported' : isBusy ? 'Importing…' : 'Import'}
+              </button>
+            </li>
+          );
+        })}
         {results.length === 0 && (
           <li className="p-4 text-sm text-gray-600">No results yet. Try searching.</li>
         )}
