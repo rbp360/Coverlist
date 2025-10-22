@@ -114,9 +114,8 @@ export default function RepertoirePage() {
               <th className="p-2">Artist</th>
               <th className="p-2">Dur</th>
               <th className="p-2">Key</th>
-              <th className="p-2">Transposed</th>
               <th className="p-2">Tempo</th>
-              <th className="p-2">Enrich</th>
+              <th className="p-2">attempt auto</th>
               <th className="p-2">Notes</th>
               <th className="p-2">Link</th>
             </tr>
@@ -140,19 +139,6 @@ export default function RepertoirePage() {
                 </td>
                 <td className="p-2">
                   <input
-                    className="w-24 rounded border px-2 py-1 font-mono"
-                    style={{
-                      fontFamily:
-                        'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-                    }}
-                    defaultValue={formatKey(s.transposedKey)}
-                    onBlur={(e) =>
-                      saveField(s, { transposedKey: formatKey(e.target.value) || undefined })
-                    }
-                  />
-                </td>
-                <td className="p-2">
-                  <input
                     type="number"
                     className="w-20 rounded border px-2 py-1"
                     defaultValue={s.tempo || ''}
@@ -166,9 +152,9 @@ export default function RepertoirePage() {
                     className="rounded border px-2 py-1 text-xs"
                     onClick={() => enrich(s)}
                     disabled={enriching === s.id}
-                    title="Stub enrichment for key & tempo"
+                    title="Generate key & tempo (AI)"
                   >
-                    {enriching === s.id ? 'Enriching…' : 'Enrich'}
+                    {enriching === s.id ? 'Generating…' : 'Generate info from AI'}
                   </button>
                 </td>
                 <td className="p-2">

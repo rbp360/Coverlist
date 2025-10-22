@@ -5,7 +5,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [gap, setGap] = useState(30);
   const [mode, setMode] = useState<'none' | 'stub'>('stub');
-  const [enrichOnImport, setEnrichOnImport] = useState(true);
+  const [enrichOnImport, setEnrichOnImport] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 

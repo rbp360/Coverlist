@@ -98,6 +98,18 @@
       "tempo": 137,
       "createdAt": "2025-10-22T00:54:32.316Z",
       "updatedAt": "2025-10-22T00:54:32.316Z"
+    },
+    {
+      "id": "329708e7-5cb9-4d69-be42-4d6ba4192599",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Bark at the Moon",
+      "artist": "Ozzy Osbourne",
+      "durationSec": 257,
+      "mbid": "29d1a35f-51fd-4b55-abe9-2d04fd926fca",
+      "createdAt": "2025-10-22T01:23:39.731Z",
+      "updatedAt": "2025-10-22T01:23:53.315Z",
+      "key": "G",
+      "tempo": 107
     }
   ],
   "setlists": [
@@ -166,6 +178,6 @@
   "settings": {
     "defaultSongGapSec": 30,
     "enrichmentMode": "stub",
-    "enrichOnImport": true
+    "enrichOnImport": false
   }
 }
