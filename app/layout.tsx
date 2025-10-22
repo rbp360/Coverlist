@@ -22,6 +22,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/projects" className="hover:text-white">
                 Projects
               </a>
+              <a href="/repertoire" className="hover:text-white">
+                Repertoire
+              </a>
               <a href="/profile" className="hover:text-white">
                 Profile
               </a>

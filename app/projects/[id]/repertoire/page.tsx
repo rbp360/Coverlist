@@ -29,28 +29,16 @@ function formatKey(key?: string) {
 export default function RepertoirePage() {
   const { id } = useParams<{ id: string }>();
   const [songs, setSongs] = useState<Song[]>([]);
-  const [q, setQ] = useState('');
-  const [artist, setArtist] = useState('');
   const [saving, setSaving] = useState<string | null>(null);
   const [enriching, setEnriching] = useState<string | null>(null);
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
 
-  const filtered = useMemo(() => {
-    const qi = q.toLowerCase();
-    const ai = artist.toLowerCase();
-    return songs.filter(
-      (s) =>
-        (qi ? s.title.toLowerCase().includes(qi) : true) &&
-        (ai ? s.artist.toLowerCase().includes(ai) : true),
-    );
-  }, [songs, q, artist]);
+  const filtered = songs;
 
   async function load() {
-    const res = await fetch(
-      `/api/projects/${id}/songs?q=${encodeURIComponent(q)}&artist=${encodeURIComponent(artist)}`,
-    );
+    const res = await fetch(`/api/projects/${id}/songs`);
     if (res.ok) setSongs((await res.json()).songs);
   }
 
@@ -120,23 +108,7 @@ export default function RepertoirePage() {
           {importing ? 'Importing…' : 'import all songs in your repertoire'}
         </button>
       </div>
-      <div className="grid gap-2 md:grid-cols-3">
-        <input
-          className="rounded border px-3 py-2"
-          placeholder="Filter by title"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
-        <input
-          className="rounded border px-3 py-2"
-          placeholder="Filter by artist"
-          value={artist}
-          onChange={(e) => setArtist(e.target.value)}
-        />
-        <button className="rounded bg-black px-3 py-2 text-white" onClick={load}>
-          Search
-        </button>
-      </div>
+      {/* Song search moved to /repertoire. Listing below shows this project's songs. */}
       <div className="overflow-auto rounded border bg-black text-white">
         <table className="min-w-full text-sm">
           <thead className="bg-black text-left text-white">
