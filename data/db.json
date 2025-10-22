@@ -189,5 +189,56 @@
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "instruments": ["Electric Guitar"]
     }
+  ],
+  "projectPractice": [
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "329708e7-5cb9-4d69-be42-4d6ba4192599",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 3,
+      "rating": 4
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 1
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "ac3922c6-7fcf-47de-a8aa-e8d337a4622a",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 1
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "2e9eec3d-1f82-4736-af13-fa8ab7c15ea2",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 1
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 1,
+      "rating": 1
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "b4c4480d-7817-4b35-84c6-f1c4c4dc46cf",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 1,
+      "rating": 2
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 8,
+      "rating": 3
+    }
   ]
 }

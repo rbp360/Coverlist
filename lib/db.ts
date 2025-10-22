@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { User, DB, ProjectMember } from './types';
+import { User, DB, ProjectMember, PracticeEntry } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
@@ -32,6 +32,7 @@ function readDB(): DB {
   parsed.setlists = parsed.setlists || [];
   parsed.invites = parsed.invites || [];
   parsed.projectMembers = parsed.projectMembers || [];
+  parsed.projectPractice = parsed.projectPractice || [];
   parsed.settings = parsed.settings || { defaultSongGapSec: 30 };
   if (parsed.settings.defaultSongGapSec == null) parsed.settings.defaultSongGapSec = 30;
   if (parsed.settings.enrichmentMode == null) parsed.settings.enrichmentMode = 'stub';
@@ -109,6 +110,56 @@ export const db = {
     if (idx === -1) list.push(next);
     else list[idx] = next;
     writeDB(d);
+  },
+
+  // Rehearsal practice entries
+  listPracticeForUser(projectId: string, userId: string): PracticeEntry[] {
+    const d = readDB();
+    return (d.projectPractice || []).filter(
+      (p) => p.projectId === projectId && p.userId === userId,
+    );
+  },
+  getPracticeEntry(projectId: string, songId: string, userId: string): PracticeEntry | undefined {
+    const d = readDB();
+    return (d.projectPractice || []).find(
+      (p) => p.projectId === projectId && p.songId === songId && p.userId === userId,
+    );
+  },
+  upsertPractice(
+    projectId: string,
+    songId: string,
+    userId: string,
+    patch: Partial<Pick<PracticeEntry, 'passes' | 'rating'>>,
+  ): PracticeEntry {
+    const d = readDB();
+    const list = d.projectPractice || (d.projectPractice = []);
+    const idx = list.findIndex(
+      (p) => p.projectId === projectId && p.songId === songId && p.userId === userId,
+    );
+    if (idx === -1) {
+      const created: PracticeEntry = {
+        projectId,
+        songId,
+        userId,
+        passes: patch.passes ?? 0,
+        rating: (patch.rating ?? 0) as PracticeEntry['rating'],
+      };
+      list.push(created);
+      writeDB(d);
+      return created;
+    } else {
+      const curr = list[idx];
+      const next: PracticeEntry = {
+        ...curr,
+        passes: patch.passes != null ? Math.max(0, patch.passes) : curr.passes,
+        rating: (patch.rating != null
+          ? Math.max(0, Math.min(5, patch.rating))
+          : curr.rating) as PracticeEntry['rating'],
+      };
+      list[idx] = next;
+      writeDB(d);
+      return next;
+    }
   },
 
   // Songs

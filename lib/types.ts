@@ -15,6 +15,7 @@ export type DB = {
   setlists: Setlist[];
   invites: Invite[];
   projectMembers?: ProjectMember[];
+  projectPractice?: PracticeEntry[];
   settings: Settings;
 };
 
@@ -86,6 +87,14 @@ export type ProjectMember = {
   projectId: string;
   userId: string;
   instruments: string[]; // instruments selected for this project
+};
+
+export type PracticeEntry = {
+  projectId: string;
+  songId: string;
+  userId: string;
+  passes: number; // how many times practiced
+  rating: 0 | 1 | 2 | 3 | 4 | 5; // 0 = unrated
 };
 
 export type Settings = {

@@ -214,6 +214,9 @@ export default function ProjectDetailPage() {
           )}
         </div>
         <div className="flex gap-2 text-sm">
+          <Link className="rounded border px-3 py-1" href={`/projects/${id}/rehearsal`}>
+            Rehearsal
+          </Link>
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/repertoire`}>
             Repertoire
           </Link>

@@ -81,3 +81,9 @@ export const profileUpdateSchema = z.object({
 export const projectMemberInstrumentsUpdateSchema = z.object({
   instruments: z.array(z.string()),
 });
+
+export const rehearsalUpdateSchema = z.object({
+  songId: z.string().min(1),
+  passes: z.number().int().min(0).optional(),
+  rating: z.number().int().min(0).max(5).optional(),
+});
