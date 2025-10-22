@@ -113,6 +113,16 @@
       "updatedAt": "2025-10-22T01:23:53.315Z",
       "key": "G",
       "tempo": 107
+    },
+    {
+      "id": "72ba9218-7351-4f2c-9293-5406f66b8ece",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Only You Can Rock Me",
+      "artist": "UFO",
+      "durationSec": 249,
+      "mbid": "b5506ff9-036b-460d-9bef-82f1afa7625d",
+      "createdAt": "2025-10-22T04:32:24.137Z",
+      "updatedAt": "2025-10-22T04:32:24.137Z"
     }
   ],
   "setlists": [

@@ -1,5 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import './globals.css';
+
+import Link from 'next/link';
+
 import BackButton from '@/components/BackButton';
 import { getCurrentUser } from '@/lib/auth';
 
@@ -17,18 +20,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-neutral-950 text-neutral-100 antialiased">
         <header className="border-b border-neutral-800 bg-neutral-900/80 backdrop-blur">
           <div className="mx-auto max-w-5xl px-4 py-4 flex items-center justify-between">
-            <a href="/" className="logo-font text-2xl tracking-tight">
+            <Link href="/" className="logo-font text-2xl tracking-tight">
               <span className="text-brand-500">Song</span>Deck
-            </a>
+            </Link>
             <nav className="text-sm text-neutral-300 space-x-4 flex items-center gap-3">
               <BackButton fallback="/projects" />
-              <a href="/projects" className="hover:text-white">
+              <Link href="/projects" className="hover:text-white">
                 Projects
-              </a>
-              <a href="/repertoire" className="hover:text-white">
+              </Link>
+              <Link href="/repertoire" className="hover:text-white">
                 Repertoire
-              </a>
-              <a href="/profile" className="flex items-center gap-2 hover:text-white">
+              </Link>
+              <Link href="/songs" className="hover:text-white">
+                Songs
+              </Link>
+              <Link href="/profile" className="flex items-center gap-2 hover:text-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 {user?.avatarUrl ? (
                   <img
@@ -40,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-neutral-700 text-xs text-neutral-500"></span>
                 )}
                 <span>Profile</span>
-              </a>
+              </Link>
             </nav>
           </div>
         </header>
