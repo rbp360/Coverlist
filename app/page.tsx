@@ -1,7 +1,7 @@
 export default function HomePage() {
   return (
     <section className="space-y-6">
-      <h2 className="text-3xl font-bold tracking-tight">SongDeck</h2>
+      <h2 className="logo-font text-3xl tracking-tight">SongDeck</h2>
       <p className="text-neutral-300">
         Organize your music. Master your setlists. Every song. Every set. Every rehearsal. One
         place.

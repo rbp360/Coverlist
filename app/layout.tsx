@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-neutral-950 text-neutral-100 antialiased">
         <header className="border-b border-neutral-800 bg-neutral-900/80 backdrop-blur">
           <div className="mx-auto max-w-5xl px-4 py-4 flex items-center justify-between">
-            <a href="/" className="text-xl font-semibold tracking-tight">
+            <a href="/" className="logo-font text-2xl tracking-tight">
               <span className="text-brand-500">Song</span>Deck
             </a>
             <nav className="text-sm text-neutral-300 space-x-4 flex items-center gap-3">
