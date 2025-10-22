@@ -14,6 +14,7 @@ export type DB = {
   songs: Song[];
   setlists: Setlist[];
   invites: Invite[];
+  projectMembers?: ProjectMember[];
   settings: Settings;
 };
 
@@ -79,6 +80,12 @@ export type Invite = {
   invitedBy: string; // userId of inviter
   createdAt: string;
   updatedAt: string;
+};
+
+export type ProjectMember = {
+  projectId: string;
+  userId: string;
+  instruments: string[]; // instruments selected for this project
 };
 
 export type Settings = {

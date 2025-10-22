@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
+import { instrumentEmoji, instrumentGifPath } from '@/lib/instrumentAssets';
+
 type Result = {
   mbid?: string;
   title: string;
@@ -27,6 +29,9 @@ export default function ProjectDetailPage() {
   const [importing, setImporting] = useState<string | null>(null);
   const [invites, setInvites] = useState<any[]>([]);
   const [inviteEmail, setInviteEmail] = useState('');
+  const [members, setMembers] = useState<
+    Array<{ id: string; email: string; name?: string; avatarUrl?: string; instruments: string[] }>
+  >([]);
 
   useEffect(() => {
     (async () => {
@@ -35,6 +40,9 @@ export default function ProjectDetailPage() {
       // Load existing songs for this project to detect already imported items
       const rs = await fetch(`/api/projects/${id}/songs`);
       if (rs.ok) setSongs((await rs.json()).songs);
+      // Load members list
+      const mem = await fetch(`/api/projects/${id}/members`);
+      if (mem.ok) setMembers((await mem.json()).members || []);
     })();
   }, [id]);
 
@@ -216,19 +224,42 @@ export default function ProjectDetailPage() {
       </div>
       {project && (
         <div className="rounded border bg-black p-3 text-white">
-          <div className="mb-1 font-medium">Members</div>
-          <div className="text-sm text-neutral-700">
-            Owner: <span className="text-neutral-500">{project.ownerId}</span>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="font-medium">Members</div>
+            <Link className="rounded border px-2 py-1 text-xs" href={`/projects/${id}/members`}>
+              Manage
+            </Link>
           </div>
-          <ul className="mt-1 list-disc pl-5 text-sm">
-            {project.memberIds.length === 0 && (
-              <li className="text-neutral-600">No members yet.</li>
-            )}
-            {project.memberIds.map((m: string) => (
-              <li key={m}>
-                <span className="text-neutral-500">{m}</span>
+          <ul className="divide-y">
+            {members.map((m) => (
+              <li key={m.id} className="flex items-center gap-3 py-2">
+                <div className="h-8 w-8 overflow-hidden rounded-full bg-neutral-800">
+                  {m.avatarUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={m.avatarUrl} alt="avatar" className="h-full w-full object-cover" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-[10px] text-neutral-500">
+                      No Photo
+                    </div>
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="truncate font-medium">{m.name || m.email}</div>
+                  <div className="mt-1 flex flex-wrap gap-2 text-xs text-neutral-300">
+                    {m.instruments && m.instruments.length > 0 ? (
+                      m.instruments.map((inst) => (
+                        <InstrumentBadge key={`${m.id}-${inst}`} name={inst} />
+                      ))
+                    ) : (
+                      <span className="text-neutral-500">No instruments selected</span>
+                    )}
+                  </div>
+                </div>
               </li>
             ))}
+            {members.length === 0 && (
+              <li className="py-2 text-sm text-neutral-600">No members yet.</li>
+            )}
           </ul>
         </div>
       )}
@@ -375,5 +406,21 @@ export default function ProjectDetailPage() {
         </div>
       )}
     </div>
+  );
+}
+
+function InstrumentBadge({ name }: { name: string }) {
+  const [showGif, setShowGif] = useState(true);
+  const gif = instrumentGifPath(name);
+  return (
+    <span className="inline-flex items-center gap-1 rounded border px-2 py-0.5">
+      {showGif ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={gif} alt={name} className="h-4 w-4" onError={() => setShowGif(false)} />
+      ) : (
+        <span>{instrumentEmoji(name)}</span>
+      )}
+      <span className="truncate">{name}</span>
+    </span>
   );
 }

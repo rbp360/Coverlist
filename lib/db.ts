@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { User, DB } from './types';
+import { User, DB, ProjectMember } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
@@ -31,6 +31,7 @@ function readDB(): DB {
   parsed.songs = parsed.songs || [];
   parsed.setlists = parsed.setlists || [];
   parsed.invites = parsed.invites || [];
+  parsed.projectMembers = parsed.projectMembers || [];
   parsed.settings = parsed.settings || { defaultSongGapSec: 30 };
   if (parsed.settings.defaultSongGapSec == null) parsed.settings.defaultSongGapSec = 30;
   if (parsed.settings.enrichmentMode == null) parsed.settings.enrichmentMode = 'stub';
@@ -85,6 +86,28 @@ export const db = {
     const d = readDB();
     const p = d.projects.find((x) => x.id === projectId);
     if (p && !p.memberIds.includes(userId)) p.memberIds.push(userId);
+    writeDB(d);
+  },
+
+  // Project member instruments
+  listProjectMemberEntries(projectId: string): ProjectMember[] {
+    const d = readDB();
+    return (d.projectMembers || []).filter((pm) => pm.projectId === projectId);
+  },
+  getMemberInstruments(projectId: string, userId: string): string[] {
+    const d = readDB();
+    const entry = (d.projectMembers || []).find(
+      (pm) => pm.projectId === projectId && pm.userId === userId,
+    );
+    return entry?.instruments || [];
+  },
+  setMemberInstruments(projectId: string, userId: string, instruments: string[]) {
+    const d = readDB();
+    const list = d.projectMembers || (d.projectMembers = []);
+    const idx = list.findIndex((pm) => pm.projectId === projectId && pm.userId === userId);
+    const next: ProjectMember = { projectId, userId, instruments };
+    if (idx === -1) list.push(next);
+    else list[idx] = next;
     writeDB(d);
   },
 

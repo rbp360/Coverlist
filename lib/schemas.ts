@@ -77,3 +77,7 @@ export const profileUpdateSchema = z.object({
   instruments: z.array(z.string()).optional(),
   avatarUrl: z.string().url().optional(),
 });
+
+export const projectMemberInstrumentsUpdateSchema = z.object({
+  instruments: z.array(z.string()),
+});

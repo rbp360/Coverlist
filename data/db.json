@@ -182,5 +182,12 @@
     "defaultSongGapSec": 30,
     "enrichmentMode": "stub",
     "enrichOnImport": false
-  }
+  },
+  "projectMembers": [
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "instruments": ["Electric Guitar"]
+    }
+  ]
 }
