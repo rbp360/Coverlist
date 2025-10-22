@@ -63,6 +63,10 @@ Local demo storage:
 - User accounts are stored in a JSON file at `data/db.json`.
   Replace with a real database for production.
 
+## Feature: Repertoire import
+
+On a project's Repertoire page, use the button "import all songs in your repertoire" to add every unique song (by title and artist) from your other projects into the current project's repertoire. Existing songs in the project are skipped. If enrichment on import is enabled in Settings and the stub enrichment mode is active, missing key/tempo values will be auto-filled.
+
 ## Troubleshooting
 
 - If Playwright tests fail locally, install browsers: `npx playwright install`

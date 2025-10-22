@@ -106,6 +106,12 @@ export const db = {
       writeDB(d);
     }
   },
+  deleteSong(id: string) {
+    const d = readDB();
+    const before = d.songs.length;
+    d.songs = d.songs.filter((s) => s.id !== id);
+    if (d.songs.length !== before) writeDB(d);
+  },
   getUserById(id: string): User | undefined {
     const d = readDB();
     return d.users.find((u) => u.id === id);

@@ -448,6 +448,11 @@ export default function SetlistEditorPage() {
                       return (
                         <>
                           {title}
+                          {!song && (
+                            <span className="ml-2 text-xs text-red-600">
+                              deleted from repertoire
+                            </span>
+                          )}
                           {setlist.showArtist && it.artist && (
                             <span className="text-gray-500"> — {it.artist}</span>
                           )}

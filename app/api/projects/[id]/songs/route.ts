@@ -32,3 +32,22 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   db.updateSong(updated);
   return NextResponse.json(updated);
 }
+
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+  const user = getCurrentUser();
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const project = db.getProject(params.id, user.id);
+  if (!project) return NextResponse.json({ error: 'Project not found' }, { status: 404 });
+  let payload: any = {};
+  try {
+    payload = await req.json();
+  } catch {
+    // ignore
+  }
+  const { songId } = payload || {};
+  if (!songId) return NextResponse.json({ error: 'Missing song id' }, { status: 400 });
+  const song = db.listSongs(project.id).find((s) => s.id === songId);
+  if (!song) return NextResponse.json({ error: 'Song not found' }, { status: 404 });
+  db.deleteSong(songId);
+  return NextResponse.json({ deleted: true });
+}

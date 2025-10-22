@@ -33,6 +33,9 @@ export default function RepertoirePage() {
   const [artist, setArtist] = useState('');
   const [saving, setSaving] = useState<string | null>(null);
   const [enriching, setEnriching] = useState<string | null>(null);
+  const [importing, setImporting] = useState(false);
+  const [importMsg, setImportMsg] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     const qi = q.toLowerCase();
@@ -86,8 +89,36 @@ export default function RepertoirePage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <h2 className="text-2xl font-semibold">Repertoire</h2>
+        <button
+          className="rounded bg-black px-3 py-2 text-white disabled:opacity-60"
+          onClick={async () => {
+            setImportMsg(null);
+            setImporting(true);
+            try {
+              const res = await fetch(`/api/projects/${id}/songs/import-all`, { method: 'POST' });
+              if (res.ok) {
+                const data = await res.json();
+                setImportMsg(
+                  data.imported > 0
+                    ? `Imported ${data.imported} song${data.imported === 1 ? '' : 's'} from your repertoire.`
+                    : 'No new songs to import from your repertoire.',
+                );
+                await load();
+              } else {
+                const err = await res.json().catch(() => ({ error: 'Import failed' }));
+                setImportMsg(err.error || 'Import failed');
+              }
+            } finally {
+              setImporting(false);
+            }
+          }}
+          disabled={importing}
+          title="Add all songs you have across your other projects into this project's repertoire"
+        >
+          {importing ? 'Importing…' : 'import all songs in your repertoire'}
+        </button>
       </div>
       <div className="grid gap-2 md:grid-cols-3">
         <input
@@ -110,6 +141,7 @@ export default function RepertoirePage() {
         <table className="min-w-full text-sm">
           <thead className="bg-black text-left text-white">
             <tr>
+              <th className="p-2 w-10">&nbsp;</th>
               <th className="p-2">Title</th>
               <th className="p-2">Artist</th>
               <th className="p-2">Dur</th>
@@ -123,6 +155,43 @@ export default function RepertoirePage() {
           <tbody>
             {filtered.map((s) => (
               <tr key={s.id} className="border-t">
+                <td className="p-2">
+                  <button
+                    className="rounded border p-1 text-xs hover:bg-neutral-100"
+                    aria-label={`Delete ${s.title} by ${s.artist}`}
+                    title="Delete this song from the repertoire"
+                    onClick={async () => {
+                      const confirmed = window.confirm(
+                        `Delete \"${s.title}\" by ${s.artist}? This cannot be undone.`,
+                      );
+                      if (!confirmed) return;
+                      setDeleting(s.id);
+                      const res = await fetch(`/api/projects/${id}/songs`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ songId: s.id }),
+                      });
+                      setDeleting(null);
+                      if (res.ok) {
+                        setSongs((prev) => prev.filter((x) => x.id !== s.id));
+                      }
+                    }}
+                    disabled={deleting === s.id}
+                  >
+                    {deleting === s.id ? (
+                      '…'
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="h-4 w-4"
+                      >
+                        <path d="M9 3a1 1 0 0 0-1 1v1H5.5a1 1 0 1 0 0 2H6v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7h.5a1 1 0 1 0 0-2H16V4a1 1 0 0 0-1-1H9zm2 2h2V4h-2v1zM8 7h10v12a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7zm3 3a1 1 0 1 0-2 0v7a1 1 0 1 0 2 0v-7zm5 0a1 1 0 1 0-2 0v7a1 1 0 1 0 2 0v-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </td>
                 <td className="p-2">{s.title}</td>
                 <td className="p-2 text-neutral-600">{s.artist}</td>
                 <td className="p-2 text-neutral-600">{fmt(s.durationSec)}</td>
@@ -184,7 +253,10 @@ export default function RepertoirePage() {
           </tbody>
         </table>
       </div>
-      {saving && <div className="text-sm text-neutral-600">Saving changes…</div>}
+      <div className="space-y-1">
+        {saving && <div className="text-sm text-neutral-600">Saving changes…</div>}
+        {importMsg && <div className="text-sm text-neutral-600">{importMsg}</div>}
+      </div>
     </div>
   );
 }
