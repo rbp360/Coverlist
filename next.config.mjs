@@ -8,16 +8,18 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
-  // Ensure the dev server ignores heavy folders and VCS metadata to prevent restarts on commit
-  webpackDevMiddleware: (config) => {
-    config.watchOptions = {
-      ...(config.watchOptions || {}),
-      ignored: [
-        path.resolve(process.cwd(), '.git'),
-        path.resolve(process.cwd(), 'node_modules'),
-        '**/.next/**',
-      ],
-    };
+  // Use supported webpack hook to adjust watchOptions during development
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.watchOptions = {
+        ...(config.watchOptions || {}),
+        ignored: [
+          path.resolve(process.cwd(), '.git'),
+          path.resolve(process.cwd(), 'node_modules'),
+          '**/.next/**',
+        ],
+      };
+    }
     return config;
   },
 };

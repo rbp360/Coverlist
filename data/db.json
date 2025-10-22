@@ -148,10 +148,28 @@
           "type": "note",
           "order": 1,
           "note": "🎸 Capo IV"
+        },
+        {
+          "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
+          "type": "song",
+          "order": 2,
+          "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
+          "title": "Jungle of Love",
+          "artist": "Lynch Mob",
+          "durationSec": 231
+        },
+        {
+          "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
+          "type": "song",
+          "order": 3,
+          "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "durationSec": 305
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-21T09:59:33.976Z"
+      "updatedAt": "2025-10-22T04:48:33.917Z"
     },
     {
       "id": "a71f897c-305f-472b-ac50-596c8002df22",
