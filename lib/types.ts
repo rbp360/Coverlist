@@ -5,20 +5,8 @@ export type User = {
   createdAt: string;
 };
 
-export type Entry = {
-  id: string;
-  userId: string;
-  location: string;
-  item: string;
-  price: number;
-  notes?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
 export type DB = {
   users: User[];
-  entries: Entry[];
   projects: Project[];
   songs: Song[];
   setlists: Setlist[];

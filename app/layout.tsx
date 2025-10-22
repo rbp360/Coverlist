@@ -22,9 +22,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/projects" className="hover:text-white">
                 Projects
               </a>
-              <a href="/entries" className="hover:text-white">
-                Entries
-              </a>
               <a href="/profile" className="hover:text-white">
                 Profile
               </a>

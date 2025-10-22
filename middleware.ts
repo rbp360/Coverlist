@@ -4,7 +4,7 @@ const COOKIE_NAME = 'songdeck_token';
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const protectedPaths = ['/entries', '/profile', '/projects', '/setlists'];
+  const protectedPaths = ['/profile', '/projects', '/setlists'];
   const isProtected = protectedPaths.some((p) => pathname === p || pathname.startsWith(p + '/'));
   if (isProtected) {
     const token = req.cookies.get(COOKIE_NAME)?.value;
@@ -17,5 +17,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/entries/:path*', '/profile', '/projects/:path*', '/setlists/:path*'],
+  matcher: ['/profile', '/projects/:path*', '/setlists/:path*'],
 };

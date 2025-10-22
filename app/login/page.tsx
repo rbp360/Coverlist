@@ -16,7 +16,7 @@ export default function LoginPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-    if (res.ok) router.push('/entries');
+    if (res.ok) router.push('/projects');
     else setError('Invalid credentials');
   }
 

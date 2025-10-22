@@ -16,7 +16,7 @@ export default function SignupPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-    if (res.ok) router.push('/entries');
+    if (res.ok) router.push('/projects');
     else setError('Signup failed');
   }
 

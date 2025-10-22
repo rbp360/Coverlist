@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { Entry, User, DB } from './types';
+import { User, DB } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
@@ -11,7 +11,6 @@ function ensureDB() {
   if (!fs.existsSync(DB_FILE)) {
     const initial: DB = {
       users: [],
-      entries: [],
       projects: [],
       songs: [],
       setlists: [],
@@ -28,7 +27,6 @@ function readDB(): DB {
   const parsed = JSON.parse(raw) as any;
   // Backfill missing arrays for older files
   parsed.users = parsed.users || [];
-  parsed.entries = parsed.entries || [];
   parsed.projects = parsed.projects || [];
   parsed.songs = parsed.songs || [];
   parsed.setlists = parsed.setlists || [];
@@ -115,32 +113,6 @@ export const db = {
   createUser(user: User) {
     const d = readDB();
     d.users.push(user);
-    writeDB(d);
-  },
-  listEntries(userId: string): Entry[] {
-    const d = readDB();
-    return d.entries.filter((e) => e.userId === userId);
-  },
-  getEntry(id: string, userId: string): Entry | undefined {
-    const d = readDB();
-    return d.entries.find((e) => e.id === id && e.userId === userId);
-  },
-  createEntry(entry: Entry) {
-    const d = readDB();
-    d.entries.push(entry);
-    writeDB(d);
-  },
-  updateEntry(entry: Entry) {
-    const d = readDB();
-    const idx = d.entries.findIndex((e) => e.id === entry.id && e.userId === entry.userId);
-    if (idx !== -1) {
-      d.entries[idx] = entry;
-      writeDB(d);
-    }
-  },
-  deleteEntry(id: string, userId: string) {
-    const d = readDB();
-    d.entries = d.entries.filter((e) => !(e.id === id && e.userId === userId));
     writeDB(d);
   },
   // Setlists

@@ -60,7 +60,7 @@ Required variables:
 
 Local demo storage:
 
-- User accounts and entries are stored in a JSON file at `data/db.json`.
+- User accounts are stored in a JSON file at `data/db.json`.
   Replace with a real database for production.
 
 ## Troubleshooting

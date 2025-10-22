@@ -7,18 +7,6 @@
       "createdAt": "2025-10-21T08:34:21.612Z"
     }
   ],
-  "entries": [
-    {
-      "id": "b8d95e4d-0d7f-4046-adc2-3db31081aae6",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "location": "LOcation",
-      "item": "Item",
-      "price": 2,
-      "notes": "Notes",
-      "createdAt": "2025-10-21T08:35:02.113Z",
-      "updatedAt": "2025-10-21T08:35:02.113Z"
-    }
-  ],
   "projects": [
     {
       "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",

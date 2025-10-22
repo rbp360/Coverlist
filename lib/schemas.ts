@@ -10,15 +10,6 @@ export const loginSchema = z.object({
   password: z.string().min(1),
 });
 
-export const entryCreateSchema = z.object({
-  location: z.string().min(1),
-  item: z.string().min(1),
-  price: z.coerce.number().nonnegative(),
-  notes: z.string().optional(),
-});
-
-export const entryUpdateSchema = entryCreateSchema.partial();
-
 export const projectCreateSchema = z.object({ name: z.string().min(1) });
 
 export const songImportSchema = z.object({
