@@ -21,6 +21,11 @@ function fmt(sec?: number) {
   return `${m}:${s}`;
 }
 
+function formatKey(key?: string) {
+  if (!key) return '';
+  return key.charAt(0).toUpperCase() + key.slice(1).toLowerCase();
+}
+
 export default function RepertoirePage() {
   const { id } = useParams<{ id: string }>();
   const [songs, setSongs] = useState<Song[]>([]);
@@ -124,16 +129,26 @@ export default function RepertoirePage() {
                 <td className="p-2 text-neutral-600">{fmt(s.durationSec)}</td>
                 <td className="p-2">
                   <input
-                    className="w-24 rounded border px-2 py-1"
-                    defaultValue={s.key || ''}
-                    onBlur={(e) => saveField(s, { key: e.target.value || undefined })}
+                    className="w-24 rounded border px-2 py-1 font-mono"
+                    style={{
+                      fontFamily:
+                        'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                    }}
+                    defaultValue={formatKey(s.key)}
+                    onBlur={(e) => saveField(s, { key: formatKey(e.target.value) || undefined })}
                   />
                 </td>
                 <td className="p-2">
                   <input
-                    className="w-24 rounded border px-2 py-1"
-                    defaultValue={s.transposedKey || ''}
-                    onBlur={(e) => saveField(s, { transposedKey: e.target.value || undefined })}
+                    className="w-24 rounded border px-2 py-1 font-mono"
+                    style={{
+                      fontFamily:
+                        'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                    }}
+                    defaultValue={formatKey(s.transposedKey)}
+                    onBlur={(e) =>
+                      saveField(s, { transposedKey: formatKey(e.target.value) || undefined })
+                    }
                   />
                 </td>
                 <td className="p-2">
