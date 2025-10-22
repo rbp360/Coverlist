@@ -3,6 +3,9 @@ export type User = {
   email: string;
   passwordHash: string;
   createdAt: string;
+  name?: string;
+  instruments?: string[];
+  avatarUrl?: string;
 };
 
 export type DB = {
@@ -20,6 +23,7 @@ export type Project = {
   ownerId: string;
   memberIds: string[];
   createdAt: string;
+  avatarUrl?: string;
 };
 
 export type Song = {

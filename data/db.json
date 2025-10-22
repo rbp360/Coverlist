@@ -4,7 +4,10 @@
       "id": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "email": "jamconnect123@gmail.com",
       "passwordHash": "$2b$10$w9ORSdf9I6CcCtrpy26VW.ItzWb0h3/8u025rLHRsZkAVl8sXzY9q",
-      "createdAt": "2025-10-21T08:34:21.612Z"
+      "createdAt": "2025-10-21T08:34:21.612Z",
+      "avatarUrl": "/api/uploads/e8efb7c6-b620-4455-914d-6ae959b72f51.jpg",
+      "name": "Roberto",
+      "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"]
     }
   ],
   "projects": [

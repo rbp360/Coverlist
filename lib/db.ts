@@ -116,10 +116,22 @@ export const db = {
     const d = readDB();
     return d.users.find((u) => u.id === id);
   },
+  listUsers() {
+    const d = readDB();
+    return d.users;
+  },
   createUser(user: User) {
     const d = readDB();
     d.users.push(user);
     writeDB(d);
+  },
+  updateUser(user: User) {
+    const d = readDB();
+    const idx = d.users.findIndex((u) => u.id === user.id);
+    if (idx !== -1) {
+      d.users[idx] = user;
+      writeDB(d);
+    }
   },
   // Setlists
   listSetlists(projectId: string) {

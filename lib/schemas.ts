@@ -71,3 +71,9 @@ export const settingsUpdateSchema = z.object({
   enrichmentMode: z.enum(['none', 'stub']).optional(),
   enrichOnImport: z.boolean().optional(),
 });
+
+export const profileUpdateSchema = z.object({
+  name: z.string().min(1).max(120).optional(),
+  instruments: z.array(z.string()).optional(),
+  avatarUrl: z.string().url().optional(),
+});
