@@ -58,6 +58,10 @@ export default function SetlistEditorPage() {
   const [sectionTitle, setSectionTitle] = useState('Set 1');
   const [settings, setSettings] = useState<{ defaultSongGapSec: number } | null>(null);
   const [pdfFontSize, setPdfFontSize] = useState(1.0);
+  // New state for multi-set workflow
+  const [selectedSongIds, setSelectedSongIds] = useState<string[]>([]);
+  const [setCountInput, setSetCountInput] = useState<number>(0);
+  const [encoreCountInput, setEncoreCountInput] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
@@ -109,6 +113,10 @@ export default function SetlistEditorPage() {
     return base + songCount * settings.defaultSongGapSec;
   }, [setlist, settings]);
 
+  const totalSongCount = useMemo(() => {
+    return (setlist?.items || []).filter((i) => i.type === 'song').length;
+  }, [setlist]);
+
   const sortedItems = useMemo(() => {
     return [...(setlist?.items || [])].sort((a, b) => a.order - b.order);
   }, [setlist]);
@@ -126,6 +134,21 @@ export default function SetlistEditorPage() {
     if (setlist?.addGapAfterEachSong && settings) sum += songs * settings.defaultSongGapSec;
     return sum;
   }
+
+  function sectionSongCountFrom(index: number) {
+    const items = sortedItems;
+    let songs = 0;
+    for (let i = index + 1; i < items.length; i++) {
+      const it = items[i];
+      if (it.type === 'section') break;
+      if (it.type === 'song') songs += 1;
+    }
+    return songs;
+  }
+
+  const sections = useMemo(() => {
+    return sortedItems.filter((i) => i.type === 'section');
+  }, [sortedItems]);
 
   async function save(next: Partial<Setlist>) {
     if (!setlist) return;
@@ -179,6 +202,39 @@ export default function SetlistEditorPage() {
       title: sectionTitle.trim(),
     };
     save({ items: [...items, item] as any });
+  }
+
+  function applySetTemplate() {
+    if (!setlist) return;
+    const sets = Math.max(0, Math.floor(setCountInput || 0));
+    const encores = Math.max(0, Math.floor(encoreCountInput || 0));
+    const existingSectionCount = (setlist.items || []).filter((i) => i.type === 'section').length;
+    if (existingSectionCount > 0 && existingSectionCount !== sets + encores) {
+      const ok = confirm(
+        'Replace existing sections with the new template? Existing songs will not be moved.',
+      );
+      if (!ok) return;
+    }
+    const nonSectionItems = (setlist.items || []).filter((i) => i.type !== 'section');
+    const newSections: Item[] = [];
+    for (let i = 1; i <= sets; i++) {
+      newSections.push({
+        id: crypto.randomUUID(),
+        type: 'section',
+        order: 0,
+        title: `Set ${i}`,
+      });
+    }
+    for (let i = 1; i <= encores; i++) {
+      newSections.push({
+        id: crypto.randomUUID(),
+        type: 'section',
+        order: 0,
+        title: encores === 1 ? 'Encore' : `Encore ${i}`,
+      });
+    }
+    const combined = [...newSections, ...nonSectionItems].map((i, idx) => ({ ...i, order: idx }));
+    save({ items: combined as any });
   }
 
   async function removeItem(itemId: string) {
@@ -240,6 +296,60 @@ export default function SetlistEditorPage() {
       durationSec: song.durationSec,
     };
     save({ items: [...items, item] as any });
+  }
+
+  function addSongsToSection(songIds: string[], sectionId: string) {
+    if (!setlist || songIds.length === 0) return;
+    // Build items for new songs based on repertoire ordering
+    const toAdd = songs
+      .filter((s) => songIds.includes(s.id))
+      .map<Item>((s) => ({
+        id: crypto.randomUUID(),
+        type: 'song',
+        order: 0,
+        songId: s.id,
+        title: s.title,
+        artist: s.artist,
+        durationSec: s.durationSec,
+      }));
+    if (toAdd.length === 0) return;
+
+    const items = [...sortedItems];
+    const sectionIdx = items.findIndex((i) => i.id === sectionId);
+    if (sectionIdx === -1) return;
+    // Find insertion index: before the next section or at end
+    let insertAt = items.length;
+    for (let i = sectionIdx + 1; i < items.length; i++) {
+      if (items[i].type === 'section') {
+        insertAt = i;
+        break;
+      }
+    }
+    items.splice(insertAt, 0, ...toAdd);
+    const reindexed = items.map((it, idx) => ({ ...it, order: idx }));
+    save({ items: reindexed as any });
+    setSelectedSongIds([]);
+  }
+
+  function moveItemToSection(itemId: string, sectionId: string) {
+    if (!setlist) return;
+    const items = [...sortedItems];
+    const fromIdx = items.findIndex((i) => i.id === itemId);
+    const sectionIdx = items.findIndex((i) => i.id === sectionId);
+    if (fromIdx === -1 || sectionIdx === -1) return;
+    const [moved] = items.splice(fromIdx, 1);
+    // Re-find section index if it shifted
+    const newSectionIdx = items.findIndex((i) => i.id === sectionId);
+    let insertAt = items.length;
+    for (let i = newSectionIdx + 1; i < items.length; i++) {
+      if (items[i].type === 'section') {
+        insertAt = i;
+        break;
+      }
+    }
+    items.splice(insertAt, 0, moved);
+    const reindexed = items.map((it, idx) => ({ ...it, order: idx }));
+    save({ items: reindexed as any });
   }
 
   async function del() {
@@ -343,7 +453,9 @@ export default function SetlistEditorPage() {
           )}
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-600">Total: {fmt(total)}</span>
+          <span className="text-sm text-gray-600">
+            Total: {totalSongCount} songs • {fmt(total)}
+          </span>
           {setlist.addGapAfterEachSong && settings && (
             <span className="text-xs text-gray-500">(+{settings.defaultSongGapSec}s per song)</span>
           )}
@@ -480,8 +592,16 @@ export default function SetlistEditorPage() {
                       {it.title}
                     </div>
                     <div className="text-xs text-neutral-500">
-                      Section total:{' '}
-                      {fmt(sectionDurationFrom(sortedItems.findIndex((x) => x.id === it.id)))}
+                      {(() => {
+                        const idx = sortedItems.findIndex((x) => x.id === it.id);
+                        const dur = sectionDurationFrom(idx);
+                        const cnt = sectionSongCountFrom(idx);
+                        return (
+                          <span>
+                            {cnt} songs • {fmt(dur)}
+                          </span>
+                        );
+                      })()}
                     </div>
                   </div>
                 )}
@@ -506,6 +626,27 @@ export default function SetlistEditorPage() {
                     }}
                   />
                 )}
+                {it.type === 'song' && sections.length > 0 && (
+                  <select
+                    className="rounded border px-2 py-1 text-xs"
+                    defaultValue=""
+                    onChange={(e) => {
+                      const target = e.target.value;
+                      if (target) moveItemToSection(it.id, target);
+                      e.currentTarget.value = '';
+                    }}
+                    title="Move to set"
+                  >
+                    <option value="" disabled>
+                      Move to set…
+                    </option>
+                    {sections.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.title}
+                      </option>
+                    ))}
+                  </select>
+                )}
                 <button
                   className="rounded border px-2 py-1 text-xs"
                   onClick={() => removeItem(it.id)}
@@ -525,11 +666,55 @@ export default function SetlistEditorPage() {
 
       <div className="grid gap-4 md:grid-cols-4">
         <div className="rounded border bg-black p-3 text-white">
-          <div className="mb-2 font-medium">Add Song</div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="font-medium">Add Song</div>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="text-neutral-400">Selected: {selectedSongIds.length}</span>
+              <select
+                className="rounded border bg-black px-2 py-1"
+                disabled={sections.length === 0 || selectedSongIds.length === 0}
+                defaultValue=""
+                onChange={(e) => {
+                  const sectionId = e.target.value;
+                  if (!sectionId) return;
+                  addSongsToSection(selectedSongIds, sectionId);
+                  e.currentTarget.value = '';
+                }}
+                title={sections.length === 0 ? 'Create sets first' : 'Add selected to set'}
+              >
+                <option value="" disabled>
+                  Add selected to set…
+                </option>
+                {sections.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.title}
+                  </option>
+                ))}
+              </select>
+              <button
+                className="rounded border px-2 py-1"
+                onClick={() => setSelectedSongIds([])}
+                disabled={selectedSongIds.length === 0}
+              >
+                Clear
+              </button>
+            </div>
+          </div>
           <ul className="max-h-72 divide-y overflow-auto">
             {songs.map((s) => (
               <li key={s.id} className="flex items-center justify-between p-2">
-                <div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedSongIds.includes(s.id)}
+                    onChange={(e) => {
+                      setSelectedSongIds((prev) => {
+                        if (e.target.checked) return [...prev, s.id];
+                        return prev.filter((x) => x !== s.id);
+                      });
+                    }}
+                    title="Select for adding to a set"
+                  />
                   <div className="text-sm font-medium">
                     {s.title} <span className="text-gray-500">— {s.artist}</span>
                   </div>
@@ -537,9 +722,32 @@ export default function SetlistEditorPage() {
                     <div className="text-xs text-gray-600">{fmt(s.durationSec)}</div>
                   ) : null}
                 </div>
-                <button className="rounded border px-2 py-1 text-xs" onClick={() => addSong(s)}>
-                  Add
-                </button>
+                <div className="flex items-center gap-2">
+                  {sections.length > 0 && (
+                    <select
+                      className="rounded border px-2 py-1 text-xs"
+                      defaultValue=""
+                      onChange={(e) => {
+                        const target = e.target.value;
+                        if (target) addSongsToSection([s.id], target);
+                        e.currentTarget.value = '';
+                      }}
+                      title="Add to set"
+                    >
+                      <option value="" disabled>
+                        Add to set…
+                      </option>
+                      {sections.map((sec) => (
+                        <option key={sec.id} value={sec.id}>
+                          {sec.title}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  <button className="rounded border px-2 py-1 text-xs" onClick={() => addSong(s)}>
+                    Add to end
+                  </button>
+                </div>
               </li>
             ))}
             {songs.length === 0 && (
@@ -596,16 +804,51 @@ export default function SetlistEditorPage() {
         </div>
 
         <div className="rounded border bg-black p-3 text-white">
-          <div className="mb-2 font-medium">Add Section</div>
-          <div className="flex gap-2">
-            <input
-              className="flex-1 rounded border px-3 py-2"
-              value={sectionTitle}
-              onChange={(e) => setSectionTitle(e.target.value)}
-            />
-            <button className="rounded bg-black px-3 py-2 text-white" onClick={addSection}>
-              Add
-            </button>
+          <div className="mb-2 font-medium">Sets</div>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <label className="flex items-center gap-2 text-sm">
+                <span className="text-neutral-400">Set count</span>
+                <input
+                  type="number"
+                  className="w-20 rounded border bg-black px-2 py-1"
+                  value={setCountInput}
+                  onChange={(e) => setSetCountInput(Math.max(0, parseInt(e.target.value) || 0))}
+                  min={0}
+                />
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <span className="text-neutral-400">Encore count</span>
+                <input
+                  type="number"
+                  className="w-24 rounded border bg-black px-2 py-1"
+                  value={encoreCountInput}
+                  onChange={(e) => setEncoreCountInput(Math.max(0, parseInt(e.target.value) || 0))}
+                  min={0}
+                />
+              </label>
+              <button className="rounded bg-black px-3 py-2" onClick={applySetTemplate}>
+                Apply template
+              </button>
+            </div>
+            <div className="text-xs text-neutral-500">
+              Tip: After creating sets, use the &quot;Add to set&quot; controls above to quickly
+              place songs into the right set. You can also drag items in the list.
+            </div>
+            <div className="mt-2 border-t border-neutral-800 pt-2">
+              <div className="mb-1 text-xs text-neutral-400">Quick add a custom section</div>
+              <div className="flex gap-2">
+                <input
+                  className="flex-1 rounded border px-3 py-2"
+                  value={sectionTitle}
+                  onChange={(e) => setSectionTitle(e.target.value)}
+                  placeholder="e.g., Soundcheck, Interlude"
+                />
+                <button className="rounded bg-black px-3 py-2 text-white" onClick={addSection}>
+                  Add section
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

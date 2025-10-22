@@ -135,9 +135,27 @@
       "addGapAfterEachSong": true,
       "items": [
         {
+          "id": "1d43f16d-0b9e-40d6-93e0-ee951b93aeb7",
+          "type": "section",
+          "order": 0,
+          "title": "Set 1"
+        },
+        {
+          "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
+          "type": "section",
+          "order": 1,
+          "title": "Set 2"
+        },
+        {
+          "id": "0caa44d3-8f37-4938-9e7d-5b566704e138",
+          "type": "section",
+          "order": 2,
+          "title": "Encore"
+        },
+        {
           "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
           "type": "song",
-          "order": 0,
+          "order": 3,
           "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
           "title": "Wonderwall",
           "artist": "Oasis",
@@ -146,13 +164,13 @@
         {
           "id": "04605f69-bb70-43c4-92c6-1170767ccfa1",
           "type": "note",
-          "order": 1,
+          "order": 4,
           "note": "🎸 Capo IV"
         },
         {
           "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
           "type": "song",
-          "order": 2,
+          "order": 5,
           "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
           "title": "Jungle of Love",
           "artist": "Lynch Mob",
@@ -161,15 +179,21 @@
         {
           "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
           "type": "song",
-          "order": 3,
+          "order": 6,
           "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
           "title": "Hey Jude",
           "artist": "The Beatles",
           "durationSec": 305
+        },
+        {
+          "id": "3c4d288d-4348-4740-a0dc-a6896b1b13f8",
+          "type": "section",
+          "order": 7,
+          "title": "What is a custom section?"
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-22T04:48:33.917Z"
+      "updatedAt": "2025-10-22T05:42:38.182Z"
     },
     {
       "id": "a71f897c-305f-472b-ac50-596c8002df22",
