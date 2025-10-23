@@ -1,4 +1,4 @@
-import { Document, Page, StyleSheet, Text, View, Font } from '@react-pdf/renderer';
+import { Document, Page, StyleSheet, Text, View, Font, Image } from '@react-pdf/renderer';
 import React from 'react';
 
 import type { Project, Setlist, SetlistItem, Song } from '../types';
@@ -85,13 +85,25 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     borderBottomStyle: 'solid',
     paddingBottom: 8,
-    alignItems: 'center',
   },
-  title: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', width: '100%' },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerLeft: { width: '50%', paddingRight: 8 },
+  headerRight: { width: '50%', paddingLeft: 8 },
+  logo: {
+    width: '100%',
+    height: 48,
+    objectFit: 'contain',
+  },
+  title: { fontSize: 18, fontWeight: 'bold', textAlign: 'right', width: '100%' },
   meta: {
     fontSize: 10,
     color: '#444',
     marginTop: 4,
+    textAlign: 'right',
   },
   sectionHeader: {
     marginTop: 12,
@@ -180,6 +192,13 @@ export default function SetlistPDF({
   const scale = Math.max(0.6, Math.min(1.6, fontSize));
   const scaled = (n: number) => Math.round(n * scale);
 
+  const resolveAssetUrl = (src?: string): string | undefined => {
+    if (!src) return undefined;
+    if (/^https?:\/\//i.test(src)) return src;
+    const base = (fontBaseUrl || '').replace(/\/?$/, '');
+    return base ? encodeURI(`${base}${src.startsWith('/') ? '' : '/'}${src}`) : src;
+  };
+
   const sanitizeNoteText = (input?: string): string => {
     if (!input) return '';
     let out = input;
@@ -210,7 +229,28 @@ export default function SetlistPDF({
     <Document>
       <Page size="LETTER" style={{ ...styles.page, fontSize: scaled(10) }}>
         <View style={styles.header}>
-          <Text style={{ ...styles.title, fontSize: scaled(18) }}>{setlist.name}</Text>
+          <View style={styles.headerRow}>
+            <View style={styles.headerLeft}>
+              {project.avatarUrl ? (
+                // eslint-disable-next-line jsx-a11y/alt-text
+                <Image
+                  src={resolveAssetUrl(project.avatarUrl) || ''}
+                  style={{ ...styles.logo, height: scaled(48) }}
+                />
+              ) : (
+                <Text style={{ fontSize: scaled(14) }}>{project.name}</Text>
+              )}
+            </View>
+            <View style={styles.headerRight}>
+              <Text style={{ ...styles.title, fontSize: scaled(18) }}>{setlist.name}</Text>
+              {setlist.date ? (
+                <Text style={{ ...styles.meta, fontSize: scaled(9) }}>
+                  {formatCreatedDate(setlist.date)}
+                  {setlist.venue ? ` • ${setlist.venue}` : ''}
+                </Text>
+              ) : null}
+            </View>
+          </View>
         </View>
 
         {setlist.items.map((item, idx) => {
