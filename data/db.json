@@ -141,40 +141,40 @@
           "title": "Set 1"
         },
         {
-          "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
-          "type": "section",
+          "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
+          "type": "note",
           "order": 1,
-          "title": "Set 2"
+          "note": "⬇️ Tune down 1/2 step"
         },
         {
-          "id": "0caa44d3-8f37-4938-9e7d-5b566704e138",
-          "type": "section",
+          "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
+          "type": "song",
           "order": 2,
-          "title": "Encore"
+          "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
+          "title": "Jungle of Love",
+          "artist": "Lynch Mob",
+          "durationSec": 231
+        },
+        {
+          "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
+          "type": "section",
+          "order": 3,
+          "title": "Set 2"
         },
         {
           "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
           "type": "song",
-          "order": 3,
+          "order": 4,
           "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
           "title": "Wonderwall",
           "artist": "Oasis",
           "durationSec": 269
         },
         {
-          "id": "04605f69-bb70-43c4-92c6-1170767ccfa1",
-          "type": "note",
-          "order": 4,
-          "note": "🎸 Capo IV"
-        },
-        {
-          "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
-          "type": "song",
+          "id": "0caa44d3-8f37-4938-9e7d-5b566704e138",
+          "type": "section",
           "order": 5,
-          "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
-          "title": "Jungle of Love",
-          "artist": "Lynch Mob",
-          "durationSec": 231
+          "title": "Encore"
         },
         {
           "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
@@ -193,7 +193,7 @@
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-22T05:42:38.182Z"
+      "updatedAt": "2025-10-23T01:03:37.782Z"
     },
     {
       "id": "a71f897c-305f-472b-ac50-596c8002df22",

@@ -1,3 +1,4 @@
+export const runtime = 'nodejs';
 import { renderToStream } from '@react-pdf/renderer';
 import { NextResponse } from 'next/server';
 
@@ -19,20 +20,31 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   const url = new URL(req.url);
   const fontSizeParam = url.searchParams.get('fontSize');
   const fontSize = fontSizeParam ? Math.max(0.6, Math.min(1.6, parseFloat(fontSizeParam))) : 1.0;
+  const fontBaseUrl = url.origin; // ensure fonts load on server via absolute URLs
 
-  const stream = await renderToStream(
-    SetlistPDF({
-      project,
-      setlist,
-      songsById,
-      defaultSongGapSec: settings.defaultSongGapSec,
-      fontSize,
-    }),
-  );
-  return new NextResponse(stream as any, {
-    headers: {
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="${setlist.name.replace(/[^a-z0-9\-_]+/gi, '_')}.pdf"`,
-    },
-  });
+  try {
+    const stream = await renderToStream(
+      SetlistPDF({
+        project,
+        setlist,
+        songsById,
+        defaultSongGapSec: settings.defaultSongGapSec,
+        fontSize,
+        fontBaseUrl,
+      }),
+    );
+    return new NextResponse(stream as any, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${setlist.name.replace(/[^a-z0-9\-_]+/gi, '_')}.pdf"`,
+        'Cache-Control': 'no-store',
+      },
+    });
+  } catch (err: any) {
+    console.error('PDF render error:', err);
+    return NextResponse.json(
+      { error: 'PDF render failed', message: err?.message ?? 'Unknown error' },
+      { status: 500 },
+    );
+  }
 }

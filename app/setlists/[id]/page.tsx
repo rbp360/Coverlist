@@ -253,7 +253,15 @@ export default function SetlistEditorPage() {
   function onDragStart(e: React.DragEvent<HTMLLIElement>, id: string) {
     setDragId(id);
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', id);
+    // Prefix with item: to distinguish from repertoire song drags
+    e.dataTransfer.setData('text/plain', `item:${id}`);
+  }
+
+  function onSongDragStart(e: React.DragEvent<HTMLLIElement>, songId: string) {
+    // Dragging from repertoire list
+    setDragId(null);
+    e.dataTransfer.effectAllowed = 'copyMove';
+    e.dataTransfer.setData('text/plain', `song:${songId}`);
   }
 
   function onDragOver(e: React.DragEvent<HTMLLIElement>, id: string) {
@@ -268,14 +276,63 @@ export default function SetlistEditorPage() {
 
   async function onDrop(e: React.DragEvent<HTMLLIElement>, targetId: string) {
     e.preventDefault();
-    const sourceId = dragId || e.dataTransfer.getData('text/plain');
+    const payload = e.dataTransfer.getData('text/plain') || '';
     setOverId(null);
     setDragId(null);
-    if (!setlist || !sourceId || sourceId === targetId) return;
+    if (!setlist) return;
+
+    // If we're dragging a repertoire song, insert it near the target
+    if (payload.startsWith('song:')) {
+      const songId = payload.slice('song:'.length);
+      const song = songs.find((s) => s.id === songId);
+      if (!song) return;
+      const items = [...sortedItems];
+      const toIdx = items.findIndex((i) => i.id === targetId);
+      if (toIdx === -1) return;
+      // Build new song item
+      const newItem: Item = {
+        id: crypto.randomUUID(),
+        type: 'song',
+        order: 0,
+        songId: song.id,
+        title: song.title,
+        artist: song.artist,
+        durationSec: song.durationSec,
+      };
+      // If dropping on a section, append to end of that section block
+      if (items[toIdx].type === 'section') {
+        let insertAt = items.length;
+        for (let i = toIdx + 1; i < items.length; i++) {
+          if (items[i].type === 'section') {
+            insertAt = i;
+            break;
+          }
+        }
+        items.splice(insertAt, 0, newItem);
+      } else {
+        // Otherwise insert before the target item
+        items.splice(toIdx, 0, newItem);
+      }
+      const reindexed = items.map((it, idx) => ({ ...it, order: idx }));
+      await save({ items: reindexed as any });
+      return;
+    }
+
+    // Otherwise it's a list item drag
+    const sourceId = payload.startsWith('item:') ? payload.slice('item:'.length) : payload;
+    if (!sourceId || sourceId === targetId) return;
     const items = [...sortedItems];
     const fromIdx = items.findIndex((i) => i.id === sourceId);
     const toIdx = items.findIndex((i) => i.id === targetId);
     if (fromIdx === -1 || toIdx === -1) return;
+
+    // If dropping an item onto a section, move it to end of that section
+    if (items[toIdx].type === 'section') {
+      const sectionId = items[toIdx].id;
+      moveItemToSection(sourceId, sectionId);
+      return;
+    }
+
     const [moved] = items.splice(fromIdx, 1);
     items.splice(toIdx, 0, moved);
     const reindexed = items.map((i, idx) => ({ ...i, order: idx }));
@@ -702,7 +759,13 @@ export default function SetlistEditorPage() {
           </div>
           <ul className="max-h-72 divide-y overflow-auto">
             {songs.map((s) => (
-              <li key={s.id} className="flex items-center justify-between p-2">
+              <li
+                key={s.id}
+                className="flex items-center justify-between p-2"
+                draggable
+                onDragStart={(e) => onSongDragStart(e, s.id)}
+                title={sections.length > 0 ? 'Drag onto a set to add' : undefined}
+              >
                 <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
