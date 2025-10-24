@@ -79,34 +79,13 @@ export default function RepertoirePage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
         <h2 className="text-2xl font-semibold">Repertoire</h2>
-        <button
+        <a
           className="rounded bg-black px-3 py-2 text-white disabled:opacity-60"
-          onClick={async () => {
-            setImportMsg(null);
-            setImporting(true);
-            try {
-              const res = await fetch(`/api/projects/${id}/songs/import-all`, { method: 'POST' });
-              if (res.ok) {
-                const data = await res.json();
-                setImportMsg(
-                  data.imported > 0
-                    ? `Imported ${data.imported} song${data.imported === 1 ? '' : 's'} from your repertoire.`
-                    : 'No new songs to import from your repertoire.',
-                );
-                await load();
-              } else {
-                const err = await res.json().catch(() => ({ error: 'Import failed' }));
-                setImportMsg(err.error || 'Import failed');
-              }
-            } finally {
-              setImporting(false);
-            }
-          }}
-          disabled={importing}
-          title="Add all songs you have across your other projects into this project's repertoire"
+          href={`/projects/${id}/repertoire/import`}
+          title="Show your existing repertoire to pick songs for this project"
         >
-          {importing ? 'Importing…' : 'import all songs in your repertoire'}
-        </button>
+          show your existing repertoire
+        </a>
       </div>
       {/* Song search moved to /repertoire. Listing below shows this project's songs. */}
       <div className="overflow-auto rounded border bg-black text-white">
@@ -227,7 +206,6 @@ export default function RepertoirePage() {
       </div>
       <div className="space-y-1">
         {saving && <div className="text-sm text-neutral-600">Saving changes…</div>}
-        {importMsg && <div className="text-sm text-neutral-600">{importMsg}</div>}
       </div>
     </div>
   );
