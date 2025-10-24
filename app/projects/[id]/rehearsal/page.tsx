@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
+import { ragClassFromISO, parseFlexibleDateToISO, formatISOToDDMMYY } from '@/lib/rehearsal';
+
 type Song = {
   id: string;
   title: string;
@@ -27,17 +29,31 @@ function formatKey(key?: string) {
   return key.charAt(0).toUpperCase() + key.slice(1).toLowerCase();
 }
 
+// Utilities moved to lib/rehearsal: parseFlexibleDateToISO, formatISOToDDMMYY
+
+// RAG classes are imported from lib/rehearsal
+
 export default function RehearsalPage() {
   const { id } = useParams<{ id: string }>();
   const [songs, setSongs] = useState<Song[]>([]);
   const [projectName, setProjectName] = useState<string>('');
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
-  const [practice, setPractice] = useState<Record<string, { passes: number; rating: number }>>({});
+  const [practice, setPractice] = useState<
+    Record<string, { passes: number; rating: number; lastRehearsed?: string }>
+  >({});
   const [saving, setSaving] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [playlistUrl, setPlaylistUrl] = useState<string | null>(null);
+  const [lastInput, setLastInput] = useState<Record<string, string>>({});
+  const [notePreview, setNotePreview] = useState<null | {
+    songId: string;
+    title: string;
+    artist: string;
+    note: string;
+  }>(null);
+  const NOTE_PREVIEW_MAX = 80;
 
   useEffect(() => {
     (async () => {
@@ -58,11 +74,21 @@ export default function RehearsalPage() {
         const pr = await fetch(`/api/projects/${id}/rehearsal`);
         if (pr.ok) {
           const data = await pr.json();
-          const m: Record<string, { passes: number; rating: number }> = {};
+          const m: Record<string, { passes: number; rating: number; lastRehearsed?: string }> = {};
           (data.entries || []).forEach((e: any) => {
-            m[e.songId] = { passes: e.passes ?? 0, rating: e.rating ?? 0 };
+            m[e.songId] = {
+              passes: e.passes ?? 0,
+              rating: e.rating ?? 0,
+              lastRehearsed: e.lastRehearsed,
+            };
           });
           setPractice(m);
+          // Reset any local inputs to reflect loaded values
+          const li: Record<string, string> = {};
+          Object.entries(m).forEach(([sid, v]) => {
+            li[sid] = formatISOToDDMMYY(v.lastRehearsed);
+          });
+          setLastInput(li);
         }
       } finally {
         setLoading(false);
@@ -84,10 +110,17 @@ export default function RehearsalPage() {
       });
       if (res.ok) {
         const saved = await res.json();
-        setPractice((prev) => ({
-          ...prev,
-          [songId]: { passes: saved.passes ?? 0, rating: saved.rating ?? 0 },
-        }));
+        setPractice((prev) => {
+          const prevEntry = prev[songId] || {};
+          return {
+            ...prev,
+            [songId]: {
+              passes: saved.passes ?? prevEntry.passes ?? 0,
+              rating: saved.rating ?? prevEntry.rating ?? 0,
+              lastRehearsed: (saved.lastRehearsed as string | undefined) ?? prevEntry.lastRehearsed,
+            },
+          };
+        });
       }
     } finally {
       setSaving(null);
@@ -104,10 +137,49 @@ export default function RehearsalPage() {
       });
       if (res.ok) {
         const saved = await res.json();
+        setPractice((prev) => {
+          const prevEntry = prev[songId] || {};
+          return {
+            ...prev,
+            [songId]: {
+              passes: saved.passes ?? prevEntry.passes ?? 0,
+              rating: saved.rating ?? prevEntry.rating ?? 0,
+              lastRehearsed: (saved.lastRehearsed as string | undefined) ?? prevEntry.lastRehearsed,
+            },
+          };
+        });
+      }
+    } finally {
+      setSaving(null);
+    }
+  }
+
+  async function updateLastRehearsed(songId: string, inputValue: string) {
+    // Allow clearing
+    const trimmed = inputValue.trim();
+    const iso = trimmed === '' ? '' : parseFlexibleDateToISO(trimmed);
+    if (iso === null) {
+      // Invalid format, keep local value and do not save
+      return;
+    }
+    setSaving(songId);
+    try {
+      const res = await fetch(`/api/projects/${id}/rehearsal`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ songId, lastRehearsed: iso }),
+      });
+      if (res.ok) {
+        const saved = await res.json();
         setPractice((prev) => ({
           ...prev,
-          [songId]: { passes: saved.passes ?? 0, rating: saved.rating ?? 0 },
+          [songId]: {
+            passes: saved.passes ?? 0,
+            rating: saved.rating ?? 0,
+            lastRehearsed: saved.lastRehearsed,
+          },
         }));
+        setLastInput((prev) => ({ ...prev, [songId]: formatISOToDDMMYY(saved.lastRehearsed) }));
       }
     } finally {
       setSaving(null);
@@ -197,6 +269,7 @@ export default function RehearsalPage() {
               <th className="p-2">Title</th>
               <th className="p-2">Passes</th>
               <th className="p-2">Ready to rock</th>
+              <th className="p-2">Last rehearsed</th>
               <th className="p-2">Notes</th>
               <th className="p-2">Link</th>
             </tr>
@@ -221,7 +294,7 @@ export default function RehearsalPage() {
                   </div>
                 </td>
                 <td className="p-2">
-                  <div className="flex items-center gap-1">
+                  <div className="flex flex-wrap items-center gap-2">
                     {Array.from({ length: 5 }, (_, i) => i + 1).map((n) => {
                       const current = practice[s.id]?.rating ?? 0;
                       const filled = n <= current;
@@ -240,8 +313,52 @@ export default function RehearsalPage() {
                     })}
                   </div>
                 </td>
-                <td className="p-2 max-w-[24rem] truncate" title={s.notes || ''}>
-                  {s.notes || ''}
+                <td className="p-2">
+                  <label className="sr-only" htmlFor={`last-${s.id}`}>
+                    Last rehearsed
+                  </label>
+                  <input
+                    id={`last-${s.id}`}
+                    className={`w-24 rounded border bg-transparent px-2 py-0.5 text-sm outline-none placeholder:text-neutral-500 ${
+                      ragClassFromISO(practice[s.id]?.lastRehearsed) || ''
+                    }`}
+                    placeholder="DD/MM/YY"
+                    value={lastInput[s.id] ?? formatISOToDDMMYY(practice[s.id]?.lastRehearsed)}
+                    onChange={(e) => setLastInput((prev) => ({ ...prev, [s.id]: e.target.value }))}
+                    onBlur={(e) => updateLastRehearsed(s.id, e.target.value)}
+                    title="Enter date as DD/MM/YY"
+                    disabled={saving === s.id}
+                  />
+                </td>
+                <td className="p-2 align-top">
+                  <div className="flex items-start gap-2">
+                    <div
+                      className="text-xs text-neutral-200 max-w-[14rem] md:max-w-[20rem] truncate"
+                      title={s.notes || ''}
+                    >
+                      {s.notes
+                        ? s.notes.length > NOTE_PREVIEW_MAX
+                          ? `${s.notes.slice(0, NOTE_PREVIEW_MAX - 1)}…`
+                          : s.notes
+                        : ''}
+                    </div>
+                    {s.notes && s.notes.length > NOTE_PREVIEW_MAX ? (
+                      <button
+                        className="rounded border px-2 py-0.5 text-xs whitespace-nowrap"
+                        onClick={() =>
+                          setNotePreview({
+                            songId: s.id,
+                            title: s.title,
+                            artist: s.artist,
+                            note: s.notes || '',
+                          })
+                        }
+                        title="View full note"
+                      >
+                        View
+                      </button>
+                    ) : null}
+                  </div>
                 </td>
                 <td className="p-2">
                   {s.url ? (
@@ -254,7 +371,7 @@ export default function RehearsalPage() {
             ))}
             {!loading && sorted.length === 0 && (
               <tr>
-                <td colSpan={5} className="p-4 text-neutral-600">
+                <td colSpan={6} className="p-4 text-neutral-600">
                   No songs found.
                 </td>
               </tr>
@@ -267,6 +384,41 @@ export default function RehearsalPage() {
         This view shows all songs in this project&apos;s repertoire to help with rehearsal. Use the
         Setlists page for arranging live shows.
       </div>
+
+      {notePreview && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setNotePreview(null)}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setNotePreview(null);
+          }}
+        >
+          <div
+            className="w-full max-w-xl rounded-md border bg-neutral-900 p-4 text-white shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-2 flex items-start justify-between gap-4">
+              <div>
+                <div className="text-sm text-neutral-400">{notePreview.artist}</div>
+                <div className="text-lg font-semibold">{notePreview.title}</div>
+              </div>
+              <button
+                className="rounded border px-2 py-0.5 text-xs"
+                onClick={() => setNotePreview(null)}
+                aria-label="Close"
+                title="Close"
+              >
+                Close
+              </button>
+            </div>
+            <div className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed">
+              {notePreview.note}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -89,4 +89,6 @@ export const rehearsalUpdateSchema = z.object({
   songId: z.string().min(1),
   passes: z.number().int().min(0).optional(),
   rating: z.number().int().min(0).max(5).optional(),
+  // ISO date string (YYYY-MM-DD). If provided as empty string, the value will be cleared.
+  lastRehearsed: z.string().optional(),
 });

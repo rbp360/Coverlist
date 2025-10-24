@@ -107,6 +107,9 @@ export type PracticeEntry = {
   userId: string;
   passes: number; // how many times practiced
   rating: 0 | 1 | 2 | 3 | 4 | 5; // 0 = unrated
+  // ISO date string (YYYY-MM-DD) of the last time this user rehearsed this song
+  // Optional: if missing, no RAG color is applied in UI
+  lastRehearsed?: string;
 };
 
 export type Settings = {

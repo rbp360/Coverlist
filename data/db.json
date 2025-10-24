@@ -403,7 +403,7 @@
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "b4c4480d-7817-4b35-84c6-f1c4c4dc46cf",
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "passes": 1,
+      "passes": 2,
       "rating": 2
     },
     {
@@ -411,7 +411,24 @@
       "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 8,
-      "rating": 3
+      "rating": 3,
+      "lastRehearsed": "2020-01-01"
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 1,
+      "rating": 0,
+      "lastRehearsed": "2025-10-01"
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 3,
+      "rating": 0,
+      "lastRehearsed": "2025-09-20"
     }
   ]
 }

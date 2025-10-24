@@ -23,13 +23,14 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   const json = await req.json().catch(() => ({}));
   const parsed = rehearsalUpdateSchema.safeParse(json);
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
-  const { songId, passes, rating } = parsed.data;
+  const { songId, passes, rating, lastRehearsed } = parsed.data;
   // Ensure song belongs to this project
   const song = db.listSongs(project.id).find((s) => s.id === songId);
   if (!song) return NextResponse.json({ error: 'Song not found' }, { status: 404 });
   const updated = db.upsertPractice(project.id, songId, user.id, {
     passes,
     rating: rating as PracticeEntry['rating'] as PracticeEntry['rating'],
+    lastRehearsed,
   });
   return NextResponse.json(updated);
 }

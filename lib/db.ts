@@ -138,7 +138,7 @@ export const db = {
     projectId: string,
     songId: string,
     userId: string,
-    patch: Partial<Pick<PracticeEntry, 'passes' | 'rating'>>,
+    patch: Partial<Pick<PracticeEntry, 'passes' | 'rating' | 'lastRehearsed'>>,
   ): PracticeEntry {
     const d = readDB();
     const list = d.projectPractice || (d.projectPractice = []);
@@ -152,6 +152,10 @@ export const db = {
         userId,
         passes: patch.passes ?? 0,
         rating: (patch.rating ?? 0) as PracticeEntry['rating'],
+        lastRehearsed:
+          patch.lastRehearsed && patch.lastRehearsed.trim()
+            ? patch.lastRehearsed.trim()
+            : undefined,
       };
       list.push(created);
       writeDB(d);
@@ -164,6 +168,10 @@ export const db = {
         rating: (patch.rating != null
           ? Math.max(0, Math.min(5, patch.rating))
           : curr.rating) as PracticeEntry['rating'],
+        lastRehearsed:
+          patch.lastRehearsed != null
+            ? patch.lastRehearsed.trim() || undefined
+            : curr.lastRehearsed,
       };
       list[idx] = next;
       writeDB(d);
