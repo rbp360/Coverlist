@@ -13,6 +13,8 @@ export default function ProjectSetlistsPage() {
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState<string | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [creating, setCreating] = useState<string | null>(null);
+  const [playlistUrls, setPlaylistUrls] = useState<Record<string, string>>({});
 
   const load = useCallback(async () => {
     setLoadError(null);
@@ -157,6 +159,46 @@ export default function ProjectSetlistsPage() {
                 >
                   Copy
                 </button>
+                <button
+                  className="rounded border px-3 py-1 text-sm"
+                  disabled={creating === s.id}
+                  onClick={async () => {
+                    setCreating(s.id);
+                    try {
+                      const res = await fetch('/api/integrations/spotify/create-from-setlist', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ setlistId: s.id }),
+                      });
+                      if (res.status === 401) {
+                        // Kick off OAuth
+                        const returnTo =
+                          typeof window !== 'undefined' ? window.location.href : '/profile';
+                        window.location.href = `/api/integrations/spotify/login?returnTo=${encodeURIComponent(returnTo)}`;
+                        return;
+                      }
+                      if (!res.ok) throw new Error('Failed to create playlist');
+                      const json = await res.json();
+                      setPlaylistUrls((prev) => ({ ...prev, [s.id]: json.url }));
+                    } catch (e) {
+                      alert('Unable to create Spotify playlist.');
+                    } finally {
+                      setCreating(null);
+                    }
+                  }}
+                >
+                  {creating === s.id ? 'Creating…' : 'Create Playlist'}
+                </button>
+                {playlistUrls[s.id] && (
+                  <a
+                    className="rounded border px-3 py-1 text-sm underline"
+                    href={playlistUrls[s.id]}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open in Spotify
+                  </a>
+                )}
               </div>
             </li>
           );

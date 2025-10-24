@@ -30,16 +30,25 @@ function formatKey(key?: string) {
 export default function RehearsalPage() {
   const { id } = useParams<{ id: string }>();
   const [songs, setSongs] = useState<Song[]>([]);
+  const [projectName, setProjectName] = useState<string>('');
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
   const [practice, setPractice] = useState<Record<string, { passes: number; rating: number }>>({});
   const [saving, setSaving] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [playlistUrl, setPlaylistUrl] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
       setLoading(true);
       try {
+        // load project name
+        const proj = await fetch(`/api/projects/${id}`);
+        if (proj.ok) {
+          const p = await proj.json();
+          setProjectName(p.name || 'Project');
+        }
         const params = new URLSearchParams();
         if (q.trim()) params.set('q', q.trim());
         if (artist.trim()) params.set('artist', artist.trim());
@@ -110,6 +119,52 @@ export default function RehearsalPage() {
       <div className="flex items-center justify-between gap-2">
         <h2 className="text-2xl font-semibold">Rehearsal</h2>
         <div className="flex gap-2 text-sm">
+          <button
+            className="rounded border px-3 py-1"
+            disabled={creating || sorted.length === 0}
+            onClick={async () => {
+              setCreating(true);
+              setPlaylistUrl(null);
+              try {
+                const date = new Date().toISOString().slice(0, 10);
+                const name = `${projectName} - rehearsal - ${date}`;
+                const payload = {
+                  name,
+                  songs: sorted.map((s) => ({ title: s.title, artist: s.artist })),
+                };
+                const res = await fetch('/api/integrations/spotify/create', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(payload),
+                });
+                if (res.status === 401) {
+                  const returnTo =
+                    typeof window !== 'undefined' ? window.location.href : '/profile';
+                  window.location.href = `/api/integrations/spotify/login?returnTo=${encodeURIComponent(returnTo)}`;
+                  return;
+                }
+                if (!res.ok) throw new Error('Failed');
+                const json = await res.json();
+                setPlaylistUrl(json.url);
+              } catch (e) {
+                alert('Unable to create Spotify playlist.');
+              } finally {
+                setCreating(false);
+              }
+            }}
+          >
+            {creating ? 'Creating…' : 'Create Playlist'}
+          </button>
+          {playlistUrl && (
+            <a
+              className="rounded border px-3 py-1 underline"
+              href={playlistUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open in Spotify
+            </a>
+          )}
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/repertoire`}>
             Repertoire
           </Link>

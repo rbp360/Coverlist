@@ -6,6 +6,13 @@ export type User = {
   name?: string;
   instruments?: string[];
   avatarUrl?: string;
+  spotify?: {
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: number; // epoch ms
+    scope?: string;
+    tokenType?: string; // typically 'Bearer'
+  };
 };
 
 export type DB = {

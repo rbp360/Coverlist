@@ -216,6 +216,19 @@ export const db = {
       writeDB(d);
     }
   },
+  // User integrations
+  getUserSpotify(userId: string) {
+    const d = readDB();
+    const u = d.users.find((x) => x.id === userId);
+    return u?.spotify;
+  },
+  setUserSpotify(userId: string, spotify: NonNullable<User['spotify']>) {
+    const d = readDB();
+    const idx = d.users.findIndex((u) => u.id === userId);
+    if (idx === -1) return;
+    d.users[idx] = { ...d.users[idx], spotify } as User;
+    writeDB(d);
+  },
   // Setlists
   listSetlists(projectId: string) {
     const d = readDB();
