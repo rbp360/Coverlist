@@ -365,7 +365,41 @@ export default function RehearsalPage() {
                     <a className="underline" href={s.url} target="_blank" rel="noreferrer">
                       Open
                     </a>
-                  ) : null}
+                  ) : (
+                    <button
+                      className="rounded border px-2 py-0.5 text-xs"
+                      onClick={async () => {
+                        try {
+                          const res = await fetch(
+                            `/api/projects/${id}/songs/${s.id}/resolve-spotify`,
+                            { method: 'POST' },
+                          );
+                          if (res.status === 401) {
+                            const returnTo =
+                              typeof window !== 'undefined'
+                                ? window.location.href
+                                : `/projects/${id}/rehearsal`;
+                            window.location.href = `/api/integrations/spotify/login?returnTo=${encodeURIComponent(
+                              returnTo,
+                            )}`;
+                            return;
+                          }
+                          if (!res.ok) return;
+                          const json = await res.json();
+                          if (json?.song?.url) {
+                            setSongs((prev) =>
+                              prev.map((x) => (x.id === s.id ? { ...x, url: json.song.url } : x)),
+                            );
+                          }
+                        } catch {
+                          // ignore
+                        }
+                      }}
+                      title="Find on Spotify"
+                    >
+                      Find
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
