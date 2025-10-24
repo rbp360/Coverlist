@@ -12,10 +12,26 @@ export default function ProjectSetlistsPage() {
   const [pasteOpen, setPasteOpen] = useState(false);
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    const res = await fetch(`/api/projects/${id}/setlists`);
-    if (res.ok) setSetlists((await res.json()).setlists);
+    setLoadError(null);
+    try {
+      const res = await fetch(`/api/projects/${id}/setlists`, { cache: 'no-store' });
+      if (res.ok) {
+        setSetlists((await res.json()).setlists);
+      } else {
+        // Surface a friendly hint when auth or project lookup fails
+        if (res.status === 401) setLoadError('Your session may have expired. Please log in again.');
+        else if (res.status === 404)
+          setLoadError('Project not found or you no longer have access to it.');
+        else setLoadError('Unable to load setlists.');
+        setSetlists([]);
+      }
+    } catch (e) {
+      setLoadError('Network error loading setlists.');
+      setSetlists([]);
+    }
   }, [id]);
 
   useEffect(() => {
@@ -63,6 +79,26 @@ export default function ProjectSetlistsPage() {
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold">Setlists</h2>
+      {loadError && (
+        <div className="rounded border border-red-600 bg-red-50 p-3 text-sm text-red-700">
+          {loadError}
+          <div className="mt-2 flex gap-2">
+            <Link className="underline" href="/login">
+              Go to login
+            </Link>
+            <button
+              className="underline"
+              onClick={async () => {
+                // Try clearing the session and send user to login
+                await fetch('/api/auth/logout', { method: 'POST' });
+                window.location.href = '/login';
+              }}
+            >
+              Log out and back in
+            </button>
+          </div>
+        </div>
+      )}
       <div className="flex flex-wrap items-center gap-2">
         <input
           className="flex-1 rounded border px-3 py-2"
