@@ -58,6 +58,7 @@ export default function SetlistEditorPage() {
   const [sectionTitle, setSectionTitle] = useState('Set 1');
   const [settings, setSettings] = useState<{ defaultSongGapSec: number } | null>(null);
   const [pdfFontSize, setPdfFontSize] = useState(1.0);
+  const [isPublic, setIsPublic] = useState(false);
   // New state for multi-set workflow
   const [selectedSongIds, setSelectedSongIds] = useState<string[]>([]);
   const [setCountInput, setSetCountInput] = useState<number>(0);
@@ -69,6 +70,7 @@ export default function SetlistEditorPage() {
       if (res.ok) {
         const s = await res.json();
         setSetlist(s);
+        setIsPublic(!!(s as any).public);
         if (s.projectId) {
           const rs = await fetch(`/api/projects/${s.projectId}/songs`);
           if (rs.ok) setSongs((await rs.json()).songs);
@@ -591,6 +593,28 @@ export default function SetlistEditorPage() {
             onChange={(e) => save({ showTransposedKey: e.target.checked })}
           />
           <span className="text-xs text-neutral-500">Display as “Title (Bb)”</span>
+        </label>
+      </div>
+
+      <div className="rounded border bg-black p-3 text-white">
+        <div className="mb-2 font-medium">Visibility</div>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={isPublic}
+            onChange={async (e) => {
+              const next = e.target.checked;
+              setIsPublic(next);
+              await save({ public: next } as any);
+            }}
+          />
+          <span>Make setlist public/searchable</span>
+          <span
+            title="Selecting public makes the setlist discoverable and searchable for your friends, fans, band members, techs and anyone else!"
+            className="ml-1 cursor-help text-xs text-neutral-400 rounded border border-neutral-700 px-1"
+          >
+            i
+          </span>
         </label>
       </div>
 

@@ -40,6 +40,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     ...('addGapAfterEachSong' in parsed.data
       ? { addGapAfterEachSong: parsed.data.addGapAfterEachSong }
       : {}),
+    ...('public' in parsed.data ? { public: parsed.data.public } : {}),
     updatedAt: new Date().toISOString(),
   };
   db.updateSetlist(updated);

@@ -21,7 +21,7 @@
     },
     {
       "id": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
-      "name": "Test project 2",
+      "name": "test band 2",
       "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "memberIds": [],
       "createdAt": "2025-10-21T09:21:13.785Z"
@@ -124,6 +124,56 @@
       "mbid": "b5506ff9-036b-460d-9bef-82f1afa7625d",
       "createdAt": "2025-10-22T04:32:24.137Z",
       "updatedAt": "2025-10-22T04:32:24.137Z"
+    },
+    {
+      "id": "79b6e301-ea3f-44f2-9208-d093b5c6ca97",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Alone",
+      "artist": "Heart",
+      "durationSec": 219,
+      "mbid": "d2c1d3fa-31ae-4fd1-b0be-daf95ee06d21",
+      "createdAt": "2025-10-24T02:58:37.074Z",
+      "updatedAt": "2025-10-24T02:58:37.074Z"
+    },
+    {
+      "id": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Here I Go Again",
+      "artist": "Whitesnake",
+      "durationSec": 349,
+      "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
+      "createdAt": "2025-10-24T02:58:51.681Z",
+      "updatedAt": "2025-10-24T02:58:51.681Z"
+    },
+    {
+      "id": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Don’t Stop Believin’",
+      "artist": "Journey",
+      "durationSec": 259,
+      "mbid": "e7ccbc5c-b400-410c-b5b2-a334096ccbfd",
+      "createdAt": "2025-10-24T02:59:08.710Z",
+      "updatedAt": "2025-10-24T02:59:08.710Z"
+    },
+    {
+      "id": "f59018e6-629c-4992-830b-6c61d4e260c4",
+      "projectId": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
+      "title": "Alone",
+      "artist": "Heart",
+      "durationSec": 219,
+      "mbid": "d2c1d3fa-31ae-4fd1-b0be-daf95ee06d21",
+      "createdAt": "2025-10-24T03:01:14.102Z",
+      "updatedAt": "2025-10-24T03:01:14.102Z"
+    },
+    {
+      "id": "54e54f61-9321-4de2-8dff-1ec357a65a23",
+      "projectId": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
+      "title": "Don’t Stop Believin’",
+      "artist": "Journey",
+      "durationSec": 259,
+      "mbid": "e7ccbc5c-b400-410c-b5b2-a334096ccbfd",
+      "createdAt": "2025-10-24T03:01:32.532Z",
+      "updatedAt": "2025-10-24T03:01:32.532Z"
     }
   ],
   "setlists": [
@@ -196,7 +246,8 @@
       "createdAt": "2025-10-21T08:45:11.572Z",
       "updatedAt": "2025-10-23T02:12:33.410Z",
       "date": "2026-10-19",
-      "venue": "My House"
+      "venue": "My House",
+      "public": false
     },
     {
       "id": "a71f897c-305f-472b-ac50-596c8002df22",
@@ -229,7 +280,47 @@
         }
       ],
       "createdAt": "2025-10-21T09:16:33.799Z",
-      "updatedAt": "2025-10-21T09:16:33.799Z"
+      "updatedAt": "2025-10-21T09:16:33.799Z",
+      "public": false
+    },
+    {
+      "id": "8153c54d-f4e6-4279-a733-77d714049ef9",
+      "projectId": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
+      "name": "test band 2 setlist (public)",
+      "showArtist": true,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": true,
+      "items": [
+        {
+          "id": "b23951df-b06b-4f64-ab7b-4e014cc85833",
+          "type": "note",
+          "order": 0,
+          "note": "🧱 Intro"
+        },
+        {
+          "id": "65dded5f-9cf3-4389-a83c-78e8ee5aa807",
+          "type": "song",
+          "order": 1,
+          "songId": "54e54f61-9321-4de2-8dff-1ec357a65a23",
+          "title": "Don’t Stop Believin’",
+          "artist": "Journey",
+          "durationSec": 259
+        },
+        {
+          "id": "15aed963-9c25-42e7-bf15-d52a5965e4ab",
+          "type": "song",
+          "order": 2,
+          "songId": "f59018e6-629c-4992-830b-6c61d4e260c4",
+          "title": "Alone",
+          "artist": "Heart",
+          "durationSec": 219
+        }
+      ],
+      "createdAt": "2025-10-24T02:54:48.703Z",
+      "updatedAt": "2025-10-24T03:03:02.608Z",
+      "public": true,
+      "date": "2026-11-05",
+      "venue": "whiskey a Go GO"
     }
   ],
   "invites": [],

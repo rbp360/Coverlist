@@ -37,6 +37,11 @@ function readDB(): DB {
   if (parsed.settings.defaultSongGapSec == null) parsed.settings.defaultSongGapSec = 30;
   if (parsed.settings.enrichmentMode == null) parsed.settings.enrichmentMode = 'stub';
   if (parsed.settings.enrichOnImport == null) parsed.settings.enrichOnImport = false;
+  // Backfill setlist.public default to false
+  parsed.setlists = (parsed.setlists || []).map((s: any) => ({
+    ...s,
+    public: s.public ?? false,
+  }));
   return parsed as DB;
 }
 
@@ -63,6 +68,10 @@ export const db = {
   listProjects(userId: string) {
     const d = readDB();
     return d.projects.filter((p) => p.ownerId === userId || p.memberIds.includes(userId));
+  },
+  getProjectById(id: string) {
+    const d = readDB();
+    return d.projects.find((p) => p.id === id);
   },
   getProject(id: string, userId: string) {
     const d = readDB();
@@ -211,6 +220,10 @@ export const db = {
   listSetlists(projectId: string) {
     const d = readDB();
     return d.setlists.filter((s) => s.projectId === projectId);
+  },
+  listPublicSetlists() {
+    const d = readDB();
+    return d.setlists.filter((s) => !!s.public);
   },
   getSetlist(id: string) {
     const d = readDB();

@@ -19,6 +19,12 @@ export default function HomePage() {
         >
           Get started
         </a>
+        <a
+          href="/explore"
+          className="ml-3 inline-block rounded border border-brand-500 px-4 py-2 font-medium text-brand-500 hover:bg-neutral-900"
+        >
+          Look up setlists
+        </a>
       </div>
     </section>
   );

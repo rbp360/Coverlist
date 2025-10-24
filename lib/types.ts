@@ -67,6 +67,7 @@ export type Setlist = {
   venue?: string;
   time?: string; // e.g., 20:00
   addGapAfterEachSong?: boolean;
+  public?: boolean; // if true, discoverable by anyone
   hideItemDurations?: boolean;
   createdAt: string;
   updatedAt: string;
