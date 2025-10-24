@@ -18,6 +18,7 @@ export const songImportSchema = z.object({
   artist: z.string().min(1),
   durationSec: z.number().optional(),
   mbid: z.string().optional(),
+  isrc: z.string().optional(),
 });
 
 export const searchQuerySchema = z.object({ q: z.string().min(2) });

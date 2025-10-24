@@ -7,6 +7,7 @@ type Result = {
   artist: string;
   durationSec?: number;
   release?: string;
+  isrc?: string;
 };
 type Project = { id: string; name: string };
 type Song = { id: string; title: string; artist: string; mbid?: string };
@@ -82,6 +83,7 @@ export default function SongsPage() {
         artist: r.artist,
         durationSec: r.durationSec,
         mbid: r.mbid,
+        isrc: r.isrc,
       }),
     });
     if (res.ok) {

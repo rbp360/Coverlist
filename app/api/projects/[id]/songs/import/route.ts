@@ -9,7 +9,7 @@ function norm(s: string) {
   return s.trim().toLowerCase();
 }
 
-type ImportItem = { title: string; artist: string; mbid?: string };
+type ImportItem = { title: string; artist: string; mbid?: string; isrc?: string };
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const user = getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -64,6 +64,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       artist: candidate.artist,
       durationSec: candidate.durationSec,
       mbid: candidate.mbid,
+      isrc: candidate.isrc,
       key: candidate.key,
       tempo: candidate.tempo,
       notes: candidate.notes,

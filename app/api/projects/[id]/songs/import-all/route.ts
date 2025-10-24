@@ -50,6 +50,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       artist: s.artist,
       durationSec: s.durationSec,
       mbid: s.mbid,
+      isrc: s.isrc,
       // Intentionally do not copy transposedKey as it may be project-specific
       key: s.key,
       tempo: s.tempo,

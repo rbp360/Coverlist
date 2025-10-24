@@ -35,6 +35,7 @@ export type Song = {
   artist: string;
   durationSec?: number;
   mbid?: string; // MusicBrainz recording id if available
+  isrc?: string; // International Standard Recording Code (from MusicBrainz recording)
   key?: string;
   tempo?: number;
   transposedKey?: string;

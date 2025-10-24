@@ -107,7 +107,7 @@ export async function GET(request: Request) {
     if (artist) terms.push(`artist:${artist}`);
     if (genre) terms.push(`tag:${genre}`);
     const query = terms.join(' ');
-    const mbUrl = `https://musicbrainz.org/ws/2/recording?fmt=json&limit=${limit}&inc=releases&query=${encodeURIComponent(
+    const mbUrl = `https://musicbrainz.org/ws/2/recording?fmt=json&limit=${limit}&inc=releases+isrcs&query=${encodeURIComponent(
       query,
     )}`;
     const res = await fetch(mbUrl, { headers });
@@ -146,12 +146,15 @@ export async function GET(request: Request) {
         if (q && title.toLowerCase().includes(q.toLowerCase())) score += 2;
         if (artist && a.toLowerCase().includes(artist.toLowerCase())) score += 2;
         if (durationSec) score += 1;
+        const isrcs: string[] = Array.isArray(r.isrcs) ? r.isrcs : [];
+        const isrc = isrcs[0];
         return {
           mbid: r.id,
           title,
           artist: a,
           durationSec,
           release,
+          isrc,
           _hitsCount: hitsCount,
           _score: score,
           _rank: bestRank,
@@ -176,7 +179,7 @@ export async function GET(request: Request) {
     const terms = [`artist:${artist}`];
     if (genre) terms.push(`tag:${genre}`);
     const query = terms.join(' ');
-    const mbUrl = `https://musicbrainz.org/ws/2/recording?fmt=json&limit=${fetchLimit}&inc=releases&query=${encodeURIComponent(
+    const mbUrl = `https://musicbrainz.org/ws/2/recording?fmt=json&limit=${fetchLimit}&inc=releases+isrcs&query=${encodeURIComponent(
       query,
     )}`;
     const res = await fetch(mbUrl, { headers });
@@ -215,12 +218,15 @@ export async function GET(request: Request) {
         let score = 0;
         if (artist && a.toLowerCase().includes(artist.toLowerCase())) score += 2;
         if (durationSec) score += 1;
+        const isrcs: string[] = Array.isArray(r.isrcs) ? r.isrcs : [];
+        const isrc = isrcs[0];
         return {
           mbid: r.id,
           title,
           artist: a,
           durationSec,
           release,
+          isrc,
           _hitsCount: hitsCount,
           _score: score,
           _rank: bestRank,

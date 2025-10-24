@@ -22,6 +22,7 @@ export async function POST(request: Request) {
     artist: parsed.data.artist,
     durationSec: parsed.data.durationSec,
     mbid: parsed.data.mbid,
+    isrc: parsed.data.isrc,
     key: undefined as string | undefined,
     tempo: undefined as number | undefined,
     createdAt: now,
