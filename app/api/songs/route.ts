@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { enrichKeyTempoStub } from '@/lib/enrich';
+import { enrichKeyTempoStub, enrichKeyTempoGetSong } from '@/lib/enrich';
 import { songImportSchema } from '@/lib/schemas';
 
 export async function POST(request: Request) {
@@ -36,6 +36,18 @@ export async function POST(request: Request) {
     });
     song.key = enriched.key;
     song.tempo = enriched.tempo;
+  } else if (settings.enrichOnImport && settings.enrichmentMode === 'getSong') {
+    try {
+      const enriched = await enrichKeyTempoGetSong({
+        title: song.title,
+        artist: song.artist,
+        mbid: song.mbid,
+      });
+      song.key = enriched.key ?? song.key;
+      song.tempo = enriched.tempo ?? song.tempo;
+    } catch {
+      // ignore API errors on import
+    }
   }
   db.createSong(song);
   return NextResponse.json(song, { status: 201 });

@@ -102,6 +102,6 @@ export type Settings = {
   // Global default gap to apply after each song when enabled on a setlist
   defaultSongGapSec: number; // 20 - 120
   // Enrichment config
-  enrichmentMode?: 'none' | 'stub';
+  enrichmentMode?: 'none' | 'stub' | 'getSong';
   enrichOnImport?: boolean; // if true, enrich key/tempo on song import
 };

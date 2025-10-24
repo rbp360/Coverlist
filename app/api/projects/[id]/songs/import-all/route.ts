@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { enrichKeyTempoStub } from '@/lib/enrich';
+import { enrichKeyTempoStub, enrichKeyTempoGetSong } from '@/lib/enrich';
 
 function norm(s: string) {
   return s.trim().toLowerCase();
@@ -60,18 +60,28 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     };
 
     // Optionally enrich on import if configured
-    if (
-      (!newSong.key || !newSong.tempo) &&
-      settings.enrichOnImport &&
-      settings.enrichmentMode === 'stub'
-    ) {
-      const e = enrichKeyTempoStub({
-        title: newSong.title,
-        artist: newSong.artist,
-        mbid: newSong.mbid,
-      });
-      newSong.key = newSong.key ?? e.key;
-      newSong.tempo = newSong.tempo ?? e.tempo;
+    if ((!newSong.key || !newSong.tempo) && settings.enrichOnImport) {
+      if (settings.enrichmentMode === 'stub') {
+        const e = enrichKeyTempoStub({
+          title: newSong.title,
+          artist: newSong.artist,
+          mbid: newSong.mbid,
+        });
+        newSong.key = newSong.key ?? e.key;
+        newSong.tempo = newSong.tempo ?? e.tempo;
+      } else if (settings.enrichmentMode === 'getSong') {
+        try {
+          const e = await enrichKeyTempoGetSong({
+            title: newSong.title,
+            artist: newSong.artist,
+            mbid: newSong.mbid,
+          });
+          newSong.key = newSong.key ?? e.key;
+          newSong.tempo = newSong.tempo ?? e.tempo;
+        } catch {
+          // ignore errors
+        }
+      }
     }
 
     db.createSong(newSong as any);

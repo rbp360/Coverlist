@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { enrichKeyTempoStub } from '@/lib/enrich';
+import { enrichKeyTempoStub, enrichKeyTempoGetSong } from '@/lib/enrich';
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const user = getCurrentUser();
@@ -19,6 +19,28 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     const updated = { ...song, key: e.key, tempo: e.tempo, updatedAt: new Date().toISOString() };
     db.updateSong(updated);
     return NextResponse.json(updated);
+  }
+  if (settings.enrichmentMode === 'getSong') {
+    try {
+      const e = await enrichKeyTempoGetSong({
+        title: song.title,
+        artist: song.artist,
+        mbid: song.mbid,
+      });
+      const updated = {
+        ...song,
+        key: e.key ?? song.key,
+        tempo: e.tempo ?? song.tempo,
+        updatedAt: new Date().toISOString(),
+      };
+      db.updateSong(updated);
+      return NextResponse.json(updated);
+    } catch (err: any) {
+      return NextResponse.json(
+        { error: 'Enrichment failed', message: err?.message || 'Unknown error' },
+        { status: 502 },
+      );
+    }
   }
   return NextResponse.json({ error: 'Enrichment disabled' }, { status: 400 });
 }

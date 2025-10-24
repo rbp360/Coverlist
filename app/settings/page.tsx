@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [gap, setGap] = useState(30);
-  const [mode, setMode] = useState<'none' | 'stub'>('stub');
+  const [mode, setMode] = useState<'none' | 'stub' | 'getSong'>('stub');
   const [enrichOnImport, setEnrichOnImport] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
@@ -79,6 +79,7 @@ export default function SettingsPage() {
               onChange={(e) => setMode(e.target.value as any)}
             >
               <option value="none">None</option>
+              <option value="getSong">GetSong BPM (API)</option>
               <option value="stub">Stub (deterministic)</option>
             </select>
           </label>
