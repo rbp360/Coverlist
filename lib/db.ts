@@ -216,6 +216,32 @@ export const db = {
       writeDB(d);
     }
   },
+  // Password reset helpers
+  setUserPasswordReset(userId: string, token: string, expiresAt: number) {
+    const d = readDB();
+    const idx = d.users.findIndex((u) => u.id === userId);
+    if (idx === -1) return false;
+    d.users[idx] = {
+      ...d.users[idx],
+      passwordResetToken: token,
+      passwordResetExpiresAt: expiresAt,
+    } as User;
+    writeDB(d);
+    return true;
+  },
+  getUserByPasswordResetToken(token: string): User | undefined {
+    const d = readDB();
+    return d.users.find((u) => u.passwordResetToken === token);
+  },
+  clearUserPasswordReset(userId: string) {
+    const d = readDB();
+    const idx = d.users.findIndex((u) => u.id === userId);
+    if (idx === -1) return false;
+    const { passwordResetToken, passwordResetExpiresAt, ...rest } = d.users[idx] as any;
+    d.users[idx] = rest as User;
+    writeDB(d);
+    return true;
+  },
   // User integrations
   getUserSpotify(userId: string) {
     const d = readDB();

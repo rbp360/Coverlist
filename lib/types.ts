@@ -6,6 +6,9 @@ export type User = {
   name?: string;
   instruments?: string[];
   avatarUrl?: string;
+  // Password reset (optional, used for standard reset flow)
+  passwordResetToken?: string;
+  passwordResetExpiresAt?: number; // epoch ms
   spotify?: {
     accessToken: string;
     refreshToken: string;

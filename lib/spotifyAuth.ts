@@ -1,18 +1,31 @@
 import { getCurrentUser } from './auth';
 import { db } from './db';
 
-const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID || '';
-const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET || '';
-const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI || '';
+const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
+const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI;
 const SPOTIFY_AUTH_BASE = 'https://accounts.spotify.com';
 
 export const SPOTIFY_SCOPES = ['playlist-modify-public', 'playlist-modify-private'].join(' ');
 
+function ensureSpotifyEnv() {
+  const missing: string[] = [];
+  if (!SPOTIFY_CLIENT_ID) missing.push('SPOTIFY_CLIENT_ID');
+  if (!SPOTIFY_CLIENT_SECRET) missing.push('SPOTIFY_CLIENT_SECRET');
+  if (!SPOTIFY_REDIRECT_URI) missing.push('SPOTIFY_REDIRECT_URI');
+  if (missing.length) {
+    throw new Error(
+      `spotify_env_missing:${missing.join(',')}. Set these in .env.local. Example SPOTIFY_REDIRECT_URI=http://localhost:3001/api/integrations/spotify/callback`,
+    );
+  }
+}
+
 export function getSpotifyAuthUrl(state?: string) {
+  ensureSpotifyEnv();
   const params = new URLSearchParams({
     response_type: 'code',
-    client_id: SPOTIFY_CLIENT_ID,
-    redirect_uri: SPOTIFY_REDIRECT_URI,
+    client_id: SPOTIFY_CLIENT_ID!,
+    redirect_uri: SPOTIFY_REDIRECT_URI!,
     scope: SPOTIFY_SCOPES,
   });
   if (state) params.set('state', state);
@@ -20,12 +33,13 @@ export function getSpotifyAuthUrl(state?: string) {
 }
 
 export async function exchangeCodeForToken(code: string) {
+  ensureSpotifyEnv();
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
     code,
-    redirect_uri: SPOTIFY_REDIRECT_URI,
-    client_id: SPOTIFY_CLIENT_ID,
-    client_secret: SPOTIFY_CLIENT_SECRET,
+    redirect_uri: SPOTIFY_REDIRECT_URI!,
+    client_id: SPOTIFY_CLIENT_ID!,
+    client_secret: SPOTIFY_CLIENT_SECRET!,
   });
   const res = await fetch(`${SPOTIFY_AUTH_BASE}/api/token`, {
     method: 'POST',
@@ -49,11 +63,12 @@ export async function exchangeCodeForToken(code: string) {
 export async function refreshAccessToken(userId: string) {
   const current = db.getUserSpotify(userId);
   if (!current?.refreshToken) throw new Error('No refresh token');
+  ensureSpotifyEnv();
   const body = new URLSearchParams({
     grant_type: 'refresh_token',
     refresh_token: current.refreshToken,
-    client_id: SPOTIFY_CLIENT_ID,
-    client_secret: SPOTIFY_CLIENT_SECRET,
+    client_id: SPOTIFY_CLIENT_ID!,
+    client_secret: SPOTIFY_CLIENT_SECRET!,
   });
   const res = await fetch(`${SPOTIFY_AUTH_BASE}/api/token`, {
     method: 'POST',

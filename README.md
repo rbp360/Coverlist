@@ -52,7 +52,7 @@ GitHub Actions workflow runs lint, typecheck, unit tests, then Playwright.
 
 ## Environment
 
-Copy `.env.example` to `.env.local` and adjust as needed.
+Copy `.env.local.example` to `.env.local` and adjust as needed.
 
 Required variables:
 
@@ -64,6 +64,25 @@ Optional provider variables:
 - GETSONG_EMAIL: Contact email to include in User-Agent
 - GETSONG_BASE_URL: Override base URL (default: https://api.getsongbpm.com). Set to https://api.getsong.co if your key is for that host.
 - GETSONG_STRICT: Set to 1 or true to disable secondary lookups (no fallback to /song by id). Useful for testing whether the initial /search returns tempo/key.
+
+### Spotify integration (playlists)
+
+To enable creating Spotify playlists from setlists or song selections, set these variables in `.env.local`:
+
+- SPOTIFY_CLIENT_ID
+- SPOTIFY_CLIENT_SECRET
+- SPOTIFY_REDIRECT_URI (for local dev use: `http://127.0.0.1:3001/api/integrations/spotify/callback`)
+
+Then in the Spotify Developer Dashboard:
+
+1. Create an app and copy the Client ID and Client Secret.
+2. Add the Redirect URI above to the app settings (exact match required). Note: per Spotify policy (April–Nov 2025), use HTTPS for public URLs; for local development, use a loopback IP literal (127.0.0.1 or [::1]) with HTTP. `localhost` is not allowed.
+3. Save and restart the dev server.
+
+Troubleshooting:
+
+- If you see "Missing required parameter; client_id" or "spotify_env_missing", your env vars are not set or the server needs a restart.
+- Ensure the redirect URI exactly matches the value configured in Spotify and in `.env.local`.
 
 Local demo storage:
 
