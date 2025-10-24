@@ -1,3 +1,21 @@
+## Password reset
+
+The app includes a standard password reset flow:
+
+1. Request a reset link: go to `/reset/request`, enter your email.
+2. You’ll receive a link (in development it’s shown directly on the page/response). In production you would wire this to your email service.
+3. Follow the link `/reset/[token]`, choose a new password, and you’ll be logged in.
+
+API endpoints:
+
+- POST `/api/auth/reset/request` { email }
+- POST `/api/auth/reset/confirm` { token, newPassword }
+
+Notes:
+
+- Reset links expire after 15 minutes.
+- For local dev, access the site via `http://127.0.0.1:PORT` to align with cookie behavior and Spotify rules.
+
 # Coverlist
 
 A Next.js 14 + TypeScript starter with Tailwind CSS, Jest, and Playwright. Windows-friendly scripts and docs.

@@ -3,11 +3,18 @@
     {
       "id": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "email": "jamconnect123@gmail.com",
-      "passwordHash": "$2b$10$w9ORSdf9I6CcCtrpy26VW.ItzWb0h3/8u025rLHRsZkAVl8sXzY9q",
+      "passwordHash": "$2b$10$lCAPQYUtf2MZqgmsRbKDoOabsvshqzOwytqFMutKTKPsVrLDPoVXK",
       "createdAt": "2025-10-21T08:34:21.612Z",
       "avatarUrl": "/api/uploads/e8efb7c6-b620-4455-914d-6ae959b72f51.jpg",
       "name": "Roberto",
-      "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"]
+      "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
+      "spotify": {
+        "accessToken": "BQB9w4rg9BNtJ3PZJD7ZPULyw8LT3C6Ab2eWcaTmO0cVkRbIaWz-AzZPMXbO8ZhBOGjmWl3ctIKMP0a56vcDOp1eyrXO02dmHFtup_pL89n01b1-CYvqiSMOGQqWGQXPOCWKY8YLb7HfhaLD5HZBS138w2uF8ipotwFs1hhUEhVnVvxnSx8QlYzHkoThM1lNctABue5dNzOuK-Z6yu95-Matt1X3ZUeV5KT05cagKyl4l2KuMHLd-KJeTNM-kBf-dlCo4l6exD2gpZWS7S0A",
+        "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
+        "expiresAt": 1761309019796,
+        "scope": "playlist-modify-private playlist-modify-public",
+        "tokenType": "Bearer"
+      }
     }
   ],
   "projects": [
