@@ -68,18 +68,6 @@
       "updatedAt": "2025-10-22T00:58:05.311Z"
     },
     {
-      "id": "ac3922c6-7fcf-47de-a8aa-e8d337a4622a",
-      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
-      "title": "Hey Jude",
-      "artist": "The Beatles",
-      "durationSec": 432,
-      "mbid": "32f50750-5055-43e5-aa69-8c35b30274ff",
-      "key": "Bb",
-      "tempo": 159,
-      "createdAt": "2025-10-21T09:07:10.653Z",
-      "updatedAt": "2025-10-22T00:58:08.468Z"
-    },
-    {
       "id": "b4c4480d-7817-4b35-84c6-f1c4c4dc46cf",
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "title": "Old L.A. Tonight",
@@ -124,16 +112,6 @@
       "mbid": "b5506ff9-036b-460d-9bef-82f1afa7625d",
       "createdAt": "2025-10-22T04:32:24.137Z",
       "updatedAt": "2025-10-22T04:32:24.137Z"
-    },
-    {
-      "id": "79b6e301-ea3f-44f2-9208-d093b5c6ca97",
-      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
-      "title": "Alone",
-      "artist": "Heart",
-      "durationSec": 219,
-      "mbid": "d2c1d3fa-31ae-4fd1-b0be-daf95ee06d21",
-      "createdAt": "2025-10-24T02:58:37.074Z",
-      "updatedAt": "2025-10-24T02:58:37.074Z"
     },
     {
       "id": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
