@@ -44,6 +44,7 @@ function readDB(): DB {
     ...s,
     public: s.public ?? false,
     showKey: s.showKey ?? false,
+    songGapSec: s.songGapSec ?? undefined,
   }));
   return parsed as DB;
 }

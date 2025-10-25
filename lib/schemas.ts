@@ -41,6 +41,7 @@ export const setlistCreateSchema = z.object({
   showArtist: z.boolean().default(true),
   showKey: z.boolean().optional(),
   showTransposedKey: z.boolean().optional(),
+  songGapSec: z.number().int().min(10).max(120).optional(),
   items: z.array(setlistItemSchema).optional(),
   date: z.string().optional(),
   venue: z.string().optional(),
@@ -55,6 +56,7 @@ export const setlistUpdateSchema = z.object({
   showArtist: z.boolean().optional(),
   showKey: z.boolean().optional(),
   showTransposedKey: z.boolean().optional(),
+  songGapSec: z.number().int().min(10).max(120).optional(),
   items: z
     .array(setlistItemSchema.extend({ id: z.string(), order: z.number().int().nonnegative() }))
     .optional(),

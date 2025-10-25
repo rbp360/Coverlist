@@ -26,6 +26,7 @@ type Setlist = {
   date?: string;
   venue?: string;
   addGapAfterEachSong?: boolean;
+  songGapSec?: number;
 };
 type Song = {
   id: string;
@@ -111,9 +112,13 @@ export default function SetlistEditorPage() {
 
   const total = useMemo(() => {
     const base = (setlist?.items || []).reduce((sum, it) => sum + (it.durationSec || 0), 0);
-    if (!setlist?.addGapAfterEachSong || !settings) return base;
+    if (!setlist?.addGapAfterEachSong) return base;
     const songCount = (setlist.items || []).filter((i) => i.type === 'song').length;
-    return base + songCount * settings.defaultSongGapSec;
+    const gap =
+      typeof setlist.songGapSec === 'number'
+        ? setlist.songGapSec
+        : (settings?.defaultSongGapSec ?? 0);
+    return base + songCount * gap;
   }, [setlist, settings]);
 
   const totalSongCount = useMemo(() => {
@@ -134,7 +139,13 @@ export default function SetlistEditorPage() {
       if (it.durationSec) sum += it.durationSec;
       if (it.type === 'song') songs += 1;
     }
-    if (setlist?.addGapAfterEachSong && settings) sum += songs * settings.defaultSongGapSec;
+    if (setlist?.addGapAfterEachSong) {
+      const gap =
+        typeof setlist.songGapSec === 'number'
+          ? setlist.songGapSec
+          : (settings?.defaultSongGapSec ?? 0);
+      sum += songs * gap;
+    }
     return sum;
   }
 
@@ -513,8 +524,14 @@ export default function SetlistEditorPage() {
           <span className="text-sm text-gray-600">
             Total: {totalSongCount} songs • {fmt(total)}
           </span>
-          {setlist.addGapAfterEachSong && settings && (
-            <span className="text-xs text-gray-500">(+{settings.defaultSongGapSec}s per song)</span>
+          {setlist.addGapAfterEachSong && (
+            <span className="text-xs text-gray-500">
+              (+
+              {typeof setlist.songGapSec === 'number'
+                ? setlist.songGapSec
+                : (settings?.defaultSongGapSec ?? 0)}
+              s per song)
+            </span>
           )}
           {/* Show artist moved into settings section */}
           <a className="rounded border px-3 py-1 text-sm" href={`/setlists/${id}/settings`}>
@@ -667,7 +684,7 @@ export default function SetlistEditorPage() {
         <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 flex items-center justify-between">
             <div className="font-medium">Add Song</div>
-            <div className="flex items-center gap-2 text-xs">
+            <div className="flex flex-wrap items-center gap-2 text-xs">
               <span className="text-neutral-400">Selected: {selectedSongIds.length}</span>
               <select
                 className="rounded border bg-black px-2 py-1"
@@ -727,7 +744,7 @@ export default function SetlistEditorPage() {
                     <div className="text-xs text-gray-600">{fmt(s.durationSec)}</div>
                   ) : null}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   {sections.length > 0 && (
                     <select
                       className="rounded border px-2 py-1 text-xs"
@@ -791,7 +808,7 @@ export default function SetlistEditorPage() {
           <div className="rounded border bg-black p-3 text-white">
             <div className="mb-2 font-medium">Sets</div>
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <label className="flex items-center gap-2 text-sm">
                   <span className="text-neutral-400">Set count</span>
                   <input
@@ -824,14 +841,14 @@ export default function SetlistEditorPage() {
               </div>
               <div className="mt-2 border-t border-neutral-800 pt-2">
                 <div className="mb-1 text-xs text-neutral-400">Quick add a custom section</div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <input
-                    className="flex-1 rounded border px-3 py-2"
+                    className="min-w-0 flex-1 rounded border px-2 py-1 text-sm"
                     value={sectionTitle}
                     onChange={(e) => setSectionTitle(e.target.value)}
                     placeholder="e.g., Soundcheck, Interlude"
                   />
-                  <button className="rounded bg-black px-3 py-2 text-white" onClick={addSection}>
+                  <button className="rounded border px-2 py-1 text-xs" onClick={addSection}>
                     Add section
                   </button>
                 </div>
@@ -840,23 +857,24 @@ export default function SetlistEditorPage() {
           </div>
           <div className="rounded border bg-black p-3 text-white">
             <div className="mb-2 font-medium">Add Break</div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap items-center gap-2 text-xs">
               <input
-                className="flex-1 rounded border px-3 py-2"
+                className="min-w-0 flex-1 rounded border px-2 py-1 text-sm"
                 value={breakTitle}
                 onChange={(e) => setBreakTitle(e.target.value)}
+                placeholder="Break title"
               />
               <input
                 type="number"
-                className="w-24 rounded border px-3 py-2"
+                className="w-20 rounded border px-2 py-1 text-sm"
                 value={breakMin}
                 onChange={(e) => setBreakMin(parseInt(e.target.value) || 0)}
               />
-              <button className="rounded bg-black px-3 py-2 text-white" onClick={addBreak}>
+              <button className="rounded border px-2 py-1 text-xs" onClick={addBreak}>
                 Add
               </button>
+              <span className="text-[11px] text-gray-600">Minutes</span>
             </div>
-            <div className="mt-1 text-xs text-gray-600">Minutes</div>
           </div>
         </div>
       </div>

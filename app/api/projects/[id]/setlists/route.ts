@@ -43,6 +43,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
     showArtist: parsed.data.showArtist ?? true,
     showKey: parsed.data.showKey ?? false,
     showTransposedKey: parsed.data.showTransposedKey ?? false,
+    songGapSec: parsed.data.songGapSec,
     date: parsed.data.date,
     venue: parsed.data.venue,
     time: parsed.data.time,

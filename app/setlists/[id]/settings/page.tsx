@@ -27,6 +27,7 @@ type Setlist = {
   addGapAfterEachSong?: boolean;
   projectId?: string;
   public?: boolean;
+  songGapSec?: number;
 };
 
 export default function SetlistSettingsPage() {
@@ -66,6 +67,13 @@ export default function SetlistSettingsPage() {
   const sortedItems = useMemo(() => {
     return [...(setlist?.items || [])].sort((a, b) => a.order - b.order);
   }, [setlist]);
+
+  const effectiveSongGapSec = useMemo(() => {
+    const local = setlist?.songGapSec;
+    if (typeof local === 'number') return local;
+    if (typeof defaultSongGapSec === 'number') return defaultSongGapSec;
+    return 30;
+  }, [setlist?.songGapSec, defaultSongGapSec]);
 
   async function copyJson() {
     if (!setlist) return;
@@ -145,10 +153,31 @@ export default function SetlistSettingsPage() {
             checked={!!setlist.addGapAfterEachSong}
             onChange={(e) => save({ addGapAfterEachSong: e.target.checked })}
           />
-          {defaultSongGapSec !== null && (
-            <span className="text-xs text-neutral-500">{defaultSongGapSec}s per song</span>
-          )}
+          <span className="text-xs text-neutral-500">{effectiveSongGapSec}s per song</span>
         </label>
+        <div className="mt-3 flex items-center gap-3">
+          <span className="w-56 text-sm text-neutral-400">Gap length (seconds)</span>
+          <input
+            type="range"
+            min={10}
+            max={120}
+            step={10}
+            value={
+              typeof setlist.songGapSec === 'number' ? setlist.songGapSec : effectiveSongGapSec
+            }
+            onChange={(e) => {
+              const val = parseInt(e.target.value, 10) || effectiveSongGapSec;
+              // Persist per-setlist song gap seconds
+              save({ songGapSec: val } as any);
+            }}
+          />
+          <span className="text-sm">
+            {typeof setlist.songGapSec === 'number' ? setlist.songGapSec : effectiveSongGapSec}s
+          </span>
+        </div>
+        <div className="mt-1 text-xs text-neutral-500">
+          Applies when enabled. Defaults to global setting if not specified.
+        </div>
       </div>
 
       <div className="rounded border bg-black p-3 text-white">

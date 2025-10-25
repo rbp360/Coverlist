@@ -93,6 +93,7 @@ export type Setlist = {
   showArtist: boolean;
   showKey?: boolean; // if true, display base key in list meta
   showTransposedKey?: boolean;
+  songGapSec?: number; // seconds gap to apply between songs when enabled
   items: SetlistItem[];
   date?: string; // ISO date for the show
   venue?: string;
