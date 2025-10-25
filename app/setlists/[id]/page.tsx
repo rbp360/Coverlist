@@ -19,6 +19,7 @@ type Setlist = {
   id: string;
   name: string;
   showArtist: boolean;
+  showKey?: boolean;
   showTransposedKey?: boolean;
   items: Item[];
   projectId?: string;
@@ -247,10 +248,7 @@ export default function SetlistEditorPage() {
     await save({ items: items as any });
   }
 
-  async function toggleArtist() {
-    if (!setlist) return;
-    await save({ showArtist: !setlist.showArtist });
-  }
+  // showArtist is now toggled from the settings section below
 
   function onDragStart(e: React.DragEvent<HTMLLIElement>, id: string) {
     setDragId(id);
@@ -518,15 +516,10 @@ export default function SetlistEditorPage() {
           {setlist.addGapAfterEachSong && settings && (
             <span className="text-xs text-gray-500">(+{settings.defaultSongGapSec}s per song)</span>
           )}
-          <button className="rounded border px-3 py-1 text-sm" onClick={toggleArtist}>
-            {setlist.showArtist ? 'Hide' : 'Show'} artist
-          </button>
-          <a className="rounded border px-3 py-1 text-sm" href="/settings">
+          {/* Show artist moved into settings section */}
+          <a className="rounded border px-3 py-1 text-sm" href={`/setlists/${id}/settings`}>
             Settings
           </a>
-          <button className="rounded border px-3 py-1 text-sm" onClick={copyJson}>
-            Copy JSON
-          </button>
           <div className="flex items-center gap-2 rounded border px-2 py-1 text-sm">
             <span>PDF font</span>
             <input
@@ -574,49 +567,11 @@ export default function SetlistEditorPage() {
             onBlur={(e) => save({ venue: e.target.value || undefined })}
           />
         </label>
-        <label className="flex items-center gap-2 text-sm">
-          <span className="w-56 text-neutral-400">Add gap after each song</span>
-          <input
-            type="checkbox"
-            checked={!!setlist.addGapAfterEachSong}
-            onChange={(e) => save({ addGapAfterEachSong: e.target.checked })}
-          />
-          <span className="text-xs text-neutral-500">
-            {settings?.defaultSongGapSec ?? 0}s per song
-          </span>
-        </label>
-        <label className="flex items-center gap-2 text-sm">
-          <span className="w-56 text-neutral-400">Show transposed key</span>
-          <input
-            type="checkbox"
-            checked={!!setlist.showTransposedKey}
-            onChange={(e) => save({ showTransposedKey: e.target.checked })}
-          />
-          <span className="text-xs text-neutral-500">Display as “Title (Bb)”</span>
-        </label>
+        {/* 'Add gap after each song' moved to per-setlist Settings page */}
+        {/* Per-setlist settings moved to dedicated Settings page */}
       </div>
 
-      <div className="rounded border bg-black p-3 text-white">
-        <div className="mb-2 font-medium">Visibility</div>
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={isPublic}
-            onChange={async (e) => {
-              const next = e.target.checked;
-              setIsPublic(next);
-              await save({ public: next } as any);
-            }}
-          />
-          <span>Make setlist public/searchable</span>
-          <span
-            title="Selecting public makes the setlist discoverable and searchable for your friends, fans, band members, techs and anyone else!"
-            className="ml-1 cursor-help text-xs text-neutral-400 rounded border border-neutral-700 px-1"
-          >
-            i
-          </span>
-        </label>
-      </div>
+      {/* Visibility moved into settings grid below */}
 
       <div className="rounded border bg-black text-white">
         <ul className="divide-y">
@@ -649,12 +604,8 @@ export default function SetlistEditorPage() {
                           {setlist.showArtist && it.artist && (
                             <span className="text-gray-500"> — {it.artist}</span>
                           )}
-                          {song && (song.key || song.tempo) ? (
-                            <div className="text-sm text-neutral-600">
-                              {[song.key, song.tempo ? `${song.tempo} bpm` : undefined]
-                                .filter(Boolean)
-                                .join(' • ')}
-                            </div>
+                          {song && setlist.showKey && song.key ? (
+                            <div className="text-sm text-neutral-600">{song.key}</div>
                           ) : null}
                         </>
                       );
@@ -669,7 +620,7 @@ export default function SetlistEditorPage() {
                 {it.type === 'note' && <div className="text-sm text-gray-700">Note: {it.note}</div>}
                 {it.type === 'section' && (
                   <div className="flex items-baseline gap-3">
-                    <div className="font-semibold uppercase tracking-wide text-neutral-500">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-brand-500">
                       {it.title}
                     </div>
                     <div className="text-xs text-neutral-500">
@@ -693,41 +644,8 @@ export default function SetlistEditorPage() {
                 ) : (
                   <span />
                 )}
-                {it.type === 'song' && (
-                  <input
-                    className="w-24 rounded border px-2 py-1 text-xs"
-                    placeholder="Key"
-                    defaultValue={it.transposedKey || ''}
-                    onBlur={(e) => {
-                      if (!setlist) return;
-                      const items = sortedItems.map((x) =>
-                        x.id === it.id ? { ...x, transposedKey: e.target.value || undefined } : x,
-                      );
-                      save({ items: items as any });
-                    }}
-                  />
-                )}
-                {it.type === 'song' && sections.length > 0 && (
-                  <select
-                    className="rounded border px-2 py-1 text-xs"
-                    defaultValue=""
-                    onChange={(e) => {
-                      const target = e.target.value;
-                      if (target) moveItemToSection(it.id, target);
-                      e.currentTarget.value = '';
-                    }}
-                    title="Move to set"
-                  >
-                    <option value="" disabled>
-                      Move to set…
-                    </option>
-                    {sections.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.title}
-                      </option>
-                    ))}
-                  </select>
-                )}
+                {/* Removed per-song 'Key' input box; key display is controlled in Settings */}
+                {/* Removed 'Move to set' dropdown in favor of drag-and-drop */}
                 <button
                   className="rounded border px-2 py-1 text-xs"
                   onClick={() => removeItem(it.id)}
@@ -745,7 +663,7 @@ export default function SetlistEditorPage() {
         </ul>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 flex items-center justify-between">
             <div className="font-medium">Add Song</div>
@@ -843,27 +761,6 @@ export default function SetlistEditorPage() {
           </ul>
         </div>
         <div className="rounded border bg-black p-3 text-white">
-          <div className="mb-2 font-medium">Add Break</div>
-          <div className="flex gap-2">
-            <input
-              className="flex-1 rounded border px-3 py-2"
-              value={breakTitle}
-              onChange={(e) => setBreakTitle(e.target.value)}
-            />
-            <input
-              type="number"
-              className="w-24 rounded border px-3 py-2"
-              value={breakMin}
-              onChange={(e) => setBreakMin(parseInt(e.target.value) || 0)}
-            />
-            <button className="rounded bg-black px-3 py-2 text-white" onClick={addBreak}>
-              Add
-            </button>
-          </div>
-          <div className="mt-1 text-xs text-gray-600">Minutes</div>
-        </div>
-
-        <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 font-medium">Add Note</div>
           <div className="flex gap-2">
             <input
@@ -890,52 +787,76 @@ export default function SetlistEditorPage() {
           </div>
         </div>
 
-        <div className="rounded border bg-black p-3 text-white">
-          <div className="mb-2 font-medium">Sets</div>
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              <label className="flex items-center gap-2 text-sm">
-                <span className="text-neutral-400">Set count</span>
-                <input
-                  type="number"
-                  className="w-20 rounded border bg-black px-2 py-1"
-                  value={setCountInput}
-                  onChange={(e) => setSetCountInput(Math.max(0, parseInt(e.target.value) || 0))}
-                  min={0}
-                />
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <span className="text-neutral-400">Encore count</span>
-                <input
-                  type="number"
-                  className="w-24 rounded border bg-black px-2 py-1"
-                  value={encoreCountInput}
-                  onChange={(e) => setEncoreCountInput(Math.max(0, parseInt(e.target.value) || 0))}
-                  min={0}
-                />
-              </label>
-              <button className="rounded bg-black px-3 py-2" onClick={applySetTemplate}>
-                Apply template
-              </button>
-            </div>
-            <div className="text-xs text-neutral-500">
-              Tip: After creating sets, use the &quot;Add to set&quot; controls above to quickly
-              place songs into the right set. You can also drag items in the list.
-            </div>
-            <div className="mt-2 border-t border-neutral-800 pt-2">
-              <div className="mb-1 text-xs text-neutral-400">Quick add a custom section</div>
-              <div className="flex gap-2">
-                <input
-                  className="flex-1 rounded border px-3 py-2"
-                  value={sectionTitle}
-                  onChange={(e) => setSectionTitle(e.target.value)}
-                  placeholder="e.g., Soundcheck, Interlude"
-                />
-                <button className="rounded bg-black px-3 py-2 text-white" onClick={addSection}>
-                  Add section
+        <div className="flex flex-col gap-4">
+          <div className="rounded border bg-black p-3 text-white">
+            <div className="mb-2 font-medium">Sets</div>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <label className="flex items-center gap-2 text-sm">
+                  <span className="text-neutral-400">Set count</span>
+                  <input
+                    type="number"
+                    className="w-20 rounded border bg-black px-2 py-1"
+                    value={setCountInput}
+                    onChange={(e) => setSetCountInput(Math.max(0, parseInt(e.target.value) || 0))}
+                    min={0}
+                  />
+                </label>
+                <label className="flex items-center gap-2 text-sm">
+                  <span className="text-neutral-400">Encore count</span>
+                  <input
+                    type="number"
+                    className="w-24 rounded border bg-black px-2 py-1"
+                    value={encoreCountInput}
+                    onChange={(e) =>
+                      setEncoreCountInput(Math.max(0, parseInt(e.target.value) || 0))
+                    }
+                    min={0}
+                  />
+                </label>
+                <button className="rounded bg-black px-3 py-2" onClick={applySetTemplate}>
+                  Apply template
                 </button>
               </div>
+              <div className="text-xs text-neutral-500">
+                Tip: After creating sets, use the &quot;Add to set&quot; controls above to quickly
+                place songs into the right set. You can also drag items in the list.
+              </div>
+              <div className="mt-2 border-t border-neutral-800 pt-2">
+                <div className="mb-1 text-xs text-neutral-400">Quick add a custom section</div>
+                <div className="flex gap-2">
+                  <input
+                    className="flex-1 rounded border px-3 py-2"
+                    value={sectionTitle}
+                    onChange={(e) => setSectionTitle(e.target.value)}
+                    placeholder="e.g., Soundcheck, Interlude"
+                  />
+                  <button className="rounded bg-black px-3 py-2 text-white" onClick={addSection}>
+                    Add section
+                  </button>
+                </div>
+              </div>
             </div>
+          </div>
+          <div className="rounded border bg-black p-3 text-white">
+            <div className="mb-2 font-medium">Add Break</div>
+            <div className="flex gap-2">
+              <input
+                className="flex-1 rounded border px-3 py-2"
+                value={breakTitle}
+                onChange={(e) => setBreakTitle(e.target.value)}
+              />
+              <input
+                type="number"
+                className="w-24 rounded border px-3 py-2"
+                value={breakMin}
+                onChange={(e) => setBreakMin(parseInt(e.target.value) || 0)}
+              />
+              <button className="rounded bg-black px-3 py-2 text-white" onClick={addBreak}>
+                Add
+              </button>
+            </div>
+            <div className="mt-1 text-xs text-gray-600">Minutes</div>
           </div>
         </div>
       </div>

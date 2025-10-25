@@ -91,6 +91,7 @@ export type Setlist = {
   projectId: string;
   name: string;
   showArtist: boolean;
+  showKey?: boolean; // if true, display base key in list meta
   showTransposedKey?: boolean;
   items: SetlistItem[];
   date?: string; // ISO date for the show

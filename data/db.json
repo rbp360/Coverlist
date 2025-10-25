@@ -221,19 +221,20 @@
           "title": "Set 1"
         },
         {
-          "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
-          "type": "note",
-          "order": 1,
-          "note": "⬇️ Tune down 1/2 step"
-        },
-        {
           "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
           "type": "song",
-          "order": 2,
+          "order": 1,
           "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
           "title": "Jungle of Love",
           "artist": "Lynch Mob",
-          "durationSec": 231
+          "durationSec": 231,
+          "transposedKey": "B"
+        },
+        {
+          "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
+          "type": "note",
+          "order": 2,
+          "note": "⬇️ Tune down 1/2 step"
         },
         {
           "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
@@ -273,10 +274,11 @@
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-25T07:56:43.161Z",
+      "updatedAt": "2025-10-25T11:47:37.577Z",
       "date": "2026-10-19",
       "venue": "My House",
-      "public": true
+      "public": true,
+      "showKey": false
     },
     {
       "id": "a71f897c-305f-472b-ac50-596c8002df22",
@@ -310,7 +312,8 @@
       ],
       "createdAt": "2025-10-21T09:16:33.799Z",
       "updatedAt": "2025-10-21T09:16:33.799Z",
-      "public": false
+      "public": false,
+      "showKey": false
     },
     {
       "id": "8153c54d-f4e6-4279-a733-77d714049ef9",
@@ -349,7 +352,8 @@
       "updatedAt": "2025-10-24T03:03:02.608Z",
       "public": true,
       "date": "2026-11-05",
-      "venue": "whiskey a Go GO"
+      "venue": "whiskey a Go GO",
+      "showKey": false
     }
   ],
   "invites": [],

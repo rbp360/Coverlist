@@ -39,10 +39,11 @@ function readDB(): DB {
   if (parsed.settings.defaultSongGapSec == null) parsed.settings.defaultSongGapSec = 30;
   if (parsed.settings.enrichmentMode == null) parsed.settings.enrichmentMode = 'stub';
   if (parsed.settings.enrichOnImport == null) parsed.settings.enrichOnImport = false;
-  // Backfill setlist.public default to false
+  // Backfill setlist defaults
   parsed.setlists = (parsed.setlists || []).map((s: any) => ({
     ...s,
     public: s.public ?? false,
+    showKey: s.showKey ?? false,
   }));
   return parsed as DB;
 }

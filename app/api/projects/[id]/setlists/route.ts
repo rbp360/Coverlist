@@ -41,6 +41,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
     projectId: project.id,
     name: parsed.data.name,
     showArtist: parsed.data.showArtist ?? true,
+    showKey: parsed.data.showKey ?? false,
     showTransposedKey: parsed.data.showTransposedKey ?? false,
     date: parsed.data.date,
     venue: parsed.data.venue,

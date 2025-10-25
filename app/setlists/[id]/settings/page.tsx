@@ -1,0 +1,186 @@
+'use client';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+
+// Minimal local types for this page
+type Item = {
+  id: string;
+  type: 'song' | 'break' | 'note' | 'section';
+  order: number;
+  title?: string;
+  artist?: string;
+  durationSec?: number;
+  songId?: string;
+  note?: string;
+  transposedKey?: string;
+};
+
+type Setlist = {
+  id: string;
+  name: string;
+  showArtist: boolean;
+  showKey?: boolean;
+  showTransposedKey?: boolean;
+  items: Item[];
+  date?: string;
+  venue?: string;
+  addGapAfterEachSong?: boolean;
+  projectId?: string;
+  public?: boolean;
+};
+
+export default function SetlistSettingsPage() {
+  const { id } = useParams<{ id: string }>();
+  const router = useRouter();
+  const [setlist, setSetlist] = useState<Setlist | null>(null);
+  const [isPublic, setIsPublic] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [defaultSongGapSec, setDefaultSongGapSec] = useState<number | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`/api/setlists/${id}`);
+      if (res.ok) {
+        const s = (await res.json()) as Setlist;
+        setSetlist(s);
+        setIsPublic(!!(s as any).public);
+      }
+      // Fetch global defaults to display helpful info
+      const st = await fetch('/api/settings');
+      if (st.ok) {
+        const data = await st.json();
+        setDefaultSongGapSec(data.defaultSongGapSec ?? null);
+      }
+    })();
+  }, [id]);
+
+  async function save(next: Partial<Setlist>) {
+    const res = await fetch(`/api/setlists/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(next),
+    });
+    if (res.ok) setSetlist(await res.json());
+  }
+
+  const sortedItems = useMemo(() => {
+    return [...(setlist?.items || [])].sort((a, b) => a.order - b.order);
+  }, [setlist]);
+
+  async function copyJson() {
+    if (!setlist) return;
+    try {
+      const data = {
+        name: setlist.name,
+        showArtist: setlist.showArtist,
+        showTransposedKey: setlist.showTransposedKey,
+        date: setlist.date,
+        venue: setlist.venue,
+        addGapAfterEachSong: setlist.addGapAfterEachSong,
+        items: sortedItems.map((i) => ({
+          type: i.type,
+          songId: i.songId,
+          title: i.title,
+          artist: i.artist,
+          durationSec: i.durationSec,
+          note: i.note,
+          order: i.order,
+          transposedKey: i.transposedKey,
+        })),
+      };
+      await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+      alert('Setlist JSON copied to clipboard');
+    } catch {
+      alert('Copy failed');
+    }
+  }
+
+  if (!setlist) return <div>Loading…</div>;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold">Settings — {setlist.name}</h2>
+        <a className="rounded border px-3 py-1 text-sm" href={`/setlists/${id}`}>
+          Back to setlist
+        </a>
+      </div>
+
+      <div className="rounded border bg-black p-3 text-white">
+        <div className="mb-2 font-medium">Display</div>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="w-56 text-neutral-400">Show artist</span>
+          <input
+            type="checkbox"
+            checked={!!setlist.showArtist}
+            onChange={(e) => save({ showArtist: e.target.checked })}
+          />
+        </label>
+        <label className="mt-2 flex items-center gap-2 text-sm">
+          <span className="w-56 text-neutral-400">Show key</span>
+          <input
+            type="checkbox"
+            checked={!!setlist.showKey}
+            onChange={(e) => save({ showKey: e.target.checked })}
+          />
+          <span className="text-xs text-neutral-500">Display base key in list meta</span>
+        </label>
+        <label className="mt-2 flex items-center gap-2 text-sm">
+          <span className="w-56 text-neutral-400">Show transposed key</span>
+          <input
+            type="checkbox"
+            checked={!!setlist.showTransposedKey}
+            onChange={(e) => save({ showTransposedKey: e.target.checked })}
+          />
+          <span className="text-xs text-neutral-500">Display as “Title (Bb)”</span>
+        </label>
+      </div>
+
+      <div className="rounded border bg-black p-3 text-white">
+        <div className="mb-2 font-medium">Song gaps</div>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="w-56 text-neutral-400">Add gap after each song</span>
+          <input
+            type="checkbox"
+            checked={!!setlist.addGapAfterEachSong}
+            onChange={(e) => save({ addGapAfterEachSong: e.target.checked })}
+          />
+          {defaultSongGapSec !== null && (
+            <span className="text-xs text-neutral-500">{defaultSongGapSec}s per song</span>
+          )}
+        </label>
+      </div>
+
+      <div className="rounded border bg-black p-3 text-white">
+        <div className="mb-2 font-medium">Visibility</div>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={isPublic}
+            onChange={async (e) => {
+              const next = e.target.checked;
+              setIsPublic(next);
+              setSaving(true);
+              await save({ public: next } as any);
+              setSaving(false);
+            }}
+          />
+          <span>Make setlist public/searchable</span>
+          <span
+            title="Selecting public makes the setlist discoverable and searchable for your friends, fans, band members, techs and anyone else!"
+            className="ml-1 cursor-help text-xs text-neutral-400 rounded border border-neutral-700 px-1"
+          >
+            i
+          </span>
+        </label>
+      </div>
+
+      <div className="rounded border bg-black p-3 text-white">
+        <div className="mb-2 font-medium">Utilities</div>
+        <button className="rounded border px-3 py-1 text-sm" onClick={copyJson} disabled={saving}>
+          Copy JSON
+        </button>
+      </div>
+    </div>
+  );
+}

@@ -39,6 +39,7 @@ export const setlistCreateSchema = z.object({
   projectId: z.string().min(1),
   name: z.string().min(1),
   showArtist: z.boolean().default(true),
+  showKey: z.boolean().optional(),
   showTransposedKey: z.boolean().optional(),
   items: z.array(setlistItemSchema).optional(),
   date: z.string().optional(),
@@ -52,6 +53,7 @@ export const setlistUpdateSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1).optional(),
   showArtist: z.boolean().optional(),
+  showKey: z.boolean().optional(),
   showTransposedKey: z.boolean().optional(),
   items: z
     .array(setlistItemSchema.extend({ id: z.string(), order: z.number().int().nonnegative() }))
