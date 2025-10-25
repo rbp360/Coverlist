@@ -88,17 +88,49 @@ export async function GET(request: Request) {
       titleHas('deluxe') ||
       titleHas('expanded') ||
       titleHas('bonus');
-    let rank = 3;
-    if (status === 'official') rank -= 1;
-    if (primary === 'album') rank -= 1;
-    if (primary === 'single' || primary === 'ep') rank += 0;
-    if (isCompilation) rank += 1;
-    // If it's a Greatest Hits/Hits style collection, prefer it ONLY when it's by the same artist.
-    // For Various Artists or mismatched-artist compilations, do not apply the boost (keep the compilation penalty).
-    if (isGreatestHits && matchesSearchArtist) rank -= 2;
-    if (isRemixOrAlt) rank += 1;
-    if (isLive) rank += 3;
+    // Re-rank to prioritize studio albums first, ahead of hits/collections
+    let rank = 10;
+    const isAlbum = primary === 'album';
+    const isStudioAlbum =
+      isAlbum && !isCompilation && !isLive && !isRemixOrAlt && !titleHas('soundtrack');
+
+    if (isStudioAlbum)
+      rank = 0; // top priority
+    else if (isAlbum && status === 'official')
+      rank = 2; // other album variants
+    else if (primary === 'single' || primary === 'ep') rank = 3;
+    else if (isCompilation || isGreatestHits) rank = 5;
+    else if (isLive) rank = 6;
+    else if (isRemixOrAlt) rank = 7;
+
+    // Slight nudge if artist matches the search
+    if (matchesSearchArtist) rank = Math.max(0, rank - 1);
+    // Downweight Various Artists for anything but true studio albums
+    if (isVarious && !isStudioAlbum) rank += 1;
     return Math.max(0, rank);
+  };
+  const isStudioAlbumRelease = (rel: any, recTitle: string): boolean => {
+    const rg = rel?.['release-group'] ?? {};
+    const primary = String(rg['primary-type'] || rg['type'] || '').toLowerCase();
+    const secondary: string[] = Array.isArray(rg['secondary-types'])
+      ? rg['secondary-types'].map((s: any) => String(s).toLowerCase())
+      : [];
+    const title = String(rel?.title || '').toLowerCase();
+    const isAlbum = primary === 'album';
+    const isCompilation =
+      secondary.includes('compilation') ||
+      /\b(greatest hits|best of|very best|collection|ultimate collection|definitive collection|anthology|essentials?|the singles|singles|hits)\b/i.test(
+        title,
+      );
+    const isLive = secondary.includes('live') || title.includes(' live') || title.includes('(live');
+    const isRemixOrAlt =
+      secondary.includes('remix') ||
+      title.includes('remix') ||
+      title.includes('remastered') ||
+      title.includes('deluxe') ||
+      title.includes('expanded') ||
+      title.includes('bonus');
+    return isAlbum && !isCompilation && !isLive && !isRemixOrAlt && !title.includes('soundtrack');
   };
 
   // Branch 1: recording title provided
@@ -142,6 +174,7 @@ export async function GET(request: Request) {
           ? Math.min(...releases.map((rel) => parseDateToMs(rel?.date)))
           : Number.POSITIVE_INFINITY;
         const bestRank = bestRelease ? releaseStudioRank(bestRelease, title) : 999;
+        const isStudio = bestRelease ? isStudioAlbumRelease(bestRelease, title) : false;
         let score = 0;
         if (q && title.toLowerCase().includes(q.toLowerCase())) score += 2;
         if (artist && a.toLowerCase().includes(artist.toLowerCase())) score += 2;
@@ -159,17 +192,24 @@ export async function GET(request: Request) {
           _score: score,
           _rank: bestRank,
           _earliest: earliestDateMs,
+          _isStudio: isStudio,
         };
       })
       .sort((x: any, y: any) => {
-        if ((x._hitsCount ?? 0) !== (y._hitsCount ?? 0))
-          return (y._hitsCount ?? 0) - (x._hitsCount ?? 0);
+        // Studio albums first
+        if ((x._isStudio ? 1 : 0) !== (y._isStudio ? 1 : 0))
+          return (y._isStudio ? 1 : 0) - (x._isStudio ? 1 : 0);
+        // Then by our computed rank (lower is better)
         if ((x._rank ?? 999) !== (y._rank ?? 999)) return (x._rank ?? 999) - (y._rank ?? 999);
+        // Earlier releases preferred
         if ((x._earliest ?? Infinity) !== (y._earliest ?? Infinity))
           return (x._earliest ?? Infinity) - (y._earliest ?? Infinity);
-        return (y._score ?? 0) - (x._score ?? 0);
+        // Soft score next
+        if ((y._score ?? 0) !== (x._score ?? 0)) return (y._score ?? 0) - (x._score ?? 0);
+        // Finally, hits/collections count as the last tie-breaker (de-emphasized)
+        return (y._hitsCount ?? 0) - (x._hitsCount ?? 0);
       })
-      .map(({ _score, _rank, _earliest, ...rest }: any) => rest);
+      .map(({ _score, _rank, _earliest, _isStudio, ...rest }: any) => rest);
     return NextResponse.json({ results });
   }
 
@@ -215,6 +255,7 @@ export async function GET(request: Request) {
           ? Math.min(...releases.map((rel) => parseDateToMs(rel?.date)))
           : Number.POSITIVE_INFINITY;
         const bestRank = bestRelease ? releaseStudioRank(bestRelease, title) : 999;
+        const isStudio = bestRelease ? isStudioAlbumRelease(bestRelease, title) : false;
         let score = 0;
         if (artist && a.toLowerCase().includes(artist.toLowerCase())) score += 2;
         if (durationSec) score += 1;
@@ -231,15 +272,22 @@ export async function GET(request: Request) {
           _score: score,
           _rank: bestRank,
           _earliest: earliestDateMs,
+          _isStudio: isStudio,
         };
       })
       .sort((x: any, y: any) => {
-        if ((x._hitsCount ?? 0) !== (y._hitsCount ?? 0))
-          return (y._hitsCount ?? 0) - (x._hitsCount ?? 0);
+        // Studio albums first
+        if ((x._isStudio ? 1 : 0) !== (y._isStudio ? 1 : 0))
+          return (y._isStudio ? 1 : 0) - (x._isStudio ? 1 : 0);
+        // Then by rank
         if ((x._rank ?? 999) !== (y._rank ?? 999)) return (x._rank ?? 999) - (y._rank ?? 999);
+        // Then by earliest release date
         if ((x._earliest ?? Infinity) !== (y._earliest ?? Infinity))
           return (x._earliest ?? Infinity) - (y._earliest ?? Infinity);
-        return (y._score ?? 0) - (x._score ?? 0);
+        // Then by soft score
+        if ((y._score ?? 0) !== (x._score ?? 0)) return (y._score ?? 0) - (x._score ?? 0);
+        // Hits/collections count at the very end
+        return (y._hitsCount ?? 0) - (x._hitsCount ?? 0);
       });
 
     // Deduplicate by normalized title and take top 20
@@ -252,7 +300,7 @@ export async function GET(request: Request) {
       unique.push(r);
       if (unique.length >= 20) break;
     }
-    const results = unique.map(({ _score, _rank, _earliest, ...rest }: any) => rest);
+    const results = unique.map(({ _score, _rank, _earliest, _isStudio, ...rest }: any) => rest);
     return NextResponse.json({ results });
   }
 
