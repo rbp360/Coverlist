@@ -9,6 +9,7 @@ type User = {
   id: string;
   email: string;
   name?: string;
+  username?: string;
   instruments?: string[];
   avatarUrl?: string;
 };
@@ -19,6 +20,7 @@ export default function ProfilePage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [collabs, setCollabs] = useState<User[]>([]);
   const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [sel, setSel] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,6 +37,7 @@ export default function ProfilePage() {
       setProjects(data.projects || []);
       setCollabs(data.collaborators || []);
       setName(data.user?.name || '');
+      setUsername(data.user?.username || '');
       setSel(data.user?.instruments || []);
     })();
   }, []);
@@ -45,7 +48,7 @@ export default function ProfilePage() {
       const res = await fetch('/api/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, instruments: sel }),
+        body: JSON.stringify({ name, username, instruments: sel }),
       });
       if (res.ok) setUser(await res.json());
     } finally {
@@ -128,6 +131,16 @@ export default function ProfilePage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
+            </label>
+            <label className="mt-3 block text-sm">
+              <span className="mb-1 block text-neutral-400">Username</span>
+              <input
+                className="w-full rounded border bg-transparent px-3 py-2"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="e.g. johndoe"
+              />
+              <div className="mt-1 text-xs text-neutral-500">This helps others find you.</div>
             </label>
             <div className="mt-4">
               <div className="mb-1 text-sm text-neutral-400">Instruments</div>

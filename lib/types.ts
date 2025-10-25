@@ -4,6 +4,7 @@ export type User = {
   passwordHash: string;
   createdAt: string;
   name?: string;
+  username?: string; // unique, case-insensitive
   instruments?: string[];
   avatarUrl?: string;
   // Password reset (optional, used for standard reset flow)
@@ -27,6 +28,7 @@ export type DB = {
   repertoireSongs?: RepertoireSong[];
   projectMembers?: ProjectMember[];
   projectPractice?: PracticeEntry[];
+  joinRequests?: JoinRequest[];
   settings: Settings;
 };
 
@@ -108,6 +110,16 @@ export type Invite = {
   token: string;
   status: 'pending' | 'accepted' | 'revoked';
   invitedBy: string; // userId of inviter
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type JoinRequest = {
+  id: string;
+  projectId: string;
+  userId: string;
+  message?: string;
+  status: 'pending' | 'approved' | 'rejected';
   createdAt: string;
   updatedAt: string;
 };

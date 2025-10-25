@@ -18,6 +18,10 @@ export default function ProjectMembersPage() {
   const { id } = useParams<{ id: string }>();
   const [members, setMembers] = useState<Member[]>([]);
   const [me, setMe] = useState<{ id: string; instruments?: string[] } | null>(null);
+  const [collabs, setCollabs] = useState<Member[]>([]);
+  const [userQ, setUserQ] = useState('');
+  const [userResults, setUserResults] = useState<Member[]>([]);
+  const [invitingId, setInvitingId] = useState<string | null>(null);
   const [mySel, setMySel] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -40,6 +44,15 @@ export default function ProjectMembersPage() {
         if (prof.ok) {
           const p = await prof.json();
           setMe({ id: p.user?.id, instruments: p.user?.instruments || [] });
+          setCollabs(
+            (p.collaborators || []).map((c: any) => ({
+              id: c.id,
+              email: c.email,
+              name: c.name,
+              avatarUrl: c.avatarUrl,
+              instruments: c.instruments || [],
+            })),
+          );
         }
       } catch (e) {
         setError('Failed to load');
@@ -72,6 +85,45 @@ export default function ProjectMembersPage() {
       }
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function searchUsers() {
+    const q = userQ.trim();
+    if (!q) {
+      setUserResults([]);
+      return;
+    }
+    const res = await fetch(`/api/users/search?q=${encodeURIComponent(q)}`);
+    if (res.ok) {
+      const data = await res.json();
+      setUserResults(
+        (data.results || []).map((u: any) => ({
+          id: u.id,
+          email: u.email,
+          name: u.name,
+          avatarUrl: u.avatarUrl,
+          instruments: u.instruments || [],
+        })),
+      );
+    }
+  }
+
+  async function inviteUserByEmail(email: string) {
+    setInvitingId(email);
+    try {
+      const res = await fetch(`/api/projects/${id}/invites`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        try {
+          alert('Invite sent');
+        } catch {}
+      }
+    } finally {
+      setInvitingId(null);
     }
   }
 
@@ -168,6 +220,91 @@ export default function ProjectMembersPage() {
             ))}
             {members.length === 0 && (
               <li className="py-2 text-sm text-neutral-600">No members found.</li>
+            )}
+          </ul>
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="rounded border bg-black p-4 text-white">
+          <div className="mb-2 font-medium">People you’ve collaborated with</div>
+          <ul className="divide-y">
+            {collabs.map((u) => (
+              <li key={u.id} className="flex items-center justify-between gap-3 py-2">
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 overflow-hidden rounded-full bg-neutral-800">
+                    {u.avatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={u.avatarUrl} alt="avatar" className="h-full w-full object-cover" />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-[10px] text-neutral-500">
+                        No Photo
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div className="font-medium">{u.name || u.email}</div>
+                    {u.name && <div className="text-xs text-neutral-500">{u.email}</div>}
+                  </div>
+                </div>
+                <button
+                  className="rounded border px-2 py-1 text-xs"
+                  onClick={() => inviteUserByEmail(u.email)}
+                  disabled={invitingId === u.email}
+                >
+                  {invitingId === u.email ? 'Inviting…' : 'Invite'}
+                </button>
+              </li>
+            ))}
+            {collabs.length === 0 && (
+              <li className="py-2 text-sm text-neutral-600">No collaborators yet.</li>
+            )}
+          </ul>
+        </div>
+
+        <div className="rounded border bg-black p-4 text-white">
+          <div className="mb-2 font-medium">Find musicians (global)</div>
+          <div className="mb-2 flex gap-2">
+            <input
+              className="flex-1 rounded border bg-transparent px-3 py-2"
+              placeholder="Search by username, name, email, or instrument"
+              value={userQ}
+              onChange={(e) => setUserQ(e.target.value)}
+            />
+            <button className="rounded bg-black px-3 py-2 text-white" onClick={searchUsers}>
+              Search
+            </button>
+          </div>
+          <ul className="divide-y">
+            {userResults.map((u) => (
+              <li key={u.id} className="flex items-center justify-between gap-3 py-2">
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 overflow-hidden rounded-full bg-neutral-800">
+                    {u.avatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={u.avatarUrl} alt="avatar" className="h-full w-full object-cover" />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-[10px] text-neutral-500">
+                        No Photo
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <div className="font-medium">{u.name || u.email}</div>
+                    {u.name && <div className="text-xs text-neutral-500">{u.email}</div>}
+                  </div>
+                </div>
+                <button
+                  className="rounded border px-2 py-1 text-xs"
+                  onClick={() => inviteUserByEmail(u.email)}
+                  disabled={invitingId === u.email}
+                >
+                  {invitingId === u.email ? 'Inviting…' : 'Invite'}
+                </button>
+              </li>
+            ))}
+            {userResults.length === 0 && (
+              <li className="py-2 text-sm text-neutral-600">No users found.</li>
             )}
           </ul>
         </div>

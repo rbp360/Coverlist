@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { User, DB, ProjectMember, PracticeEntry, RepertoireSong } from './types';
+import { User, DB, ProjectMember, PracticeEntry, RepertoireSong, JoinRequest } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
@@ -34,6 +34,7 @@ function readDB(): DB {
   parsed.repertoireSongs = parsed.repertoireSongs || [];
   parsed.projectMembers = parsed.projectMembers || [];
   parsed.projectPractice = parsed.projectPractice || [];
+  parsed.joinRequests = parsed.joinRequests || [];
   parsed.settings = parsed.settings || { defaultSongGapSec: 30 };
   if (parsed.settings.defaultSongGapSec == null) parsed.settings.defaultSongGapSec = 30;
   if (parsed.settings.enrichmentMode == null) parsed.settings.enrichmentMode = 'stub';
@@ -253,6 +254,11 @@ export const db = {
       writeDB(d);
     }
   },
+  getUserByUsername(username: string): User | undefined {
+    const d = readDB();
+    const un = username.toLowerCase();
+    return d.users.find((u) => (u.username || '').toLowerCase() === un);
+  },
   // Password reset helpers
   setUserPasswordReset(userId: string, token: string, expiresAt: number) {
     const d = readDB();
@@ -348,5 +354,33 @@ export const db = {
   getInviteByToken(token: string) {
     const d = readDB();
     return d.invites.find((i) => i.token === token);
+  },
+  // Join Requests
+  listJoinRequestsForProject(projectId: string): JoinRequest[] {
+    const d = readDB();
+    return (d.joinRequests || []).filter((jr) => jr.projectId === projectId);
+  },
+  listJoinRequestsForUser(userId: string): JoinRequest[] {
+    const d = readDB();
+    return (d.joinRequests || []).filter((jr) => jr.userId === userId);
+  },
+  getJoinRequestByProjectAndUser(projectId: string, userId: string): JoinRequest | undefined {
+    const d = readDB();
+    return (d.joinRequests || []).find((jr) => jr.projectId === projectId && jr.userId === userId);
+  },
+  createJoinRequest(jr: JoinRequest) {
+    const d = readDB();
+    const list = d.joinRequests || (d.joinRequests = []);
+    list.push(jr);
+    writeDB(d);
+  },
+  updateJoinRequest(jr: JoinRequest) {
+    const d = readDB();
+    const list = d.joinRequests || (d.joinRequests = []);
+    const idx = list.findIndex((x) => x.id === jr.id);
+    if (idx !== -1) {
+      list[idx] = jr;
+      writeDB(d);
+    }
   },
 };

@@ -38,7 +38,15 @@ export async function PUT(request: Request) {
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
   const curr = db.getUserById(me.id);
   if (!curr) return NextResponse.json({ error: 'User not found' }, { status: 404 });
-  const next = { ...curr, ...parsed.data } as any;
+  // Enforce username uniqueness (case-insensitive)
+  const patch = parsed.data as any;
+  if (patch.username) {
+    const existing = db.getUserByUsername(patch.username);
+    if (existing && existing.id !== curr.id) {
+      return NextResponse.json({ error: 'Username already taken' }, { status: 409 });
+    }
+  }
+  const next = { ...curr, ...patch } as any;
   db.updateUser(next);
   return NextResponse.json(next);
 }
