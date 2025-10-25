@@ -2,8 +2,6 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { QUICK_NOTES } from '@/lib/presets';
-
 type Item = {
   id: string;
   type: 'song' | 'break' | 'note' | 'section';
@@ -62,7 +60,6 @@ export default function SetlistEditorPage() {
   const [pdfFontSize, setPdfFontSize] = useState(1.0);
   const [isPublic, setIsPublic] = useState(false);
   // New state for multi-set workflow
-  const [selectedSongIds, setSelectedSongIds] = useState<string[]>([]);
   const [setCountInput, setSetCountInput] = useState<number>(0);
   const [encoreCountInput, setEncoreCountInput] = useState<number>(0);
 
@@ -366,38 +363,31 @@ export default function SetlistEditorPage() {
     save({ items: [...items, item] as any });
   }
 
-  function addSongsToSection(songIds: string[], sectionId: string) {
-    if (!setlist || songIds.length === 0) return;
-    // Build items for new songs based on repertoire ordering
-    const toAdd = songs
-      .filter((s) => songIds.includes(s.id))
-      .map<Item>((s) => ({
-        id: crypto.randomUUID(),
-        type: 'song',
-        order: 0,
-        songId: s.id,
-        title: s.title,
-        artist: s.artist,
-        durationSec: s.durationSec,
-      }));
-    if (toAdd.length === 0) return;
-
-    const items = [...sortedItems];
-    const sectionIdx = items.findIndex((i) => i.id === sectionId);
-    if (sectionIdx === -1) return;
-    // Find insertion index: before the next section or at end
-    let insertAt = items.length;
-    for (let i = sectionIdx + 1; i < items.length; i++) {
-      if (items[i].type === 'section') {
-        insertAt = i;
-        break;
-      }
-    }
-    items.splice(insertAt, 0, ...toAdd);
-    const reindexed = items.map((it, idx) => ({ ...it, order: idx }));
-    save({ items: reindexed as any });
-    setSelectedSongIds([]);
+  function addAllFromRepertoire() {
+    if (!setlist || songs.length === 0) return;
+    const existingIds = new Set(
+      (setlist.items || [])
+        .filter((i) => i.type === 'song')
+        .map((i) => i.songId)
+        .filter(Boolean) as string[],
+    );
+    const toAppend = songs.filter((s) => !existingIds.has(s.id));
+    if (toAppend.length === 0) return;
+    const items = [...setlist.items];
+    let order = items.length ? Math.max(...items.map((i) => i.order)) + 1 : 0;
+    const newItems: Item[] = toAppend.map((s) => ({
+      id: crypto.randomUUID(),
+      type: 'song',
+      order: order++,
+      songId: s.id,
+      title: s.title,
+      artist: s.artist,
+      durationSec: s.durationSec,
+    }));
+    save({ items: [...items, ...newItems] as any });
   }
+
+  // Removed bulk add to section; drag-and-drop is the primary interaction
 
   function moveItemToSection(itemId: string, sectionId: string) {
     if (!setlist) return;
@@ -465,6 +455,32 @@ export default function SetlistEditorPage() {
   }
 
   if (!setlist) return <div>Loading…</div>;
+
+  // Curated note presets for quick insertion (with optional GIF support later)
+  const NOTE_PRESETS: Array<{ label: string; gif?: string }> = [
+    { label: '🎸 Capo I' },
+    { label: '🎸 Capo II' },
+    { label: '🎸 Capo III' },
+    { label: '🎸 Capo IV' },
+    { label: '🎸 Capo V' },
+    { label: '⬇️ Half-step down' },
+    { label: '⏱️ Short break' },
+    { label: '🚨 Stop' },
+    { label: '🎶 Singalong' },
+    { label: '🎸 Instrument change' },
+    { label: '🎸 1/2 step down' },
+    { label: '🎤 Call & response' },
+    { label: '⬆️ Key change' },
+    { label: '⚠️ Watch ending' },
+    { label: '⚡ Straight through' },
+    { label: '🧱 Intro' },
+    { label: '🧱 Outro' },
+    { label: '🧱 Pause' },
+    { label: '🎚️ Click on' },
+    { label: '🎚️ Click off' },
+    { label: 'Introduce band' },
+    { label: 'Socials, links' },
+  ];
 
   async function commitNameChange() {
     if (!setlist) return;
@@ -684,123 +700,70 @@ export default function SetlistEditorPage() {
         <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 flex items-center justify-between">
             <div className="font-medium">Add Song</div>
-            <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-neutral-400">Selected: {selectedSongIds.length}</span>
-              <select
-                className="rounded border bg-black px-2 py-1"
-                disabled={sections.length === 0 || selectedSongIds.length === 0}
-                defaultValue=""
-                onChange={(e) => {
-                  const sectionId = e.target.value;
-                  if (!sectionId) return;
-                  addSongsToSection(selectedSongIds, sectionId);
-                  e.currentTarget.value = '';
-                }}
-                title={sections.length === 0 ? 'Create sets first' : 'Add selected to set'}
-              >
-                <option value="" disabled>
-                  Add selected to set…
-                </option>
-                {sections.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.title}
-                  </option>
-                ))}
-              </select>
-              <button
-                className="rounded border px-2 py-1"
-                onClick={() => setSelectedSongIds([])}
-                disabled={selectedSongIds.length === 0}
-              >
-                Clear
-              </button>
-            </div>
+            <button
+              className="rounded border px-2 py-1 text-xs disabled:opacity-50"
+              onClick={addAllFromRepertoire}
+              disabled={songs.length === 0}
+              title={songs.length === 0 ? 'No repertoire songs' : 'Append all repertoire songs'}
+            >
+              Add all from repertoire
+            </button>
           </div>
           <ul className="max-h-72 divide-y overflow-auto">
             {songs.map((s) => (
               <li
                 key={s.id}
-                className="flex items-center justify-between p-2"
+                className="flex items-center justify-between px-2 py-1.5"
                 draggable
                 onDragStart={(e) => onSongDragStart(e, s.id)}
-                title={sections.length > 0 ? 'Drag onto a set to add' : undefined}
+                title={'Drag into the setlist to add'}
               >
                 <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedSongIds.includes(s.id)}
-                    onChange={(e) => {
-                      setSelectedSongIds((prev) => {
-                        if (e.target.checked) return [...prev, s.id];
-                        return prev.filter((x) => x !== s.id);
-                      });
-                    }}
-                    title="Select for adding to a set"
-                  />
-                  <div className="text-sm font-medium">
+                  <div className="text-[13px] font-medium">
                     {s.title} <span className="text-gray-500">— {s.artist}</span>
                   </div>
                   {s.durationSec ? (
-                    <div className="text-xs text-gray-600">{fmt(s.durationSec)}</div>
+                    <div className="text-[11px] text-gray-600">{fmt(s.durationSec)}</div>
                   ) : null}
                 </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  {sections.length > 0 && (
-                    <select
-                      className="rounded border px-2 py-1 text-xs"
-                      defaultValue=""
-                      onChange={(e) => {
-                        const target = e.target.value;
-                        if (target) addSongsToSection([s.id], target);
-                        e.currentTarget.value = '';
-                      }}
-                      title="Add to set"
-                    >
-                      <option value="" disabled>
-                        Add to set…
-                      </option>
-                      {sections.map((sec) => (
-                        <option key={sec.id} value={sec.id}>
-                          {sec.title}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                  <button className="rounded border px-2 py-1 text-xs" onClick={() => addSong(s)}>
-                    Add to end
-                  </button>
-                </div>
+                {/* Right side intentionally empty: drag-and-drop is the only action */}
               </li>
             ))}
             {songs.length === 0 && (
-              <li className="p-2 text-sm text-gray-600">No songs in repertoire yet.</li>
+              <li className="p-2 text-xs text-gray-600">No songs in repertoire yet.</li>
             )}
           </ul>
         </div>
         <div className="rounded border bg-black p-3 text-white">
           <div className="mb-2 font-medium">Add Note</div>
-          <div className="flex gap-2">
-            <input
-              className="flex-1 rounded border px-3 py-2"
-              value={noteText}
-              onChange={(e) => setNoteText(e.target.value)}
-              placeholder="Type a note or choose a preset"
-            />
-            <button className="rounded bg-black px-3 py-2 text-white" onClick={addNote}>
-              Add
-            </button>
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {QUICK_NOTES.map((p) => (
+          {/* Curated presets */}
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {NOTE_PRESETS.map((p) => (
               <button
                 key={p.label}
-                className="rounded border px-2 py-1 text-xs hover:bg-neutral-50"
-                title={p.text}
-                onClick={() => quickInsertNote(p.text)}
+                className="flex min-w-0 items-center gap-2 rounded border px-2 py-1 text-left text-xs hover:bg-neutral-50"
+                title={p.label}
+                onClick={() => quickInsertNote(p.label)}
               >
-                {p.label}
+                {p.gif ? (
+                  // Optional GIF preview if assets are added to /public and wired here
+                  <img src={p.gif} alt="" className="h-4 w-4 flex-none rounded object-cover" />
+                ) : null}
+                <span className="truncate">{p.label}</span>
               </button>
             ))}
+          </div>
+          {/* Custom note input, compact and fits within card */}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <input
+              className="min-w-0 flex-1 rounded border px-2 py-1 text-sm"
+              value={noteText}
+              onChange={(e) => setNoteText(e.target.value)}
+              placeholder="Custom note"
+            />
+            <button className="rounded border px-2 py-1 text-xs" onClick={addNote}>
+              Add
+            </button>
           </div>
         </div>
 
