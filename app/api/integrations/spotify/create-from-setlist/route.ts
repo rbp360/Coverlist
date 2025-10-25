@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { buildSetlistPlaylistName } from '@/lib/format';
 import { ensureTrackUris, createPlaylist, addTracks } from '@/lib/spotifyPlaylist';
 
 export async function POST(req: Request) {
@@ -19,9 +20,9 @@ export async function POST(req: Request) {
   const project = db.getProject(setlist.projectId, user.id);
   if (!project) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
-  // Build name as "Project name - setlist title - date"
+  // Build formatted name: TitleCase project and setlist, short month + 2-digit year
   const date = setlist.date || new Date().toISOString().slice(0, 10);
-  const name = `${project.name} - ${setlist.name} - ${date}`;
+  const name = buildSetlistPlaylistName(project.name, setlist.name, date);
 
   // Collect songs
   const songs = (setlist.items || [])

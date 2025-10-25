@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
+import { buildRehearsalPlaylistName } from '@/lib/format';
 import { ragClassFromISO, parseFlexibleDateToISO, formatISOToDDMMYY } from '@/lib/rehearsal';
 
 type Song = {
@@ -199,7 +200,7 @@ export default function RehearsalPage() {
               setPlaylistUrl(null);
               try {
                 const date = new Date().toISOString().slice(0, 10);
-                const name = `${projectName} - rehearsal - ${date}`;
+                const name = buildRehearsalPlaylistName(projectName, date);
                 const payload = {
                   name,
                   songs: sorted.map((s) => ({ title: s.title, artist: s.artist })),
