@@ -9,13 +9,10 @@ type Result = {
   release?: string;
   isrc?: string;
 };
-type Project = { id: string; name: string };
 type Song = { id: string; title: string; artist: string; mbid?: string };
 
 export default function SongsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [projectId, setProjectId] = useState<string>('');
-  const [songs, setSongs] = useState<Song[]>([]); // existing songs in selected project
+  const [repSongs, setRepSongs] = useState<Song[]>([]); // existing songs in repertoire/projects (for de-dupe)
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
   const [genre, setGenre] = useState('');
@@ -26,27 +23,21 @@ export default function SongsPage() {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch('/api/profile');
-      if (res.ok) {
-        const data = await res.json();
-        const projs = (data.projects || []).map((p: any) => ({ id: p.id, name: p.name }));
-        setProjects(projs);
-        const initial = projs[0]?.id || '';
-        setProjectId(initial);
+      // Load current repertoire view (aggregated across projects + global repertoire)
+      const rs = await fetch(`/api/repertoire/songs?q=&artist=`);
+      if (rs.ok) {
+        const data = await rs.json();
+        setRepSongs(
+          (data.songs || []).map((s: any) => ({
+            id: s.id,
+            title: s.title,
+            artist: s.artist,
+            mbid: s.mbid,
+          })),
+        );
       }
     })();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      if (!projectId) {
-        setSongs([]);
-        return;
-      }
-      const rs = await fetch(`/api/projects/${projectId}/songs`);
-      if (rs.ok) setSongs((await rs.json()).songs);
-    })();
-  }, [projectId]);
 
   async function search(e: React.FormEvent) {
     e.preventDefault();
@@ -63,7 +54,7 @@ export default function SongsPage() {
 
   function isImported(r: Result): boolean {
     const norm = (s: string) => s.trim().toLowerCase();
-    return songs.some((s) =>
+    return repSongs.some((s) =>
       r.mbid && s.mbid
         ? s.mbid === r.mbid
         : norm(s.title) === norm(r.title) && norm(s.artist) === norm(r.artist),
@@ -71,14 +62,12 @@ export default function SongsPage() {
   }
 
   async function importSong(r: Result) {
-    if (!projectId) return;
     setMessage(null);
     setImporting(r.mbid || `${r.title}|${r.artist}`);
-    const res = await fetch('/api/songs', {
+    const res = await fetch('/api/repertoire/songs', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        projectId,
         title: r.title,
         artist: r.artist,
         durationSec: r.durationSec,
@@ -88,13 +77,13 @@ export default function SongsPage() {
     });
     if (res.ok) {
       const created = await res.json();
-      setSongs((prev) => [...prev, created]);
-      setMessage('Imported!');
+      setRepSongs((prev) => [...prev, created]);
+      setMessage('Added to repertoire!');
       try {
-        alert('Song imported successfully');
+        alert('Added to repertoire');
       } catch {}
     } else {
-      setMessage('Import failed');
+      setMessage('Add failed');
     }
     setImporting(null);
   }
@@ -105,23 +94,6 @@ export default function SongsPage() {
     <div className="space-y-4">
       <div className="flex items-end justify-between gap-2">
         <h2 className="text-2xl font-semibold">Songs</h2>
-        <div className="flex items-center gap-2">
-          <label className="text-sm text-neutral-400">
-            <span className="mr-2">Import into</span>
-            <select
-              className="rounded border bg-black px-2 py-1 text-white"
-              value={projectId}
-              onChange={(e) => setProjectId(e.target.value)}
-            >
-              {projects.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-              {projects.length === 0 && <option value="">No projects</option>}
-            </select>
-          </label>
-        </div>
       </div>
 
       <form onSubmit={search} className="grid gap-2 md:grid-cols-4">
@@ -176,22 +148,10 @@ export default function SongsPage() {
               <button
                 className={`rounded border px-3 py-1 text-sm ${imported ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={() => !imported && !isBusy && importSong(r)}
-                disabled={imported || isBusy || !projectId}
-                title={
-                  projectId
-                    ? imported
-                      ? 'Already imported'
-                      : 'Import this song'
-                    : 'Select a project first'
-                }
+                disabled={imported || isBusy}
+                title={imported ? 'Already in your repertoire' : 'Add to repertoire'}
               >
-                {!projectId
-                  ? 'Select a project'
-                  : imported
-                    ? 'Already imported'
-                    : isBusy
-                      ? 'Importing…'
-                      : 'Import'}
+                {imported ? 'Already added' : isBusy ? 'Adding…' : 'Add to repertoire'}
               </button>
             </li>
           );

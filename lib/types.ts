@@ -24,6 +24,7 @@ export type DB = {
   songs: Song[];
   setlists: Setlist[];
   invites: Invite[];
+  repertoireSongs?: RepertoireSong[];
   projectMembers?: ProjectMember[];
   projectPractice?: PracticeEntry[];
   settings: Settings;
@@ -51,6 +52,22 @@ export type Song = {
   transposedKey?: string;
   notes?: string;
   url?: string; // streaming link
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type RepertoireSong = {
+  id: string;
+  userId: string;
+  title: string;
+  artist: string;
+  durationSec?: number;
+  mbid?: string;
+  isrc?: string;
+  key?: string;
+  tempo?: number;
+  notes?: string;
+  url?: string;
   createdAt: string;
   updatedAt: string;
 };

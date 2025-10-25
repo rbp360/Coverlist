@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { User, DB, ProjectMember, PracticeEntry } from './types';
+import { User, DB, ProjectMember, PracticeEntry, RepertoireSong } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
@@ -31,6 +31,7 @@ function readDB(): DB {
   parsed.songs = parsed.songs || [];
   parsed.setlists = parsed.setlists || [];
   parsed.invites = parsed.invites || [];
+  parsed.repertoireSongs = parsed.repertoireSongs || [];
   parsed.projectMembers = parsed.projectMembers || [];
   parsed.projectPractice = parsed.projectPractice || [];
   parsed.settings = parsed.settings || { defaultSongGapSec: 30 };
@@ -202,6 +203,34 @@ export const db = {
     const before = d.songs.length;
     d.songs = d.songs.filter((s) => s.id !== id);
     if (d.songs.length !== before) writeDB(d);
+  },
+  // Repertoire (global, per-user)
+  listRepertoire(userId: string): RepertoireSong[] {
+    const d = readDB();
+    return (d.repertoireSongs || []).filter((s) => s.userId === userId);
+  },
+  createRepertoireSong(song: RepertoireSong) {
+    const d = readDB();
+    const list = d.repertoireSongs || (d.repertoireSongs = []);
+    list.push(song);
+    writeDB(d);
+  },
+  updateRepertoireSong(song: RepertoireSong) {
+    const d = readDB();
+    const list = d.repertoireSongs || (d.repertoireSongs = []);
+    const idx = list.findIndex((s) => s.id === song.id && s.userId === song.userId);
+    if (idx !== -1) {
+      list[idx] = song;
+      writeDB(d);
+    }
+  },
+  deleteRepertoireSong(userId: string, id: string) {
+    const d = readDB();
+    const before = (d.repertoireSongs || []).length;
+    d.repertoireSongs = (d.repertoireSongs || []).filter(
+      (s: RepertoireSong) => !(s.userId === userId && s.id === id),
+    );
+    if ((d.repertoireSongs || []).length !== before) writeDB(d);
   },
   getUserById(id: string): User | undefined {
     const d = readDB();
