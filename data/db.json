@@ -266,17 +266,17 @@
           "durationSec": 305
         },
         {
-          "id": "3c4d288d-4348-4740-a0dc-a6896b1b13f8",
+          "id": "3023d8e7-02ca-43dc-a594-a449988f8698",
           "type": "section",
           "order": 7,
-          "title": "What is a custom section?"
+          "title": "custom set section"
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-23T02:12:33.410Z",
+      "updatedAt": "2025-10-25T07:56:43.161Z",
       "date": "2026-10-19",
       "venue": "My House",
-      "public": false
+      "public": true
     },
     {
       "id": "a71f897c-305f-472b-ac50-596c8002df22",
@@ -445,5 +445,6 @@
       "createdAt": "2025-10-25T02:47:28.305Z",
       "updatedAt": "2025-10-25T02:47:28.305Z"
     }
-  ]
+  ],
+  "joinRequests": []
 }
