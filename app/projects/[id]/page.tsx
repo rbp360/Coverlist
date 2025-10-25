@@ -153,13 +153,10 @@ export default function ProjectDetailPage() {
         </div>
         <div className="flex gap-2 text-sm">
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/rehearsal`}>
-            Rehearsal
+            Rehearsal Mode
           </Link>
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/repertoire`}>
-            Repertoire
-          </Link>
-          <Link className="rounded border px-3 py-1" href={`/songs`}>
-            Songs
+            Project Repertoire
           </Link>
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/setlists`}>
             Setlists

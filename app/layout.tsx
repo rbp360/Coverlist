@@ -29,10 +29,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 Projects
               </Link>
               <Link href="/repertoire" className="hover:text-white">
-                Repertoire
+                My Repertoire
               </Link>
               <Link href="/songs" className="hover:text-white">
-                Songs
+                Add Songs
               </Link>
               <Link href="/profile" className="flex items-center gap-2 hover:text-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

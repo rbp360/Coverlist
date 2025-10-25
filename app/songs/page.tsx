@@ -93,7 +93,7 @@ export default function SongsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-end justify-between gap-2">
-        <h2 className="text-2xl font-semibold">Songs</h2>
+        <h2 className="text-2xl font-semibold">Add Songs</h2>
       </div>
 
       <form onSubmit={search} className="grid gap-2 md:grid-cols-4">

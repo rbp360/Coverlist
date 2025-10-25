@@ -68,7 +68,7 @@ export default function RepertoirePage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
-        <h2 className="text-2xl font-semibold">Repertoire</h2>
+        <h2 className="text-2xl font-semibold">Project Repertoire</h2>
         <a
           className="rounded bg-black px-3 py-2 text-white disabled:opacity-60"
           href={`/projects/${id}/repertoire/import`}

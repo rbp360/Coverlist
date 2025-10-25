@@ -159,7 +159,7 @@ export default function RepertoireHomePage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Your Repertoire</h2>
+        <h2 className="text-2xl font-semibold">My Repertoire</h2>
       </div>
       <div className="grid gap-2 md:grid-cols-3">
         <input
