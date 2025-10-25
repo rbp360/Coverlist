@@ -9,9 +9,9 @@
       "name": "Roberto",
       "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
       "spotify": {
-        "accessToken": "BQB9w4rg9BNtJ3PZJD7ZPULyw8LT3C6Ab2eWcaTmO0cVkRbIaWz-AzZPMXbO8ZhBOGjmWl3ctIKMP0a56vcDOp1eyrXO02dmHFtup_pL89n01b1-CYvqiSMOGQqWGQXPOCWKY8YLb7HfhaLD5HZBS138w2uF8ipotwFs1hhUEhVnVvxnSx8QlYzHkoThM1lNctABue5dNzOuK-Z6yu95-Matt1X3ZUeV5KT05cagKyl4l2KuMHLd-KJeTNM-kBf-dlCo4l6exD2gpZWS7S0A",
+        "accessToken": "BQD7Rurk2gH_BBx7VcSZK_udmNHs34GO3T_DwCcz69jcjQr2oQJrFB6ZFbSFgKeY8R2WUhK53KV-OWTXTNQWBhHRSFeMEW5lNvY5W1Tz9XrCwXgSFHyvFu5mXFzijBrPVseG3GI4VDNGkveeUoY9dv6oZRihbQshoVIKtQ1YfR3Xd52fJqEx3GlY_b6CSG7YUMSg32impqbUurCkCw_hOreqJuLPgQ4-aeW5a9GfVdT4jwP2yyZoXr1I5klVSJQAyDl9vwG8Ccfsj73Os5-k",
         "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
-        "expiresAt": 1761309019796,
+        "expiresAt": 1761361747460,
         "scope": "playlist-modify-private playlist-modify-public",
         "tokenType": "Bearer"
       }
@@ -84,7 +84,8 @@
       "key": "A",
       "tempo": 164,
       "createdAt": "2025-10-21T09:30:19.446Z",
-      "updatedAt": "2025-10-25T01:19:07.703Z"
+      "updatedAt": "2025-10-25T02:09:38.446Z",
+      "url": "https://open.spotify.com/track/1Oh14mYGFRA3lbD9Cqx1Bx"
     },
     {
       "id": "2e9eec3d-1f82-4736-af13-fa8ab7c15ea2",
@@ -106,7 +107,7 @@
       "durationSec": 257,
       "mbid": "29d1a35f-51fd-4b55-abe9-2d04fd926fca",
       "createdAt": "2025-10-22T01:23:39.731Z",
-      "updatedAt": "2025-10-25T01:37:36.517Z",
+      "updatedAt": "2025-10-25T01:42:20.564Z",
       "key": "G",
       "tempo": 107,
       "url": "https://open.spotify.com/track/2E7W1X4maFFcjHrVrFA7Vs"

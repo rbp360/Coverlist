@@ -5,6 +5,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { enrichKeyTempoStub } from '@/lib/enrich';
 import { songImportSchema } from '@/lib/schemas';
+import { resolveSpotifyTrackUrl } from '@/lib/spotifyTrack';
 
 export async function POST(request: Request) {
   const user = getCurrentUser();
@@ -25,9 +26,30 @@ export async function POST(request: Request) {
     isrc: parsed.data.isrc,
     key: undefined as string | undefined,
     tempo: undefined as number | undefined,
+    url: undefined as string | undefined,
     createdAt: now,
     updatedAt: now,
   };
+  // Try to auto-populate Spotify link immediately using ISRC (preferred) or title+artist
+  try {
+    const resolved = await resolveSpotifyTrackUrl({
+      title: song.title,
+      artist: song.artist,
+      isrc: song.isrc,
+    });
+    if (resolved?.url) song.url = resolved.url;
+  } catch (e: any) {
+    // Fallback: if Spotify auth/env isn't available, at least provide a public search URL by ISRC
+    const msg = String(e?.message || e);
+    if (
+      song.isrc &&
+      (msg.includes('spotify_auth_required') ||
+        msg.includes('auth_required') ||
+        msg.startsWith('spotify_env_missing'))
+    ) {
+      song.url = `https://open.spotify.com/search/${encodeURIComponent(song.isrc)}`;
+    }
+  }
   const settings = db.getSettings();
   if (settings.enrichOnImport && settings.enrichmentMode === 'stub') {
     const enriched = enrichKeyTempoStub({

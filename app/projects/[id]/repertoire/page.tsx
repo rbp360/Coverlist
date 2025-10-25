@@ -12,6 +12,7 @@ type Song = {
   transposedKey?: string;
   notes?: string;
   url?: string;
+  isrc?: string;
 };
 
 function fmt(sec?: number) {
@@ -30,6 +31,7 @@ export default function RepertoirePage() {
   const { id } = useParams<{ id: string }>();
   const [songs, setSongs] = useState<Song[]>([]);
   const [saving, setSaving] = useState<string | null>(null);
+  const [resolving, setResolving] = useState<string | null>(null);
   // Removed AI enrichment; manual key/tempo only
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState<string | null>(null);
@@ -88,7 +90,7 @@ export default function RepertoirePage() {
               <th className="p-2">Tempo</th>
               {/* Removed auto-generate column */}
               <th className="p-2">Notes</th>
-              <th className="p-2">Link</th>
+              <th className="p-2">Spotify</th>
             </tr>
           </thead>
           <tbody>
@@ -164,12 +166,90 @@ export default function RepertoirePage() {
                   />
                 </td>
                 <td className="p-2">
-                  <input
-                    className="w-56 rounded border px-2 py-1"
-                    placeholder="https://..."
-                    defaultValue={s.url || ''}
-                    onBlur={(e) => saveField(s, { url: e.target.value || undefined })}
-                  />
+                  {s.url ? (
+                    <a
+                      className="inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-xs whitespace-nowrap hover:bg-neutral-100"
+                      href={s.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      title="Open in Spotify"
+                      aria-label={`Open ${s.title} on Spotify`}
+                    >
+                      <span
+                        aria-hidden
+                        className="inline-block h-3.5 w-3.5 rounded-full"
+                        style={{ backgroundColor: '#1DB954' }}
+                      />
+                      <span className="underline-offset-2 hover:underline">Open</span>
+                    </a>
+                  ) : (
+                    <button
+                      className="group inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-xs whitespace-nowrap hover:bg-neutral-100 disabled:opacity-50"
+                      title="Find on Spotify"
+                      aria-label={`Find ${s.title} on Spotify`}
+                      disabled={resolving === s.id}
+                      onClick={async () => {
+                        try {
+                          setResolving(s.id);
+                          const res = await fetch(
+                            `/api/projects/${id}/songs/${s.id}/resolve-spotify`,
+                            { method: 'POST' },
+                          );
+                          if (res.status === 401) {
+                            const returnTo =
+                              typeof window !== 'undefined'
+                                ? window.location.href
+                                : `/projects/${id}/repertoire`;
+                            window.location.href = `/api/integrations/spotify/login?returnTo=${encodeURIComponent(
+                              returnTo,
+                            )}`;
+                            return;
+                          }
+                          if (!res.ok) {
+                            // Fallback: open a public search if resolver fails
+                            const searchUrl = s.isrc
+                              ? `https://open.spotify.com/search/${encodeURIComponent(s.isrc)}`
+                              : `https://open.spotify.com/search/${encodeURIComponent(`${s.title} ${s.artist}`)}`;
+                            window.open(searchUrl, '_blank', 'noopener');
+                            return;
+                          }
+                          const json = await res.json();
+                          if (json?.song?.url) {
+                            setSongs((prev) =>
+                              prev.map((x) => (x.id === s.id ? { ...x, url: json.song.url } : x)),
+                            );
+                            try {
+                              window.open(json.song.url, '_blank', 'noopener');
+                            } catch {}
+                          } else {
+                            const searchUrl = s.isrc
+                              ? `https://open.spotify.com/search/${encodeURIComponent(s.isrc)}`
+                              : `https://open.spotify.com/search/${encodeURIComponent(`${s.title} ${s.artist}`)}`;
+                            window.open(searchUrl, '_blank', 'noopener');
+                          }
+                        } catch {
+                          // Ignore
+                        } finally {
+                          setResolving(null);
+                        }
+                      }}
+                    >
+                      {/* Green dot + tiny equalizer animation instead of a GIF to keep it lightweight */}
+                      <span className="relative inline-flex items-end gap-0.5">
+                        <span
+                          aria-hidden
+                          className="inline-block h-3.5 w-3.5 rounded-full"
+                          style={{ backgroundColor: '#1DB954' }}
+                        />
+                        <span className="inline-flex items-end gap-[2px] pl-[2px]">
+                          <span className="h-2 w-[2px] bg-black/60 animate-pulse [animation-duration:1200ms]" />
+                          <span className="h-1.5 w-[2px] bg-black/60 animate-pulse [animation-duration:900ms]" />
+                          <span className="h-2.5 w-[2px] bg-black/60 animate-pulse [animation-duration:1500ms]" />
+                        </span>
+                      </span>
+                      <span>{resolving === s.id ? 'Finding…' : 'Find'}</span>
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
