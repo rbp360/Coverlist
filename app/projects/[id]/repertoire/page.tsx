@@ -30,7 +30,7 @@ export default function RepertoirePage() {
   const { id } = useParams<{ id: string }>();
   const [songs, setSongs] = useState<Song[]>([]);
   const [saving, setSaving] = useState<string | null>(null);
-  const [enriching, setEnriching] = useState<string | null>(null);
+  // Removed AI enrichment; manual key/tempo only
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
@@ -61,19 +61,7 @@ export default function RepertoirePage() {
     }
   }
 
-  async function enrich(song: Song) {
-    setEnriching(song.id);
-    const res = await fetch(`/api/projects/${id}/songs/enrich`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ songId: song.id }),
-    });
-    setEnriching(null);
-    if (res.ok) {
-      const updated = await res.json();
-      setSongs((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
-    }
-  }
+  // Enrichment button removed
 
   return (
     <div className="space-y-4">
@@ -98,7 +86,7 @@ export default function RepertoirePage() {
               <th className="p-2">Dur</th>
               <th className="p-2">Key</th>
               <th className="p-2">Tempo</th>
-              <th className="p-2">attempt auto</th>
+              {/* Removed auto-generate column */}
               <th className="p-2">Notes</th>
               <th className="p-2">Link</th>
             </tr>
@@ -167,16 +155,7 @@ export default function RepertoirePage() {
                     }
                   />
                 </td>
-                <td className="p-2">
-                  <button
-                    className="rounded border px-2 py-1 text-xs"
-                    onClick={() => enrich(s)}
-                    disabled={enriching === s.id}
-                    title="Generate key & tempo (AI)"
-                  >
-                    {enriching === s.id ? 'Generating…' : 'Generate info from AI'}
-                  </button>
-                </td>
+                {/* Auto-generate removed; keep manual key/tempo inputs */}
                 <td className="p-2">
                   <input
                     className="w-48 rounded border px-2 py-1"

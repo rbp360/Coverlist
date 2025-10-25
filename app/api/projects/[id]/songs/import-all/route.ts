@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { enrichKeyTempoStub, enrichKeyTempoGetSong } from '@/lib/enrich';
+import { enrichKeyTempoStub } from '@/lib/enrich';
 
 function norm(s: string) {
   return s.trim().toLowerCase();
@@ -70,18 +70,6 @@ export async function POST(req: Request, { params }: { params: { id: string } })
         });
         newSong.key = newSong.key ?? e.key;
         newSong.tempo = newSong.tempo ?? e.tempo;
-      } else if (settings.enrichmentMode === 'getSong') {
-        try {
-          const e = await enrichKeyTempoGetSong({
-            title: newSong.title,
-            artist: newSong.artist,
-            mbid: newSong.mbid,
-          });
-          newSong.key = newSong.key ?? e.key;
-          newSong.tempo = newSong.tempo ?? e.tempo;
-        } catch {
-          // ignore errors
-        }
       }
     }
 

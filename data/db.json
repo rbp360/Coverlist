@@ -45,7 +45,7 @@
       "key": "C#m",
       "tempo": 148,
       "createdAt": "2025-10-21T08:35:52.978Z",
-      "updatedAt": "2025-10-24T04:36:20.406Z",
+      "updatedAt": "2025-10-25T01:01:19.795Z",
       "transposedKey": "Again auto?",
       "notes": "This is the 'notes' field from the repertoire"
     },
@@ -59,7 +59,7 @@
       "key": "Ebm",
       "tempo": 119,
       "createdAt": "2025-10-21T09:03:02.535Z",
-      "updatedAt": "2025-10-24T04:36:22.555Z",
+      "updatedAt": "2025-10-25T01:27:20.728Z",
       "transposedKey": "Yes"
     },
     {
@@ -72,7 +72,7 @@
       "key": "D",
       "tempo": 156,
       "createdAt": "2025-10-21T09:06:24.181Z",
-      "updatedAt": "2025-10-24T04:36:24.181Z"
+      "updatedAt": "2025-10-25T01:27:26.677Z"
     },
     {
       "id": "b4c4480d-7817-4b35-84c6-f1c4c4dc46cf",
@@ -82,9 +82,9 @@
       "durationSec": 289,
       "mbid": "37d3f653-585f-44a8-90b2-e7eb9f38412b",
       "key": "A",
-      "tempo": 157,
+      "tempo": 164,
       "createdAt": "2025-10-21T09:30:19.446Z",
-      "updatedAt": "2025-10-24T04:36:26.123Z"
+      "updatedAt": "2025-10-25T01:19:07.703Z"
     },
     {
       "id": "2e9eec3d-1f82-4736-af13-fa8ab7c15ea2",
@@ -93,10 +93,10 @@
       "artist": "The Beatles",
       "durationSec": 239,
       "mbid": "7953cb71-41c1-449a-bd23-aa2daf394332",
-      "key": "F♯",
-      "tempo": 81,
+      "key": "G#m",
+      "tempo": 137,
       "createdAt": "2025-10-22T00:54:32.316Z",
-      "updatedAt": "2025-10-24T04:51:14.912Z"
+      "updatedAt": "2025-10-25T01:28:09.677Z"
     },
     {
       "id": "329708e7-5cb9-4d69-be42-4d6ba4192599",
@@ -106,7 +106,7 @@
       "durationSec": 257,
       "mbid": "29d1a35f-51fd-4b55-abe9-2d04fd926fca",
       "createdAt": "2025-10-22T01:23:39.731Z",
-      "updatedAt": "2025-10-24T12:25:33.284Z",
+      "updatedAt": "2025-10-25T01:37:36.517Z",
       "key": "G",
       "tempo": 107,
       "url": "https://open.spotify.com/track/2E7W1X4maFFcjHrVrFA7Vs"
@@ -119,9 +119,9 @@
       "durationSec": 249,
       "mbid": "b5506ff9-036b-460d-9bef-82f1afa7625d",
       "createdAt": "2025-10-22T04:32:24.137Z",
-      "updatedAt": "2025-10-24T04:51:21.807Z",
-      "key": "A",
-      "tempo": 126
+      "updatedAt": "2025-10-25T01:28:02.811Z",
+      "key": "Fm",
+      "tempo": 85
     },
     {
       "id": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
@@ -131,7 +131,7 @@
       "durationSec": 349,
       "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
       "createdAt": "2025-10-24T02:58:51.681Z",
-      "updatedAt": "2025-10-24T04:36:32.256Z",
+      "updatedAt": "2025-10-25T01:27:35.420Z",
       "key": "Dm",
       "tempo": 128
     },
@@ -143,7 +143,7 @@
       "durationSec": 259,
       "mbid": "e7ccbc5c-b400-410c-b5b2-a334096ccbfd",
       "createdAt": "2025-10-24T02:59:08.710Z",
-      "updatedAt": "2025-10-24T04:42:01.360Z",
+      "updatedAt": "2025-10-25T01:28:19.348Z",
       "key": "Ab",
       "tempo": 86
     },
@@ -175,9 +175,9 @@
       "durationSec": 212,
       "mbid": "bea681de-5228-4b12-968e-3db163ea4c92",
       "createdAt": "2025-10-24T03:49:51.900Z",
-      "updatedAt": "2025-10-24T04:54:04.969Z",
-      "key": "Dm",
-      "tempo": 105
+      "updatedAt": "2025-10-25T01:28:15.435Z",
+      "key": "Bb",
+      "tempo": 156
     },
     {
       "id": "576e315d-db24-4fd7-956e-942b7985799d",

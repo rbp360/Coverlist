@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 
-// Removed diagnostics route; returning 404 to restore prior state.
+// This diagnostics endpoint has been retired. GetSongBPM integration was removed.
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
-  return NextResponse.json({ ok: false, removed: true }, { status: 404 });
+  return NextResponse.json({ error: 'GetSong diagnostics removed' }, { status: 410 });
 }

@@ -78,10 +78,7 @@ Required variables:
 
 Optional provider variables:
 
-- GETSONG_API_KEY: API key for the GetSong BPM service
-- GETSONG_EMAIL: Contact email to include in User-Agent
-- GETSONG_BASE_URL: Override base URL (default: https://api.getsongbpm.com). Set to https://api.getsong.co if your key is for that host.
-- GETSONG_STRICT: Set to 1 or true to disable secondary lookups (no fallback to /song by id). Useful for testing whether the initial /search returns tempo/key.
+None at this time for key/tempo enrichment (external provider removed).
 
 ### Spotify integration (playlists)
 
@@ -109,22 +106,16 @@ Local demo storage:
 
 ## Feature: Repertoire import
 
-On a project's Repertoire page, use the button "import all songs in your repertoire" to add every unique song (by title and artist) from your other projects into the current project's repertoire. Existing songs in the project are skipped. If enrichment on import is enabled in Settings and the enrichment mode is active (stub or GetSong), missing key/tempo values will be auto-filled.
+On a project's Repertoire page, use the button "import all songs in your repertoire" to add every unique song (by title and artist) from your other projects into the current project's repertoire. Existing songs in the project are skipped. If enrichment on import is enabled in Settings and the enrichment mode is set to Stub, missing key/tempo values will be auto-filled deterministically.
 
-## Feature: Key/Tempo enrichment (GetSong BPM)
+## Feature: Key/Tempo enrichment
 
-Enable provider in Settings → Key/Tempo Enrichment by choosing "GetSong BPM (API)". Provide `GETSONG_API_KEY` (and optionally `GETSONG_EMAIL`) in `.env.local`.
+Two modes are available in Settings → Key/Tempo Enrichment:
 
-Ways to enrich:
+- None: do not enrich key/tempo automatically
+- Stub (deterministic): offline, deterministic filler values based on title/artist for quick demos/tests
 
-- Repertoire page → per-song button "Generate info from AI"
-- Enable "On import" in Settings to enrich automatically as songs are added
-
-Notes:
-
-- By default, the integration uses `https://api.getsongbpm.com/` search (and `tempo`) endpoints with `api_key` in the query.
-- If you set `GETSONG_BASE_URL=https://api.getsong.co`, the app will send the API key in headers (`x-api-key`) and include `x-user-email` when available.
-- Some environments may block requests (e.g., bot protection); if a request fails, the app will skip enrichment gracefully.
+You can also enable "On import" in Settings to apply the stub enrichment automatically when adding songs.
 
 ## Troubleshooting
 
