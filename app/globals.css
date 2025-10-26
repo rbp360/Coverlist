@@ -7,6 +7,13 @@ body {
   height: 100%;
 }
 
+/* Force global dark background/text as a safety net */
+html,
+body {
+  background-color: #000;
+  color: #fff;
+}
+
 /* Lemon Milk font faces */
 @font-face {
   font-family: 'Lemon Milk';

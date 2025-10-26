@@ -458,28 +458,18 @@ export default function SetlistEditorPage() {
 
   // Curated note presets for quick insertion (with optional GIF support later)
   const NOTE_PRESETS: Array<{ label: string; gif?: string }> = [
-    { label: '🎸 Capo I' },
-    { label: '🎸 Capo II' },
-    { label: '🎸 Capo III' },
-    { label: '🎸 Capo IV' },
-    { label: '🎸 Capo V' },
+    { label: '🎸 Capo' },
     { label: '⬇️ Half-step down' },
     { label: '⏱️ Short break' },
     { label: '🚨 Stop' },
     { label: '🎶 Singalong' },
     { label: '🎸 Instrument change' },
-    { label: '🎸 1/2 step down' },
     { label: '🎤 Call & response' },
-    { label: '⬆️ Key change' },
-    { label: '⚠️ Watch ending' },
     { label: '⚡ Straight through' },
     { label: '🧱 Intro' },
     { label: '🧱 Outro' },
     { label: '🧱 Pause' },
-    { label: '🎚️ Click on' },
-    { label: '🎚️ Click off' },
-    { label: 'Introduce band' },
-    { label: 'Socials, links' },
+    { label: '🎚️ Click' },
   ];
 
   async function commitNameChange() {
@@ -616,7 +606,7 @@ export default function SetlistEditorPage() {
               onDragOver={(e) => onDragOver(e, it.id)}
               onDragLeave={onDragLeave}
               onDrop={(e) => onDrop(e, it.id)}
-              className={`flex items-center justify-between p-3 ${overId === it.id ? 'bg-yellow-50' : ''}`}
+              className={`flex items-center justify-between p-3 ${it.type === 'section' ? 'pl-16' : ''} ${overId === it.id ? 'bg-yellow-50' : ''}`}
             >
               <div>
                 {it.type === 'song' && (
@@ -696,8 +686,8 @@ export default function SetlistEditorPage() {
         </ul>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded border bg-black p-3 text-white">
+      <div className="grid gap-4 md:grid-cols-4">
+        <div className="rounded border bg-black p-3 text-white md:col-span-2 flex flex-col h-full">
           <div className="mb-2 flex items-center justify-between">
             <div className="font-medium">Add Song</div>
             <button
@@ -709,7 +699,7 @@ export default function SetlistEditorPage() {
               Add all from repertoire
             </button>
           </div>
-          <ul className="max-h-72 divide-y overflow-auto">
+          <ul className="flex-1 min-h-0 divide-y overflow-auto">
             {songs.map((s) => (
               <li
                 key={s.id}
@@ -734,10 +724,10 @@ export default function SetlistEditorPage() {
             )}
           </ul>
         </div>
-        <div className="rounded border bg-black p-3 text-white">
+        <div className="rounded border bg-black p-3 text-white md:col-span-1">
           <div className="mb-2 font-medium">Add Note</div>
           {/* Curated presets */}
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-2">
             {NOTE_PRESETS.map((p) => (
               <button
                 key={p.label}
@@ -767,7 +757,7 @@ export default function SetlistEditorPage() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 md:col-span-1">
           <div className="rounded border bg-black p-3 text-white">
             <div className="mb-2 font-medium">Sets</div>
             <div className="flex flex-col gap-2">

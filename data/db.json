@@ -15,6 +15,60 @@
         "scope": "playlist-modify-private playlist-modify-public",
         "tokenType": "Bearer"
       }
+    },
+    {
+      "id": "404a435d-f6c3-4510-ac92-0cbc94eee0da",
+      "email": "user1761440365584@test.local",
+      "passwordHash": "$2b$10$VMq7oJtc244vNYe.WBNs4.o2LANtPyimXt6.mYHuzdIx3vVhAJlnm",
+      "createdAt": "2025-10-26T00:59:26.304Z"
+    },
+    {
+      "id": "86990f3a-d077-47cd-8add-4f018233bc43",
+      "email": "user1761440366632@test.local",
+      "passwordHash": "$2b$10$FjJ0lXB5SD1cGbmrEa8zR.ejmjxM.cPq54yXdKMpR8lmNadsqUJz2",
+      "createdAt": "2025-10-26T00:59:26.981Z"
+    },
+    {
+      "id": "3031d101-8d9d-4498-9d96-3f824c81e38c",
+      "email": "user1761440587272@test.local",
+      "passwordHash": "$2b$10$bWEcvu6YH6uKM9hp75/lhO01hfVrDHJ5LwDSPZ6tUMKJdvZfETiCy",
+      "createdAt": "2025-10-26T01:03:07.912Z"
+    },
+    {
+      "id": "987acc49-f145-4910-af3f-8dff31f988e9",
+      "email": "user1761440589339@test.local",
+      "passwordHash": "$2b$10$S5M31UNmV4f9etRpm80TsOPhomz6EkAjtCc7JM1U.syB4xDHb89RC",
+      "createdAt": "2025-10-26T01:03:09.758Z"
+    },
+    {
+      "id": "b7c700cc-900c-4c38-a6f1-cfa20fec49f6",
+      "email": "user1761440848230@test.local",
+      "passwordHash": "$2b$10$OAGF6Pw8nx/0A38HKhs2reULdKRkzMiM9amStHvU581gxz2oqE.mW",
+      "createdAt": "2025-10-26T01:07:28.793Z"
+    },
+    {
+      "id": "b461d828-7073-485b-984c-ef4b2d25f123",
+      "email": "user1761440848536@test.local",
+      "passwordHash": "$2b$10$3/eoqHKqxzCgV7NLvNtIQOLaGAUL3zMSU8NVFqqquCsoBq.AOUjRG",
+      "createdAt": "2025-10-26T01:07:28.967Z"
+    },
+    {
+      "id": "49ab0472-acc8-4d46-870f-03bdc6611942",
+      "email": "user1761440850219@test.local",
+      "passwordHash": "$2b$10$HljDMrmph5XrVDdGm0wFh.vMkvGDvi5BUnz1NstSffaPEkVf4hrIu",
+      "createdAt": "2025-10-26T01:07:30.656Z"
+    },
+    {
+      "id": "75ad9e9e-ac7b-417d-8902-50895efc610d",
+      "email": "user1761441078417@test.local",
+      "passwordHash": "$2b$10$i.vy/5VGgqfjURc3NqkbZu0XOl2ZqiJGOn/wk4v3pCtAUP8XtOuci",
+      "createdAt": "2025-10-26T01:11:19.427Z"
+    },
+    {
+      "id": "3b11e26c-5cb6-47aa-a7fd-d4bae5c26296",
+      "email": "user1761441080264@test.local",
+      "passwordHash": "$2b$10$CQwWwH84Rs4uuCh4cO.Wde34Vbm3MatMXVZEjb/lDjzvQ22eByaMG",
+      "createdAt": "2025-10-26T01:11:20.570Z"
     }
   ],
   "projects": [
@@ -267,14 +321,23 @@
           "durationSec": 305
         },
         {
+          "id": "f5100cc2-f4a2-4001-b399-6fe330d57217",
+          "type": "song",
+          "order": 7,
+          "songId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
+          "title": "Here I Go Again",
+          "artist": "Whitesnake",
+          "durationSec": 349
+        },
+        {
           "id": "3023d8e7-02ca-43dc-a594-a449988f8698",
           "type": "section",
-          "order": 7,
+          "order": 8,
           "title": "custom set section"
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-25T12:08:13.674Z",
+      "updatedAt": "2025-10-25T14:40:53.422Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,

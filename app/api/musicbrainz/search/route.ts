@@ -18,6 +18,10 @@ export async function GET(request: Request) {
   // Broader pattern to detect "hits" style collections
   const HITS_REGEX =
     /\b(greatest hits|best of|very best|ultimate collection|definitive collection|collection|anthology|essentials?|the singles|singles|hits)\b/i;
+  // Detect obvious tribute/karaoke/cover impersonators
+  const BAD_ARTIST_REGEX =
+    /\b(tribute|karaoke|cover|sound[- ]?alike|originally performed by|made famous by|backing track|re[- ]?record(ed|ing)?|studio group|party hits|the hit crew|sing[- ]?along|instrumental tribute)\b/i;
+  const FEAT_REGEX = /\b(feat\.|ft\.|featuring)\b/i;
   const normTitle = (s?: string) =>
     String(s || '')
       .toLowerCase()
@@ -88,25 +92,31 @@ export async function GET(request: Request) {
       titleHas('deluxe') ||
       titleHas('expanded') ||
       titleHas('bonus');
-    // Re-rank to prioritize studio albums first, ahead of hits/collections
+    // Re-rank: Singles highest, then studio albums, then others. Hits/compilations downweighted.
     let rank = 10;
     const isAlbum = primary === 'album';
+    const isSingle = primary === 'single';
+    const isEP = primary === 'ep';
     const isStudioAlbum =
       isAlbum && !isCompilation && !isLive && !isRemixOrAlt && !titleHas('soundtrack');
 
-    if (isStudioAlbum)
-      rank = 0; // top priority
+    if (isSingle)
+      rank = 0; // singles top priority
+    else if (isStudioAlbum)
+      rank = 1; // then studio albums
     else if (isAlbum && status === 'official')
-      rank = 2; // other album variants
-    else if (primary === 'single' || primary === 'ep') rank = 3;
-    else if (isCompilation || isGreatestHits) rank = 5;
+      rank = 2; // other official albums
+    else if (isEP)
+      rank = 3; // EPs next
+    else if (isCompilation || isGreatestHits)
+      rank = 5; // hits/collections lower
     else if (isLive) rank = 6;
     else if (isRemixOrAlt) rank = 7;
 
     // Slight nudge if artist matches the search
     if (matchesSearchArtist) rank = Math.max(0, rank - 1);
     // Downweight Various Artists for anything but true studio albums
-    if (isVarious && !isStudioAlbum) rank += 1;
+    if (isVarious && !isStudioAlbum && !isSingle) rank += 1;
     return Math.max(0, rank);
   };
   const isStudioAlbumRelease = (rel: any, recTitle: string): boolean => {
@@ -148,9 +158,20 @@ export async function GET(request: Request) {
     const results = (data.recordings || [])
       .map((r: any) => {
         const title = r.title as string;
-        const a = r['artist-credit']?.[0]?.name ?? 'Unknown';
+        const artistCredit: any[] = Array.isArray(r['artist-credit']) ? r['artist-credit'] : [];
+        const a = artistCredit?.[0]?.name ?? 'Unknown';
+        const artistNames = artistCredit.map((c: any) => String(c?.name || '')).filter(Boolean);
         const durationSec = r.length ? Math.round(r.length / 1000) : undefined;
         const releases: any[] = Array.isArray(r.releases) ? r.releases : [];
+        const hasBadArtist = artistNames.some((nm) => BAD_ARTIST_REGEX.test(nm));
+        const titleHasFeat = FEAT_REGEX.test(title);
+        const matchesSearchArtistExact = artist ? normName(a) === normName(artist) : false;
+        const isVariousRecording = artistNames.some((nm) => nm.toLowerCase() === 'various artists');
+        const artistPenalty =
+          (hasBadArtist ? 5 : 0) +
+          (artist && !matchesSearchArtistExact ? 2 : 0) +
+          (isVariousRecording && artist ? 2 : 0) +
+          (titleHasFeat && artist && !matchesSearchArtistExact ? 1 : 0);
         const hitsCount = releases.reduce((n, rel) => {
           const relTitle = String(rel?.title || '');
           if (!HITS_REGEX.test(relTitle)) return n;
@@ -174,6 +195,7 @@ export async function GET(request: Request) {
           ? Math.min(...releases.map((rel) => parseDateToMs(rel?.date)))
           : Number.POSITIVE_INFINITY;
         const bestRank = bestRelease ? releaseStudioRank(bestRelease, title) : 999;
+        const finalRank = bestRank + artistPenalty; // incorporate artist quality into rank
         const isStudio = bestRelease ? isStudioAlbumRelease(bestRelease, title) : false;
         let score = 0;
         if (q && title.toLowerCase().includes(q.toLowerCase())) score += 2;
@@ -190,16 +212,13 @@ export async function GET(request: Request) {
           isrc,
           _hitsCount: hitsCount,
           _score: score,
-          _rank: bestRank,
+          _rank: finalRank,
           _earliest: earliestDateMs,
           _isStudio: isStudio,
         };
       })
       .sort((x: any, y: any) => {
-        // Studio albums first
-        if ((x._isStudio ? 1 : 0) !== (y._isStudio ? 1 : 0))
-          return (y._isStudio ? 1 : 0) - (x._isStudio ? 1 : 0);
-        // Then by our computed rank (lower is better)
+        // By computed rank (singles highest, then studio albums, etc.)
         if ((x._rank ?? 999) !== (y._rank ?? 999)) return (x._rank ?? 999) - (y._rank ?? 999);
         // Earlier releases preferred
         if ((x._earliest ?? Infinity) !== (y._earliest ?? Infinity))
@@ -229,9 +248,20 @@ export async function GET(request: Request) {
     const candidates = (data.recordings || [])
       .map((r: any) => {
         const title = r.title as string;
-        const a = r['artist-credit']?.[0]?.name ?? 'Unknown';
+        const artistCredit: any[] = Array.isArray(r['artist-credit']) ? r['artist-credit'] : [];
+        const a = artistCredit?.[0]?.name ?? 'Unknown';
+        const artistNames = artistCredit.map((c: any) => String(c?.name || '')).filter(Boolean);
         const durationSec = r.length ? Math.round(r.length / 1000) : undefined;
         const releases: any[] = Array.isArray(r.releases) ? r.releases : [];
+        const hasBadArtist = artistNames.some((nm) => BAD_ARTIST_REGEX.test(nm));
+        const titleHasFeat = FEAT_REGEX.test(title);
+        const matchesSearchArtistExact = artist ? normName(a) === normName(artist) : false;
+        const isVariousRecording = artistNames.some((nm) => nm.toLowerCase() === 'various artists');
+        const artistPenalty =
+          (hasBadArtist ? 5 : 0) +
+          (artist && !matchesSearchArtistExact ? 2 : 0) +
+          (isVariousRecording && artist ? 2 : 0) +
+          (titleHasFeat && artist && !matchesSearchArtistExact ? 1 : 0);
         const hitsCount = releases.reduce((n, rel) => {
           const relTitle = String(rel?.title || '');
           if (!HITS_REGEX.test(relTitle)) return n;
@@ -255,6 +285,7 @@ export async function GET(request: Request) {
           ? Math.min(...releases.map((rel) => parseDateToMs(rel?.date)))
           : Number.POSITIVE_INFINITY;
         const bestRank = bestRelease ? releaseStudioRank(bestRelease, title) : 999;
+        const finalRank = bestRank + artistPenalty;
         const isStudio = bestRelease ? isStudioAlbumRelease(bestRelease, title) : false;
         let score = 0;
         if (artist && a.toLowerCase().includes(artist.toLowerCase())) score += 2;
@@ -270,16 +301,13 @@ export async function GET(request: Request) {
           isrc,
           _hitsCount: hitsCount,
           _score: score,
-          _rank: bestRank,
+          _rank: finalRank,
           _earliest: earliestDateMs,
           _isStudio: isStudio,
         };
       })
       .sort((x: any, y: any) => {
-        // Studio albums first
-        if ((x._isStudio ? 1 : 0) !== (y._isStudio ? 1 : 0))
-          return (y._isStudio ? 1 : 0) - (x._isStudio ? 1 : 0);
-        // Then by rank
+        // By computed rank (singles highest, then studio albums, etc.)
         if ((x._rank ?? 999) !== (y._rank ?? 999)) return (x._rank ?? 999) - (y._rank ?? 999);
         // Then by earliest release date
         if ((x._earliest ?? Infinity) !== (y._earliest ?? Infinity))
