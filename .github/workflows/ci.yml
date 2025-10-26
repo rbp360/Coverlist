@@ -21,9 +21,9 @@ jobs:
       - run: npm test -- --ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Start dev server
+      - name: Start dev server (port 3001)
         run: npm run dev &
-      - name: Wait for server
-        run: npx wait-on http://localhost:3000
+      - name: Wait for server (port 3001)
+        run: npx wait-on http://localhost:3001
       - name: Run Playwright tests
         run: npm run test:e2e
