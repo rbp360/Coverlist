@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
@@ -6,6 +7,7 @@ import SignOutButton from './SignOutButton';
 
 export default function UserMenu() {
   const [authed, setAuthed] = useState<boolean | null>(null);
+  const [user, setUser] = useState<{ name?: string; avatarUrl?: string } | null>(null);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -16,10 +18,20 @@ export default function UserMenu() {
       try {
         const res = await fetch('/api/profile', { cache: 'no-store' });
         if (!mounted) return;
-        setAuthed(res.ok);
+        if (!res.ok) {
+          setAuthed(false);
+          setUser(null);
+          return;
+        }
+        const data = (await res.json()) as {
+          user?: { name?: string; avatarUrl?: string };
+        };
+        setAuthed(true);
+        setUser(data.user ?? null);
       } catch {
         if (!mounted) return;
         setAuthed(false);
+        setUser(null);
       }
     })();
     return () => {
@@ -59,9 +71,18 @@ export default function UserMenu() {
         onClick={() => setOpen((v) => !v)}
         className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-2 py-1 text-sm text-neutral-300 hover:bg-neutral-800"
       >
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-neutral-700 text-xs text-neutral-500">
-          {authed ? '👤' : '⍰'}
-        </span>
+        {user?.avatarUrl ? (
+          <img
+            src={user.avatarUrl}
+            alt=""
+            className="h-7 w-7 rounded-full object-cover border border-neutral-700"
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-neutral-700 text-xs text-neutral-500">
+            {user?.name?.[0] || '👤'}
+          </span>
+        )}
         <span className="hidden sm:inline">Profile</span>
       </button>
 
