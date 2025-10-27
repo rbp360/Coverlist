@@ -560,6 +560,15 @@ export default function SetlistEditorPage() {
               Export PDF
             </a>
           </div>
+          <a
+            className="rounded bg-black px-3 py-1 text-sm text-white"
+            href={`/setlists/${id}/lyric-mode`}
+            target="_blank"
+            rel="noopener"
+            title="Open Lyric mode in a new tab"
+          >
+            Lyric mode
+          </a>
           <button className="rounded border px-3 py-1 text-sm" onClick={copyNow}>
             Copy
           </button>
