@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { ProjectRoleNonOwner } from '@/lib/types';
 
 export async function POST(req: Request) {
   const user = getCurrentUser();
@@ -11,8 +12,16 @@ export async function POST(req: Request) {
   const invite = db.getInviteByToken(token);
   if (!invite || invite.status !== 'pending')
     return NextResponse.json({ error: 'Invalid invite' }, { status: 400 });
-  // add member
-  db.addProjectMember(invite.projectId, user.id);
+  // Determine invite role (default bandMember for legacy invites)
+  const role: ProjectRoleNonOwner = (invite.role as ProjectRoleNonOwner) || 'bandMember';
+  if (role === 'bandMember') {
+    // add member to project
+    db.addProjectMember(invite.projectId, user.id);
+    db.setMemberRole(invite.projectId, user.id, 'bandMember');
+  } else if (role === 'setlistViewer') {
+    // Viewers are not project members; record role but do not add to memberIds
+    db.setMemberRole(invite.projectId, user.id, 'setlistViewer');
+  }
   // mark accepted
   db.updateInvite({ ...invite, status: 'accepted', updatedAt: new Date().toISOString() } as any);
   return NextResponse.json({ ok: true });

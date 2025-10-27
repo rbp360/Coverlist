@@ -114,6 +114,8 @@ export type Invite = {
   invitedBy: string; // userId of inviter
   createdAt: string;
   updatedAt: string;
+  // Role the invite assigns upon acceptance. Defaults to 'bandMember' if omitted for legacy invites
+  role?: ProjectRoleInvite;
 };
 
 export type JoinRequest = {
@@ -130,6 +132,8 @@ export type ProjectMember = {
   projectId: string;
   userId: string;
   instruments: string[]; // instruments selected for this project
+  // Role within the project for this user (owner is implicitly 'bandLeader')
+  role?: ProjectRoleNonOwner;
 };
 
 export type PracticeEntry = {
@@ -150,3 +154,10 @@ export type Settings = {
   enrichmentMode?: 'none' | 'stub';
   enrichOnImport?: boolean; // if true, enrich key/tempo on song import
 };
+
+// Project roles
+export type ProjectRole = 'bandLeader' | 'bandMember' | 'setlistViewer';
+// Non-owner assignable roles
+export type ProjectRoleNonOwner = Exclude<ProjectRole, 'bandLeader'>; // 'bandMember' | 'setlistViewer'
+// Allowed invite roles
+export type ProjectRoleInvite = ProjectRoleNonOwner;

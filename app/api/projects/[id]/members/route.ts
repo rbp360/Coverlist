@@ -19,6 +19,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
       name: (u as any).name,
       avatarUrl: (u as any).avatarUrl,
       instruments: db.getMemberInstruments(project.id, u!.id),
+      role: db.getProjectRole(project.id, u!.id) || 'bandMember',
     }));
   return NextResponse.json({ members });
 }

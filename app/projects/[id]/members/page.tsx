@@ -12,6 +12,7 @@ type Member = {
   name?: string;
   avatarUrl?: string;
   instruments: string[];
+  role?: 'bandLeader' | 'bandMember' | 'setlistViewer';
 };
 
 export default function ProjectMembersPage() {
@@ -22,6 +23,9 @@ export default function ProjectMembersPage() {
   const [userQ, setUserQ] = useState('');
   const [userResults, setUserResults] = useState<Member[]>([]);
   const [invitingId, setInvitingId] = useState<string | null>(null);
+  const [inviteRole, setInviteRole] = useState<'bandMember' | 'setlistViewer'>('bandMember');
+  const [showInviteDialog, setShowInviteDialog] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState('');
   const [mySel, setMySel] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -109,17 +113,29 @@ export default function ProjectMembersPage() {
     }
   }
 
+  function openInviteDialog(email: string) {
+    setInviteEmail(email);
+    setShowInviteDialog(true);
+  }
+
   async function inviteUserByEmail(email: string) {
     setInvitingId(email);
     try {
       const res = await fetch(`/api/projects/${id}/invites`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, role: inviteRole }),
       });
       if (res.ok) {
         try {
           alert('Invite sent');
+        } catch {}
+        setShowInviteDialog(false);
+      }
+      if (!res.ok) {
+        const msg = await res.json().catch(() => ({}));
+        try {
+          alert(`Invite failed: ${msg?.error || res.status}`);
         } catch {}
       }
     } finally {
@@ -200,6 +216,9 @@ export default function ProjectMembersPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="truncate font-medium">{m.name || m.email}</div>
+                  <div className="text-xs text-neutral-400 mt-0.5">
+                    {m.role === 'bandLeader' ? 'Band leader' : 'Band member'}
+                  </div>
                   <div className="text-xs text-neutral-300 flex flex-wrap gap-2 mt-1">
                     {m.instruments && m.instruments.length > 0 ? (
                       m.instruments.map((inst) => (
@@ -228,6 +247,17 @@ export default function ProjectMembersPage() {
       <div className="grid gap-4 md:grid-cols-2">
         <div className="rounded border bg-black p-4 text-white">
           <div className="mb-2 font-medium">People you’ve collaborated with</div>
+          <div className="mb-2 text-xs text-neutral-400">
+            Invite as:{' '}
+            <select
+              className="rounded border bg-transparent px-2 py-1 text-white"
+              value={inviteRole}
+              onChange={(e) => setInviteRole(e.target.value as any)}
+            >
+              <option value="bandMember">Band member</option>
+              <option value="setlistViewer">Setlist viewer (read-only)</option>
+            </select>
+          </div>
           <ul className="divide-y">
             {collabs.map((u) => (
               <li key={u.id} className="flex items-center justify-between gap-3 py-2">
@@ -249,7 +279,7 @@ export default function ProjectMembersPage() {
                 </div>
                 <button
                   className="rounded border px-2 py-1 text-xs"
-                  onClick={() => inviteUserByEmail(u.email)}
+                  onClick={() => openInviteDialog(u.email)}
                   disabled={invitingId === u.email}
                 >
                   {invitingId === u.email ? 'Inviting…' : 'Invite'}
@@ -264,6 +294,17 @@ export default function ProjectMembersPage() {
 
         <div className="rounded border bg-black p-4 text-white">
           <div className="mb-2 font-medium">Find musicians (global)</div>
+          <div className="mb-2 text-xs text-neutral-400">
+            Invite as:{' '}
+            <select
+              className="rounded border bg-transparent px-2 py-1 text-white"
+              value={inviteRole}
+              onChange={(e) => setInviteRole(e.target.value as any)}
+            >
+              <option value="bandMember">Band member</option>
+              <option value="setlistViewer">Setlist viewer (read-only)</option>
+            </select>
+          </div>
           <div className="mb-2 flex gap-2">
             <input
               className="flex-1 rounded border bg-transparent px-3 py-2"
@@ -296,7 +337,7 @@ export default function ProjectMembersPage() {
                 </div>
                 <button
                   className="rounded border px-2 py-1 text-xs"
-                  onClick={() => inviteUserByEmail(u.email)}
+                  onClick={() => openInviteDialog(u.email)}
                   disabled={invitingId === u.email}
                 >
                   {invitingId === u.email ? 'Inviting…' : 'Invite'}
@@ -309,6 +350,71 @@ export default function ProjectMembersPage() {
           </ul>
         </div>
       </div>
+      {/* Manual invite by email */}
+      <div className="rounded border bg-black p-4 text-white">
+        <div className="mb-2 font-medium">Invite by email</div>
+        <div className="mb-2 text-xs text-neutral-400">
+          Role:{' '}
+          <select
+            className="rounded border bg-transparent px-2 py-1 text-white"
+            value={inviteRole}
+            onChange={(e) => setInviteRole(e.target.value as any)}
+          >
+            <option value="bandMember">Band member</option>
+            <option value="setlistViewer">Setlist viewer (read-only)</option>
+          </select>
+        </div>
+        <div className="flex gap-2">
+          <input
+            className="flex-1 rounded border bg-transparent px-3 py-2"
+            placeholder="person@example.com"
+            value={inviteEmail}
+            onChange={(e) => setInviteEmail(e.target.value)}
+          />
+          <button
+            className="rounded bg-black px-3 py-2 text-white"
+            onClick={() => openInviteDialog(inviteEmail)}
+            disabled={!inviteEmail}
+          >
+            Invite
+          </button>
+        </div>
+      </div>
+
+      {showInviteDialog && (
+        <div className="fixed inset-0 z-30 flex items-center justify-center bg-black/60">
+          <div className="w-full max-w-sm rounded-md border border-neutral-800 bg-neutral-950 p-4">
+            <div className="mb-2 text-lg font-semibold">Send invite</div>
+            <div className="mb-3 text-sm text-neutral-300">{inviteEmail}</div>
+            <label className="mb-4 block text-sm text-neutral-400">
+              Invite as
+              <select
+                className="mt-1 w-full rounded border bg-transparent px-2 py-1 text-white"
+                value={inviteRole}
+                onChange={(e) => setInviteRole(e.target.value as any)}
+              >
+                <option value="bandMember">Band member</option>
+                <option value="setlistViewer">Setlist viewer (read-only)</option>
+              </select>
+            </label>
+            <div className="flex justify-end gap-2">
+              <button
+                className="rounded border px-3 py-2"
+                onClick={() => setShowInviteDialog(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="rounded bg-black px-3 py-2 text-white"
+                onClick={() => inviteUserByEmail(inviteEmail)}
+                disabled={!!invitingId}
+              >
+                {invitingId ? 'Sending…' : 'Send invite'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="text-xs text-neutral-500">
         Tip: Add animated GIFs under <code>/public/instruments/</code> named after instruments (e.g.{' '}
         <code>drums.gif</code>). The UI will use them on the project main page.

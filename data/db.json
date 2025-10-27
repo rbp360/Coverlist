@@ -69,6 +69,18 @@
       "email": "user1761441080264@test.local",
       "passwordHash": "$2b$10$CQwWwH84Rs4uuCh4cO.Wde34Vbm3MatMXVZEjb/lDjzvQ22eByaMG",
       "createdAt": "2025-10-26T01:11:20.570Z"
+    },
+    {
+      "id": "3c5d184e-0dab-42c7-b428-24ef03b0e281",
+      "email": "user1761443281416@test.local",
+      "passwordHash": "$2b$10$vY3IvTCBgEL0m4pL.wpV.O3u9dZjqWp7PaAp8Y6JhqJxgaK6MVYIC",
+      "createdAt": "2025-10-26T01:48:02.679Z"
+    },
+    {
+      "id": "0478e9bb-4897-4099-9a4c-5f7ac25b8525",
+      "email": "user1761443359113@test.local",
+      "passwordHash": "$2b$10$VXCKuESsZcQH4CEBHAAxUO24xCDuyS/sN94s2nD41D3lnY6vekEy.",
+      "createdAt": "2025-10-26T01:49:19.340Z"
     }
   ],
   "projects": [
@@ -76,7 +88,7 @@
       "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "name": "test project",
       "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "memberIds": [],
+      "memberIds": ["7d9bd818-1e5b-4300-818f-ecb70c926825"],
       "createdAt": "2025-10-21T08:35:26.159Z",
       "avatarUrl": "/api/uploads/b179467d-df9b-4bd4-898c-ce8de77ed5d2.jpg"
     },
@@ -420,7 +432,19 @@
       "showKey": false
     }
   ],
-  "invites": [],
+  "invites": [
+    {
+      "id": "1ce0440e-9373-4698-9807-926155baee21",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "email": "rob_b_paul@hotmail.com",
+      "token": "78d6d202-be1b-435a-87d0-3abc7e3567a4",
+      "status": "accepted",
+      "invitedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-26T01:52:44.848Z",
+      "updatedAt": "2025-10-26T01:52:53.389Z",
+      "role": "bandMember"
+    }
+  ],
   "settings": {
     "defaultSongGapSec": 30,
     "enrichmentMode": "stub",
@@ -430,7 +454,8 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "instruments": ["Electric Guitar"]
+      "instruments": ["Electric Guitar"],
+      "role": "bandMember"
     }
   ],
   "projectPractice": [

@@ -18,12 +18,15 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const project = db.getProject(params.id, user.id);
   if (!project) return NextResponse.json({ error: 'Project not found' }, { status: 404 });
-  // Only owner can invite for now
-  if (project.ownerId !== user.id)
+  // Allow owner or existing members to invite
+  if (!(project.ownerId === user.id || project.memberIds.includes(user.id)))
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  const { email } = await req.json();
+  const { email, role } = await req.json();
   if (!email || typeof email !== 'string')
     return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
+  // Validate role (optional; default to 'bandMember')
+  const allowedRoles = ['bandMember', 'setlistViewer'] as const;
+  const inviteRole = allowedRoles.includes(role) ? role : 'bandMember';
   const now = new Date().toISOString();
   const invite = {
     id: uuid(),
@@ -34,6 +37,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     invitedBy: user.id,
     createdAt: now,
     updatedAt: now,
+    role: inviteRole,
   };
   db.createInvite(invite);
   return NextResponse.json(invite, { status: 201 });

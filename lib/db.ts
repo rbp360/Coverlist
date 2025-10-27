@@ -1,7 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 
-import { User, DB, ProjectMember, PracticeEntry, RepertoireSong, JoinRequest } from './types';
+import {
+  User,
+  DB,
+  ProjectMember,
+  PracticeEntry,
+  RepertoireSong,
+  JoinRequest,
+  ProjectRole,
+  ProjectRoleNonOwner,
+} from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
@@ -100,6 +109,33 @@ export const db = {
     const d = readDB();
     const p = d.projects.find((x) => x.id === projectId);
     if (p && !p.memberIds.includes(userId)) p.memberIds.push(userId);
+    writeDB(d);
+  },
+
+  // Roles
+  getProjectRole(projectId: string, userId: string): ProjectRole | undefined {
+    const d = readDB();
+    const p = d.projects.find((x) => x.id === projectId);
+    if (!p) return undefined;
+    if (p.ownerId === userId) return 'bandLeader';
+    if (p.memberIds.includes(userId)) return 'bandMember';
+    const pm = (d.projectMembers || []).find(
+      (x) => x.projectId === projectId && x.userId === userId,
+    );
+    return pm?.role;
+  },
+  setMemberRole(projectId: string, userId: string, role: ProjectRoleNonOwner) {
+    const d = readDB();
+    const list = d.projectMembers || (d.projectMembers = []);
+    const idx = list.findIndex((pm) => pm.projectId === projectId && pm.userId === userId);
+    const base: ProjectMember = {
+      projectId,
+      userId,
+      instruments: idx !== -1 && Array.isArray(list[idx].instruments) ? list[idx].instruments : [],
+      role,
+    };
+    if (idx === -1) list.push(base);
+    else list[idx] = { ...list[idx], role } as ProjectMember;
     writeDB(d);
   },
 
