@@ -39,6 +39,17 @@ export default function LyricModePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stepIdx, setStepIdx] = useState(0);
+  // Prevent page scroll while in lyric mode
+  useEffect(() => {
+    const prevDoc = document.documentElement.style.overflow;
+    const prevBody = document.body.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.documentElement.style.overflow = prevDoc;
+      document.body.style.overflow = prevBody;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;

@@ -155,6 +155,9 @@ export default function ProjectDetailPage() {
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/rehearsal`}>
             Rehearsal Mode
           </Link>
+          <Link className="rounded border px-3 py-1" href={`/projects/${id}/live`}>
+            Live Mode
+          </Link>
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/repertoire`}>
             Project Repertoire
           </Link>

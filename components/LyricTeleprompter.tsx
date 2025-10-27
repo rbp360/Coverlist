@@ -130,7 +130,7 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
 
   const activeIndex = useMemo(() => findActiveIndex(lines, currentMs), [lines, currentMs]);
 
-  // Smooth scroll: keep 30% of content visible by not snapping to line; instead, center active region ~30% from top
+  // Smooth scroll: keep ~30% of content above current line, using viewport scrollTop
   useEffect(() => {
     const scroller = scrollerRef.current;
     const viewport = viewportRef.current;
@@ -143,16 +143,17 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
     if (!currentEl) return;
 
     const viewportHeight = viewport.clientHeight;
-    // Target Y so active line sits around 30% from top
     const anchor = Math.round(viewportHeight * 0.3);
     const targetY = Math.max(0, currentEl.offsetTop - anchor);
-
-    // Clamp so at least ~30% of total content remains visible when near the end
     const maxScroll = Math.max(0, scroller.scrollHeight - viewportHeight);
     const clampedY = Math.min(targetY, maxScroll);
 
-    // Use CSS transform for smoothness
-    scroller.style.transform = `translateY(${-clampedY}px)`;
+    // Programmatic scroll of the viewport (hide scrollbar via CSS)
+    try {
+      viewport.scrollTo({ top: clampedY, behavior: 'smooth' });
+    } catch {
+      viewport.scrollTop = clampedY;
+    }
   }, [activeIndex, lines.length]);
 
   const progressPct = Math.max(0, Math.min(100, (currentMs / Math.max(1, durationMs)) * 100));

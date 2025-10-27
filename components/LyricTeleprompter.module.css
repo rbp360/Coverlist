@@ -12,17 +12,20 @@
 .viewport {
   position: relative;
   flex: 1;
-  overflow: hidden; /* we control inner scroller with transform for smoothness */
+  overflow: auto; /* allow programmatic scrolling */
+  scrollbar-width: none; /* Firefox */
+}
+
+.viewport::-webkit-scrollbar {
+  display: none; /* WebKit */
 }
 
 .scroller {
-  will-change: transform;
-  transition: transform 250ms ease-out;
-  padding: 8vh 4vw; /* breathing room but tighter to fit more lines */
+  padding: 6vh 1.5vw; /* tighter to use more screen */
 }
 
 .line {
-  font-size: clamp(2.2vh, 3.4vw, 5vh); /* smaller so more lines fit */
+  font-size: clamp(1.8vh, 2.8vw, 4vh);
   line-height: 1.2;
   letter-spacing: 0.02em;
   opacity: 0.5;
@@ -30,6 +33,7 @@
     opacity 250ms ease-out,
     filter 250ms ease-out;
   filter: blur(0.75px);
+  text-align: center;
 }
 
 .active {
@@ -110,9 +114,10 @@
 
 .plainWrapper {
   flex: 1;
-  padding: 10vh 5vw;
+  padding: 8vh 2vw;
   white-space: pre-wrap;
-  font-size: clamp(2.8vh, 4.5vw, 7vh);
+  font-size: clamp(2.2vh, 3.5vw, 5vh);
+  text-align: center;
 }
 
 .error {
