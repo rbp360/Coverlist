@@ -14,6 +14,7 @@
   flex: 1;
   overflow: auto; /* allow programmatic scrolling */
   scrollbar-width: none; /* Firefox */
+  overscroll-behavior: none; /* avoid scroll chaining */
 }
 
 .viewport::-webkit-scrollbar {

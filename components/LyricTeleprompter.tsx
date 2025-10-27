@@ -27,6 +27,8 @@ export type LyricTeleprompterProps = {
   albumHint?: string;
   /** Enable built-in hotkeys (space=start/pause, r=restart, ]/ArrowDown=next line) */
   enableHotkeys?: boolean;
+  /** Prevent manual user scroll interfering with auto-scroll */
+  lockUserScroll?: boolean;
   className?: string;
   style?: React.CSSProperties;
 };
@@ -44,6 +46,7 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
     artistHint,
     albumHint,
     enableHotkeys = true,
+    lockUserScroll = true,
     className,
     style,
   } = props;
@@ -59,6 +62,8 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
 
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
+  const autoScrollFlag = useRef(false);
+  const lastTargetRef = useRef(0);
 
   // Fetch lyrics on mount / prop changes
   useEffect(() => {
@@ -150,11 +155,46 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
 
     // Programmatic scroll of the viewport (hide scrollbar via CSS)
     try {
+      autoScrollFlag.current = true;
+      lastTargetRef.current = clampedY;
       viewport.scrollTo({ top: clampedY, behavior: 'smooth' });
     } catch {
+      autoScrollFlag.current = true;
+      lastTargetRef.current = clampedY;
       viewport.scrollTop = clampedY;
     }
+    // Clear auto flag shortly after the smooth scroll likely finishes
+    const t = setTimeout(() => {
+      autoScrollFlag.current = false;
+    }, 350);
+    return () => clearTimeout(t);
   }, [activeIndex, lines.length]);
+
+  // Lock user scroll to avoid interference; still allow programmatic scroll
+  useEffect(() => {
+    if (!lockUserScroll) return;
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+    const onScroll = () => {
+      if (autoScrollFlag.current) return; // ignore programmatic
+      // snap back to last target
+      viewport.scrollTop = lastTargetRef.current;
+    };
+    viewport.addEventListener('wheel', onWheel, { passive: false });
+    viewport.addEventListener('touchmove', onTouchMove, { passive: false });
+    viewport.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      viewport.removeEventListener('wheel', onWheel as any);
+      viewport.removeEventListener('touchmove', onTouchMove as any);
+      viewport.removeEventListener('scroll', onScroll as any);
+    };
+  }, [lockUserScroll]);
 
   const progressPct = Math.max(0, Math.min(100, (currentMs / Math.max(1, durationMs)) * 100));
 
