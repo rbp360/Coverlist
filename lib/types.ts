@@ -29,6 +29,7 @@ export type DB = {
   projectMembers?: ProjectMember[];
   projectPractice?: PracticeEntry[];
   joinRequests?: JoinRequest[];
+  projectTodo?: ProjectTodoItem[];
   settings: Settings;
 };
 
@@ -145,6 +146,21 @@ export type PracticeEntry = {
   // ISO date string (YYYY-MM-DD) of the last time this user rehearsed this song
   // Optional: if missing, no RAG color is applied in UI
   lastRehearsed?: string;
+};
+
+export type ProjectTodoItem = {
+  id: string;
+  projectId: string;
+  // Minimal identity for the suggestion
+  title: string;
+  artist: string;
+  durationSec?: number;
+  mbid?: string;
+  isrc?: string;
+  // Who suggested it
+  suggestedBy: string; // userId
+  notes?: string;
+  createdAt: string;
 };
 
 export type Settings = {

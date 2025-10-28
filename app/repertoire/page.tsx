@@ -37,6 +37,8 @@ export default function RepertoireHomePage() {
   const [projects, setProjects] = useState<Array<{ id: string; name: string }>>([]);
   const [targetProjectIds, setTargetProjectIds] = useState<string[]>([]);
   const [adding, setAdding] = useState(false);
+  const [suggesting, setSuggesting] = useState(false);
+  const [todoByProject, setTodoByProject] = useState<Record<string, Set<string>>>({});
 
   function buildUrl() {
     return `/api/repertoire/songs?q=${encodeURIComponent(q)}&artist=${encodeURIComponent(artist)}`;
@@ -71,7 +73,27 @@ export default function RepertoireHomePage() {
       if (res.ok) {
         const data = await res.json();
         const list = Array.isArray(data) ? data : data?.projects || [];
-        setProjects(list.map((p: any) => ({ id: p.id, name: p.name })));
+        const mapped = list.map((p: any) => ({ id: p.id, name: p.name }));
+        setProjects(mapped);
+        // Load To-Do identities per project to display italics
+        const norm = (s: string) => s.trim().toLowerCase();
+        const byProj: Record<string, Set<string>> = {};
+        await Promise.all(
+          mapped.map(async (p: { id: string; name: string }) => {
+            try {
+              const r = await fetch(`/api/projects/${p.id}/todo`);
+              if (!r.ok) return;
+              const j = await r.json();
+              const set = new Set<string>();
+              (j.items || []).forEach((it: any) => {
+                const identity = it?.mbid || `${norm(it?.title || '')}|${norm(it?.artist || '')}`;
+                if (identity && !set.has(identity)) set.add(identity);
+              });
+              byProj[p.id] = set;
+            } catch {}
+          }),
+        );
+        setTodoByProject(byProj);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -156,6 +178,36 @@ export default function RepertoireHomePage() {
     }
   }
 
+  async function suggestSelectedToTodo() {
+    const chosen = aggregated.filter((s) => selected[s.identity]);
+    if (chosen.length === 0 || targetProjectIds.length === 0) return;
+    setSuggesting(true);
+    try {
+      const items = chosen.map((s) => ({
+        title: s.title,
+        artist: s.artist,
+        durationSec: s.durationSec,
+        mbid: s.mbid,
+        isrc: s.isrc,
+      }));
+      for (const pid of targetProjectIds) {
+        await fetch(`/api/projects/${pid}/todo`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items }),
+        });
+      }
+      setSelected({});
+      setSelectAll(false);
+      alert('Suggestions added to project To-Do');
+    } catch (e) {
+      console.error(e);
+      alert('Failed to add suggestions');
+    } finally {
+      setSuggesting(false);
+    }
+  }
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -236,6 +288,22 @@ export default function RepertoireHomePage() {
                           {p.name}
                         </Link>
                       ))}
+                    {/* To-Do only: show italic project labels for projects where this song is only on To-Do */}
+                    {projects
+                      .filter(
+                        (p) =>
+                          todoByProject[p.id]?.has(s.identity) &&
+                          !s.projects.some((sp) => sp.id === p.id),
+                      )
+                      .map((p) => (
+                        <span
+                          key={`todo-${p.id}`}
+                          className="rounded border px-2 py-0.5 text-xs italic text-neutral-300"
+                          title="On project To-Do"
+                        >
+                          {p.name}
+                        </span>
+                      ))}
                     {s.projects.filter((p) => !p.id).length > 0 && (
                       <span className="rounded border px-2 py-0.5 text-xs text-neutral-400">
                         Repertoire
@@ -256,7 +324,7 @@ export default function RepertoireHomePage() {
         </table>
       </div>
 
-      {/* Add to projects controls */}
+      {/* Add to projects / suggest to To-Do controls */}
       <div className="flex flex-wrap items-center gap-2">
         <label className="text-sm text-neutral-300">Add selected to projects:</label>
         <select
@@ -288,6 +356,21 @@ export default function RepertoireHomePage() {
         >
           {adding ? 'Adding…' : 'Add to projects'}
         </button>
+        <button
+          className="rounded border px-3 py-1 text-sm disabled:opacity-50"
+          disabled={
+            suggesting || targetProjectIds.length === 0 || !Object.values(selected).some(Boolean)
+          }
+          onClick={suggestSelectedToTodo}
+          title="Suggest selected songs to the chosen project's To-Do list"
+        >
+          {suggesting ? 'Suggesting…' : 'Suggest to project To-Do'}
+        </button>
+      </div>
+
+      <div className="text-xs text-neutral-500">
+        Tip: Underlined project names mean the song is in that project’s repertoire. Italic names
+        mean it’s only on that project’s To-Do list (see the project’s Rehearsal page).
       </div>
     </div>
   );

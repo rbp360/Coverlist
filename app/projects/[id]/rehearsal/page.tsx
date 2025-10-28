@@ -38,6 +38,7 @@ export default function RehearsalPage() {
   const { id } = useParams<{ id: string }>();
   const [songs, setSongs] = useState<Song[]>([]);
   const [projectName, setProjectName] = useState<string>('');
+  const [todo, setTodo] = useState<Array<{ id: string; title: string; artist: string }>>([]);
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
   const [practice, setPractice] = useState<
@@ -71,6 +72,14 @@ export default function RehearsalPage() {
         if (artist.trim()) params.set('artist', artist.trim());
         const res = await fetch(`/api/projects/${id}/songs?${params.toString()}`);
         if (res.ok) setSongs((await res.json()).songs);
+        // load project todo
+        const td = await fetch(`/api/projects/${id}/todo`);
+        if (td.ok) {
+          const json = await td.json();
+          setTodo(
+            (json.items || []).map((x: any) => ({ id: x.id, title: x.title, artist: x.artist })),
+          );
+        }
         // Load practice entries for current user
         const pr = await fetch(`/api/projects/${id}/rehearsal`);
         if (pr.ok) {
@@ -418,6 +427,75 @@ export default function RehearsalPage() {
       <div className="text-xs text-neutral-500">
         This view shows all songs in this project&apos;s repertoire to help with rehearsal. Use the
         Setlists page for arranging live shows.
+      </div>
+
+      {/* Project To-Do list (moved below main rehearsal content) */}
+      <div className="rounded border">
+        <div className="flex items-center justify-between border-b px-3 py-2">
+          <h3 className="font-semibold">Project To-Do</h3>
+          <div className="text-xs text-neutral-500">
+            Suggestions to consider; move into repertoire when ready.
+          </div>
+        </div>
+        {todo.length === 0 ? (
+          <div className="p-3 text-sm text-neutral-600">No suggestions yet.</div>
+        ) : (
+          <ul className="divide-y">
+            {todo.map((t) => (
+              <li key={t.id} className="flex items-center justify-between gap-2 p-3">
+                <div className="truncate">
+                  <span className="font-medium">{t.title}</span>
+                  <span className="text-neutral-500"> — {t.artist}</span>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    className="rounded border px-2 py-0.5 text-xs"
+                    title="Move into project repertoire"
+                    onClick={async () => {
+                      try {
+                        const res = await fetch(`/api/projects/${id}/songs`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ title: t.title, artist: t.artist }),
+                        });
+                        if (res.ok) {
+                          // Remove from todo after successful add
+                          await fetch(`/api/projects/${id}/todo`, {
+                            method: 'DELETE',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: t.id }),
+                          });
+                          setTodo((prev) => prev.filter((x) => x.id !== t.id));
+                          // refresh songs list
+                          const res2 = await fetch(`/api/projects/${id}/songs`);
+                          if (res2.ok) setSongs((await res2.json()).songs);
+                        }
+                      } catch {}
+                    }}
+                  >
+                    Move to repertoire
+                  </button>
+                  <button
+                    className="rounded border px-2 py-0.5 text-xs"
+                    title="Remove suggestion"
+                    onClick={async () => {
+                      try {
+                        await fetch(`/api/projects/${id}/todo`, {
+                          method: 'DELETE',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ id: t.id }),
+                        });
+                        setTodo((prev) => prev.filter((x) => x.id !== t.id));
+                      } catch {}
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {notePreview && (

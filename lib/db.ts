@@ -10,6 +10,7 @@ import {
   JoinRequest,
   ProjectRole,
   ProjectRoleNonOwner,
+  ProjectTodoItem,
 } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
@@ -44,6 +45,7 @@ function readDB(): DB {
   parsed.projectMembers = parsed.projectMembers || [];
   parsed.projectPractice = parsed.projectPractice || [];
   parsed.joinRequests = parsed.joinRequests || [];
+  parsed.projectTodo = parsed.projectTodo || [];
   parsed.settings = parsed.settings || { defaultSongGapSec: 30 };
   if (parsed.settings.defaultSongGapSec == null) parsed.settings.defaultSongGapSec = 30;
   if (parsed.settings.enrichmentMode == null) parsed.settings.enrichmentMode = 'stub';
@@ -367,6 +369,7 @@ export const db = {
     d.setlists = d.setlists.filter((s) => s.id !== id);
     writeDB(d);
   },
+
   // Invites
   listInvites(projectId: string) {
     const d = readDB();
@@ -420,5 +423,48 @@ export const db = {
       list[idx] = jr;
       writeDB(d);
     }
+  },
+
+  // Project To-Do items
+  listProjectTodo(projectId: string): ProjectTodoItem[] {
+    const d = readDB();
+    return (d.projectTodo || []).filter((t) => t.projectId === projectId);
+  },
+  addProjectTodo(item: ProjectTodoItem) {
+    const d = readDB();
+    const list = d.projectTodo || (d.projectTodo = []);
+    // Prevent duplicate suggestions by identity (mbid or normalized title|artist)
+    const norm = (s: string) => s.trim().toLowerCase();
+    const identity = item.mbid || `${norm(item.title)}|${norm(item.artist)}`;
+    const hasDuplicate = list.some((t) => {
+      const tIdentity = t.mbid || `${norm(t.title)}|${norm(t.artist)}`;
+      return t.projectId === item.projectId && tIdentity === identity;
+    });
+    if (!hasDuplicate) {
+      list.push(item as any);
+      writeDB(d);
+    }
+  },
+  addManyProjectTodo(projectId: string, items: ProjectTodoItem[]) {
+    const d = readDB();
+    const list = d.projectTodo || (d.projectTodo = []);
+    const norm = (s: string) => s.trim().toLowerCase();
+    for (const item of items) {
+      const identity = item.mbid || `${norm(item.title)}|${norm(item.artist)}`;
+      const hasDuplicate = list.some((t) => {
+        const tIdentity = t.mbid || `${norm(t.title)}|${norm(t.artist)}`;
+        return t.projectId === projectId && tIdentity === identity;
+      });
+      if (!hasDuplicate) list.push(item);
+    }
+    writeDB(d);
+  },
+  deleteProjectTodo(projectId: string, id: string) {
+    const d = readDB();
+    const before = (d.projectTodo || []).length;
+    d.projectTodo = (d.projectTodo || []).filter(
+      (t) => !(t.projectId === projectId && t.id === id),
+    );
+    if ((d.projectTodo || []).length !== before) writeDB(d);
   },
 };

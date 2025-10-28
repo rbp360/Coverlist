@@ -20,6 +20,8 @@ export default function SongsPage() {
   const [page, setPage] = useState(1);
   const [importing, setImporting] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [projects, setProjects] = useState<Array<{ id: string; name: string }>>([]);
+  const [targetProject, setTargetProject] = useState<string>('');
 
   useEffect(() => {
     (async () => {
@@ -35,6 +37,16 @@ export default function SongsPage() {
             mbid: s.mbid,
           })),
         );
+      }
+    })();
+    (async () => {
+      const res = await fetch('/api/projects');
+      if (res.ok) {
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : data?.projects || [];
+        const mapped = list.map((p: any) => ({ id: p.id, name: p.name }));
+        setProjects(mapped);
+        if (mapped.length > 0) setTargetProject(mapped[0].id);
       }
     })();
   }, []);
@@ -94,6 +106,23 @@ export default function SongsPage() {
     <div className="space-y-4">
       <div className="flex items-end justify-between gap-2">
         <h2 className="text-2xl font-semibold">Add Songs</h2>
+        {projects.length > 0 && (
+          <div className="flex items-center gap-2 text-sm">
+            <label className="text-neutral-300">Suggest to project To-Do:</label>
+            <select
+              className="rounded border bg-black text-white px-2 py-1"
+              value={targetProject}
+              onChange={(e) => setTargetProject(e.target.value)}
+              aria-label="Choose project to suggest songs to"
+            >
+              {projects.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       <form onSubmit={search} className="grid gap-2 md:grid-cols-4">
@@ -145,14 +174,41 @@ export default function SongsPage() {
                   </div>
                 )}
               </div>
-              <button
-                className={`rounded border px-3 py-1 text-sm ${imported ? 'opacity-50 cursor-not-allowed' : ''}`}
-                onClick={() => !imported && !isBusy && importSong(r)}
-                disabled={imported || isBusy}
-                title={imported ? 'Already in your repertoire' : 'Add to repertoire'}
-              >
-                {imported ? 'Already added' : isBusy ? 'Adding…' : 'Add to repertoire'}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  className={`rounded border px-3 py-1 text-sm ${imported ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  onClick={() => !imported && !isBusy && importSong(r)}
+                  disabled={imported || isBusy}
+                  title={imported ? 'Already in your repertoire' : 'Add to repertoire'}
+                >
+                  {imported ? 'Already added' : isBusy ? 'Adding…' : 'Add to repertoire'}
+                </button>
+                {projects.length > 0 && (
+                  <button
+                    className="rounded border px-3 py-1 text-sm"
+                    onClick={async () => {
+                      if (!targetProject) return;
+                      try {
+                        await fetch(`/api/projects/${targetProject}/todo`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            title: r.title,
+                            artist: r.artist,
+                            durationSec: r.durationSec,
+                            mbid: r.mbid,
+                            isrc: r.isrc,
+                          }),
+                        });
+                        alert('Suggested to project To-Do');
+                      } catch {}
+                    }}
+                    title="Suggest this song to the selected project's To-Do"
+                  >
+                    Suggest to To-Do
+                  </button>
+                )}
+              </div>
             </li>
           );
         })}
