@@ -5,18 +5,32 @@ import { useEffect, useRef, useState } from 'react';
 
 import SignOutButton from './SignOutButton';
 
-export default function UserMenu() {
-  const [authed, setAuthed] = useState<boolean | null>(null);
-  const [user, setUser] = useState<{ name?: string; avatarUrl?: string } | null>(null);
+type MinimalUser = { name?: string; avatarUrl?: string } | null;
+
+export default function UserMenu({
+  initialAuthed,
+  initialUser,
+  initialPendingInvitesCount,
+}: {
+  initialAuthed?: boolean;
+  initialUser?: MinimalUser;
+  initialPendingInvitesCount?: number;
+} = {}) {
+  const [authed, setAuthed] = useState<boolean | null>(
+    initialAuthed === undefined ? null : initialAuthed,
+  );
+  const [user, setUser] = useState<MinimalUser>(initialUser ?? null);
+  const [invitesCount, setInvitesCount] = useState<number>(initialPendingInvitesCount ?? 0);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   // Determine auth state quickly without flicker
   useEffect(() => {
+    if (initialAuthed !== undefined) return; // server provided, no need to refetch
     let mounted = true;
     (async () => {
       try {
-        const res = await fetch('/api/profile', { cache: 'no-store' });
+        const res = await fetch('/api/profile', { cache: 'no-store', credentials: 'include' });
         if (!mounted) return;
         if (!res.ok) {
           setAuthed(false);
@@ -37,7 +51,47 @@ export default function UserMenu() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [initialAuthed]);
+
+  // Fetch pending invites count when authed
+  useEffect(() => {
+    if (!authed) return;
+    let mounted = true;
+
+    async function refreshInvites() {
+      try {
+        const res = await fetch('/api/invites', { cache: 'no-store', credentials: 'include' });
+        if (!mounted) return;
+        if (!res.ok) return;
+        const data = (await res.json()) as { count?: number };
+        if (typeof data.count === 'number') setInvitesCount(data.count);
+      } catch {
+        // ignore transient errors
+      }
+    }
+
+    // initial fetch
+    refreshInvites();
+
+    // refresh on window focus or when page becomes visible
+    const onFocus = () => refreshInvites();
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') refreshInvites();
+    };
+    // refresh when other parts of the app signal an update (e.g., invites accepted)
+    const onInvitesUpdated = () => refreshInvites();
+
+    window.addEventListener('focus', onFocus);
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('invites:updated', onInvitesUpdated as EventListener);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener('focus', onFocus);
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('invites:updated', onInvitesUpdated as EventListener);
+    };
+  }, [authed]);
 
   // Close on outside click or Escape
   useEffect(() => {
@@ -59,7 +113,36 @@ export default function UserMenu() {
     };
   }, [open]);
 
-  if (authed === null || authed === false) return null; // avoid flicker and hide when not authed
+  // While determining auth, render a neutral Profile button to avoid layout shift and keep e2e stable
+  if (authed === null)
+    return (
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={false}
+        aria-label="Open user menu"
+        className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-2 py-1 text-sm text-neutral-300"
+      >
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-neutral-700 text-xs text-neutral-500">
+          👤
+        </span>
+        <span className="hidden sm:inline">Profile</span>
+      </button>
+    );
+
+  // When not authenticated, show a Sign in link so the header doesn't disappear
+  if (authed === false)
+    return (
+      <Link
+        href="/login"
+        className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-3 py-1.5 text-sm text-neutral-300 hover:bg-neutral-800"
+      >
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-neutral-700 text-xs text-neutral-500">
+          👤
+        </span>
+        <span>Sign in</span>
+      </Link>
+    );
 
   return (
     <div className="relative" ref={menuRef}>
@@ -83,7 +166,17 @@ export default function UserMenu() {
             {user?.name?.[0] || '👤'}
           </span>
         )}
-        <span className="hidden sm:inline">Profile</span>
+        <span className="hidden sm:inline-flex items-center gap-1">
+          Profile
+          {invitesCount > 0 && (
+            <span
+              aria-label={`${invitesCount} pending invitations`}
+              className="ml-1 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-medium text-white"
+            >
+              {invitesCount}
+            </span>
+          )}
+        </span>
       </button>
 
       {open && (
@@ -94,6 +187,19 @@ export default function UserMenu() {
         >
           <div className="py-1 text-sm">
             <>
+              {invitesCount > 0 && (
+                <Link
+                  role="menuitem"
+                  href="/invites"
+                  className="flex items-center justify-between px-3 py-2 text-neutral-200 hover:bg-neutral-800 hover:text-white"
+                  onClick={() => setOpen(false)}
+                >
+                  <span>Invitations</span>
+                  <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-medium text-white">
+                    {invitesCount}
+                  </span>
+                </Link>
+              )}
               <Link
                 role="menuitem"
                 href="/settings"

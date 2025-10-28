@@ -4,8 +4,7 @@ import './globals.css';
 import Link from 'next/link';
 
 import BackButton from '@/components/BackButton';
-
-import UserMenu from '../components/UserMenu';
+import UserHeader from '@/components/UserHeader';
 
 import type { Metadata } from 'next';
 
@@ -36,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/songs" className="hover:text-white">
                 Add Songs
               </Link>
-              <UserMenu />
+              <UserHeader />
             </nav>
           </div>
         </header>

@@ -16,8 +16,11 @@ export default function LoginPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-    if (res.ok) router.push('/projects');
-    else setError('Invalid credentials');
+    if (res.ok) {
+      // Force a full reload to ensure auth cookie is applied to server-rendered layout
+      window.location.href = '/projects';
+      return;
+    } else setError('Invalid credentials');
   }
 
   return (

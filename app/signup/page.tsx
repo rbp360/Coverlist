@@ -16,8 +16,11 @@ export default function SignupPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-    if (res.ok) router.push('/projects');
-    else setError('Signup failed');
+    if (res.ok) {
+      // Force a full reload to ensure auth cookie is applied to server-rendered layout
+      window.location.href = '/projects';
+      return;
+    } else setError('Signup failed');
   }
 
   return (

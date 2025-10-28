@@ -93,6 +93,48 @@
       "email": "user1761614780296@test.local",
       "passwordHash": "$2b$10$8qF.dE4RK5jY911xXhDeE.swIbr2CpdAFWn/VGtmuGhvEUcC1UE5i",
       "createdAt": "2025-10-28T01:26:21.165Z"
+    },
+    {
+      "id": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
+      "email": "rob_b_paul@hotmail.com",
+      "passwordHash": "$2b$10$zNAwF2ImHknsZ/SqA4.lpuWv0acL8TjvyfCv7ziRrsMTeuFp3md0K",
+      "createdAt": "2025-10-28T07:18:49.841Z"
+    },
+    {
+      "id": "e14ec1c8-e7d4-4aef-b5ef-dc243f82b4ef",
+      "email": "user1761636513231@test.local",
+      "passwordHash": "$2b$10$HnsaY0ZU4WiktUhdmXBTGuXn4TFgWaKjKvrMOrQvRohqVf9vQ0nx6",
+      "createdAt": "2025-10-28T07:28:34.158Z"
+    },
+    {
+      "id": "6fe99d3c-4da8-43ca-aa34-8f6c148f8bae",
+      "email": "user1761636587246@test.local",
+      "passwordHash": "$2b$10$eC4GhnY0DRaCmMMmdo39eOiIG2D3OYGzXzYT8NhelIqUuJdGg1cI2",
+      "createdAt": "2025-10-28T07:29:48.411Z"
+    },
+    {
+      "id": "ce82d4c4-9fad-4848-9dba-60d8367b9cbd",
+      "email": "user1761636752590@test.local",
+      "passwordHash": "$2b$10$CsEMOi18Uqoqp3uDBpE/fexZ//kE13b2eqUQ9nuZ0n2tilxRkqZEW",
+      "createdAt": "2025-10-28T07:32:33.228Z"
+    },
+    {
+      "id": "84c7eae3-9053-4ab0-82e7-b4f508c95ca5",
+      "email": "user1761636816386@test.local",
+      "passwordHash": "$2b$10$qevZ8.GHn3rV/Ayc2wvUDObJiQ2t/KT.k7Kkgus6UDSP4uGVLy1he",
+      "createdAt": "2025-10-28T07:33:36.633Z"
+    },
+    {
+      "id": "30fdc173-79dc-4159-8777-07a1edc58e00",
+      "email": "user1761637331579@test.local",
+      "passwordHash": "$2b$10$6znWH/NWpnNcP17fw3up5uOMEfRYoUzo1P3jnV02fzvbmQ9BfQ/v6",
+      "createdAt": "2025-10-28T07:42:12.188Z"
+    },
+    {
+      "id": "e0f3694c-73b9-4a0b-a2d3-58d9fd12bf61",
+      "email": "user1761637633809@test.local",
+      "passwordHash": "$2b$10$CtF1NAmtUz8fyLTyGJizy.9a/hBttoXFcon.NNqTNahdfpoMFL4Cy",
+      "createdAt": "2025-10-28T07:47:14.420Z"
     }
   ],
   "projects": [
@@ -100,7 +142,7 @@
       "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "name": "test project",
       "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "memberIds": ["7d9bd818-1e5b-4300-818f-ecb70c926825"],
+      "memberIds": ["7d9bd818-1e5b-4300-818f-ecb70c926825", "08f1e9d5-afdb-42e9-ae02-42b95753a223"],
       "createdAt": "2025-10-21T08:35:26.159Z",
       "avatarUrl": "/api/uploads/b179467d-df9b-4bd4-898c-ce8de77ed5d2.jpg"
     },
@@ -536,6 +578,39 @@
       "createdAt": "2025-10-26T01:52:44.848Z",
       "updatedAt": "2025-10-26T01:52:53.389Z",
       "role": "bandMember"
+    },
+    {
+      "id": "6128b5df-170f-4b8b-ade6-7e5602e56a0a",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "email": "rob_b_paul@hotmail.com",
+      "token": "20ec1a12-565e-446d-9d37-f130d3a182fd",
+      "status": "accepted",
+      "invitedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:20:55.265Z",
+      "updatedAt": "2025-10-28T07:43:41.318Z",
+      "role": "bandMember"
+    },
+    {
+      "id": "fcc37528-6ded-4443-bba3-5ddbe6aa56ce",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "email": "rob_b_paul@hotmail.com",
+      "token": "3813910d-3831-42d4-b7ac-38bb762f0966",
+      "status": "accepted",
+      "invitedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:36:55.315Z",
+      "updatedAt": "2025-10-28T07:43:42.876Z",
+      "role": "bandMember"
+    },
+    {
+      "id": "0fc81bec-cd88-4aa9-a7c6-9806ef02332f",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "email": "rob_b_paul@hotmail.com",
+      "token": "17eebf9c-3729-454a-a421-dd1cb0fc56dd",
+      "status": "accepted",
+      "invitedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:43:29.340Z",
+      "updatedAt": "2025-10-28T07:43:43.958Z",
+      "role": "bandMember"
     }
   ],
   "settings": {
@@ -548,6 +623,12 @@
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "instruments": ["Electric Guitar"],
+      "role": "bandMember"
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
+      "instruments": [],
       "role": "bandMember"
     }
   ],
@@ -630,6 +711,16 @@
       "url": "https://open.spotify.com/track/0dOg1ySSI7NkpAe89Zo0b9",
       "createdAt": "2025-10-25T02:47:28.305Z",
       "updatedAt": "2025-10-25T02:47:28.305Z"
+    },
+    {
+      "id": "527d8978-5f01-4399-9eac-a1e77ed2d8dc",
+      "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
+      "title": "Stairway",
+      "artist": "Mark Lockheart",
+      "durationSec": 111,
+      "mbid": "80b54360-4099-4ab9-92a9-60168f468039",
+      "createdAt": "2025-10-28T07:22:29.584Z",
+      "updatedAt": "2025-10-28T07:22:29.584Z"
     }
   ],
   "joinRequests": [],
@@ -647,6 +738,26 @@
       "votes": {
         "7d9bd818-1e5b-4300-818f-ecb70c926825": "yes"
       }
+    },
+    {
+      "id": "711af023-b8ae-4792-acd3-d74acd7e8286",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Born in the U.S.A.",
+      "artist": "Bruce Springsteen",
+      "durationSec": 492,
+      "mbid": "04bcaa21-3b4e-4d55-8f05-b741ae3286f8",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:17:09.615Z"
+    },
+    {
+      "id": "cb9cbb8d-cd18-4393-bc89-6317ecb3e9fd",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Wheel in the Sky",
+      "artist": "Journey",
+      "durationSec": 212,
+      "mbid": "bea681de-5228-4b12-968e-3db163ea4c92",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:17:09.615Z"
     }
   ]
 }

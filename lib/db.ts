@@ -396,6 +396,11 @@ export const db = {
     const d = readDB();
     return d.invites.find((i) => i.token === token);
   },
+  listInvitesForEmail(email: string) {
+    const d = readDB();
+    const em = email.toLowerCase();
+    return d.invites.filter((i) => i.email.toLowerCase() === em);
+  },
   // Join Requests
   listJoinRequestsForProject(projectId: string): JoinRequest[] {
     const d = readDB();
