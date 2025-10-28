@@ -13,7 +13,16 @@ import {
   ProjectTodoItem,
 } from './types';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+// Choose a writable data directory.
+// - Local/dev & CI: default to <repo>/data
+// - Vercel serverless: the filesystem is read-only except for /tmp, so use /tmp/data to avoid crashes
+// - You can override via DATA_DIR env var in Docker/VM deploys.
+const DATA_DIR = (() => {
+  const override = process.env.DATA_DIR;
+  if (override && override.trim()) return path.resolve(override);
+  const isVercel = process.env.VERCEL === '1' || process.env.NOW === '1';
+  return isVercel ? '/tmp/data' : path.join(process.cwd(), 'data');
+})();
 const DB_FILE = path.join(DATA_DIR, 'db.json');
 
 function ensureDB() {

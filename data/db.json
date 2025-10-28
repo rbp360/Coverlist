@@ -174,6 +174,84 @@
       "email": "user-1761651782835-firefox-7-qpnif1@test.local",
       "passwordHash": "$2b$10$C1CNMqLw8bzKFVlVxwnsQuAbjGHOnIJhr1VrAxViAOdpOSTW6V4qi",
       "createdAt": "2025-10-28T11:43:03.173Z"
+    },
+    {
+      "id": "283260d7-6d9b-44d7-99f7-122a2db98d16",
+      "email": "user-1761652064923-chromium-3-ajj8ia@test.local",
+      "passwordHash": "$2b$10$nYgkhYLjL1gdPm1l6FK2I.lY7HR8tddZ3dpwg7bdrRhgtOn1hl3DW",
+      "createdAt": "2025-10-28T11:47:45.245Z"
+    },
+    {
+      "id": "6f97e418-a307-423d-a192-710d759c0941",
+      "email": "user-1761652066619-webkit-11-l6b15c@test.local",
+      "passwordHash": "$2b$10$vDFBnhQDZRySToxQGmaHjeKsGl97MwRKqT6Nsx8QidPDRw.DwHmZ6",
+      "createdAt": "2025-10-28T11:47:47.064Z"
+    },
+    {
+      "id": "30505883-c65a-4bc5-85f5-4cfee319016a",
+      "email": "user-1761652067876-firefox-7-ugget1@test.local",
+      "passwordHash": "$2b$10$EQl6HJmB7mB2gyEuYuaYYeJA.VG3mbbiv0QxAsXsMY.RmZufDPNoa",
+      "createdAt": "2025-10-28T11:47:48.250Z"
+    },
+    {
+      "id": "eeb94312-6fb7-40d7-94a1-e5531818156a",
+      "email": "user-1761653343432-chromium-3-lhtgzf@test.local",
+      "passwordHash": "$2b$10$VcuIVXvj6xfT1CWhznxdLeJ8SOlPFBJc8d0YNQWQK5MiN4BYakBtS",
+      "createdAt": "2025-10-28T12:09:04.530Z"
+    },
+    {
+      "id": "dcf54e20-bb24-4288-b5d8-0fd9cc9f8653",
+      "email": "user-1761653346067-firefox-7-zp7jrl@test.local",
+      "passwordHash": "$2b$10$R8FmUIoFuZWYb3RaO7dwT.uCU7Wi0eGyhCR1WzN3/BhadcV8fDQWC",
+      "createdAt": "2025-10-28T12:09:06.415Z"
+    },
+    {
+      "id": "a54c6e26-aba7-4bef-850d-ef2a5ee7dfb8",
+      "email": "user-1761654552506-webkit-0-2b61dh@test.local",
+      "passwordHash": "$2b$10$KDUY2KpOqiE5leqRN8TPiOeVEtanK.QRxD7DyRaOGd/tGKu.4gCQq",
+      "createdAt": "2025-10-28T12:29:12.835Z"
+    },
+    {
+      "id": "8bab4315-11b2-4210-8751-3a486509f7d3",
+      "email": "user-1761654623275-webkit-0-zk6wmk@test.local",
+      "passwordHash": "$2b$10$phcZmXGa2Th275cgfnH8lef5Da5.WmErltE0F7X1nQmj/UMp/lKJy",
+      "createdAt": "2025-10-28T12:30:23.928Z"
+    },
+    {
+      "id": "401a052d-5398-43d9-815a-a96a164a711b",
+      "email": "user-1761654649220-chromium-3-aak1xy@test.local",
+      "passwordHash": "$2b$10$NdbXGMqkiobujdgAHu9ruOOv57QKh4kkiNUkmxSXL6gK2wzPzdlcq",
+      "createdAt": "2025-10-28T12:30:49.610Z"
+    },
+    {
+      "id": "6afd0ab3-df15-4e4d-9b9c-1d9e7a89ad71",
+      "email": "user-1761654649697-webkit-10-riefaq@test.local",
+      "passwordHash": "$2b$10$f9UZ2v/c2iHLhR9tfWzvCu28un6yG6rMs1nTKulGEfNgM.NELceo2",
+      "createdAt": "2025-10-28T12:30:49.928Z"
+    },
+    {
+      "id": "f32d390a-c138-4474-ac56-4ef0e06c13f5",
+      "email": "user-1761654652117-firefox-7-2nqr1x@test.local",
+      "passwordHash": "$2b$10$ECBgQqdhLTpSiXioRT6pD.ZmAKs6rhjyBIGMIBzIKbcr/CUCAP58O",
+      "createdAt": "2025-10-28T12:30:52.278Z"
+    },
+    {
+      "id": "9b5f165c-acfc-495b-b3d2-e0f6fb67f7cb",
+      "email": "user-1761654659140-chromium-3-5y59gg@test.local",
+      "passwordHash": "$2b$10$/SXOMZVS0f9Nw9ECyKVFVuoJYwOqNoyuiq8GfPKdTD5/xNIDEqgfy",
+      "createdAt": "2025-10-28T12:30:59.303Z"
+    },
+    {
+      "id": "32c6814c-de6e-4f0f-a463-5fa1a471f472",
+      "email": "user-1761654660841-webkit-11-cahi6q@test.local",
+      "passwordHash": "$2b$10$wJMl0QE52fKu0EUgEdmbCeW56hBbNJSk18PimOnmaMyF/azXDfaNy",
+      "createdAt": "2025-10-28T12:31:01.020Z"
+    },
+    {
+      "id": "5d8cf6b3-ca77-4295-bc70-a4446d27c839",
+      "email": "user-1761654661938-firefox-7-w50wzt@test.local",
+      "passwordHash": "$2b$10$G1ZDw7gJ3UN4Fu4JpNQ53eP2mGGWGHmgG0UlTho.8cbW/ZfauEy/a",
+      "createdAt": "2025-10-28T12:31:02.093Z"
     }
   ],
   "projects": [
