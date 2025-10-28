@@ -252,6 +252,24 @@
       "email": "user-1761654661938-firefox-7-w50wzt@test.local",
       "passwordHash": "$2b$10$G1ZDw7gJ3UN4Fu4JpNQ53eP2mGGWGHmgG0UlTho.8cbW/ZfauEy/a",
       "createdAt": "2025-10-28T12:31:02.093Z"
+    },
+    {
+      "id": "e910b97c-0000-42bf-95cd-100e33cd8c2c",
+      "email": "user-1761654952141-chromium-3-2g1yvo@test.local",
+      "passwordHash": "$2b$10$84ll.DZeE.4WEyj507au6eybDuxBnlMNswz5hG5MAlYSkvFCYeCbO",
+      "createdAt": "2025-10-28T12:35:53.206Z"
+    },
+    {
+      "id": "88c82dc1-6196-436e-b949-330d44b06a5a",
+      "email": "user-1761654957991-webkit-11-dlojox@test.local",
+      "passwordHash": "$2b$10$/d3RnYnuECnOPrU5xkiJA.O4WHYPnhJp78zHAxOoW5cUpXGEdPxui",
+      "createdAt": "2025-10-28T12:35:58.595Z"
+    },
+    {
+      "id": "8e64a6b0-e234-4df8-8349-06b425785998",
+      "email": "user-1761654958879-firefox-7-vfji21@test.local",
+      "passwordHash": "$2b$10$d7UkMV1rbaavPBzcjGb6/eH.IItgmf0KcHpNRD103NYkluxfT4WhS",
+      "createdAt": "2025-10-28T12:35:59.513Z"
     }
   ],
   "projects": [

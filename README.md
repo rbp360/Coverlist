@@ -121,3 +121,23 @@ You can also enable "On import" in Settings to apply the stub enrichment automat
 
 - If Playwright tests fail locally, install browsers: `npx playwright install`
 - Delete `.next` and `node_modules` then reinstall: `rmdir /s /q node_modules .next` then `npm ci`
+
+## Firebase (optional)
+
+You can use Firebase as your backend for auth and/or data. This repo includes a lightweight admin initializer at `lib/firebaseAdmin.ts`.
+
+Setup steps:
+
+1. Create or open a Firebase project in the Firebase Console.
+2. Create a Service Account (Project Settings → Service Accounts → Generate new private key).
+3. Add these environment variables (Vercel Project Settings → Environment Variables for deployed, `.env.local` for local):
+
+- `FIREBASE_PROJECT_ID`
+- `FIREBASE_CLIENT_EMAIL`
+- `FIREBASE_PRIVATE_KEY` (on Vercel, paste with escaped newlines: `\n`)
+- (optional) `FIREBASE_DATABASE_URL`
+
+Notes:
+
+- The app currently persists to a local JSON file (`data/db.json`) for demos and tests. In production on Vercel, the filesystem is ephemeral; we recommend migrating to Firestore/RTDB. You can keep the current API routes and swap the `db` implementation behind the scenes.
+- If you adopt Firebase Authentication, update middleware and API routes to validate Firebase ID tokens (via `firebase-admin`) and remove the custom JWT cookie.

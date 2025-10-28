@@ -20,6 +20,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "firebase-admin": "^12.5.0",
     "bcryptjs": "^3.0.2",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.5",
