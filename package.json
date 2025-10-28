@@ -20,13 +20,14 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "firebase-admin": "^12.5.0",
+    "@react-pdf/renderer": "^3.4.5",
     "bcryptjs": "^3.0.2",
+    "firebase": "^12.4.0",
+    "firebase-admin": "^12.5.0",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@react-pdf/renderer": "^3.4.5",
     "uuid": "^13.0.0",
     "zod": "^4.1.12"
   },
