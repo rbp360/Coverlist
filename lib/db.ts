@@ -430,6 +430,10 @@ export const db = {
     const d = readDB();
     return (d.projectTodo || []).filter((t) => t.projectId === projectId);
   },
+  getProjectTodoById(projectId: string, id: string): ProjectTodoItem | undefined {
+    const d = readDB();
+    return (d.projectTodo || []).find((t) => t.projectId === projectId && t.id === id);
+  },
   addProjectTodo(item: ProjectTodoItem) {
     const d = readDB();
     const list = d.projectTodo || (d.projectTodo = []);
@@ -466,5 +470,41 @@ export const db = {
       (t) => !(t.projectId === projectId && t.id === id),
     );
     if ((d.projectTodo || []).length !== before) writeDB(d);
+  },
+  updateProjectTodo(
+    projectId: string,
+    id: string,
+    patch: Partial<Pick<ProjectTodoItem, 'notes' | 'url'>>,
+  ): ProjectTodoItem | undefined {
+    const d = readDB();
+    const list = d.projectTodo || (d.projectTodo = []);
+    const idx = list.findIndex((t) => t.projectId === projectId && t.id === id);
+    if (idx === -1) return undefined;
+    const next: ProjectTodoItem = { ...list[idx], ...patch } as ProjectTodoItem;
+    list[idx] = next;
+    writeDB(d);
+    return next;
+  },
+  setProjectTodoVote(
+    projectId: string,
+    id: string,
+    userId: string,
+    vote: 'yes' | 'no' | null,
+  ): ProjectTodoItem | undefined {
+    const d = readDB();
+    const list = d.projectTodo || (d.projectTodo = []);
+    const idx = list.findIndex((t) => t.projectId === projectId && t.id === id);
+    if (idx === -1) return undefined;
+    const curr = list[idx];
+    const votes = { ...(curr.votes || {}) } as NonNullable<ProjectTodoItem['votes']>;
+    if (!vote) {
+      delete votes[userId];
+    } else {
+      votes[userId] = vote;
+    }
+    const next: ProjectTodoItem = { ...curr, votes } as ProjectTodoItem;
+    list[idx] = next;
+    writeDB(d);
+    return next;
   },
 };

@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -265,6 +266,20 @@ export default function RepertoirePage() {
       </div>
       <div className="space-y-1">
         {saving && <div className="text-sm text-neutral-600">Saving changes…</div>}
+      </div>
+
+      {/* Jump to To-Do list callout */}
+      <div className="rounded border p-3">
+        <div className="mb-2 text-sm text-neutral-600">
+          Click to access the To-Do list, see what others in your project have suggested, and give
+          them a rating.
+        </div>
+        <Link
+          className="inline-block rounded bg-black px-3 py-2 text-white"
+          href={`/projects/${id}/todo`}
+        >
+          Jump to To-Do list
+        </Link>
       </div>
     </div>
   );

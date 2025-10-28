@@ -160,6 +160,9 @@ export type ProjectTodoItem = {
   // Who suggested it
   suggestedBy: string; // userId
   notes?: string;
+  url?: string; // optional resolved streaming link
+  // Votes by userId: 'yes' | 'no'
+  votes?: Record<string, 'yes' | 'no'>;
   createdAt: string;
 };
 

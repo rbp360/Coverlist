@@ -643,7 +643,10 @@
       "mbid": "db27505f-45b4-4980-a3c8-b53c6d953bc3",
       "isrc": "USPR36905220",
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "createdAt": "2025-10-28T06:52:50.639Z"
+      "createdAt": "2025-10-28T06:52:50.639Z",
+      "votes": {
+        "7d9bd818-1e5b-4300-818f-ecb70c926825": "yes"
+      }
     }
   ]
 }

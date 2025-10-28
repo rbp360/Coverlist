@@ -71,3 +71,29 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
   db.deleteProjectTodo(project.id, itemId);
   return NextResponse.json({ deleted: true });
 }
+
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+  const user = getCurrentUser();
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const project = db.getProject(params.id, user.id);
+  if (!project) return NextResponse.json({ error: 'Project not found' }, { status: 404 });
+  let payload: any = {};
+  try {
+    payload = await req.json();
+  } catch {}
+  const id = String(payload?.id || '').trim();
+  if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
+  const patch: any = {};
+  if (typeof payload?.notes === 'string') patch.notes = payload.notes;
+  if (typeof payload?.url === 'string') patch.url = payload.url;
+  let updated = undefined;
+  if (Object.keys(patch).length > 0) {
+    updated = db.updateProjectTodo(project.id, id, patch);
+  }
+  if (payload?.vote === 'yes' || payload?.vote === 'no' || payload?.vote === null) {
+    updated = db.setProjectTodoVote(project.id, id, user.id, payload.vote);
+  }
+  const item = updated || db.getProjectTodoById(project.id, id);
+  if (!item) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  return NextResponse.json(item);
+}

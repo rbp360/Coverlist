@@ -430,7 +430,7 @@ export default function RehearsalPage() {
       </div>
 
       {/* Project To-Do list (moved below main rehearsal content) */}
-      <div className="rounded border">
+      <div className="rounded border" id="project-todo">
         <div className="flex items-center justify-between border-b px-3 py-2">
           <h3 className="font-semibold">Project To-Do</h3>
           <div className="text-xs text-neutral-500">
