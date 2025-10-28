@@ -81,6 +81,18 @@
       "email": "user1761443359113@test.local",
       "passwordHash": "$2b$10$VXCKuESsZcQH4CEBHAAxUO24xCDuyS/sN94s2nD41D3lnY6vekEy.",
       "createdAt": "2025-10-26T01:49:19.340Z"
+    },
+    {
+      "id": "dc9cf996-c136-4211-a738-e65fc7f57b8a",
+      "email": "user1761614203996@test.local",
+      "passwordHash": "$2b$10$gBsvqwHGpFWDremOXpsXo.rsatZKAxLjit0TWnY.gwiHNhxOPdH3K",
+      "createdAt": "2025-10-28T01:16:44.704Z"
+    },
+    {
+      "id": "de97dbfa-1d40-4d6e-8a65-57b657010e3e",
+      "email": "user1761614780296@test.local",
+      "passwordHash": "$2b$10$8qF.dE4RK5jY911xXhDeE.swIbr2CpdAFWn/VGtmuGhvEUcC1UE5i",
+      "createdAt": "2025-10-28T01:26:21.165Z"
     }
   ],
   "projects": [
@@ -430,6 +442,87 @@
       "date": "2026-11-05",
       "venue": "whiskey a Go GO",
       "showKey": false
+    },
+    {
+      "id": "c69a1a2e-b1a8-4ddd-a696-0049286b6972",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "name": "main list (copy but working)",
+      "showArtist": false,
+      "showKey": false,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": false,
+      "items": [
+        {
+          "id": "1d43f16d-0b9e-40d6-93e0-ee951b93aeb7",
+          "type": "section",
+          "order": 0,
+          "title": "Set 1"
+        },
+        {
+          "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
+          "type": "song",
+          "order": 1,
+          "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
+          "title": "Jungle of Love",
+          "artist": "Lynch Mob",
+          "durationSec": 231,
+          "transposedKey": "B"
+        },
+        {
+          "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
+          "type": "note",
+          "order": 2,
+          "note": "⬇️ Tune down 1/2 step"
+        },
+        {
+          "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
+          "type": "section",
+          "order": 3,
+          "title": "Set 2"
+        },
+        {
+          "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
+          "type": "song",
+          "order": 4,
+          "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+          "title": "Wonderwall",
+          "artist": "Oasis",
+          "durationSec": 269
+        },
+        {
+          "id": "0caa44d3-8f37-4938-9e7d-5b566704e138",
+          "type": "section",
+          "order": 5,
+          "title": "Encore"
+        },
+        {
+          "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
+          "type": "song",
+          "order": 6,
+          "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "durationSec": 305
+        },
+        {
+          "id": "f5100cc2-f4a2-4001-b399-6fe330d57217",
+          "type": "song",
+          "order": 7,
+          "songId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
+          "title": "Here I Go Again",
+          "artist": "Whitesnake",
+          "durationSec": 349
+        },
+        {
+          "id": "3023d8e7-02ca-43dc-a594-a449988f8698",
+          "type": "section",
+          "order": 8,
+          "title": "custom set section"
+        }
+      ],
+      "createdAt": "2025-10-28T01:45:49.871Z",
+      "updatedAt": "2025-10-28T01:45:49.871Z",
+      "public": false
     }
   ],
   "invites": [

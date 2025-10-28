@@ -9,12 +9,11 @@ export default function ProjectSetlistsPage() {
   const { id } = useParams<{ id: string }>();
   const [setlists, setSetlists] = useState<Setlist[]>([]);
   const [name, setName] = useState('New Setlist');
-  const [pasteOpen, setPasteOpen] = useState(false);
-  const [pasteText, setPasteText] = useState('');
-  const [pasteError, setPasteError] = useState<string | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [creating, setCreating] = useState<string | null>(null);
+  const [copying, setCopying] = useState<string | null>(null);
   const [playlistUrls, setPlaylistUrls] = useState<Record<string, string>>({});
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoadError(null);
@@ -52,32 +51,6 @@ export default function ProjectSetlistsPage() {
     }
   }
 
-  async function pasteImport() {
-    setPasteError(null);
-    try {
-      const data = JSON.parse(pasteText);
-      // Accept either full setlist or just { name, showArtist, items } or even just { items }
-      const payload: any = {
-        name: data.name || 'Imported Setlist',
-        showArtist: typeof data.showArtist === 'boolean' ? data.showArtist : true,
-        items: Array.isArray(data.items) ? data.items : Array.isArray(data) ? data : [],
-      };
-      const res = await fetch(`/api/projects/${id}/setlists`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error('Import failed');
-      const created = await res.json();
-      setPasteText('');
-      setPasteOpen(false);
-      // navigate to the new setlist
-      window.location.href = `/setlists/${created.id}`;
-    } catch (e: any) {
-      setPasteError(e?.message || 'Invalid JSON');
-    }
-  }
-
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold">Setlists</h2>
@@ -110,36 +83,38 @@ export default function ProjectSetlistsPage() {
         <button className="rounded bg-black px-3 py-2 text-white" onClick={create}>
           Create
         </button>
-        <button className="rounded border px-3 py-2" onClick={() => setPasteOpen((v) => !v)}>
-          {pasteOpen ? 'Close' : 'Paste JSON'}
-        </button>
       </div>
-      {pasteOpen && (
-        <div className="rounded border bg-black p-3 text-white">
-          <div className="mb-2 text-sm text-gray-700">
-            Paste a setlist JSON here. Accepted shapes: full setlist object, an object with keys
-            name/showArtist/items, or simply an array of items.
-          </div>
-          <textarea
-            className="h-40 w-full rounded border p-2 font-mono text-sm"
-            value={pasteText}
-            onChange={(e) => setPasteText(e.target.value)}
-          />
-          {pasteError && <div className="mt-2 text-sm text-red-600">{pasteError}</div>}
-          <div className="mt-2 flex justify-end">
-            <button className="rounded bg-black px-3 py-2 text-white" onClick={pasteImport}>
-              Create from JSON
-            </button>
-          </div>
-        </div>
-      )}
+
       <ul className="divide-y rounded border bg-black text-white">
         {setlists.map((s) => {
           const songCount = (s.items || []).filter((it: any) => it?.type === 'song').length;
           return (
             <li key={s.id} className="flex items-center justify-between p-3 gap-2">
               <div>
-                <div className="font-medium">{s.name}</div>
+                <div className="flex items-center gap-2">
+                  <button
+                    className="rounded border border-red-600 px-2 py-1 text-xs text-red-600 disabled:opacity-50"
+                    title="Delete setlist"
+                    aria-label="Delete setlist"
+                    disabled={deleting === s.id}
+                    onClick={async () => {
+                      if (!confirm('Are you sure you want to delete this setlist?')) return;
+                      try {
+                        setDeleting(s.id);
+                        const res = await fetch(`/api/setlists/${s.id}`, { method: 'DELETE' });
+                        if (!res.ok) throw new Error('Failed to delete');
+                        await load();
+                      } catch (e) {
+                        alert('Unable to delete setlist.');
+                      } finally {
+                        setDeleting(null);
+                      }
+                    }}
+                  >
+                    🗑️
+                  </button>
+                  <div className="font-medium">{s.name}</div>
+                </div>
                 <div className="text-sm text-gray-600">
                   {songCount} {songCount === 1 ? 'song' : 'songs'}
                 </div>
@@ -150,14 +125,40 @@ export default function ProjectSetlistsPage() {
                 </Link>
                 <button
                   className="rounded border px-3 py-1 text-sm"
+                  disabled={copying === s.id}
                   onClick={async () => {
-                    const res = await fetch(`/api/setlists/${s.id}/copy`, { method: 'POST' });
-                    if (res.ok) {
+                    try {
+                      const suggested = `${s.name} (copy)`;
+                      const newName = window.prompt(
+                        'What do you want to name this copy?',
+                        suggested,
+                      );
+                      if (!newName) return; // user cancelled
+                      setCopying(s.id);
+                      // Fetch the full setlist to get items/showArtist
+                      const getRes = await fetch(`/api/setlists/${s.id}`);
+                      if (!getRes.ok) throw new Error('Failed to read setlist');
+                      const src = await getRes.json();
+                      const payload = {
+                        name: newName.trim() || suggested,
+                        showArtist: typeof src.showArtist === 'boolean' ? src.showArtist : true,
+                        items: Array.isArray(src.items) ? src.items : [],
+                      };
+                      const createRes = await fetch(`/api/projects/${id}/setlists`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload),
+                      });
+                      if (!createRes.ok) throw new Error('Failed to create copy');
                       await load();
+                    } catch (e) {
+                      alert('Unable to copy setlist.');
+                    } finally {
+                      setCopying(null);
                     }
                   }}
                 >
-                  Copy
+                  {copying === s.id ? 'Copying…' : 'Copy'}
                 </button>
                 <button
                   className="rounded border px-3 py-1 text-sm"

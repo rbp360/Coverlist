@@ -28,6 +28,7 @@ export default function LiveModePickerPage() {
   const [setlists, setSetlists] = useState<Setlist[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [newName, setNewName] = useState('New Setlist');
 
   useEffect(() => {
     let cancelled = false;
@@ -65,14 +66,43 @@ export default function LiveModePickerPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Live Mode</h2>
-        <Link className="rounded border px-3 py-1 text-sm" href={`/projects/${id}`}>
+      {/* Top controls: Create Setlist + Back to Project */}
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2 flex-1">
+          <input
+            className="rounded border px-3 py-2 flex-1 min-w-[220px]"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            placeholder="New setlist name"
+          />
+          <button
+            className="rounded bg-black px-3 py-2 text-white"
+            onClick={async () => {
+              try {
+                const res = await fetch(`/api/projects/${id}/setlists`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ name: newName || 'New Setlist', showArtist: true }),
+                });
+                if (res.ok) {
+                  setNewName('New Setlist');
+                  const r2 = await fetch(`/api/projects/${id}/setlists`, { cache: 'no-store' });
+                  if (r2.ok) setSetlists((await r2.json()).setlists || []);
+                }
+              } catch {}
+            }}
+          >
+            Create Setlist
+          </button>
+        </div>
+        <Link className="rounded border px-3 py-2 text-sm" href={`/projects/${id}`}>
           Back to Project
         </Link>
       </div>
 
+      {/* Setlists table */}
       <div className="rounded border bg-black text-white">
+        <input type="search" className="hidden" aria-hidden="true" readOnly value="" />
         <table className="min-w-full text-sm">
           <thead>
             <tr>
@@ -80,12 +110,26 @@ export default function LiveModePickerPage() {
               <th className="p-2 text-left">Songs</th>
               <th className="p-2 text-left">Duration</th>
               <th className="p-2 text-left">When/Where</th>
-              <th className="p-2 text-left">Action</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.id} className="border-t">
+              <tr
+                key={r.id}
+                className="border-t hover:bg-neutral-900 cursor-pointer"
+                onClick={() => {
+                  window.location.href = `/setlists/${r.id}/manage`;
+                }}
+                role="link"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    window.location.href = `/setlists/${r.id}/manage`;
+                  }
+                }}
+                title="Open advanced management"
+              >
                 <td className="p-2">{r.name}</td>
                 <td className="p-2 text-neutral-400">{r.songCount}</td>
                 <td className="p-2 text-neutral-400">{fmt(r.duration)}</td>
@@ -93,22 +137,12 @@ export default function LiveModePickerPage() {
                   {r.date ? <span>{r.date}</span> : null}
                   {r.venue ? <span className="ml-2">{r.venue}</span> : null}
                 </td>
-                <td className="p-2">
-                  <a
-                    className="rounded bg-black px-3 py-1 text-white underline"
-                    href={`/setlists/${r.id}/lyric-mode`}
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    Open Lyric mode
-                  </a>
-                </td>
               </tr>
             ))}
             {!loading && rows.length === 0 && (
               <tr>
-                <td className="p-4 text-sm text-neutral-600" colSpan={5}>
-                  No setlists yet. Create one under the Setlists tab.
+                <td className="p-4 text-sm text-neutral-600" colSpan={4}>
+                  No setlists yet. Use Create Setlist above.
                 </td>
               </tr>
             )}

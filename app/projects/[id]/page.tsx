@@ -161,9 +161,6 @@ export default function ProjectDetailPage() {
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/repertoire`}>
             Project Repertoire
           </Link>
-          <Link className="rounded border px-3 py-1" href={`/projects/${id}/setlists`}>
-            Setlists
-          </Link>
         </div>
       </div>
       {project && (
@@ -255,6 +252,18 @@ export default function ProjectDetailPage() {
             <li className="py-2 text-sm text-neutral-600">No invites yet.</li>
           )}
         </ul>
+      </div>
+      {/* Jump to Setlists */}
+      <div className="rounded border bg-black p-3 text-white">
+        <div className="mb-1 font-medium">Setlists</div>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-sm text-neutral-400">
+            Create, copy, and manage your setlists for this project.
+          </p>
+          <Link className="rounded border px-3 py-2 text-sm" href={`/projects/${id}/setlists`}>
+            Jump to Setlists
+          </Link>
+        </div>
       </div>
       {/* Song search moved to /songs */}
     </div>
