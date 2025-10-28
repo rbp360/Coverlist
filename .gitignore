@@ -6,4 +6,4 @@ e2e-report/
 .env*
 .env.*.local
 npm-debug.log*
-package-lock.json
+# Keep lockfile in repo for reproducible installs and CI caching
