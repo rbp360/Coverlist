@@ -45,10 +45,17 @@ export default function ProfilePage() {
   async function saveProfile() {
     setSaving(true);
     try {
+      const trimmedName = name.trim();
+      const trimmedUsername = username.trim();
+      const body: any = {
+        instruments: sel,
+      };
+      if (trimmedName) body.name = trimmedName;
+      if (trimmedUsername) body.username = trimmedUsername;
       const res = await fetch('/api/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, username, instruments: sel }),
+        body: JSON.stringify(body),
       });
       if (res.ok) setUser(await res.json());
     } finally {
@@ -144,11 +151,12 @@ export default function ProfilePage() {
             </label>
             <div className="mt-4">
               <div className="mb-1 text-sm text-neutral-400">Instruments</div>
-              <div className="grid grid-cols-1 gap-1 md:grid-cols-3">
+              {/* Responsive grid to avoid overlap: 1 col on small, 2 on md, 3 on lg+ */}
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {instrumentCols.map((col, idx) => (
                   <div key={idx} className="space-y-1">
                     {col.map((inst) => (
-                      <label key={inst} className="flex items-center gap-2 text-sm">
+                      <label key={inst} className="flex items-start gap-2 text-sm leading-tight">
                         <input
                           type="checkbox"
                           checked={sel.includes(inst)}
@@ -158,7 +166,7 @@ export default function ProfilePage() {
                             )
                           }
                         />
-                        <span>{inst}</span>
+                        <span className="break-words whitespace-normal">{inst}</span>
                       </label>
                     ))}
                   </div>

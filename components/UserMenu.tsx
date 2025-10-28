@@ -202,6 +202,14 @@ export default function UserMenu({
               )}
               <Link
                 role="menuitem"
+                href="/profile"
+                className="block px-3 py-2 text-neutral-200 hover:bg-neutral-800 hover:text-white"
+                onClick={() => setOpen(false)}
+              >
+                My Profile
+              </Link>
+              <Link
+                role="menuitem"
                 href="/settings"
                 className="block px-3 py-2 text-neutral-200 hover:bg-neutral-800 hover:text-white"
                 onClick={() => setOpen(false)}

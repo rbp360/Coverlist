@@ -33,8 +33,19 @@ export async function GET() {
 export async function PUT(request: Request) {
   const me = getCurrentUser();
   if (!me) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const json = await request.json();
-  const parsed = profileUpdateSchema.safeParse(json);
+  const raw = await request.json().catch(() => ({}));
+  // Normalize payload: trim strings, convert empty strings to undefined, de-dupe instruments
+  const normalizeString = (v: unknown) =>
+    typeof v === 'string' ? v.trim() || undefined : undefined;
+  const payload: any = {
+    name: normalizeString(raw.name),
+    username: normalizeString(raw.username),
+    avatarUrl: normalizeString(raw.avatarUrl),
+    instruments: Array.isArray(raw.instruments)
+      ? Array.from(new Set(raw.instruments.filter((x: any) => typeof x === 'string' && x.trim())))
+      : undefined,
+  };
+  const parsed = profileUpdateSchema.safeParse(payload);
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
   const curr = db.getUserById(me.id);
   if (!curr) return NextResponse.json({ error: 'User not found' }, { status: 404 });

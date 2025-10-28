@@ -98,7 +98,10 @@
       "id": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
       "email": "rob_b_paul@hotmail.com",
       "passwordHash": "$2b$10$zNAwF2ImHknsZ/SqA4.lpuWv0acL8TjvyfCv7ziRrsMTeuFp3md0K",
-      "createdAt": "2025-10-28T07:18:49.841Z"
+      "createdAt": "2025-10-28T07:18:49.841Z",
+      "name": "Bob",
+      "username": "drummerbob",
+      "instruments": ["Drums"]
     },
     {
       "id": "e14ec1c8-e7d4-4aef-b5ef-dc243f82b4ef",
@@ -135,6 +138,42 @@
       "email": "user1761637633809@test.local",
       "passwordHash": "$2b$10$CtF1NAmtUz8fyLTyGJizy.9a/hBttoXFcon.NNqTNahdfpoMFL4Cy",
       "createdAt": "2025-10-28T07:47:14.420Z"
+    },
+    {
+      "id": "e87fa48b-0715-49b9-9112-398c41ddd5ec",
+      "email": "user-1761645010050-webkit-0-9ipku5@test.local",
+      "passwordHash": "$2b$10$zz3Zt8G2zbrLfRQxFFBP/uXNwAtS9zY0rHTC4r2JY5yRWf/Jdl5yO",
+      "createdAt": "2025-10-28T09:50:10.518Z"
+    },
+    {
+      "id": "6a5e50a9-318e-497c-9588-44ec9bb16a0c",
+      "email": "user-1761645164420-chromium-3-7pu8r1@test.local",
+      "passwordHash": "$2b$10$Mn3LemVz4rhUQrey1gGRvef5SCgTnyOvY8DJv8yk5QM42Pa3pYiXy",
+      "createdAt": "2025-10-28T09:52:45.118Z"
+    },
+    {
+      "id": "5f06d50a-f331-4b93-b0a5-f67ffdfc2ad4",
+      "email": "user-1761645168850-firefox-7-8tt906@test.local",
+      "passwordHash": "$2b$10$..Kk/sIYFSxVtCgKlm7Rwu6Buj/2/qbrUH3jVqO6aBQpFUfejRkN.",
+      "createdAt": "2025-10-28T09:52:49.400Z"
+    },
+    {
+      "id": "fded17db-207b-4da4-87e6-6b17418b5f57",
+      "email": "user-1761651779328-chromium-3-6hf7bo@test.local",
+      "passwordHash": "$2b$10$P95A8QPBS8pLau3VX5CnYuCFOcUNdRVr.inOtIVrr/b3jwtkIUbyi",
+      "createdAt": "2025-10-28T11:42:59.696Z"
+    },
+    {
+      "id": "f33fa1b6-cab1-4bbe-828b-68e90dcac0f2",
+      "email": "user-1761651780890-webkit-11-wandul@test.local",
+      "passwordHash": "$2b$10$Y5s/HU9TOQIPsPFuEdiwlOINdhSPoMOQyaYLqFDolZOBLHRSzJu4C",
+      "createdAt": "2025-10-28T11:43:01.356Z"
+    },
+    {
+      "id": "0d023336-8deb-44e3-87d0-996f042ff8ee",
+      "email": "user-1761651782835-firefox-7-qpnif1@test.local",
+      "passwordHash": "$2b$10$C1CNMqLw8bzKFVlVxwnsQuAbjGHOnIJhr1VrAxViAOdpOSTW6V4qi",
+      "createdAt": "2025-10-28T11:43:03.173Z"
     }
   ],
   "projects": [
@@ -628,8 +667,7 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
-      "instruments": [],
-      "role": "bandMember"
+      "instruments": ["Drums"]
     }
   ],
   "projectPractice": [
@@ -736,7 +774,8 @@
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "createdAt": "2025-10-28T06:52:50.639Z",
       "votes": {
-        "7d9bd818-1e5b-4300-818f-ecb70c926825": "yes"
+        "7d9bd818-1e5b-4300-818f-ecb70c926825": "yes",
+        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "yes"
       }
     },
     {
@@ -747,7 +786,10 @@
       "durationSec": 492,
       "mbid": "04bcaa21-3b4e-4d55-8f05-b741ae3286f8",
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "createdAt": "2025-10-28T07:17:09.615Z"
+      "createdAt": "2025-10-28T07:17:09.615Z",
+      "votes": {
+        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "no"
+      }
     },
     {
       "id": "cb9cbb8d-cd18-4393-bc89-6317ecb3e9fd",
@@ -757,7 +799,10 @@
       "durationSec": 212,
       "mbid": "bea681de-5228-4b12-968e-3db163ea4c92",
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "createdAt": "2025-10-28T07:17:09.615Z"
+      "createdAt": "2025-10-28T07:17:09.615Z",
+      "votes": {
+        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "yes"
+      }
     }
   ]
 }
