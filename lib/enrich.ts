@@ -1,6 +1,6 @@
 // Simple deterministic stub enrichment for key and tempo based on title/artist
 export type EnrichInput = { title: string; artist: string; mbid?: string };
-export type EnrichResult = { key?: string; tempo?: number };
+export type EnrichResult = { key?: string };
 
 const KEYS = [
   'C',
@@ -38,8 +38,6 @@ function hash(str: string): number {
 export function enrichKeyTempoStub(input: EnrichInput): EnrichResult {
   const seed = hash(`${input.title}|${input.artist}|${input.mbid || ''}`);
   const key = KEYS[seed % KEYS.length];
-  // Tempo between 72 and 168 bpm
-  const tempo = 72 + (seed % 97);
-  return { key, tempo };
+  return { key };
 }
 // External enrichment providers have been removed; only the stub is available.

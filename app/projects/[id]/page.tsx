@@ -155,8 +155,30 @@ export default function ProjectDetailPage() {
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/rehearsal`}>
             Rehearsal Mode
           </Link>
-          <Link className="rounded border px-3 py-1" href={`/projects/${id}/live`}>
+          <Link
+            className="rounded border px-3 py-1 flex items-center gap-2"
+            href={`/projects/${id}/live`}
+          >
+            <span
+              style={{
+                display: 'inline-block',
+                width: '1em',
+                height: '1em',
+                borderRadius: '50%',
+                background: 'red',
+                boxShadow: '0 0 8px 2px rgba(255,0,0,0.5)',
+                animation: 'flash-red 1.1s infinite',
+                marginRight: '0.4em',
+              }}
+              aria-label="Live mode recording indicator"
+            />
             Live Mode
+            <style>{`
+              @keyframes flash-red {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.3; }
+              }
+            `}</style>
           </Link>
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/repertoire`}>
             Project Repertoire

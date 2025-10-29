@@ -119,9 +119,6 @@ export default function SetlistManagePage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Manage: {name}</h2>
-        <Link className="rounded border px-3 py-1 text-sm" href={`/setlists/${id}`}>
-          Open Editor
-        </Link>
       </div>
 
       <div className="rounded border bg-black p-4 text-white">
@@ -132,14 +129,12 @@ export default function SetlistManagePage() {
           >
             Lyric Mode
           </Link>
-          <button
+          <Link
             className="rounded border px-3 py-3 text-center hover:bg-neutral-900"
-            onClick={copySetlist}
-            disabled={copying}
-            title="Create a duplicate of this setlist"
+            href={`/setlists/${id}`}
           >
-            {copying ? 'Copying…' : 'Copy'}
-          </button>
+            Open Editor
+          </Link>
           <button
             className="rounded border px-3 py-3 text-center hover:bg-neutral-900"
             onClick={createPlaylist}

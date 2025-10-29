@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -59,9 +60,26 @@ export default function SetlistEditorPage() {
   const [settings, setSettings] = useState<{ defaultSongGapSec: number } | null>(null);
   const [pdfFontSize, setPdfFontSize] = useState(1.0);
   const [isPublic, setIsPublic] = useState(false);
+
   // New state for multi-set workflow
   const [setCountInput, setSetCountInput] = useState<number>(0);
   const [encoreCountInput, setEncoreCountInput] = useState<number>(0);
+
+  // Note presets for quick insertion (with optional GIF support later)
+  const DEFAULT_NOTE_PRESETS: Array<{ label: string; gif?: string }> = [
+    { label: '🎸 Capo' },
+    { label: '🚨 Stop' },
+    { label: '🎸 Instrument change' },
+    { label: '⚡ Straight through' },
+    { label: '🧱 Intro' },
+    { label: '🧱 Outro' },
+    { label: '🧱 Pause' },
+    { label: '🎚️ Click' },
+  ];
+  const [customNotePresets, setCustomNotePresets] = useState<
+    Array<{ label: string; gif?: string }>
+  >([]);
+  const NOTE_PRESETS = [...DEFAULT_NOTE_PRESETS, ...customNotePresets];
 
   useEffect(() => {
     (async () => {
@@ -187,10 +205,18 @@ export default function SetlistEditorPage() {
 
   function addNote() {
     if (!setlist || !noteText.trim()) return;
+    const text = noteText.trim();
     const items = [...setlist.items];
     const order = items.length ? Math.max(...items.map((i) => i.order)) + 1 : 0;
-    const item: Item = { id: crypto.randomUUID(), type: 'note', order, note: noteText.trim() };
+    const item: Item = { id: crypto.randomUUID(), type: 'note', order, note: text };
     save({ items: [...items, item] as any });
+    // Add to custom presets if not already present in either default or custom
+    if (
+      !DEFAULT_NOTE_PRESETS.some((p) => p.label === text) &&
+      !customNotePresets.some((p) => p.label === text)
+    ) {
+      setCustomNotePresets((prev) => [...prev, { label: text }]);
+    }
     setNoteText('');
   }
 
@@ -456,22 +482,6 @@ export default function SetlistEditorPage() {
 
   if (!setlist) return <div>Loading…</div>;
 
-  // Curated note presets for quick insertion (with optional GIF support later)
-  const NOTE_PRESETS: Array<{ label: string; gif?: string }> = [
-    { label: '🎸 Capo' },
-    { label: '⬇️ Half-step down' },
-    { label: '⏱️ Short break' },
-    { label: '🚨 Stop' },
-    { label: '🎶 Singalong' },
-    { label: '🎸 Instrument change' },
-    { label: '🎤 Call & response' },
-    { label: '⚡ Straight through' },
-    { label: '🧱 Intro' },
-    { label: '🧱 Outro' },
-    { label: '🧱 Pause' },
-    { label: '🎚️ Click' },
-  ];
-
   async function commitNameChange() {
     if (!setlist) return;
     const next = nameDraft.trim();
@@ -727,17 +737,23 @@ export default function SetlistEditorPage() {
         <div className="rounded border bg-black p-3 text-white md:col-span-1">
           <div className="mb-2 font-medium">Add Note</div>
           {/* Curated presets */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-col gap-2">
             {NOTE_PRESETS.map((p) => (
               <button
                 key={p.label}
-                className="flex min-w-0 items-center gap-2 rounded border px-2 py-1 text-left text-xs hover:bg-neutral-50"
+                className="flex min-w-0 items-center gap-2 rounded border px-2 py-1 text-left text-xs hover:bg-neutral-50 whitespace-nowrap"
                 title={p.label}
                 onClick={() => quickInsertNote(p.label)}
               >
                 {p.gif ? (
                   // Optional GIF preview if assets are added to /public and wired here
-                  <img src={p.gif} alt="" className="h-4 w-4 flex-none rounded object-cover" />
+                  <Image
+                    src={p.gif}
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="h-4 w-4 flex-none rounded object-cover"
+                  />
                 ) : null}
                 <span className="truncate">{p.label}</span>
               </button>

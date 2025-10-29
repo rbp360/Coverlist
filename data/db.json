@@ -9,9 +9,9 @@
       "name": "Roberto",
       "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
       "spotify": {
-        "accessToken": "BQD7Rurk2gH_BBx7VcSZK_udmNHs34GO3T_DwCcz69jcjQr2oQJrFB6ZFbSFgKeY8R2WUhK53KV-OWTXTNQWBhHRSFeMEW5lNvY5W1Tz9XrCwXgSFHyvFu5mXFzijBrPVseG3GI4VDNGkveeUoY9dv6oZRihbQshoVIKtQ1YfR3Xd52fJqEx3GlY_b6CSG7YUMSg32impqbUurCkCw_hOreqJuLPgQ4-aeW5a9GfVdT4jwP2yyZoXr1I5klVSJQAyDl9vwG8Ccfsj73Os5-k",
+        "accessToken": "BQAsHp0QR46YtbqMaevMT9vklQy2qr9lvbD37ZfODb6u5kUJ58TUCDRhvUwBvaWAcd1X531qn2mhnSbacqRb7oq0lzJzPE0dJb7zd8V-dMNoNAbYdaca2qcU4S4oGkpEOp0so_Sbizp5DsHWeMR-9eNQdOQXPb4GlyZAqOqOBwwT5BoLxdvQpZm3ykzIgfbS5EKaf5iwTQAjPhaYRCKVh2iHtgybN3S3wmLyS3zUfPplzN68mxPaJ1TCkz2vCKOO_nxYvlHMuThLIN4krKrN",
         "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
-        "expiresAt": 1761361747460,
+        "expiresAt": 1761717927805,
         "scope": "playlist-modify-private playlist-modify-public",
         "tokenType": "Bearer"
       }
@@ -513,18 +513,30 @@
           "title": "Encore"
         },
         {
+          "id": "7afcba0b-f129-4312-9dc5-61b682502ffd",
+          "type": "note",
+          "order": 6,
+          "note": "1/2 step down"
+        },
+        {
           "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
           "type": "song",
-          "order": 6,
+          "order": 7,
           "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
           "title": "Hey Jude",
           "artist": "The Beatles",
           "durationSec": 305
         },
         {
+          "id": "a908c3de-9959-4b19-b9ab-5b256fe4f9c5",
+          "type": "note",
+          "order": 8,
+          "note": "1/2 step down"
+        },
+        {
           "id": "f5100cc2-f4a2-4001-b399-6fe330d57217",
           "type": "song",
-          "order": 7,
+          "order": 9,
           "songId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
           "title": "Here I Go Again",
           "artist": "Whitesnake",
@@ -533,12 +545,12 @@
         {
           "id": "3023d8e7-02ca-43dc-a594-a449988f8698",
           "type": "section",
-          "order": 8,
+          "order": 10,
           "title": "custom set section"
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-25T14:40:53.422Z",
+      "updatedAt": "2025-10-29T06:12:43.993Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,
@@ -855,6 +867,18 @@
       "mbid": "80b54360-4099-4ab9-92a9-60168f468039",
       "createdAt": "2025-10-28T07:22:29.584Z",
       "updatedAt": "2025-10-28T07:22:29.584Z"
+    },
+    {
+      "id": "5a447b2b-0950-4aad-b26b-e5d31c3ecfed",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Too Young to Die, Too Drunk to Live",
+      "artist": "Alcatrazz",
+      "durationSec": 261,
+      "mbid": "371876ac-ab3d-4459-a5a2-56ad0070ed7b",
+      "isrc": "GBHQK0803576",
+      "url": "https://open.spotify.com/track/7ID1s1zlUvISaj7fmaXtW4",
+      "createdAt": "2025-10-29T05:05:56.967Z",
+      "updatedAt": "2025-10-29T05:05:56.967Z"
     }
   ],
   "joinRequests": [],

@@ -15,10 +15,10 @@ export function readableKeyFromSpotify(
   return root;
 }
 
-export type TrackKeyTempo = { id: string; key?: string; tempo?: number };
+export type TrackKeyTempo = { id: string; key?: string };
 
 /**
- * Fetch key (readable) and tempo (BPM) for Spotify tracks using Audio Features API.
+ * Fetch key (readable) for Spotify tracks using Audio Features API.
  * - Accepts any number of track IDs; batches requests into chunks of 100.
  * - Uses the existing authenticated fetch (refreshes tokens, handles 429s).
  * - Returns results aligned to the input order; missing/unknown items will have undefined fields.
@@ -54,7 +54,6 @@ export async function getTracksKeyTempo(trackIds: string[]): Promise<TrackKeyTem
         id: string;
         key?: number | null;
         mode?: number | null;
-        tempo?: number | null;
       }>;
     }),
   );
@@ -65,9 +64,7 @@ export async function getTracksKeyTempo(trackIds: string[]): Promise<TrackKeyTem
     for (const f of list) {
       if (!f?.id) continue;
       const keyName = readableKeyFromSpotify(f.key ?? null, f.mode ?? null);
-      const tempo =
-        typeof f.tempo === 'number' && isFinite(f.tempo) ? Math.round(f.tempo) : undefined;
-      byId.set(f.id, { id: f.id, key: keyName, tempo });
+      byId.set(f.id, { id: f.id, key: keyName });
     }
   }
 

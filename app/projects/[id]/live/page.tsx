@@ -65,7 +65,38 @@ export default function LiveModePickerPage() {
   }, [setlists]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 relative">
+      {/* Flashing red live/recording indicator at top */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '0.7em',
+          transform: 'translateX(-50%)',
+          zIndex: 50,
+          pointerEvents: 'none',
+        }}
+      >
+        <span
+          style={{
+            display: 'inline-block',
+            width: '1.5em',
+            height: '1.5em',
+            borderRadius: '50%',
+            background: 'red',
+            boxShadow: '0 0 12px 3px rgba(255,0,0,0.5)',
+            animation: 'flash-red 1.1s infinite',
+            border: '2px solid #fff',
+          }}
+          aria-label="Live mode recording indicator"
+        />
+        <style>{`
+          @keyframes flash-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+          }
+        `}</style>
+      </div>
       {/* Top controls: Create Setlist + Back to Project */}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2 flex-1">

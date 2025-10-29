@@ -219,6 +219,37 @@ export default function LyricModePage() {
           </div>
         )}
       </div>
+      {/* Flashing red live/recording indicator */}
+      <div
+        style={{
+          position: 'fixed',
+          left: '50%',
+          bottom: '2.5vh',
+          transform: 'translateX(-50%)',
+          zIndex: 50,
+          pointerEvents: 'none',
+        }}
+      >
+        <span
+          style={{
+            display: 'inline-block',
+            width: '2.2em',
+            height: '2.2em',
+            borderRadius: '50%',
+            background: 'red',
+            boxShadow: '0 0 16px 4px rgba(255,0,0,0.5)',
+            animation: 'flash-red 1.1s infinite',
+            border: '3px solid #fff',
+          }}
+          aria-label="Live mode recording indicator"
+        />
+        <style>{`
+          @keyframes flash-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+          }
+        `}</style>
+      </div>
     </div>
   );
 }
