@@ -31,6 +31,8 @@ export type LyricTeleprompterProps = {
   lockUserScroll?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  /** Optional handler for next song (setlist mode) */
+  onNextSong?: () => void;
 };
 
 type PlayState = 'idle' | 'playing' | 'paused' | 'ended';
@@ -46,7 +48,7 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
     artistHint,
     albumHint,
     enableHotkeys = true,
-    lockUserScroll = true,
+    lockUserScroll = false,
     className,
     style,
   } = props;
@@ -135,7 +137,7 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
 
   const activeIndex = useMemo(() => findActiveIndex(lines, currentMs), [lines, currentMs]);
 
-  // Smooth scroll: keep ~30% of content above current line, using viewport scrollTop
+  // Smooth scroll: keep current line centered in the viewport
   useEffect(() => {
     const scroller = scrollerRef.current;
     const viewport = viewportRef.current;
@@ -148,8 +150,8 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
     if (!currentEl) return;
 
     const viewportHeight = viewport.clientHeight;
-    const anchor = Math.round(viewportHeight * 0.3);
-    const targetY = Math.max(0, currentEl.offsetTop - anchor);
+    const anchor = Math.round(viewportHeight * 0.5); // center
+    const targetY = Math.max(0, currentEl.offsetTop - anchor + currentEl.offsetHeight / 2);
     const maxScroll = Math.max(0, scroller.scrollHeight - viewportHeight);
     const clampedY = Math.min(targetY, maxScroll);
 
@@ -171,30 +173,7 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
   }, [activeIndex, lines.length]);
 
   // Lock user scroll to avoid interference; still allow programmatic scroll
-  useEffect(() => {
-    if (!lockUserScroll) return;
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-    };
-    const onTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-    };
-    const onScroll = () => {
-      if (autoScrollFlag.current) return; // ignore programmatic
-      // snap back to last target
-      viewport.scrollTop = lastTargetRef.current;
-    };
-    viewport.addEventListener('wheel', onWheel, { passive: false });
-    viewport.addEventListener('touchmove', onTouchMove, { passive: false });
-    viewport.addEventListener('scroll', onScroll, { passive: true });
-    return () => {
-      viewport.removeEventListener('wheel', onWheel as any);
-      viewport.removeEventListener('touchmove', onTouchMove as any);
-      viewport.removeEventListener('scroll', onScroll as any);
-    };
-  }, [lockUserScroll]);
+  // User scroll is always allowed so controls at bottom are accessible
 
   const progressPct = Math.max(0, Math.min(100, (currentMs / Math.max(1, durationMs)) * 100));
 
@@ -231,6 +210,10 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
   }, [externalClock]);
 
   const next = useCallback(() => {
+    if (props.onNextSong) {
+      props.onNextSong();
+      return;
+    }
     if (!lines.length) return;
     const idx = Math.min(lines.length - 1, activeIndex + 1);
     const t = lines[idx]?.time ?? currentMs;
@@ -242,7 +225,7 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
     setCurrentMs(t);
     setOffsetMs(t);
     setStartAt(state === 'playing' ? performance.now() : null);
-  }, [lines, activeIndex, currentMs, state, externalClock]);
+  }, [lines, activeIndex, currentMs, state, externalClock, props]);
 
   // Auto-start when requested
   useEffect(() => {
@@ -285,6 +268,83 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
 
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(' ')} style={style}>
+      <div className={styles.controls}>
+        {!externalClock && (
+          <>
+            {state === 'idle' && (
+              <button onClick={start} className={styles.goButton} title="Space to start">
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4em' }}>
+                  <svg
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style={{ verticalAlign: 'middle' }}
+                    aria-hidden="true"
+                  >
+                    <polygon points="4,3 18,10 4,17" />
+                  </svg>
+                  PLAY
+                </span>
+              </button>
+            )}
+            {state === 'playing' && (
+              <button onClick={pause} title="Pause (space)">
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3em' }}>
+                  <svg
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <rect x="4" y="3" width="4" height="14" />
+                    <rect x="12" y="3" width="4" height="14" />
+                  </svg>
+                  Pause
+                </span>
+              </button>
+            )}
+            {state === 'paused' && (
+              <button onClick={resume} title="Resume (space)">
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3em' }}>
+                  <svg
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <polygon points="4,3 18,10 4,17" />
+                  </svg>
+                  Play
+                </span>
+              </button>
+            )}
+            {(state === 'paused' || state === 'ended') && (
+              <button onClick={restart} title="Restart (R)">
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3em' }}>
+                  <svg
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <rect x="4" y="4" width="12" height="12" />
+                  </svg>
+                  Stop
+                </span>
+              </button>
+            )}
+          </>
+        )}
+        {externalClock && <span>External clock: {state}</span>}
+        <div className={styles.progressBar} aria-label="Progress">
+          <div className={styles.progressInner} style={{ width: `${progressPct}%` }} />
+        </div>
+      </div>
+
       <div className={[styles.viewport, styles.faders].join(' ')} ref={viewportRef}>
         {showPlainFallback ? (
           <div className={styles.plainWrapper}>{plain || fallbackPlainLyrics}</div>
@@ -292,40 +352,23 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
           <div ref={scrollerRef} className={styles.scroller}>
             {lines.map((line, i) => {
               const isActive = i === activeIndex;
+              // Insert a spacer if this line and the previous are both empty or this line is empty
+              const prevText = i > 0 ? lines[i - 1].text : null;
+              const isSpacer = !line.text && prevText !== null && prevText !== '';
               return (
-                <div
-                  key={`${line.time}-${i}`}
-                  data-line-index={i}
-                  className={[styles.line, isActive ? styles.active : ''].join(' ')}
-                >
-                  {line.text || '\u00A0'}
-                </div>
+                <React.Fragment key={`${line.time}-${i}`}>
+                  {isSpacer && <div style={{ height: '2.2em' }} aria-hidden="true" />}
+                  <div
+                    data-line-index={i}
+                    className={[styles.line, isActive ? styles.active : ''].join(' ')}
+                  >
+                    {line.text || '\u00A0'}
+                  </div>
+                </React.Fragment>
               );
             })}
           </div>
         )}
-      </div>
-
-      <div className={styles.controls}>
-        {!externalClock && (
-          <>
-            {state === 'idle' && (
-              <button onClick={start} className={styles.goButton} title="Space to start">
-                Go
-              </button>
-            )}
-            {state === 'playing' && <button onClick={pause}>Pause</button>}
-            {state === 'paused' && <button onClick={resume}>Resume</button>}
-            {(state === 'paused' || state === 'ended') && (
-              <button onClick={restart}>Restart</button>
-            )}
-            <button onClick={next}>Next</button>
-          </>
-        )}
-        {externalClock && <span>External clock: {state}</span>}
-        <div className={styles.progressBar} aria-label="Progress">
-          <div className={styles.progressInner} style={{ width: `${progressPct}%` }} />
-        </div>
       </div>
 
       {error && (

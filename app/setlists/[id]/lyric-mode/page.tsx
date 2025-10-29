@@ -39,17 +39,7 @@ export default function LyricModePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stepIdx, setStepIdx] = useState(0);
-  // Prevent page scroll while in lyric mode
-  useEffect(() => {
-    const prevDoc = document.documentElement.style.overflow;
-    const prevBody = document.body.style.overflow;
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.documentElement.style.overflow = prevDoc;
-      document.body.style.overflow = prevBody;
-    };
-  }, []);
+  // Allow page scroll in lyric mode so controls are accessible
 
   useEffect(() => {
     let cancelled = false;
@@ -169,34 +159,47 @@ export default function LyricModePage() {
   const atLast = stepIdx >= steps.length - 1;
 
   return (
-    <div className="flex h-screen w-screen flex-col bg-black text-white">
-      <div className="flex items-center gap-2 p-2 text-sm">
-        <a className="rounded border px-2 py-1" href={`/setlists/${id}`}>
-          Back
-        </a>
-        <div className="ml-2 text-neutral-400">Lyric mode</div>
-        <div className="ml-auto flex items-center gap-2">
+    <div className="flex h-screen flex-col bg-black text-white overflow-x-hidden max-w-screen w-full mx-auto">
+      {/* Lyric mode navigation bar only (no global header) */}
+      <div
+        className="flex flex-wrap items-center gap-2 px-2 py-2 text-sm bg-black/80 z-10 max-w-full w-full overflow-x-auto mx-auto"
+        style={{ boxSizing: 'border-box' }}
+      >
+        <div className="flex items-center gap-2">
+          <div className="text-neutral-400">Lyric mode</div>
           <button
-            className="rounded border px-2 py-1 disabled:opacity-50"
+            className="rounded border px-2 py-1 text-xs hover:bg-neutral-800 transition"
+            onClick={() => router.push(`/setlists/${id}`)}
+            aria-label="Leave lyric mode"
+          >
+            Leave lyric mode
+          </button>
+        </div>
+        <div className="flex items-center gap-2 ml-auto flex-wrap min-w-0">
+          <button
+            className="rounded border px-2 py-1 font-semibold disabled:opacity-50"
             onClick={() => setStepIdx((i) => Math.max(0, i - 1))}
             disabled={atFirst}
+            aria-label="Previous song"
           >
-            Prev song
+            ◀ Prev
           </button>
-          <div className="text-xs text-neutral-400">
-            Step {stepIdx + 1} / {steps.length}
+          <div className="text-xs text-neutral-400 whitespace-nowrap">
+            Song {stepIdx + 1} / {steps.length}
           </div>
           <button
-            className="rounded border px-2 py-1 disabled:opacity-50"
+            className="rounded border px-2 py-1 font-semibold disabled:opacity-50"
             onClick={() => setStepIdx((i) => Math.min(steps.length - 1, i + 1))}
             disabled={atLast}
+            aria-label="Next song"
           >
-            Next song
+            Next ▶
           </button>
         </div>
       </div>
 
-      <div className="relative flex-1">
+      {/* LyricTeleprompter or End of Set message */}
+      <div className="flex-1 flex min-h-0">
         {step.kind === 'song' ? (
           <LyricTeleprompter
             key={step.song.id}
@@ -204,13 +207,11 @@ export default function LyricModePage() {
             titleHint={step.song.title}
             artistHint={step.song.artist}
             durationMs={(step.song.durationSec ?? 180) * 1000}
-            className="absolute inset-0"
-            // Do not auto-start to give vocalist control
             autoStart={false}
             enableHotkeys={true}
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-1 items-center justify-center">
             <div className="px-8 text-center">
               <div className="text-[5vh] font-semibold">End of Set {step.setIndex}</div>
               <div className="mt-4 text-[2.5vh] text-neutral-400">Press Next to continue</div>

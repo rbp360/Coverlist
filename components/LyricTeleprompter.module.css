@@ -11,10 +11,12 @@
 
 .viewport {
   position: relative;
-  flex: 1;
-  overflow: auto; /* allow programmatic scrolling */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden; /* hide scrollbars, no manual scroll */
   scrollbar-width: none; /* Firefox */
   overscroll-behavior: none; /* avoid scroll chaining */
+  touch-action: none;
 }
 
 .viewport::-webkit-scrollbar {
@@ -22,24 +24,27 @@
 }
 
 .scroller {
-  padding: 6vh 1.5vw; /* tighter to use more screen */
+  padding: 2vh 1.5vw; /* less vertical padding to reduce visible lines */
 }
 
 .line {
   font-size: clamp(1.8vh, 2.8vw, 4vh);
   line-height: 1.2;
   letter-spacing: 0.02em;
-  opacity: 0.5;
+  opacity: 0.88;
+  color: #f3f4f6; /* Tailwind zinc-100, very light grey */
   transition:
     opacity 250ms ease-out,
-    filter 250ms ease-out;
-  filter: blur(0.75px);
-  text-align: center;
+    color 250ms ease-out;
+  filter: none;
+  text-align: left;
 }
 
 .active {
   opacity: 1;
+  color: #fff;
   filter: none;
+  text-shadow: none;
 }
 
 .faders::before,
@@ -68,6 +73,11 @@
   gap: 0.5rem;
   padding: 0.5rem 1rem 1rem 1rem;
   align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10;
+  border-top: 1px solid #222;
 }
 
 .controls button {
@@ -115,10 +125,10 @@
 
 .plainWrapper {
   flex: 1;
-  padding: 8vh 2vw;
+  padding: 3vh 2vw;
   white-space: pre-wrap;
   font-size: clamp(2.2vh, 3.5vw, 5vh);
-  text-align: center;
+  text-align: left;
 }
 
 .error {
