@@ -3,9 +3,52 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+type CachedSetlist = {
+  id: string;
+  name: string;
+  items: any[];
+  lyrics: Record<string, string>;
+  updatedAt: string;
+};
+
 export default function SetlistManagePage() {
   const { id } = useParams<{ id: string }>();
   const [name, setName] = useState<string>('Setlist');
+  const [offlineModal, setOfflineModal] = useState(false);
+  const [offlineStatus, setOfflineStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  async function cacheOffline() {
+    setOfflineStatus('saving');
+    try {
+      // Fetch setlist data
+      const setlistRes = await fetch(`/api/setlists/${id}`);
+      if (!setlistRes.ok) throw new Error('Failed to fetch setlist');
+      const setlist = await setlistRes.json();
+      // Fetch lyrics for all songs in setlist
+      const lyrics: Record<string, string> = {};
+      for (const item of setlist.items || []) {
+        if (item.type === 'song' && item.songId) {
+          try {
+            const lyricRes = await fetch(`/api/songs/${item.songId}`);
+            if (lyricRes.ok) {
+              const song = await lyricRes.json();
+              lyrics[item.songId] = song.lyrics || '';
+            }
+          } catch {}
+        }
+      }
+      const cache: CachedSetlist = {
+        id: setlist.id,
+        name: setlist.name,
+        items: setlist.items,
+        lyrics,
+        updatedAt: new Date().toISOString(),
+      };
+      localStorage.setItem(`offline-setlist-${id}`, JSON.stringify(cache));
+      setOfflineStatus('saved');
+    } catch {
+      setOfflineStatus('error');
+    }
+  }
   const [creating, setCreating] = useState(false);
   const [copying, setCopying] = useState(false);
   const [playlistUrl, setPlaylistUrl] = useState<string | null>(null);
@@ -105,6 +148,16 @@ export default function SetlistManagePage() {
           >
             {creating ? 'Creating…' : 'Create Playlist'}
           </button>
+          <button
+            className="rounded border px-3 py-3 text-center hover:bg-neutral-900"
+            onClick={() => {
+              setOfflineModal(true);
+              setOfflineStatus('idle');
+            }}
+            title="Offline mode caches the lyrics and setlist to your device so they are ready to use, wherever you go!"
+          >
+            Offline mode
+          </button>
         </div>
         {playlistUrl && (
           <div className="mt-3 text-sm">
@@ -114,6 +167,48 @@ export default function SetlistManagePage() {
           </div>
         )}
       </div>
+
+      {/* Offline mode modal */}
+      {offlineModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="bg-neutral-900 rounded p-6 max-w-md w-full text-white border">
+            <h3 className="text-lg font-semibold mb-2">Offline mode</h3>
+            <p className="mb-4 text-sm">
+              Offline mode caches the lyrics and setlist to your device so they are ready to use,
+              wherever you go!
+              <br />
+              <b>No editing is available in offline mode.</b>
+            </p>
+            <div className="flex gap-2">
+              <button
+                className="rounded bg-brand-500 px-4 py-2 text-black font-semibold"
+                onClick={async () => {
+                  await cacheOffline();
+                }}
+                disabled={offlineStatus === 'saving' || offlineStatus === 'saved'}
+              >
+                {offlineStatus === 'saving'
+                  ? 'Saving…'
+                  : offlineStatus === 'saved'
+                    ? 'Saved!'
+                    : 'Save for offline'}
+              </button>
+              <button
+                className="rounded border px-4 py-2 text-white"
+                onClick={() => setOfflineModal(false)}
+              >
+                Close
+              </button>
+            </div>
+            {offlineStatus === 'error' && (
+              <div className="text-red-400 mt-2">Failed to save for offline use.</div>
+            )}
+            {offlineStatus === 'saved' && (
+              <div className="text-green-400 mt-2">Setlist and lyrics saved for offline use!</div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div>
         <Link className="underline" href="/projects">
