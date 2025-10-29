@@ -900,5 +900,62 @@
         "08f1e9d5-afdb-42e9-ae02-42b95753a223": "yes"
       }
     }
+  ],
+  "personalPractice": [
+    {
+      "repertoireSongId": "aff926dd-92a4-4916-b112-124a35eb8613",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 1
+    },
+    {
+      "repertoireSongId": "329708e7-5cb9-4d69-be42-4d6ba4192599",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 1,
+      "rating": 4
+    },
+    {
+      "repertoireSongId": "f59018e6-629c-4992-830b-6c61d4e260c4",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 2
+    },
+    {
+      "repertoireSongId": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 1,
+      "rating": 5
+    },
+    {
+      "repertoireSongId": "54e54f61-9321-4de2-8dff-1ec357a65a23",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 1,
+      "rating": 5
+    },
+    {
+      "repertoireSongId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 4,
+      "lastRehearsed": "2025-10-29"
+    },
+    {
+      "repertoireSongId": "72ba9218-7351-4f2c-9293-5406f66b8ece",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 2
+    },
+    {
+      "repertoireSongId": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 4
+    },
+    {
+      "repertoireSongId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 1
+    }
   ]
 }

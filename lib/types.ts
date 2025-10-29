@@ -28,6 +28,7 @@ export type DB = {
   repertoireSongs?: RepertoireSong[];
   projectMembers?: ProjectMember[];
   projectPractice?: PracticeEntry[];
+  personalPractice?: PersonalPracticeEntry[];
   joinRequests?: JoinRequest[];
   projectTodo?: ProjectTodoItem[];
   settings: Settings;
@@ -146,6 +147,15 @@ export type PracticeEntry = {
   // ISO date string (YYYY-MM-DD) of the last time this user rehearsed this song
   // Optional: if missing, no RAG color is applied in UI
   lastRehearsed?: string;
+};
+
+// Per-user practice for personal repertoire (not tied to a project)
+export type PersonalPracticeEntry = {
+  repertoireSongId: string;
+  userId: string;
+  passes: number;
+  rating: 0 | 1 | 2 | 3 | 4 | 5; // 0 = unrated
+  lastRehearsed?: string; // ISO YYYY-MM-DD
 };
 
 export type ProjectTodoItem = {

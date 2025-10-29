@@ -53,6 +53,7 @@ function readDB(): DB {
   parsed.repertoireSongs = parsed.repertoireSongs || [];
   parsed.projectMembers = parsed.projectMembers || [];
   parsed.projectPractice = parsed.projectPractice || [];
+  parsed.personalPractice = parsed.personalPractice || [];
   parsed.joinRequests = parsed.joinRequests || [];
   parsed.projectTodo = parsed.projectTodo || [];
   parsed.settings = parsed.settings || { defaultSongGapSec: 30 };
@@ -225,6 +226,64 @@ export const db = {
             : curr.lastRehearsed,
       };
       list[idx] = next;
+      writeDB(d);
+      return next;
+    }
+  },
+
+  // Personal (per-user) repertoire practice entries
+  listPersonalPracticeForUser(userId: string) {
+    const d = readDB();
+    return (d.personalPractice || []).filter((p) => p.userId === userId);
+  },
+  getPersonalPracticeEntry(repertoireSongId: string, userId: string) {
+    const d = readDB();
+    return (d.personalPractice || []).find(
+      (p) => p.repertoireSongId === repertoireSongId && p.userId === userId,
+    );
+  },
+  upsertPersonalPractice(
+    repertoireSongId: string,
+    userId: string,
+    patch: Partial<{ passes: number; rating: 0 | 1 | 2 | 3 | 4 | 5; lastRehearsed?: string }>,
+  ) {
+    const d = readDB();
+    const list = d.personalPractice || (d.personalPractice = []);
+    const idx = list.findIndex(
+      (p) => p.repertoireSongId === repertoireSongId && p.userId === userId,
+    );
+    if (idx === -1) {
+      const created = {
+        repertoireSongId,
+        userId,
+        passes: patch.passes ?? 0,
+        rating: (patch.rating ?? 0) as 0 | 1 | 2 | 3 | 4 | 5,
+        lastRehearsed:
+          patch.lastRehearsed && patch.lastRehearsed.trim()
+            ? patch.lastRehearsed.trim()
+            : undefined,
+      } as const;
+      list.push(created as any);
+      writeDB(d);
+      return created;
+    } else {
+      const curr = list[idx] as any;
+      const next = {
+        ...curr,
+        passes: patch.passes != null ? Math.max(0, patch.passes) : curr.passes,
+        rating: (patch.rating != null ? Math.max(0, Math.min(5, patch.rating)) : curr.rating) as
+          | 0
+          | 1
+          | 2
+          | 3
+          | 4
+          | 5,
+        lastRehearsed:
+          patch.lastRehearsed != null
+            ? patch.lastRehearsed.trim() || undefined
+            : curr.lastRehearsed,
+      };
+      list[idx] = next as any;
       writeDB(d);
       return next;
     }

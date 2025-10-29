@@ -226,13 +226,22 @@ export default function RepertoireHomePage() {
           value={artist}
           onChange={(e) => setArtist(e.target.value)}
         />
-        <button
-          className="rounded bg-black px-3 py-2 text-white"
-          onClick={runSearch}
-          disabled={searching}
-        >
-          {searching ? 'Searching…' : 'Search repertoire'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            className="rounded bg-black px-3 py-2 text-white"
+            onClick={runSearch}
+            disabled={searching}
+          >
+            {searching ? 'Searching…' : 'Search repertoire'}
+          </button>
+          <Link
+            className="rounded border px-3 py-2 text-center"
+            href="/repertoire/individual-rehearsal"
+            title="Open your personal rehearsal view"
+          >
+            Individual rehearsal mode
+          </Link>
+        </div>
       </div>
 
       {error && <div className="text-sm text-red-600">{error}</div>}
