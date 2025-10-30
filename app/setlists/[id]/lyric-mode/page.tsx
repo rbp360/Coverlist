@@ -21,6 +21,9 @@ type Setlist = {
   projectId: string;
   showNotesAfterLyrics?: boolean;
   showColourFlip?: boolean;
+  showWhatWhere?: boolean;
+  date?: string;
+  venue?: string;
 };
 type ProjectSong = {
   id: string;
@@ -167,6 +170,11 @@ export default function LyricModePage() {
   const atFirst = stepIdx <= 0;
   const atLast = stepIdx >= steps.length - 1;
 
+  // Show what/where page before first song if enabled
+  const showWhatWhere = !!setlist?.showWhatWhere && stepIdx === 0 && step.kind === 'song';
+  // Show what/where during breaks (endOfSet)
+  const showWhatWhereBreak = !!setlist?.showWhatWhere && step.kind === 'endOfSet';
+
   return (
     <div
       className={`flex h-screen flex-col overflow-x-hidden max-w-screen w-full mx-auto ${setlist?.showColourFlip ? 'bg-white text-black' : 'bg-black text-white'}`}
@@ -219,7 +227,15 @@ export default function LyricModePage() {
 
       {/* LyricTeleprompter or End of Set message */}
       <div className="flex-1 flex min-h-0">
-        {step.kind === 'song' ? (
+        {showWhatWhere ? (
+          <div className="flex flex-1 items-center justify-center">
+            <div className="px-8 text-center">
+              <div className="text-2xl font-semibold mb-2">{setlist.venue || 'Venue'}</div>
+              <div className="text-lg text-neutral-500 mb-4">{setlist.date || 'Date'}</div>
+              <div className="mt-6 text-neutral-400 text-base">Press Next to start lyrics</div>
+            </div>
+          </div>
+        ) : step.kind === 'song' ? (
           <LyricTeleprompter
             key={step.song.id}
             isrc={step.song.isrc}
@@ -244,6 +260,12 @@ export default function LyricModePage() {
         ) : (
           <div className="flex flex-1 items-center justify-center">
             <div className="px-8 text-center">
+              {showWhatWhereBreak && (
+                <>
+                  <div className="text-2xl font-semibold mb-2">{setlist.venue || 'Venue'}</div>
+                  <div className="text-lg text-neutral-500 mb-4">{setlist.date || 'Date'}</div>
+                </>
+              )}
               <div className="text-[5vh] font-semibold">End of Set {step.setIndex}</div>
               <div className="mt-4 text-[2.5vh] text-neutral-400">Press Next to continue</div>
             </div>

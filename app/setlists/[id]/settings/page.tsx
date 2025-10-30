@@ -30,6 +30,7 @@ type Setlist = {
   songGapSec?: number;
   showNotesAfterLyrics?: boolean;
   showColourFlip?: boolean;
+  showWhatWhere?: boolean;
 };
 
 export default function SetlistSettingsPage() {
@@ -237,7 +238,11 @@ export default function SetlistSettingsPage() {
             </span>
           </label>
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" disabled />
+            <input
+              type="checkbox"
+              checked={!!setlist.showWhatWhere}
+              onChange={(e) => save({ showWhatWhere: e.target.checked })}
+            />
             <span>
               What and Where appear
               <span className="block text-xs text-neutral-400">

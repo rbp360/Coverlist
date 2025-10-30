@@ -103,6 +103,9 @@ export type Setlist = {
   addGapAfterEachSong?: boolean;
   public?: boolean; // if true, discoverable by anyone
   hideItemDurations?: boolean;
+  showNotesAfterLyrics?: boolean;
+  showColourFlip?: boolean;
+  showWhatWhere?: boolean;
   createdAt: string;
   updatedAt: string;
 };
