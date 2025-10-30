@@ -28,6 +28,7 @@ type Setlist = {
   projectId?: string;
   public?: boolean;
   songGapSec?: number;
+  showNotesAfterLyrics?: boolean;
 };
 
 export default function SetlistSettingsPage() {
@@ -208,7 +209,11 @@ export default function SetlistSettingsPage() {
         <div className="mb-2 font-medium">Lyric mode settings</div>
         <div className="space-y-3">
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" disabled />
+            <input
+              type="checkbox"
+              checked={!!(setlist as any).showNotesAfterLyrics}
+              onChange={(e) => save({ showNotesAfterLyrics: e.target.checked })}
+            />
             <span>
               Display notes after lyrics
               <span className="block text-xs text-neutral-400">

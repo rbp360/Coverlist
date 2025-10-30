@@ -370,21 +370,59 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
                 </React.Fragment>
               );
             })}
-            {/* Appended note after lyrics, in green and italic, only visible after lyrics are loaded */}
+            {/* Divider line with 'End' before appended note */}
             {props.appendedNote && (lines.length > 0 || plain || fallbackPlainLyrics) && (
-              <div
-                style={{
-                  marginTop: '2em',
-                  color: '#22c55e',
-                  fontWeight: 500,
-                  fontSize: 'inherit',
-                  textAlign: 'left',
-                  fontStyle: 'italic',
-                  opacity: 0.95,
-                }}
-              >
-                {props.appendedNote}
-              </div>
+              <>
+                <div
+                  style={{
+                    margin: '2em 0 1.2em 0',
+                    width: '100%',
+                    textAlign: 'center',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <span
+                    style={{
+                      flex: 1,
+                      borderBottom: '2px solid #22c55e',
+                      marginRight: '0.7em',
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: '#22c55e',
+                      fontWeight: 700,
+                      fontSize: '1.1em',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    End
+                  </span>
+                  <span
+                    style={{
+                      flex: 1,
+                      borderBottom: '2px solid #22c55e',
+                      marginLeft: '0.7em',
+                    }}
+                  />
+                </div>
+                <div
+                  style={{
+                    marginTop: '0.7em',
+                    color: '#22c55e',
+                    fontWeight: 500,
+                    fontSize: '1.25em',
+                    textAlign: 'left',
+                    fontStyle: 'italic',
+                    opacity: 0.95,
+                  }}
+                >
+                  {props.appendedNote}
+                </div>
+              </>
             )}
           </div>
         )}

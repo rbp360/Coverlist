@@ -19,6 +19,7 @@ type Setlist = {
   name: string;
   items: Item[];
   projectId: string;
+  showNotesAfterLyrics?: boolean;
 };
 type ProjectSong = {
   id: string;
@@ -226,7 +227,7 @@ export default function LyricModePage() {
             enableHotkeys={true}
             // Find the next note after this song in the setlist (specific to this song)
             appendedNote={(() => {
-              if (!setlist) return null;
+              if (!setlist || !(setlist as any).showNotesAfterLyrics) return null;
               const items = [...setlist.items].sort((a, b) => a.order - b.order);
               const songIdx = items.findIndex(
                 (item) => item.type === 'song' && item.songId === step.song.id,
