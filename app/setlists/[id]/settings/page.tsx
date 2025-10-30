@@ -31,6 +31,7 @@ type Setlist = {
   showNotesAfterLyrics?: boolean;
   showColourFlip?: boolean;
   showWhatWhere?: boolean;
+  showLiveClock?: boolean;
 };
 
 export default function SetlistSettingsPage() {
@@ -252,7 +253,11 @@ export default function SetlistSettingsPage() {
             </span>
           </label>
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" disabled />
+            <input
+              type="checkbox"
+              checked={!!setlist.showLiveClock}
+              onChange={(e) => save({ showLiveClock: e.target.checked })}
+            />
             <span>
               Show live clock
               <span className="block text-xs text-neutral-400">

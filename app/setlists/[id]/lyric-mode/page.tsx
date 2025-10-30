@@ -1,6 +1,33 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+
+// ...existing code...
+// LiveClock component: shows current time in green, updates every second
+function LiveClock({ colourFlip }: { colourFlip: boolean }) {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+  const timeStr = now.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+  return (
+    <span
+      className={
+        colourFlip
+          ? 'text-green-700 text-xs mt-1 font-mono drop-shadow'
+          : 'text-green-400 text-xs mt-1 font-mono drop-shadow'
+      }
+      style={{ letterSpacing: '0.05em' }}
+    >
+      {timeStr}
+    </span>
+  );
+}
 
 import LyricTeleprompter from '@/components/LyricTeleprompter';
 
@@ -22,6 +49,7 @@ type Setlist = {
   showNotesAfterLyrics?: boolean;
   showColourFlip?: boolean;
   showWhatWhere?: boolean;
+  showLiveClock?: boolean;
   date?: string;
   venue?: string;
 };
@@ -216,11 +244,11 @@ export default function LyricModePage() {
         </div>
         {/* Centered song title, only for song steps */}
         {step.kind === 'song' && (
-          <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-semibold text-white truncate max-w-[60vw] text-center pointer-events-none select-none"
-            title={step.song.title}
-          >
-            {step.song.title}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center max-w-[60vw] text-center pointer-events-none select-none">
+            <span className="text-base font-semibold text-white" title={step.song.title}>
+              {step.song.title}
+            </span>
+            {setlist.showLiveClock && <LiveClock colourFlip={!!setlist.showColourFlip} />}
           </div>
         )}
       </div>
