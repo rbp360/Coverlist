@@ -72,14 +72,45 @@
   background: #1a1a1a;
 }
 
-.goButton {
-  background: #22c55e; /* brand-500 */
-  color: #000;
-  border-color: #22c55e;
+/* Play/Pause toggle button styles */
+
+.controls button.playActive {
+  background: #22c55e !important;
+  color: #000 !important;
+  border-color: #22c55e !important;
+}
+.controls button.playInactive {
+  background: #111;
+  color: #fff;
+  border-color: #333;
+}
+.controls button.playActive:hover,
+.controls button.playInactive:hover {
+  background: #1fb455 !important;
+}
+.controls button.pauseActive {
+  background: #fbbf24 !important;
+  color: #000 !important;
+  border-color: #fbbf24 !important;
+}
+.controls button.pauseActive:hover {
+  background: #f59e0b !important;
 }
 
-.goButton:hover {
-  background: #1fb455;
+/* Stop button styles */
+.controls button.stopActive {
+  background: #ef4444 !important;
+  color: #fff !important;
+  border-color: #ef4444 !important;
+}
+.controls button.stopInactive {
+  background: #111;
+  color: #fff;
+  border-color: #333;
+}
+.controls button.stopActive:hover,
+.controls button.stopInactive:hover {
+  background: #dc2626 !important;
 }
 
 .progressBar {

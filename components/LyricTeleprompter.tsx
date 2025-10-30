@@ -271,72 +271,70 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
       <div className={styles.controls}>
         {!externalClock && (
           <>
-            {state === 'idle' && (
-              <button onClick={start} className={styles.goButton} title="Space to start">
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4em' }}>
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    style={{ verticalAlign: 'middle' }}
-                    aria-hidden="true"
-                  >
-                    <polygon points="4,3 18,10 4,17" />
-                  </svg>
-                  PLAY
-                </span>
-              </button>
-            )}
-            {state === 'playing' && (
-              <button onClick={pause} title="Pause (space)">
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3em' }}>
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <rect x="4" y="3" width="4" height="14" />
-                    <rect x="12" y="3" width="4" height="14" />
-                  </svg>
-                  Pause
-                </span>
-              </button>
-            )}
-            {state === 'paused' && (
-              <button onClick={resume} title="Resume (space)">
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3em' }}>
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <polygon points="4,3 18,10 4,17" />
-                  </svg>
-                  Play
-                </span>
-              </button>
-            )}
-            {(state === 'paused' || state === 'ended') && (
-              <button onClick={restart} title="Restart (R)">
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3em' }}>
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <rect x="4" y="4" width="12" height="12" />
-                  </svg>
-                  Stop
-                </span>
-              </button>
-            )}
+            {/* Play Button */}
+            <button
+              onClick={state === 'playing' ? undefined : state === 'paused' ? resume : start}
+              className={state === 'playing' ? styles.playActive : styles.playInactive}
+              title={state === 'playing' ? 'Playing' : 'Play (space)'}
+              aria-pressed={state === 'playing'}
+            >
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4em' }}>
+                <svg
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style={{ verticalAlign: 'middle' }}
+                  aria-hidden="true"
+                >
+                  <polygon points="4,3 18,10 4,17" />
+                </svg>
+                Play
+              </span>
+            </button>
+
+            {/* Pause Button */}
+            <button
+              onClick={state === 'playing' ? pause : undefined}
+              className={state === 'paused' ? styles.pauseActive : styles.playInactive}
+              title={state === 'paused' ? 'Paused' : 'Pause (space)'}
+              aria-pressed={state === 'paused'}
+            >
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3em' }}>
+                <svg
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <rect x="4" y="3" width="4" height="14" />
+                  <rect x="12" y="3" width="4" height="14" />
+                </svg>
+                Pause
+              </span>
+            </button>
+
+            {/* Stop Button */}
+            <button
+              onClick={restart}
+              className={state === 'ended' ? styles.stopActive : styles.stopInactive}
+              title={'Stop (R)'}
+              aria-pressed={state === 'ended'}
+            >
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3em' }}>
+                <svg
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <rect x="4" y="4" width="12" height="12" />
+                </svg>
+                Stop
+              </span>
+            </button>
           </>
         )}
         {externalClock && <span>External clock: {state}</span>}
