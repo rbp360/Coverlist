@@ -12,6 +12,7 @@ type Item = {
   artist?: string;
   durationSec?: number;
   songId?: string;
+  note?: string;
 };
 type Setlist = {
   id: string;
@@ -223,6 +224,18 @@ export default function LyricModePage() {
             durationMs={(step.song.durationSec ?? 180) * 1000}
             autoStart={false}
             enableHotkeys={true}
+            // Find the next note after this song in the setlist (specific to this song)
+            appendedNote={(() => {
+              if (!setlist) return null;
+              const items = [...setlist.items].sort((a, b) => a.order - b.order);
+              const songIdx = items.findIndex(
+                (item) => item.type === 'song' && item.songId === step.song.id,
+              );
+              if (songIdx === -1) return null;
+              const next = items[songIdx + 1];
+              if (next && next.type === 'note' && next.note) return next.note;
+              return null;
+            })()}
           />
         ) : (
           <div className="flex flex-1 items-center justify-center">

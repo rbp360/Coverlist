@@ -33,6 +33,8 @@ export type LyricTeleprompterProps = {
   style?: React.CSSProperties;
   /** Optional handler for next song (setlist mode) */
   onNextSong?: () => void;
+  /** Optional note to append after lyrics (in green, after a line break, when finished) */
+  appendedNote?: string | null;
 };
 
 type PlayState = 'idle' | 'playing' | 'paused' | 'ended';
@@ -266,6 +268,9 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
 
   const showPlainFallback = !lines.length && (plain || fallbackPlainLyrics);
 
+  // Show appended note after lyrics end, if provided
+  const showAppendedNote = state === 'ended' && props.appendedNote;
+
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(' ')} style={style}>
       <div className={styles.controls}>
@@ -365,6 +370,22 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
                 </React.Fragment>
               );
             })}
+            {/* Appended note after lyrics, in green and italic, only visible after lyrics are loaded */}
+            {props.appendedNote && (lines.length > 0 || plain || fallbackPlainLyrics) && (
+              <div
+                style={{
+                  marginTop: '2em',
+                  color: '#22c55e',
+                  fontWeight: 500,
+                  fontSize: 'inherit',
+                  textAlign: 'left',
+                  fontStyle: 'italic',
+                  opacity: 0.95,
+                }}
+              >
+                {props.appendedNote}
+              </div>
+            )}
           </div>
         )}
       </div>

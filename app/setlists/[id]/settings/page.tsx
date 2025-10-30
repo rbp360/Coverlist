@@ -205,6 +205,51 @@ export default function SetlistSettingsPage() {
       </div>
 
       <div className="rounded border bg-black p-3 text-white">
+        <div className="mb-2 font-medium">Lyric mode settings</div>
+        <div className="space-y-3">
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" disabled />
+            <span>
+              Display notes after lyrics
+              <span className="block text-xs text-neutral-400">
+                Displays the setlist notes on completion of the lyric prompter (useful for prompts,
+                merch, social media, etc).
+              </span>
+            </span>
+          </label>
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" disabled />
+            <span>
+              Colour flip
+              <span className="block text-xs text-neutral-400">
+                Changes lyrics to black and backdrop to white.
+              </span>
+            </span>
+          </label>
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" disabled />
+            <span>
+              What and Where appear
+              <span className="block text-xs text-neutral-400">
+                Displays the venue location and date before lyrics and during breaks (useful for
+                knowing where you are!).
+              </span>
+            </span>
+          </label>
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" disabled />
+            <span>
+              Show live clock
+              <span className="block text-xs text-neutral-400">
+                Displays the current time (in green, just under prev/next) throughout lyric mode to
+                help avoid overruns.
+              </span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div className="rounded border bg-black p-3 text-white">
         <div className="mb-2 font-medium">Utilities</div>
         <button className="rounded border px-3 py-1 text-sm" onClick={copyJson} disabled={saving}>
           Copy JSON

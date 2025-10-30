@@ -9,9 +9,9 @@
       "name": "Roberto",
       "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
       "spotify": {
-        "accessToken": "BQAcC0WKgH91m0dcneovrMTFAqCCvjtToB1GyCo5D5Doaee5EADk_F1B3RhfDE537MIEW2fwzDacE0DtsNCGny9WPvUS2Rn6a922zDRxCuH8IES5CkzAAIsEVxTQOZ4o0UHRWxDqL1_IUAYIkyLbrE_IboNDAsfDgAfAZ2cbeizB2CSkKFNpxUjmt_kYHW2ityFqDA5-9LMB4bXhXtqHsj45xwdi2W3FmzUcs7V6JYGxaXwpkDxlADbtM_SS156Jck2I2N2zznHuHLs9rKDi",
+        "accessToken": "BQC7eXufoaxOuL-r3W6HjNeVsKV_XHbk4ruASJXAI0S67TmQKycoveii22pNlfHI1UjlDV57PsSh2hKJnup85M90POLKheOmWsoLBtXmZ1y4G7CbqSP43djGr5Hj8yy93slZeorQefOb4RWugHJdfE86zfyKE4Z44dsMy1mUqs8_UbJyHjk5QYEFT2hroHaAt2xoYrETrW9TAosVpNYxcRxsDXiJl_sDC0sDEyj7ajDRMfn5sjm1s6P4e2Cq92c_jGpnxqWhGdRZdrAgrx3S",
         "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
-        "expiresAt": 1761788154656,
+        "expiresAt": 1761824118274,
         "scope": "playlist-modify-private playlist-modify-public",
         "tokenType": "Bearer"
       }
@@ -583,6 +583,17 @@
       "url": "https://open.spotify.com/track/6rCHGKyJNcAeN00ivrbpy8",
       "createdAt": "2025-10-29T08:15:56.135Z",
       "updatedAt": "2025-10-29T08:15:56.135Z"
+    },
+    {
+      "id": "ab0d347e-0184-4a8a-9409-71168a7a36a7",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Meant for You",
+      "artist": "The Beach Boys",
+      "durationSec": 41,
+      "mbid": "1a3a3518-dd33-4044-aa92-1d98eef05216",
+      "url": "https://open.spotify.com/track/2h5cpnAVMC4kOOLF7NqmIr",
+      "createdAt": "2025-10-30T10:36:06.288Z",
+      "updatedAt": "2025-10-30T10:36:06.288Z"
     }
   ],
   "setlists": [
@@ -601,9 +612,24 @@
           "title": "Set 1"
         },
         {
-          "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
+          "id": "0b97a3ae-83e4-4e63-ab7c-1070910ec871",
           "type": "song",
           "order": 1,
+          "songId": "ab0d347e-0184-4a8a-9409-71168a7a36a7",
+          "title": "Meant for You",
+          "artist": "The Beach Boys",
+          "durationSec": 41
+        },
+        {
+          "id": "80991adf-15e9-42fe-bf2a-c6c553eb9fca",
+          "type": "note",
+          "order": 2,
+          "note": "test note to appear in green after the lyrics"
+        },
+        {
+          "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
+          "type": "song",
+          "order": 3,
           "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
           "title": "Jungle of Love",
           "artist": "Lynch Mob",
@@ -613,19 +639,19 @@
         {
           "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
           "type": "note",
-          "order": 2,
+          "order": 4,
           "note": "⬇️ Tune down 1/2 step"
         },
         {
           "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
           "type": "section",
-          "order": 3,
+          "order": 5,
           "title": "Set 2"
         },
         {
           "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
           "type": "song",
-          "order": 4,
+          "order": 6,
           "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
           "title": "Wonderwall",
           "artist": "Oasis",
@@ -634,26 +660,26 @@
         {
           "id": "0caa44d3-8f37-4938-9e7d-5b566704e138",
           "type": "section",
-          "order": 5,
+          "order": 7,
           "title": "Encore"
         },
         {
           "id": "3a2584d3-c60e-4d63-b697-674bb0de0040",
           "type": "break",
-          "order": 6,
+          "order": 8,
           "title": "Break",
           "durationSec": 600
         },
         {
           "id": "7afcba0b-f129-4312-9dc5-61b682502ffd",
           "type": "note",
-          "order": 7,
+          "order": 9,
           "note": "1/2 step down"
         },
         {
           "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
           "type": "song",
-          "order": 8,
+          "order": 10,
           "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
           "title": "Hey Jude",
           "artist": "The Beatles",
@@ -662,13 +688,13 @@
         {
           "id": "a908c3de-9959-4b19-b9ab-5b256fe4f9c5",
           "type": "note",
-          "order": 9,
+          "order": 11,
           "note": "1/2 step down"
         },
         {
           "id": "f5100cc2-f4a2-4001-b399-6fe330d57217",
           "type": "song",
-          "order": 10,
+          "order": 12,
           "songId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
           "title": "Here I Go Again",
           "artist": "Whitesnake",
@@ -677,12 +703,12 @@
         {
           "id": "3023d8e7-02ca-43dc-a594-a449988f8698",
           "type": "section",
-          "order": 11,
+          "order": 13,
           "title": "custom set section"
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-30T10:20:12.883Z",
+      "updatedAt": "2025-10-30T10:42:33.578Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,
@@ -1408,6 +1434,17 @@
       "url": "https://open.spotify.com/track/2lRhq1ZfHNiaVNHkTWeXUv",
       "createdAt": "2025-10-30T00:36:23.692Z",
       "updatedAt": "2025-10-30T00:36:23.692Z"
+    },
+    {
+      "id": "a4eee9b5-c218-4d0a-8799-eb2ea0ca7b43",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Meant for You",
+      "artist": "The Beach Boys",
+      "durationSec": 41,
+      "mbid": "1a3a3518-dd33-4044-aa92-1d98eef05216",
+      "url": "https://open.spotify.com/track/2h5cpnAVMC4kOOLF7NqmIr",
+      "createdAt": "2025-10-30T10:35:47.368Z",
+      "updatedAt": "2025-10-30T10:35:47.368Z"
     }
   ],
   "joinRequests": [],
