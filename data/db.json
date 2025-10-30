@@ -1144,7 +1144,7 @@
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "passes": 1,
+      "passes": 5,
       "rating": 0,
       "lastRehearsed": "2025-10-01"
     },
@@ -1406,21 +1406,6 @@
   "joinRequests": [],
   "projectTodo": [
     {
-      "id": "d31dd0c0-8a6b-4178-b3b3-8273667945c1",
-      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
-      "title": "Man of Constant Sorrow",
-      "artist": "Rod Stewart",
-      "durationSec": 153,
-      "mbid": "db27505f-45b4-4980-a3c8-b53c6d953bc3",
-      "isrc": "USPR36905220",
-      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "createdAt": "2025-10-28T06:52:50.639Z",
-      "votes": {
-        "7d9bd818-1e5b-4300-818f-ecb70c926825": "yes",
-        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "yes"
-      }
-    },
-    {
       "id": "711af023-b8ae-4792-acd3-d74acd7e8286",
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "title": "Born in the U.S.A.",
@@ -1476,6 +1461,16 @@
       "isrc": "GB2DY1400083",
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "createdAt": "2025-10-30T00:42:07.725Z"
+    },
+    {
+      "id": "22242c5a-8a55-4a09-bacc-beee0d09f8b1",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Black Night",
+      "artist": "Deep Purple",
+      "durationSec": 288,
+      "mbid": "6a99ce01-1ac0-4ae0-9997-0a8ede605f7b",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-30T04:12:28.229Z"
     }
   ],
   "personalPractice": [

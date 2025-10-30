@@ -46,6 +46,7 @@ function fmt(sec?: number) {
 
 export default function SetlistEditorPage() {
   const { id } = useParams<{ id: string }>();
+  const [cacheStatus, setCacheStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const router = useRouter();
   const [setlist, setSetlist] = useState<Setlist | null>(null);
   const [editingName, setEditingName] = useState(false);
@@ -574,11 +575,66 @@ export default function SetlistEditorPage() {
             Copy
           </button>
           <button
+            className="rounded border border-green-600 px-3 py-1 text-sm text-green-500"
+            onClick={async () => {
+              setCacheStatus('saving');
+              try {
+                // Fetch setlist data
+                const setlistRes = await fetch(`/api/setlists/${id}`);
+                if (!setlistRes.ok) throw new Error('Failed to fetch setlist');
+                const setlistData = await setlistRes.json();
+                // Fetch lyrics for all songs in setlist
+                const lyrics = {};
+                for (const item of setlistData.items || []) {
+                  if (item.type === 'song' && item.songId) {
+                    try {
+                      const lyricRes = await fetch(`/api/songs/${item.songId}`);
+                      if (lyricRes.ok) {
+                        const song = await lyricRes.json();
+                        lyrics[item.songId] = song.lyrics || '';
+                      }
+                    } catch {}
+                  }
+                }
+                const cache = {
+                  id: setlistData.id,
+                  name: setlistData.name,
+                  items: setlistData.items,
+                  lyrics,
+                  updatedAt: new Date().toISOString(),
+                };
+                localStorage.setItem(`offline-setlist-${id}`, JSON.stringify(cache));
+                setCacheStatus('saved');
+                setTimeout(() => setCacheStatus('idle'), 2000);
+              } catch {
+                setCacheStatus('error');
+                setTimeout(() => setCacheStatus('idle'), 2000);
+              }
+            }}
+          >
+            Cache setlist and lyrics offline
+          </button>
+          <button
             className="rounded border border-red-600 px-3 py-1 text-sm text-red-700"
             onClick={del}
           >
             Delete
           </button>
+          {cacheStatus !== 'idle' && (
+            <span
+              className={
+                cacheStatus === 'saved'
+                  ? 'ml-2 text-green-400'
+                  : cacheStatus === 'saving'
+                    ? 'ml-2 text-yellow-400'
+                    : 'ml-2 text-red-400'
+              }
+            >
+              {cacheStatus === 'saving' && 'Saving...'}
+              {cacheStatus === 'saved' && 'Saved for offline use!'}
+              {cacheStatus === 'error' && 'Error saving offline.'}
+            </span>
+          )}
         </div>
       </div>
 

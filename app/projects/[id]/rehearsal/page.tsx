@@ -1,8 +1,24 @@
 'use client';
+
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
+// Dayglo color palette (Tailwind + custom)
+const PROJECT_COLORS = [
+  'text-green-400',
+  'text-pink-400', // more dayglo pink
+  'text-orange-400', // orange
+  'text-sky-400', // blue
+  'text-yellow-300', // yellow
+  'text-fuchsia-700', // darker purple (last)
+];
+function getProjectColor(projectId: string, projects: { id: string }[]): string {
+  const idx = projects.findIndex((p) => p.id === projectId);
+  return PROJECT_COLORS[idx % PROJECT_COLORS.length] || 'text-green-400';
+}
+
+import TrashIcon from '@/components/TrashIcon';
 import { buildRehearsalPlaylistName } from '@/lib/format';
 import { ragClassFromISO, parseFlexibleDateToISO, formatISOToDDMMYY } from '@/lib/rehearsal';
 
@@ -38,7 +54,10 @@ export default function RehearsalPage() {
   const { id } = useParams<{ id: string }>();
   const [songs, setSongs] = useState<Song[]>([]);
   const [projectName, setProjectName] = useState<string>('');
-  const [todo, setTodo] = useState<Array<{ id: string; title: string; artist: string }>>([]);
+  const [allProjects, setAllProjects] = useState<any[]>([]);
+  const [todo, setTodo] = useState<
+    Array<{ id: string; title: string; artist: string; votes?: number }>
+  >([]);
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
   const [practice, setPractice] = useState<
@@ -63,10 +82,16 @@ export default function RehearsalPage() {
       try {
         // load project name
         const proj = await fetch(`/api/projects/${id}`);
+        let projectObj = null;
         if (proj.ok) {
           const p = await proj.json();
           setProjectName(p.name || 'Project');
+          projectObj = p;
         }
+        // load all projects for color logic
+        const all = await fetch('/api/projects');
+        if (all.ok) setAllProjects(await all.json());
+
         const params = new URLSearchParams();
         if (q.trim()) params.set('q', q.trim());
         if (artist.trim()) params.set('artist', artist.trim());
@@ -77,7 +102,12 @@ export default function RehearsalPage() {
         if (td.ok) {
           const json = await td.json();
           setTodo(
-            (json.items || []).map((x: any) => ({ id: x.id, title: x.title, artist: x.artist })),
+            (json.items || []).map((x: any) => ({
+              id: x.id,
+              title: x.title,
+              artist: x.artist,
+              votes: typeof x.votes === 'number' ? x.votes : 0,
+            })),
           );
         }
         // Load practice entries for current user
@@ -199,7 +229,14 @@ export default function RehearsalPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-2">
-        <h2 className="text-2xl font-semibold">Rehearsal</h2>
+        <div className="flex items-center gap-3">
+          {projectName && allProjects.length > 0 && (
+            <span className={`truncate font-semibold text-2xl ${getProjectColor(id, allProjects)}`}>
+              {projectName}
+            </span>
+          )}
+          <h2 className="text-2xl font-semibold">Rehearsal</h2>
+        </div>
         <div className="flex gap-2 text-sm">
           <button
             className="rounded border px-3 py-1"
@@ -250,7 +287,7 @@ export default function RehearsalPage() {
           <Link className="rounded border px-3 py-1" href={`/projects/${id}/repertoire`}>
             Repertoire
           </Link>
-          <Link className="rounded border px-3 py-1" href={`/projects/${id}/setlists`}>
+          <Link className="rounded border px-3 py-1" href={`/projects/${id}/live`}>
             Setlists (Live)
           </Link>
         </div>
@@ -432,7 +469,12 @@ export default function RehearsalPage() {
       {/* Project To-Do list (moved below main rehearsal content) */}
       <div className="rounded border" id="project-todo">
         <div className="flex items-center justify-between border-b px-3 py-2">
-          <h3 className="font-semibold">Project To-Do</h3>
+          <Link
+            href={`/projects/${id}/todo`}
+            className="font-semibold hover:underline focus:underline outline-none"
+          >
+            Project To-Do List
+          </Link>
           <div className="text-xs text-neutral-500">
             Suggestions to consider; move into repertoire when ready.
           </div>
@@ -442,12 +484,15 @@ export default function RehearsalPage() {
         ) : (
           <ul className="divide-y">
             {todo.map((t) => (
-              <li key={t.id} className="flex items-center justify-between gap-2 p-3">
-                <div className="truncate">
-                  <span className="font-medium">{t.title}</span>
-                  <span className="text-neutral-500"> — {t.artist}</span>
+              <li key={t.id} className="flex items-center gap-2 p-3">
+                <div className="flex-1 truncate flex items-center gap-2 min-w-0">
+                  <span className="font-medium truncate">{t.title}</span>
+                  <span className="text-neutral-500">— {t.artist}</span>
                 </div>
-                <div className="flex gap-2">
+                <div className="w-8 text-right tabular-nums text-xs text-neutral-400 flex-shrink-0">
+                  {typeof t.votes === 'number' ? t.votes : 0}
+                </div>
+                <div className="flex gap-2 flex-shrink-0">
                   <button
                     className="rounded border px-2 py-0.5 text-xs"
                     title="Move into project repertoire"
@@ -476,7 +521,8 @@ export default function RehearsalPage() {
                     Move to repertoire
                   </button>
                   <button
-                    className="rounded border px-2 py-0.5 text-xs"
+                    className="rounded border p-1 text-xs hover:bg-neutral-100"
+                    aria-label="Remove suggestion"
                     title="Remove suggestion"
                     onClick={async () => {
                       try {
@@ -489,7 +535,7 @@ export default function RehearsalPage() {
                       } catch {}
                     }}
                   >
-                    Remove
+                    <TrashIcon className="w-4 h-4" />
                   </button>
                 </div>
               </li>

@@ -149,9 +149,9 @@ export default function SetlistManagePage() {
               setOfflineModal(true);
               setOfflineStatus('idle');
             }}
-            title="Offline mode caches the lyrics and setlist to your device so they are ready to use, wherever you go!"
+            title="Cache setlist and lyrics offline to your device so they are ready to use, wherever you go!"
           >
-            Offline mode
+            Cache setlist and lyrics offline
           </button>
         </div>
         {playlistUrl && (
@@ -163,13 +163,13 @@ export default function SetlistManagePage() {
         )}
       </div>
 
-      {/* Offline mode modal */}
+      {/* Cache setlist and lyrics offline modal */}
       {offlineModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
           <div className="bg-neutral-900 rounded p-6 max-w-md w-full text-white border">
-            <h3 className="text-lg font-semibold mb-2">Offline mode</h3>
+            <h3 className="text-lg font-semibold mb-2">Cache setlist and lyrics offline</h3>
             <p className="mb-4 text-sm">
-              Offline mode caches the lyrics and setlist to your device so they are ready to use,
+              This will cache the lyrics and setlist to your device so they are ready to use,
               wherever you go!
               <br />
               <b>No editing is available in offline mode.</b>

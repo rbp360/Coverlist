@@ -1,7 +1,22 @@
 'use client';
+
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+
+// Dayglo color palette (Tailwind + custom)
+const PROJECT_COLORS = [
+  'text-green-400',
+  'text-pink-400', // more dayglo pink
+  'text-orange-400', // orange
+  'text-sky-400', // blue
+  'text-yellow-300', // yellow
+  'text-fuchsia-700', // darker purple (last)
+];
+function getProjectColor(projectId: string, projects: { id: string }[]): string {
+  const idx = projects.findIndex((p) => p.id === projectId);
+  return PROJECT_COLORS[idx % PROJECT_COLORS.length] || 'text-green-400';
+}
 
 type Song = {
   id: string;
@@ -37,6 +52,8 @@ export default function RepertoirePage() {
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [project, setProject] = useState<any | null>(null);
+  const [allProjects, setAllProjects] = useState<any[]>([]);
 
   const filtered = songs;
 
@@ -45,8 +62,20 @@ export default function RepertoirePage() {
     if (res.ok) setSongs((await res.json()).songs);
   }
 
+  async function loadProject() {
+    const res = await fetch(`/api/projects/${id}`);
+    if (res.ok) setProject(await res.json());
+  }
+
+  async function loadAllProjects() {
+    const res = await fetch('/api/projects');
+    if (res.ok) setAllProjects(await res.json());
+  }
+
   useEffect(() => {
     load();
+    loadProject();
+    loadAllProjects();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -66,17 +95,22 @@ export default function RepertoirePage() {
 
   // Enrichment button removed
 
+  // Find color for this project
+  const projectColor =
+    project && allProjects.length ? getProjectColor(project.id, allProjects) : 'text-green-400';
+
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center gap-3">
+        {project && (
+          <>
+            <span className={`truncate font-semibold text-2xl ${projectColor}`}>
+              {project.name}
+            </span>
+            <span className="text-xl text-neutral-400">/</span>
+          </>
+        )}
         <h2 className="text-2xl font-semibold">Project Repertoire</h2>
-        <a
-          className="rounded bg-black px-3 py-2 text-white disabled:opacity-60"
-          href={`/projects/${id}/repertoire/import`}
-          title="Show your existing repertoire to pick songs for this project"
-        >
-          show your existing repertoire
-        </a>
       </div>
       {/* Song search moved to /repertoire. Listing below shows this project's songs. */}
       <div className="overflow-auto rounded border bg-black text-white">
@@ -268,18 +302,29 @@ export default function RepertoirePage() {
         {saving && <div className="text-sm text-neutral-600">Saving changes…</div>}
       </div>
 
-      {/* Jump to To-Do list callout */}
-      <div className="rounded border p-3">
-        <div className="mb-2 text-sm text-neutral-600">
-          Click to access the To-Do list, see what others in your project have suggested, and give
-          them a rating.
+      {/* Jump to To-Do list and Add from My Repertoire cards */}
+      <div className="flex flex-row gap-4 mt-4">
+        <div className="flex-1 rounded border bg-black p-4 flex flex-col items-start justify-between">
+          <div className="mb-2 text-sm text-neutral-600">
+            Click to access the To-Do list, see what others in your project have suggested, and give
+            them a rating.
+          </div>
+          <Link
+            className="inline-block rounded bg-black px-3 py-2 text-white border"
+            href={`/projects/${id}/todo`}
+          >
+            Jump to To-Do list
+          </Link>
         </div>
-        <Link
-          className="inline-block rounded bg-black px-3 py-2 text-white"
-          href={`/projects/${id}/todo`}
-        >
-          Jump to To-Do list
-        </Link>
+        <div className="flex-1 rounded border bg-black p-4 flex flex-col items-start justify-between">
+          <div className="mb-2 text-sm text-neutral-600">Add songs from my repertoire</div>
+          <Link
+            className="inline-block rounded bg-black px-3 py-2 text-white border"
+            href="/repertoire"
+          >
+            Go to My Repertoire
+          </Link>
+        </div>
       </div>
     </div>
   );
