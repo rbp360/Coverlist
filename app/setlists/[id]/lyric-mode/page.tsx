@@ -168,11 +168,10 @@ export default function LyricModePage() {
     <div className="flex h-screen flex-col bg-black text-white overflow-x-hidden max-w-screen w-full mx-auto">
       {/* Lyric mode navigation bar only (no global header) */}
       <div
-        className="flex flex-wrap items-center gap-2 px-2 py-2 text-sm bg-black/80 z-10 max-w-full w-full overflow-x-auto mx-auto"
-        style={{ boxSizing: 'border-box' }}
+        className="relative flex flex-wrap items-center gap-2 px-2 py-1 text-sm bg-black/80 z-10 max-w-full w-full overflow-x-auto mx-auto"
+        style={{ boxSizing: 'border-box', marginBottom: '-0.25rem' }}
       >
         <div className="flex items-center gap-2">
-          <div className="text-neutral-400">Lyric mode</div>
           <button
             className="rounded border px-2 py-1 text-xs hover:bg-neutral-800 transition"
             onClick={() => router.push(`/setlists/${id}`)}
@@ -202,6 +201,15 @@ export default function LyricModePage() {
             Next ▶
           </button>
         </div>
+        {/* Centered song title, only for song steps */}
+        {step.kind === 'song' && (
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-semibold text-white truncate max-w-[60vw] text-center pointer-events-none select-none"
+            title={step.song.title}
+          >
+            {step.song.title}
+          </div>
+        )}
       </div>
 
       {/* LyricTeleprompter or End of Set message */}
