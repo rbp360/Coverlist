@@ -257,7 +257,7 @@ export default function ProjectSetlistsPage() {
                       tabIndex={-1}
                       onClick={(e) => {
                         e.stopPropagation();
-                        window.location.href = `/setlists/${s.id}?mode=lyrics`;
+                        window.location.href = `/setlists/${s.id}/lyric-mode`;
                       }}
                     >
                       🎤 Lyric Mode

@@ -39,6 +39,11 @@ export default function LyricModePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stepIdx, setStepIdx] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   // Allow page scroll in lyric mode so controls are accessible
 
   useEffect(() => {
@@ -136,6 +141,7 @@ export default function LyricModePage() {
     return () => window.removeEventListener('keydown', onKey);
   }, [id, router, steps.length]);
 
+  if (!mounted) return null;
   if (loading) return <div className="h-screen w-screen bg-black p-6 text-white">Loading…</div>;
   if (error) return <div className="h-screen w-screen bg-black p-6 text-red-400">{error}</div>;
   if (!setlist) return null;

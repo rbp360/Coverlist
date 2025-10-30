@@ -571,9 +571,6 @@ export default function SetlistEditorPage() {
               Export PDF
             </a>
           </div>
-          <button className="rounded border px-3 py-1 text-sm" onClick={copyNow}>
-            Copy
-          </button>
           <button
             className="rounded border border-green-600 px-3 py-1 text-sm text-green-500"
             onClick={async () => {
@@ -613,12 +610,6 @@ export default function SetlistEditorPage() {
             }}
           >
             Cache setlist and lyrics offline
-          </button>
-          <button
-            className="rounded border border-red-600 px-3 py-1 text-sm text-red-700"
-            onClick={del}
-          >
-            Delete
           </button>
           {cacheStatus !== 'idle' && (
             <span
