@@ -35,6 +35,7 @@ export type LyricTeleprompterProps = {
   onNextSong?: () => void;
   /** Optional note to append after lyrics (in green, after a line break, when finished) */
   appendedNote?: string | null;
+  colourFlip?: boolean;
 };
 
 type PlayState = 'idle' | 'playing' | 'paused' | 'ended';
@@ -272,7 +273,12 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
   const showAppendedNote = state === 'ended' && props.appendedNote;
 
   return (
-    <div className={[styles.wrapper, className].filter(Boolean).join(' ')} style={style}>
+    <div
+      className={[styles.wrapper, className, props.colourFlip ? styles.colourFlip : '']
+        .filter(Boolean)
+        .join(' ')}
+      style={style}
+    >
       <div className={styles.controls}>
         {!externalClock && (
           <>
@@ -348,7 +354,12 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
         </div>
       </div>
 
-      <div className={[styles.viewport, styles.faders].join(' ')} ref={viewportRef}>
+      <div
+        className={[styles.viewport, styles.faders, props.colourFlip ? styles.colourFlip : ''].join(
+          ' ',
+        )}
+        ref={viewportRef}
+      >
         {showPlainFallback ? (
           <div className={styles.plainWrapper}>{plain || fallbackPlainLyrics}</div>
         ) : (
@@ -363,7 +374,11 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
                   {isSpacer && <div style={{ height: '2.2em' }} aria-hidden="true" />}
                   <div
                     data-line-index={i}
-                    className={[styles.line, isActive ? styles.active : ''].join(' ')}
+                    className={[
+                      styles.line,
+                      isActive ? styles.active : '',
+                      props.colourFlip ? styles.colourFlipText : '',
+                    ].join(' ')}
                   >
                     {line.text || '\u00A0'}
                   </div>

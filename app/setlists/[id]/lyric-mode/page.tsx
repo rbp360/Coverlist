@@ -20,6 +20,7 @@ type Setlist = {
   items: Item[];
   projectId: string;
   showNotesAfterLyrics?: boolean;
+  showColourFlip?: boolean;
 };
 type ProjectSong = {
   id: string;
@@ -167,7 +168,9 @@ export default function LyricModePage() {
   const atLast = stepIdx >= steps.length - 1;
 
   return (
-    <div className="flex h-screen flex-col bg-black text-white overflow-x-hidden max-w-screen w-full mx-auto">
+    <div
+      className={`flex h-screen flex-col overflow-x-hidden max-w-screen w-full mx-auto ${setlist?.showColourFlip ? 'bg-white text-black' : 'bg-black text-white'}`}
+    >
       {/* Lyric mode navigation bar only (no global header) */}
       <div
         className="relative flex flex-wrap items-center gap-2 px-2 py-1 text-sm bg-black/80 z-10 max-w-full w-full overflow-x-auto mx-auto"
@@ -225,9 +228,9 @@ export default function LyricModePage() {
             durationMs={(step.song.durationSec ?? 180) * 1000}
             autoStart={false}
             enableHotkeys={true}
-            // Find the next note after this song in the setlist (specific to this song)
+            colourFlip={!!setlist?.showColourFlip}
             appendedNote={(() => {
-              if (!setlist || !(setlist as any).showNotesAfterLyrics) return null;
+              if (!setlist || !setlist.showNotesAfterLyrics) return null;
               const items = [...setlist.items].sort((a, b) => a.order - b.order);
               const songIdx = items.findIndex(
                 (item) => item.type === 'song' && item.songId === step.song.id,

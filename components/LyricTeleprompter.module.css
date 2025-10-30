@@ -9,6 +9,15 @@
   flex-direction: column;
 }
 
+.colourFlip {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.colourFlipText {
+  color: #000 !important;
+}
+
 .viewport {
   position: relative;
   flex: 1 1 auto;

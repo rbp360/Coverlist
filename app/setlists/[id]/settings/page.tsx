@@ -29,6 +29,7 @@ type Setlist = {
   public?: boolean;
   songGapSec?: number;
   showNotesAfterLyrics?: boolean;
+  showColourFlip?: boolean;
 };
 
 export default function SetlistSettingsPage() {
@@ -223,7 +224,11 @@ export default function SetlistSettingsPage() {
             </span>
           </label>
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" disabled />
+            <input
+              type="checkbox"
+              checked={!!setlist.showColourFlip}
+              onChange={(e) => save({ showColourFlip: e.target.checked })}
+            />
             <span>
               Colour flip
               <span className="block text-xs text-neutral-400">
