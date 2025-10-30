@@ -1,7 +1,22 @@
 'use client';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-type Project = { id: string; name: string };
+// Dayglo color palette (Tailwind + custom)
+const PROJECT_COLORS = [
+  'text-green-400',
+  'text-pink-400', // more dayglo pink
+  'text-orange-400', // orange
+  'text-sky-400', // blue
+  'text-yellow-300', // yellow
+  'text-fuchsia-700', // darker purple (last)
+];
+function getProjectColor(projectId: string, projects: { id: string }[]): string {
+  const idx = projects.findIndex((p) => p.id === projectId);
+  return PROJECT_COLORS[idx % PROJECT_COLORS.length] || 'text-green-400';
+}
+
+type Project = { id: string; name: string; avatarUrl?: string };
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -43,7 +58,20 @@ export default function ProjectsPage() {
       <ul className="divide-y rounded border bg-black text-white">
         {projects.map((p) => (
           <li key={p.id} className="flex items-center justify-between p-3">
-            <div>{p.name}</div>
+            <div className="flex items-center gap-2 min-w-0">
+              {p.avatarUrl ? (
+                <Image
+                  src={p.avatarUrl}
+                  alt="project gif"
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 rounded object-cover flex-none"
+                />
+              ) : null}
+              <span className={`truncate font-semibold ${getProjectColor(p.id, projects)}`}>
+                {p.name}
+              </span>
+            </div>
             <a className="rounded border px-3 py-1 text-sm" href={`/projects/${p.id}`}>
               Open
             </a>

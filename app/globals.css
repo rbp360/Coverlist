@@ -90,6 +90,17 @@ textarea {
   color: #fff;
   border-color: rgb(64 64 64); /* neutral-700 */
 }
+
+select {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: rgb(64 64 64) !important;
+  /* Remove default browser styling for better consistency */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.5rem; /* space for custom arrow if needed */
+}
 /* Placeholder color for dark theme */
 input::placeholder,
 textarea::placeholder {

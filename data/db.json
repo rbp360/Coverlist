@@ -9,9 +9,9 @@
       "name": "Roberto",
       "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
       "spotify": {
-        "accessToken": "BQAsHp0QR46YtbqMaevMT9vklQy2qr9lvbD37ZfODb6u5kUJ58TUCDRhvUwBvaWAcd1X531qn2mhnSbacqRb7oq0lzJzPE0dJb7zd8V-dMNoNAbYdaca2qcU4S4oGkpEOp0so_Sbizp5DsHWeMR-9eNQdOQXPb4GlyZAqOqOBwwT5BoLxdvQpZm3ykzIgfbS5EKaf5iwTQAjPhaYRCKVh2iHtgybN3S3wmLyS3zUfPplzN68mxPaJ1TCkz2vCKOO_nxYvlHMuThLIN4krKrN",
+        "accessToken": "BQAcC0WKgH91m0dcneovrMTFAqCCvjtToB1GyCo5D5Doaee5EADk_F1B3RhfDE537MIEW2fwzDacE0DtsNCGny9WPvUS2Rn6a922zDRxCuH8IES5CkzAAIsEVxTQOZ4o0UHRWxDqL1_IUAYIkyLbrE_IboNDAsfDgAfAZ2cbeizB2CSkKFNpxUjmt_kYHW2ityFqDA5-9LMB4bXhXtqHsj45xwdi2W3FmzUcs7V6JYGxaXwpkDxlADbtM_SS156Jck2I2N2zznHuHLs9rKDi",
         "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
-        "expiresAt": 1761717927805,
+        "expiresAt": 1761788154656,
         "scope": "playlist-modify-private playlist-modify-public",
         "tokenType": "Bearer"
       }
@@ -287,6 +287,14 @@
       "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "memberIds": [],
       "createdAt": "2025-10-21T09:21:13.785Z"
+    },
+    {
+      "id": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "name": "enzos",
+      "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "memberIds": [],
+      "createdAt": "2025-10-29T08:04:56.270Z",
+      "avatarUrl": "/api/uploads/dd2b1b19-00e8-4523-9326-d529e91465fe.png"
     }
   ],
   "songs": [
@@ -458,6 +466,123 @@
       "updatedAt": "2025-10-24T05:27:04.610Z",
       "key": "C",
       "tempo": 127
+    },
+    {
+      "id": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Here I Go Again",
+      "artist": "Whitesnake",
+      "durationSec": 349,
+      "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
+      "key": "Dm",
+      "tempo": 128,
+      "createdAt": "2025-10-29T08:13:22.448Z",
+      "updatedAt": "2025-10-29T08:19:54.937Z",
+      "url": "https://open.spotify.com/track/1tQ5TSr1tyeQUbHKBee0jv"
+    },
+    {
+      "id": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Black Night",
+      "artist": "Deep Purple",
+      "durationSec": 288,
+      "mbid": "6a99ce01-1ac0-4ae0-9997-0a8ede605f7b",
+      "url": "https://open.spotify.com/track/1E7oNnsJH79DxtvEDNjIU4",
+      "createdAt": "2025-10-29T08:15:11.227Z",
+      "updatedAt": "2025-10-29T08:15:11.227Z"
+    },
+    {
+      "id": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Don’t Break My Heart Again",
+      "artist": "Whitesnake",
+      "durationSec": 243,
+      "mbid": "d9bcd7c4-a1d4-4362-ae05-763e7382dceb",
+      "isrc": "GB01A1100187",
+      "url": "https://open.spotify.com/track/0ncf2ieRSLMJk5F6K3EFCD",
+      "createdAt": "2025-10-29T08:15:12.330Z",
+      "updatedAt": "2025-10-29T08:15:12.330Z"
+    },
+    {
+      "id": "46071d93-22a8-41e3-b45e-e41efdf76751",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Highway Star",
+      "artist": "Deep Purple",
+      "durationSec": 370,
+      "mbid": "ef4b4163-adc5-4165-9b14-c7dd378e61c2",
+      "isrc": "USRH12302687",
+      "url": "https://open.spotify.com/track/79iqhAauL0vjOXtZvf0Hy5",
+      "createdAt": "2025-10-29T08:15:51.929Z",
+      "updatedAt": "2025-10-29T08:15:51.929Z"
+    },
+    {
+      "id": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Holy Diver",
+      "artist": "Dio",
+      "durationSec": 352,
+      "mbid": "10e39239-3150-42d1-bd71-6b8e6a1c2e16",
+      "url": "https://open.spotify.com/track/54yLLvpezvPO1lA3GspiZj",
+      "createdAt": "2025-10-29T08:15:52.944Z",
+      "updatedAt": "2025-10-29T08:15:52.944Z"
+    },
+    {
+      "id": "40fb96e8-2f14-47fb-97fd-ae2a37b4cf5d",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "It’s My Life",
+      "artist": "Bon Jovi",
+      "durationSec": 224,
+      "mbid": "0afa4f4a-af47-4efc-82c4-e71a94c2fbf6",
+      "isrc": "GBCAD1300444",
+      "url": "https://open.spotify.com/track/3XLe0P5j4hT5rKYnSNXAP0",
+      "createdAt": "2025-10-29T08:15:53.357Z",
+      "updatedAt": "2025-10-29T08:15:53.357Z"
+    },
+    {
+      "id": "56649a8f-5c7d-488b-b101-8df07daeb64b",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Might Just Take Your Life",
+      "artist": "Deep Purple",
+      "durationSec": 279,
+      "mbid": "ad528c07-ae9f-4600-8f97-338a411c0afc",
+      "isrc": "CDDXG0400002",
+      "url": "https://open.spotify.com/track/2CCabtrP0Y8JNYuV0mo8w8",
+      "createdAt": "2025-10-29T08:15:54.150Z",
+      "updatedAt": "2025-10-29T08:15:54.150Z"
+    },
+    {
+      "id": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Smoke on the Water",
+      "artist": "Deep Purple",
+      "durationSec": 341,
+      "mbid": "ee8a3d90-656a-45a2-af38-a14ec40a76e7",
+      "url": "https://open.spotify.com/track/5MMnwYs0hIxkENRsbkWJ2G",
+      "createdAt": "2025-10-29T08:15:54.835Z",
+      "updatedAt": "2025-10-29T08:15:54.835Z"
+    },
+    {
+      "id": "f2c325f6-a4c5-4a1d-812e-6dfc55086eac",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Would I Lie to You",
+      "artist": "Whitesnake",
+      "durationSec": 269,
+      "mbid": "ed10eb09-c59e-4454-8604-436899654bc0",
+      "isrc": "GB01A8100007",
+      "url": "https://open.spotify.com/track/06yvn5UIUOMhcVbxPXEv4E",
+      "createdAt": "2025-10-29T08:15:55.384Z",
+      "updatedAt": "2025-10-29T08:15:55.384Z"
+    },
+    {
+      "id": "2812d149-7093-40a1-9e43-c86be064bb4f",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "You Give Love a Bad Name",
+      "artist": "Bon Jovi",
+      "durationSec": 235,
+      "mbid": "f66a8576-9047-47c5-b5b2-52afe1ed154c",
+      "url": "https://open.spotify.com/track/6rCHGKyJNcAeN00ivrbpy8",
+      "createdAt": "2025-10-29T08:15:56.135Z",
+      "updatedAt": "2025-10-29T08:15:56.135Z"
     }
   ],
   "setlists": [
@@ -712,6 +837,187 @@
       "createdAt": "2025-10-28T01:45:49.871Z",
       "updatedAt": "2025-10-28T01:45:49.871Z",
       "public": false
+    },
+    {
+      "id": "5a38c6c1-033d-4abc-86b9-960a69c422c3",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "name": "rehearsal list",
+      "showArtist": true,
+      "showKey": false,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": false,
+      "items": [
+        {
+          "id": "f8714c36-86f0-4fae-b40a-cdd5b062b33f",
+          "type": "song",
+          "order": 0,
+          "songId": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+          "title": "Here I Go Again",
+          "artist": "Whitesnake",
+          "durationSec": 349
+        },
+        {
+          "id": "f09946e7-a86b-4282-9b52-dba34f5b8e79",
+          "type": "song",
+          "order": 1,
+          "songId": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
+          "title": "Black Night",
+          "artist": "Deep Purple",
+          "durationSec": 288
+        },
+        {
+          "id": "d5a82ea4-daa6-46c9-a685-521c6ce3f60b",
+          "type": "song",
+          "order": 2,
+          "songId": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
+          "title": "Don’t Break My Heart Again",
+          "artist": "Whitesnake",
+          "durationSec": 243
+        },
+        {
+          "id": "b5345434-0523-493a-9cd8-db0badc76b19",
+          "type": "song",
+          "order": 3,
+          "songId": "46071d93-22a8-41e3-b45e-e41efdf76751",
+          "title": "Highway Star",
+          "artist": "Deep Purple",
+          "durationSec": 370
+        },
+        {
+          "id": "d66d7635-7433-4787-9a17-17780a924d93",
+          "type": "song",
+          "order": 4,
+          "songId": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
+          "title": "Holy Diver",
+          "artist": "Dio",
+          "durationSec": 352
+        },
+        {
+          "id": "2c047b06-9e44-4ab1-8957-cedf63e5f956",
+          "type": "song",
+          "order": 5,
+          "songId": "40fb96e8-2f14-47fb-97fd-ae2a37b4cf5d",
+          "title": "It’s My Life",
+          "artist": "Bon Jovi",
+          "durationSec": 224
+        },
+        {
+          "id": "898c2c6d-14a0-4127-a731-ec93cc40d20e",
+          "type": "song",
+          "order": 6,
+          "songId": "56649a8f-5c7d-488b-b101-8df07daeb64b",
+          "title": "Might Just Take Your Life",
+          "artist": "Deep Purple",
+          "durationSec": 279
+        },
+        {
+          "id": "f443dd2e-4ad9-4beb-a323-0d5b82f81b29",
+          "type": "song",
+          "order": 7,
+          "songId": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
+          "title": "Smoke on the Water",
+          "artist": "Deep Purple",
+          "durationSec": 341
+        },
+        {
+          "id": "32a0fc74-f3f5-4cfc-86c8-55a1c9179836",
+          "type": "song",
+          "order": 8,
+          "songId": "f2c325f6-a4c5-4a1d-812e-6dfc55086eac",
+          "title": "Would I Lie to You",
+          "artist": "Whitesnake",
+          "durationSec": 269
+        },
+        {
+          "id": "1c0d19c0-608b-4eb4-9822-2871876f538a",
+          "type": "song",
+          "order": 9,
+          "songId": "2812d149-7093-40a1-9e43-c86be064bb4f",
+          "title": "You Give Love a Bad Name",
+          "artist": "Bon Jovi",
+          "durationSec": 235
+        }
+      ],
+      "createdAt": "2025-10-29T08:20:54.907Z",
+      "updatedAt": "2025-10-29T08:21:18.134Z",
+      "public": false
+    },
+    {
+      "id": "c09f9675-90b8-4583-8b3b-b87ac8d5c5bf",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "name": "New Setlist",
+      "showArtist": true,
+      "showKey": false,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": false,
+      "items": [
+        {
+          "id": "2789c3f6-b347-4240-a7be-e9df9bdee61c",
+          "type": "section",
+          "order": 0,
+          "title": "Set 1"
+        },
+        {
+          "id": "3a8e4b0d-2ab9-4a40-89f4-fe814ec02f23",
+          "type": "song",
+          "order": 1,
+          "songId": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+          "title": "Here I Go Again",
+          "artist": "Whitesnake",
+          "durationSec": 349
+        },
+        {
+          "id": "8465a5e9-459a-49cc-9e80-351757d2c8a1",
+          "type": "section",
+          "order": 2,
+          "title": "Set 2"
+        },
+        {
+          "id": "a8375a3d-1679-4f1a-83f6-eaf664fedafb",
+          "type": "song",
+          "order": 3,
+          "songId": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
+          "title": "Black Night",
+          "artist": "Deep Purple",
+          "durationSec": 288
+        },
+        {
+          "id": "60598e89-2509-456e-9b62-e03caf540c2f",
+          "type": "song",
+          "order": 4,
+          "songId": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
+          "title": "Don’t Break My Heart Again",
+          "artist": "Whitesnake",
+          "durationSec": 243
+        },
+        {
+          "id": "63bf69d7-726d-4be7-b426-d1dca7fdcc57",
+          "type": "song",
+          "order": 5,
+          "songId": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
+          "title": "Holy Diver",
+          "artist": "Dio",
+          "durationSec": 352
+        },
+        {
+          "id": "289159df-b33a-4825-88eb-df6cc946f426",
+          "type": "song",
+          "order": 6,
+          "songId": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
+          "title": "Smoke on the Water",
+          "artist": "Deep Purple",
+          "durationSec": 341
+        },
+        {
+          "id": "4db1d012-63fd-4944-9f2b-9fa37aabbd9b",
+          "type": "section",
+          "order": 7,
+          "title": "Encore"
+        }
+      ],
+      "createdAt": "2025-10-29T13:32:07.849Z",
+      "updatedAt": "2025-10-29T13:32:44.569Z",
+      "public": false
     }
   ],
   "invites": [
@@ -776,6 +1082,11 @@
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
       "instruments": ["Drums"]
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "instruments": ["Vocals", "Bass Guitar", "Electric Guitar"]
     }
   ],
   "projectPractice": [
@@ -844,6 +1155,80 @@
       "passes": 3,
       "rating": 0,
       "lastRehearsed": "2025-09-20"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 3
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 4,
+      "lastRehearsed": "2025-10-29"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 4
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "46071d93-22a8-41e3-b45e-e41efdf76751",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 4,
+      "lastRehearsed": "2025-10-29"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 3,
+      "lastRehearsed": "2025-10-29"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "40fb96e8-2f14-47fb-97fd-ae2a37b4cf5d",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 4,
+      "lastRehearsed": "2025-10-29"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "56649a8f-5c7d-488b-b101-8df07daeb64b",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 3
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 5
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "f2c325f6-a4c5-4a1d-812e-6dfc55086eac",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 2
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "2812d149-7093-40a1-9e43-c86be064bb4f",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "passes": 0,
+      "rating": 3
     }
   ],
   "repertoireSongs": [
@@ -879,6 +1264,143 @@
       "url": "https://open.spotify.com/track/7ID1s1zlUvISaj7fmaXtW4",
       "createdAt": "2025-10-29T05:05:56.967Z",
       "updatedAt": "2025-10-29T05:05:56.967Z"
+    },
+    {
+      "id": "cd356510-eb9e-47ba-aa8f-755922e33f00",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Don’t Break My Heart Again",
+      "artist": "Whitesnake",
+      "durationSec": 243,
+      "mbid": "d9bcd7c4-a1d4-4362-ae05-763e7382dceb",
+      "isrc": "GB01A1100187",
+      "url": "https://open.spotify.com/track/0ncf2ieRSLMJk5F6K3EFCD",
+      "createdAt": "2025-10-29T08:09:03.269Z",
+      "updatedAt": "2025-10-29T08:09:03.269Z"
+    },
+    {
+      "id": "2442620d-e153-44a5-b61a-3023743ea95f",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Would I Lie to You",
+      "artist": "Whitesnake",
+      "durationSec": 269,
+      "mbid": "ed10eb09-c59e-4454-8604-436899654bc0",
+      "isrc": "GB01A8100007",
+      "url": "https://open.spotify.com/track/06yvn5UIUOMhcVbxPXEv4E",
+      "createdAt": "2025-10-29T08:09:29.831Z",
+      "updatedAt": "2025-10-29T08:09:29.831Z"
+    },
+    {
+      "id": "2bbee27a-f108-43c2-8275-411644d24acf",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Might Just Take Your Life",
+      "artist": "Deep Purple",
+      "durationSec": 279,
+      "mbid": "ad528c07-ae9f-4600-8f97-338a411c0afc",
+      "isrc": "CDDXG0400002",
+      "url": "https://open.spotify.com/track/2CCabtrP0Y8JNYuV0mo8w8",
+      "createdAt": "2025-10-29T08:10:02.823Z",
+      "updatedAt": "2025-10-29T08:10:02.823Z"
+    },
+    {
+      "id": "e00e46ba-58bb-48ae-acb1-b176bd55860a",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Smoke on the Water",
+      "artist": "Deep Purple",
+      "durationSec": 341,
+      "mbid": "ee8a3d90-656a-45a2-af38-a14ec40a76e7",
+      "url": "https://open.spotify.com/track/5MMnwYs0hIxkENRsbkWJ2G",
+      "createdAt": "2025-10-29T08:10:33.110Z",
+      "updatedAt": "2025-10-29T08:10:33.110Z"
+    },
+    {
+      "id": "5a65a673-c855-4846-b017-254880db7822",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Highway Star",
+      "artist": "Deep Purple",
+      "durationSec": 370,
+      "mbid": "ef4b4163-adc5-4165-9b14-c7dd378e61c2",
+      "isrc": "USRH12302687",
+      "url": "https://open.spotify.com/track/79iqhAauL0vjOXtZvf0Hy5",
+      "createdAt": "2025-10-29T08:10:49.147Z",
+      "updatedAt": "2025-10-29T08:10:49.147Z"
+    },
+    {
+      "id": "38d886db-fbca-4b8c-9b7a-36ea206ba325",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Black Night",
+      "artist": "Deep Purple",
+      "durationSec": 288,
+      "mbid": "6a99ce01-1ac0-4ae0-9997-0a8ede605f7b",
+      "url": "https://open.spotify.com/track/1E7oNnsJH79DxtvEDNjIU4",
+      "createdAt": "2025-10-29T08:11:22.408Z",
+      "updatedAt": "2025-10-29T08:11:22.408Z"
+    },
+    {
+      "id": "84d02144-11f3-4246-9bf1-4321caf675a4",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Holy Diver",
+      "artist": "Dio",
+      "durationSec": 352,
+      "mbid": "10e39239-3150-42d1-bd71-6b8e6a1c2e16",
+      "url": "https://open.spotify.com/track/54yLLvpezvPO1lA3GspiZj",
+      "createdAt": "2025-10-29T08:11:39.190Z",
+      "updatedAt": "2025-10-29T08:11:39.190Z"
+    },
+    {
+      "id": "b1325e03-2ee3-4a1b-a0a5-4a8b84c3960f",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "It’s My Life",
+      "artist": "Bon Jovi",
+      "durationSec": 224,
+      "mbid": "0afa4f4a-af47-4efc-82c4-e71a94c2fbf6",
+      "isrc": "GBCAD1300444",
+      "url": "https://open.spotify.com/track/3XLe0P5j4hT5rKYnSNXAP0",
+      "createdAt": "2025-10-29T08:11:58.650Z",
+      "updatedAt": "2025-10-29T08:11:58.650Z"
+    },
+    {
+      "id": "46fa11fb-6132-4502-8e8b-dd298aea6c11",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "You Give Love a Bad Name",
+      "artist": "Bon Jovi",
+      "durationSec": 235,
+      "mbid": "f66a8576-9047-47c5-b5b2-52afe1ed154c",
+      "url": "https://open.spotify.com/track/6rCHGKyJNcAeN00ivrbpy8",
+      "createdAt": "2025-10-29T08:12:13.464Z",
+      "updatedAt": "2025-10-29T08:12:13.464Z"
+    },
+    {
+      "id": "466b7331-44b0-4b19-b7ca-f312128f4a1a",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Love, Love, Love, Love, Love",
+      "artist": "The Music Explosion",
+      "durationSec": 164,
+      "mbid": "ad0c8544-b033-4cdc-863b-a33bb8cc178c",
+      "url": "https://open.spotify.com/track/6EIq4LyoFOsxGmo3Xe8wqG",
+      "createdAt": "2025-10-29T08:30:46.437Z",
+      "updatedAt": "2025-10-29T08:30:46.437Z"
+    },
+    {
+      "id": "b1c3557c-e881-436c-8c70-f348b83f90ac",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Innocent Eyes (The Luge mix)",
+      "artist": "Delta Goodrem",
+      "durationSec": 309,
+      "mbid": "607ae069-73a1-4376-8d3d-dc03a3f415c7",
+      "url": "https://open.spotify.com/track/4UQRviMnocSSvfnoFlJcqm",
+      "createdAt": "2025-10-29T13:29:32.539Z",
+      "updatedAt": "2025-10-29T13:29:32.539Z"
+    },
+    {
+      "id": "3005244f-165f-42fe-9fdc-4bb461b0d7e7",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "title": "Long Live Rock ’n’ Roll",
+      "artist": "Rainbow",
+      "durationSec": 261,
+      "mbid": "ece30374-2a26-4f67-a2de-cbc243ac2f80",
+      "url": "https://open.spotify.com/track/2lRhq1ZfHNiaVNHkTWeXUv",
+      "createdAt": "2025-10-30T00:36:23.692Z",
+      "updatedAt": "2025-10-30T00:36:23.692Z"
     }
   ],
   "joinRequests": [],
@@ -923,6 +1445,37 @@
       "votes": {
         "08f1e9d5-afdb-42e9-ae02-42b95753a223": "yes"
       }
+    },
+    {
+      "id": "293d5a18-f07a-412a-83a1-36aa377f7c3b",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Long Live Rock ’n’ Roll",
+      "artist": "Rainbow",
+      "durationSec": 261,
+      "mbid": "ece30374-2a26-4f67-a2de-cbc243ac2f80",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-30T00:39:52.530Z"
+    },
+    {
+      "id": "67267d6b-07fa-4597-84be-74ed55a7df98",
+      "projectId": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
+      "title": "Alone",
+      "artist": "Heart",
+      "durationSec": 219,
+      "mbid": "d2c1d3fa-31ae-4fd1-b0be-daf95ee06d21",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-30T00:41:06.500Z"
+    },
+    {
+      "id": "a6875648-10eb-41f2-b859-9a59b09615fc",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Long Live Rock ’n’ Roll",
+      "artist": "Rainbow",
+      "durationSec": 214,
+      "mbid": "0e432594-e817-47d5-933e-b01ab52b5260",
+      "isrc": "GB2DY1400083",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-30T00:42:07.725Z"
     }
   ],
   "personalPractice": [

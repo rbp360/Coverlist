@@ -2,6 +2,22 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
+import TrashIcon from '@/components/TrashIcon';
+
+// Dayglo color palette (Tailwind + custom)
+const PROJECT_COLORS = [
+  'text-green-400', // green
+  'text-pink-400', // more dayglo pink
+  'text-orange-400', // orange
+  'text-sky-400', // blue
+  'text-yellow-300', // yellow
+  'text-fuchsia-700', // darker purple (last)
+];
+function getProjectColor(projectId: string, projects: { id: string }[]): string {
+  const idx = projects.findIndex((p) => p.id === projectId);
+  return PROJECT_COLORS[idx % PROJECT_COLORS.length] || 'text-green-400';
+}
+
 type FlatSong = {
   id: string;
   title: string;
@@ -39,6 +55,9 @@ export default function RepertoireHomePage() {
   const [adding, setAdding] = useState(false);
   const [suggesting, setSuggesting] = useState(false);
   const [todoByProject, setTodoByProject] = useState<Record<string, Set<string>>>({});
+  // Sorting state
+  const [sortBy, setSortBy] = useState<'title' | 'artist' | null>(null);
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
   function buildUrl() {
     return `/api/repertoire/songs?q=${encodeURIComponent(q)}&artist=${encodeURIComponent(artist)}`;
@@ -127,8 +146,20 @@ export default function RepertoireHomePage() {
         });
       }
     }
-    return Array.from(map.values()).sort((a, b) => a.title.localeCompare(b.title));
-  }, [results]);
+    let arr = Array.from(map.values());
+    if (sortBy) {
+      arr = arr.sort((a, b) => {
+        const aVal = (a[sortBy] || '').toLowerCase();
+        const bVal = (b[sortBy] || '').toLowerCase();
+        if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
+        if (aVal > bVal) return sortDir === 'asc' ? 1 : -1;
+        return 0;
+      });
+    } else {
+      arr = arr.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    return arr;
+  }, [results, sortBy, sortDir]);
 
   // Selection helpers
   const toggleSelectAll = () => {
@@ -226,27 +257,9 @@ export default function RepertoireHomePage() {
           value={artist}
           onChange={(e) => setArtist(e.target.value)}
         />
-        <div className="flex gap-2">
-          <button
-            className="rounded bg-black px-3 py-2 text-white"
-            onClick={runSearch}
-            disabled={searching}
-          >
-            {searching ? 'Searching…' : 'Search repertoire'}
-          </button>
-          <Link
-            className="rounded border px-3 py-2 text-center"
-            href="/repertoire/individual-rehearsal"
-            title="Open your personal rehearsal view"
-          >
-            Individual rehearsal mode
-          </Link>
-        </div>
       </div>
 
-      {error && <div className="text-sm text-red-600">{error}</div>}
-
-      <div className="overflow-auto rounded border bg-black text-white">
+      <div className="rounded border bg-black text-white">
         <table className="min-w-full text-sm">
           <thead className="bg-black text-left text-white">
             <tr>
@@ -258,11 +271,40 @@ export default function RepertoireHomePage() {
                   aria-label="Select all songs"
                 />
               </th>
-              <th className="p-2">Title</th>
-              <th className="p-2">Artist</th>
+              <th
+                className="p-2 cursor-pointer select-none hover:underline"
+                onClick={() => {
+                  if (sortBy === 'title') {
+                    setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+                  } else {
+                    setSortBy('title');
+                    setSortDir('asc');
+                  }
+                }}
+                title="Sort by title"
+              >
+                Title
+                {sortBy === 'title' ? (sortDir === 'asc' ? ' ▲' : ' ▼') : ''}
+              </th>
+              <th
+                className="p-2 cursor-pointer select-none hover:underline"
+                onClick={() => {
+                  if (sortBy === 'artist') {
+                    setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+                  } else {
+                    setSortBy('artist');
+                    setSortDir('asc');
+                  }
+                }}
+                title="Sort by artist"
+              >
+                Artist
+                {sortBy === 'artist' ? (sortDir === 'asc' ? ' ▲' : ' ▼') : ''}
+              </th>
               <th className="p-2">Dur</th>
               <th className="p-2">Key</th>
               <th className="p-2">Projects</th>
+              <th className="p-2 w-8">Remove</th>
             </tr>
           </thead>
           <tbody>
@@ -291,13 +333,12 @@ export default function RepertoireHomePage() {
                       .map((p) => (
                         <Link
                           key={p.id}
-                          className="rounded border px-2 py-0.5 text-xs underline"
+                          className={`rounded border px-2 py-0.5 text-xs underline ${getProjectColor(p.id, projects)}`}
                           href={`/projects/${p.id}/repertoire`}
                         >
                           {p.name}
                         </Link>
                       ))}
-                    {/* To-Do only: show italic project labels for projects where this song is only on To-Do */}
                     {projects
                       .filter(
                         (p) =>
@@ -307,18 +348,49 @@ export default function RepertoireHomePage() {
                       .map((p) => (
                         <span
                           key={`todo-${p.id}`}
-                          className="rounded border px-2 py-0.5 text-xs italic text-neutral-300"
+                          className={`rounded border px-2 py-0.5 text-xs italic ${getProjectColor(p.id, projects)}`}
                           title="On project To-Do"
                         >
                           {p.name}
                         </span>
                       ))}
-                    {s.projects.filter((p) => !p.id).length > 0 && (
-                      <span className="rounded border px-2 py-0.5 text-xs text-neutral-400">
-                        Repertoire
-                      </span>
-                    )}
                   </div>
+                </td>
+                <td className="p-2">
+                  <button
+                    className="text-red-500 hover:text-red-700 p-1"
+                    title="Remove from my repertoire"
+                    onClick={async () => {
+                      if (
+                        !window.confirm(`Remove '${s.title}' by ${s.artist} from your repertoire?`)
+                      )
+                        return;
+                      try {
+                        const res = await fetch(
+                          `/api/repertoire/songs/${encodeURIComponent(s.identity)}`,
+                          {
+                            method: 'DELETE',
+                          },
+                        );
+                        if (res.ok) {
+                          setResults((prev) =>
+                            prev.filter((song) => {
+                              const norm = (str: string) => str.trim().toLowerCase();
+                              const identity =
+                                song.mbid || `${norm(song.title)}|${norm(song.artist)}`;
+                              return identity !== s.identity;
+                            }),
+                          );
+                        } else {
+                          alert('Failed to remove song');
+                        }
+                      } catch {
+                        alert('Failed to remove song');
+                      }
+                    }}
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                  </button>
                 </td>
               </tr>
             ))}
@@ -333,8 +405,8 @@ export default function RepertoireHomePage() {
         </table>
       </div>
 
-      {/* Add to projects / suggest to To-Do controls */}
-      <div className="flex flex-wrap items-center gap-2">
+      {/* Add to projects / suggest to To-Do controls in a card */}
+      <div className="rounded border bg-black p-4 mt-4 flex flex-wrap items-center gap-2">
         <label className="text-sm text-neutral-300">Add selected to projects:</label>
         <select
           className="rounded border bg-black px-2 py-1 text-white"
@@ -344,9 +416,10 @@ export default function RepertoireHomePage() {
             setTargetProjectIds(Array.from(e.target.selectedOptions).map((o) => o.value))
           }
           aria-label="Choose projects to add the selected songs to"
+          style={{ minWidth: 180, maxWidth: 320 }}
         >
           {projects.map((p) => (
-            <option key={p.id} value={p.id}>
+            <option key={p.id} value={p.id} className={getProjectColor(p.id, projects)}>
               {p.name}
             </option>
           ))}
