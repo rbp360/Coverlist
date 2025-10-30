@@ -638,15 +638,22 @@
           "title": "Encore"
         },
         {
+          "id": "3a2584d3-c60e-4d63-b697-674bb0de0040",
+          "type": "break",
+          "order": 6,
+          "title": "Break",
+          "durationSec": 600
+        },
+        {
           "id": "7afcba0b-f129-4312-9dc5-61b682502ffd",
           "type": "note",
-          "order": 6,
+          "order": 7,
           "note": "1/2 step down"
         },
         {
           "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
           "type": "song",
-          "order": 7,
+          "order": 8,
           "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
           "title": "Hey Jude",
           "artist": "The Beatles",
@@ -655,13 +662,13 @@
         {
           "id": "a908c3de-9959-4b19-b9ab-5b256fe4f9c5",
           "type": "note",
-          "order": 8,
+          "order": 9,
           "note": "1/2 step down"
         },
         {
           "id": "f5100cc2-f4a2-4001-b399-6fe330d57217",
           "type": "song",
-          "order": 9,
+          "order": 10,
           "songId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
           "title": "Here I Go Again",
           "artist": "Whitesnake",
@@ -670,12 +677,12 @@
         {
           "id": "3023d8e7-02ca-43dc-a594-a449988f8698",
           "type": "section",
-          "order": 10,
+          "order": 11,
           "title": "custom set section"
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-29T06:12:43.993Z",
+      "updatedAt": "2025-10-30T10:20:12.883Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,
