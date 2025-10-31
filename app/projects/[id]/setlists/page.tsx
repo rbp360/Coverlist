@@ -79,10 +79,16 @@ export default function ProjectSetlistsPage() {
         </div>
       )}
       <div className="flex flex-wrap items-center gap-2">
+        <label htmlFor="new-setlist-input" className="sr-only">
+          Setlist name
+        </label>
         <input
+          id="new-setlist-input"
           className="flex-1 rounded border px-3 py-2"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          placeholder="New Setlist"
+          title="Setlist name"
         />
         <button
           className="rounded border border-green-500 bg-green-600 px-3 py-2 text-white transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
