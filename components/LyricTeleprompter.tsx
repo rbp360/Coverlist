@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { LiveClock } from '@/app/setlists/[id]/lyric-mode/page';
 import { fetchSyncedLyricsLRCLib, findActiveIndex, LyricLine } from '@/lib/lyrics';
 
 import styles from './LyricTeleprompter.module.css';
@@ -12,6 +13,7 @@ type ExternalClock = {
 };
 
 export type LyricTeleprompterProps = {
+  showLiveClock?: boolean;
   spotifyId?: string; // for future integration; prefer isrc when available
   isrc?: string;
   durationMs: number;
@@ -346,6 +348,16 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
                 Stop
               </span>
             </button>
+            {props.showLiveClock && (
+              <span
+                style={{ marginLeft: '1.2em', verticalAlign: 'middle', display: 'inline-block' }}
+              >
+                <LiveClock
+                  colourFlip={!!props.colourFlip}
+                  style={{ fontSize: '2em', lineHeight: 1 }}
+                />
+              </span>
+            )}
           </>
         )}
         {externalClock && <span>External clock: {state}</span>}

@@ -60,10 +60,19 @@ export default function SetlistSettingsPage() {
   }, [id]);
 
   async function save(next: Partial<Setlist>) {
+    setSetlist((prev) => (prev ? { ...prev, ...next } : prev));
+    // Always send all lyric mode settings to backend for reliable persistence
+    const fullLyricSettings = (prev: Setlist | null) => ({
+      showNotesAfterLyrics: next.showNotesAfterLyrics ?? prev?.showNotesAfterLyrics ?? false,
+      showColourFlip: next.showColourFlip ?? prev?.showColourFlip ?? false,
+      showWhatWhere: next.showWhatWhere ?? prev?.showWhatWhere ?? false,
+      showLiveClock: next.showLiveClock ?? prev?.showLiveClock ?? false,
+    });
+    const merged = setlist ? { ...setlist, ...next, ...fullLyricSettings(setlist) } : next;
     const res = await fetch(`/api/setlists/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(next),
+      body: JSON.stringify(merged),
     });
     if (res.ok) setSetlist(await res.json());
   }
@@ -214,8 +223,15 @@ export default function SetlistSettingsPage() {
           <label className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
-              checked={!!(setlist as any).showNotesAfterLyrics}
-              onChange={(e) => save({ showNotesAfterLyrics: e.target.checked })}
+              checked={!!setlist.showNotesAfterLyrics}
+              onChange={(e) =>
+                save({
+                  showNotesAfterLyrics: e.target.checked,
+                  showColourFlip: !!setlist.showColourFlip,
+                  showWhatWhere: !!setlist.showWhatWhere,
+                  showLiveClock: !!setlist.showLiveClock,
+                })
+              }
             />
             <span>
               Display notes after lyrics
@@ -229,7 +245,14 @@ export default function SetlistSettingsPage() {
             <input
               type="checkbox"
               checked={!!setlist.showColourFlip}
-              onChange={(e) => save({ showColourFlip: e.target.checked })}
+              onChange={(e) =>
+                save({
+                  showNotesAfterLyrics: !!setlist.showNotesAfterLyrics,
+                  showColourFlip: e.target.checked,
+                  showWhatWhere: !!setlist.showWhatWhere,
+                  showLiveClock: !!setlist.showLiveClock,
+                })
+              }
             />
             <span>
               Colour flip
@@ -242,7 +265,14 @@ export default function SetlistSettingsPage() {
             <input
               type="checkbox"
               checked={!!setlist.showWhatWhere}
-              onChange={(e) => save({ showWhatWhere: e.target.checked })}
+              onChange={(e) =>
+                save({
+                  showNotesAfterLyrics: !!setlist.showNotesAfterLyrics,
+                  showColourFlip: !!setlist.showColourFlip,
+                  showWhatWhere: e.target.checked,
+                  showLiveClock: !!setlist.showLiveClock,
+                })
+              }
             />
             <span>
               What and Where appear
@@ -256,7 +286,14 @@ export default function SetlistSettingsPage() {
             <input
               type="checkbox"
               checked={!!setlist.showLiveClock}
-              onChange={(e) => save({ showLiveClock: e.target.checked })}
+              onChange={(e) =>
+                save({
+                  showNotesAfterLyrics: !!setlist.showNotesAfterLyrics,
+                  showColourFlip: !!setlist.showColourFlip,
+                  showWhatWhere: !!setlist.showWhatWhere,
+                  showLiveClock: e.target.checked,
+                })
+              }
             />
             <span>
               Show live clock

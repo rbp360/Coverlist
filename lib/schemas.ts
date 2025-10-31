@@ -65,6 +65,10 @@ export const setlistUpdateSchema = z.object({
   time: z.string().optional(),
   addGapAfterEachSong: z.boolean().optional(),
   public: z.boolean().optional(),
+  showNotesAfterLyrics: z.boolean().optional(),
+  showColourFlip: z.boolean().optional(),
+  showWhatWhere: z.boolean().optional(),
+  showLiveClock: z.boolean().optional(),
 });
 
 export const settingsSchema = z.object({

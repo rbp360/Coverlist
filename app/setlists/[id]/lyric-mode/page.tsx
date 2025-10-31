@@ -4,7 +4,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 // ...existing code...
 // LiveClock component: shows current time in green, updates every second
-function LiveClock({ colourFlip }: { colourFlip: boolean }) {
+// Exported for use in LyricTeleprompter
+export function LiveClock({
+  colourFlip,
+  style,
+}: {
+  colourFlip: boolean;
+  style?: React.CSSProperties;
+}) {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 1000);
@@ -18,11 +25,9 @@ function LiveClock({ colourFlip }: { colourFlip: boolean }) {
   return (
     <span
       className={
-        colourFlip
-          ? 'text-green-700 text-xs mt-1 font-mono drop-shadow'
-          : 'text-green-400 text-xs mt-1 font-mono drop-shadow'
+        colourFlip ? 'text-green-700 font-mono drop-shadow' : 'text-green-400 font-mono drop-shadow'
       }
-      style={{ letterSpacing: '0.05em' }}
+      style={{ letterSpacing: '0.05em', ...style }}
     >
       {timeStr}
     </span>
@@ -248,7 +253,6 @@ export default function LyricModePage() {
             <span className="text-base font-semibold text-white" title={step.song.title}>
               {step.song.title}
             </span>
-            {setlist.showLiveClock && <LiveClock colourFlip={!!setlist.showColourFlip} />}
           </div>
         )}
       </div>
@@ -273,6 +277,7 @@ export default function LyricModePage() {
             autoStart={false}
             enableHotkeys={true}
             colourFlip={!!setlist?.showColourFlip}
+            showLiveClock={!!setlist?.showLiveClock}
             appendedNote={(() => {
               if (!setlist || !setlist.showNotesAfterLyrics) return null;
               const items = [...setlist.items].sort((a, b) => a.order - b.order);

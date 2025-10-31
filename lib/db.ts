@@ -66,6 +66,10 @@ function readDB(): DB {
     public: s.public ?? false,
     showKey: s.showKey ?? false,
     songGapSec: s.songGapSec ?? undefined,
+    showNotesAfterLyrics: s.showNotesAfterLyrics ?? false,
+    showColourFlip: s.showColourFlip ?? false,
+    showWhatWhere: s.showWhatWhere ?? false,
+    showLiveClock: s.showLiveClock ?? false,
   }));
   return parsed as DB;
 }

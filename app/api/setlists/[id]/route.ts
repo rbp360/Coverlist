@@ -46,6 +46,12 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       ? { addGapAfterEachSong: parsed.data.addGapAfterEachSong }
       : {}),
     ...('public' in parsed.data ? { public: parsed.data.public } : {}),
+    ...('showNotesAfterLyrics' in parsed.data
+      ? { showNotesAfterLyrics: parsed.data.showNotesAfterLyrics }
+      : {}),
+    ...('showColourFlip' in parsed.data ? { showColourFlip: parsed.data.showColourFlip } : {}),
+    ...('showWhatWhere' in parsed.data ? { showWhatWhere: parsed.data.showWhatWhere } : {}),
+    ...('showLiveClock' in parsed.data ? { showLiveClock: parsed.data.showLiveClock } : {}),
     updatedAt: new Date().toISOString(),
   };
   // Enforce role-based permissions

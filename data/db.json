@@ -708,12 +708,16 @@
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-10-30T10:42:33.578Z",
+      "updatedAt": "2025-10-31T03:48:24.529Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,
       "showKey": false,
-      "songGapSec": 20
+      "songGapSec": 20,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": true
     },
     {
       "id": "a71f897c-305f-472b-ac50-596c8002df22",
@@ -748,7 +752,11 @@
       "createdAt": "2025-10-21T09:16:33.799Z",
       "updatedAt": "2025-10-21T09:16:33.799Z",
       "public": false,
-      "showKey": false
+      "showKey": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
     },
     {
       "id": "8153c54d-f4e6-4279-a733-77d714049ef9",
@@ -788,7 +796,11 @@
       "public": true,
       "date": "2026-11-05",
       "venue": "whiskey a Go GO",
-      "showKey": false
+      "showKey": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
     },
     {
       "id": "c69a1a2e-b1a8-4ddd-a696-0049286b6972",
@@ -869,7 +881,11 @@
       ],
       "createdAt": "2025-10-28T01:45:49.871Z",
       "updatedAt": "2025-10-28T01:45:49.871Z",
-      "public": false
+      "public": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
     },
     {
       "id": "5a38c6c1-033d-4abc-86b9-960a69c422c3",
@@ -973,7 +989,11 @@
       ],
       "createdAt": "2025-10-29T08:20:54.907Z",
       "updatedAt": "2025-10-29T08:21:18.134Z",
-      "public": false
+      "public": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
     },
     {
       "id": "c09f9675-90b8-4583-8b3b-b87ac8d5c5bf",
@@ -1050,7 +1070,11 @@
       ],
       "createdAt": "2025-10-29T13:32:07.849Z",
       "updatedAt": "2025-10-29T13:32:44.569Z",
-      "public": false
+      "public": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
     }
   ],
   "invites": [
