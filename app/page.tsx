@@ -36,10 +36,7 @@ export default function LandingPage() {
         <div className="mt-2 text-base italic text-green-300 font-medium">
           &quot;Play Smarter. Rehearse Better. Perform Flawlessly.&quot;
         </div>
-        {/* Animated dashboard mockup */}
-        <div className="mt-10 flex justify-center">
-          <AnimatedDashboardDemo />
-        </div>
+        {/* (Video moved to bottom of page) */}
       </section>
 
       {/* Introduction / Overview Section */}
@@ -154,6 +151,19 @@ export default function LandingPage() {
           SongDeck — More Music. Less Admin.
         </div>
       </section>
+      {/* Hero animation video at bottom */}
+      <div className="mt-10 flex justify-center">
+        <video
+          src="/video/SD%20vid.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full max-w-xl md:max-w-lg h-auto object-cover rounded-lg shadow-lg border-4 border-green-700"
+          style={{ maxWidth: '65%' }}
+          poster="/images/hero-band-bg.jpg"
+        />
+      </div>
     </main>
   );
 }
