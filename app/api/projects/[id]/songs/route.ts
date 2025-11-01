@@ -49,6 +49,36 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     updatedAt: now,
   };
   db.createSong(song as any);
+
+  // Also add to each project member's individual repertoire if not already present
+  // Get all project members (including owner)
+  const memberIds = [project.ownerId, ...(project.memberIds || [])];
+  for (const userId of memberIds) {
+    // Check if song already in user's repertoire (by title+artist)
+    const rep = db.listRepertoire(userId);
+    const exists = rep.some(
+      (s) =>
+        s.title.trim().toLowerCase() === song.title.trim().toLowerCase() &&
+        s.artist.trim().toLowerCase() === song.artist.trim().toLowerCase(),
+    );
+    if (!exists) {
+      db.createRepertoireSong({
+        id: uuid(),
+        userId,
+        title: song.title,
+        artist: song.artist,
+        durationSec: song.durationSec,
+        mbid: song.mbid,
+        isrc: song.isrc,
+        key: song.key,
+        tempo: song.tempo,
+        notes: song.notes,
+        url: song.url,
+        createdAt: song.createdAt,
+        updatedAt: song.updatedAt,
+      });
+    }
+  }
   return NextResponse.json(song, { status: 201 });
 }
 
