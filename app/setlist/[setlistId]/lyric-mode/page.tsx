@@ -4,70 +4,66 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import LyricTeleprompter from '@/components/LyricTeleprompter';
 
-// LiveClock component: shows current time in green, updates every second
-export function LiveClock({
-  colourFlip,
-  style,
-}: {
-  colourFlip: boolean;
-  style?: React.CSSProperties;
-}) {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-  const timeStr = now.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-  return (
-    <span
-      className={
-        colourFlip ? 'text-green-700 font-mono drop-shadow' : 'text-green-400 font-mono drop-shadow'
-      }
-      style={{ letterSpacing: '0.05em', ...style }}
-    >
-      {timeStr}
-    </span>
-  );
-}
-
-type Item = {
-  id: string;
-  type: 'song' | 'break' | 'note' | 'section';
-  order: number;
-  title?: string;
-  artist?: string;
-  durationSec?: number;
-  songId?: string;
-  note?: string;
-};
-type Setlist = {
-  id: string;
-  name: string;
-  items: Item[];
-  projectId: string;
-  showNotesAfterLyrics?: boolean;
-  showColourFlip?: boolean;
-  showWhatWhere?: boolean;
-  showLiveClock?: boolean;
-  date?: string;
-  venue?: string;
-};
-type ProjectSong = {
-  id: string;
-  title: string;
-  artist: string;
-  durationSec?: number;
-  isrc?: string;
-};
-type Step =
-  | { kind: 'song'; setIndex: number; setTitle?: string; song: ProjectSong }
-  | { kind: 'endOfSet'; setIndex: number; setTitle?: string };
-
 export default function LyricModePage() {
+  // LiveClock component: shows current time in green, updates every second
+  function LiveClock({ colourFlip, style }: { colourFlip: boolean; style?: React.CSSProperties }) {
+    const [now, setNow] = useState(() => new Date());
+    useEffect(() => {
+      const timer = setInterval(() => setNow(new Date()), 1000);
+      return () => clearInterval(timer);
+    }, []);
+    const timeStr = now.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+    return (
+      <span
+        className={
+          colourFlip
+            ? 'text-green-700 font-mono drop-shadow'
+            : 'text-green-400 font-mono drop-shadow'
+        }
+        style={{ letterSpacing: '0.05em', ...style }}
+      >
+        {timeStr}
+      </span>
+    );
+  }
+
+  // Type definitions (only once, outside the component)
+  type Item = {
+    id: string;
+    type: 'song' | 'break' | 'note' | 'section';
+    order: number;
+    title?: string;
+    artist?: string;
+    durationSec?: number;
+    songId?: string;
+    note?: string;
+  };
+  type Setlist = {
+    id: string;
+    name: string;
+    items: Item[];
+    projectId: string;
+    showNotesAfterLyrics?: boolean;
+    showColourFlip?: boolean;
+    showWhatWhere?: boolean;
+    showLiveClock?: boolean;
+    date?: string;
+    venue?: string;
+  };
+  type ProjectSong = {
+    id: string;
+    title: string;
+    artist: string;
+    durationSec?: number;
+    isrc?: string;
+  };
+  type Step =
+    | { kind: 'song'; setIndex: number; setTitle?: string; song: ProjectSong }
+    | { kind: 'endOfSet'; setIndex: number; setTitle?: string };
   const { setlistId } = useParams<{ setlistId: string }>();
   const router = useRouter();
   const [setlist, setSetlist] = useState<Setlist | null>(null);
