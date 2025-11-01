@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { LiveClock } from '@/app/setlists/[id]/lyric-mode/page';
+// import { LiveClock } from '@/app/setlists/[id]/lyric-mode/page';
 import { fetchSyncedLyricsLRCLib, findActiveIndex, LyricLine } from '@/lib/lyrics';
 
 import styles from './LyricTeleprompter.module.css';
@@ -273,6 +273,32 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
 
   // Show appended note after lyrics end, if provided
   const showAppendedNote = state === 'ended' && props.appendedNote;
+
+  // Add local LiveClock component
+  function LiveClock({ colourFlip, style }: { colourFlip: boolean; style?: React.CSSProperties }) {
+    const [now, setNow] = React.useState(() => new Date());
+    React.useEffect(() => {
+      const timer = setInterval(() => setNow(new Date()), 1000);
+      return () => clearInterval(timer);
+    }, []);
+    const timeStr = now.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+    return (
+      <span
+        className={
+          colourFlip
+            ? 'text-green-700 font-mono drop-shadow'
+            : 'text-green-400 font-mono drop-shadow'
+        }
+        style={{ letterSpacing: '0.05em', ...style }}
+      >
+        {timeStr}
+      </span>
+    );
+  }
 
   return (
     <div

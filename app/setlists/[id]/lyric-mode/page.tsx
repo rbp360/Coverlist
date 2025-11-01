@@ -2,38 +2,6 @@
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 
-// ...existing code...
-// LiveClock component: shows current time in green, updates every second
-// Exported for use in LyricTeleprompter
-export function LiveClock({
-  colourFlip,
-  style,
-}: {
-  colourFlip: boolean;
-  style?: React.CSSProperties;
-}) {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-  const timeStr = now.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-  return (
-    <span
-      className={
-        colourFlip ? 'text-green-700 font-mono drop-shadow' : 'text-green-400 font-mono drop-shadow'
-      }
-      style={{ letterSpacing: '0.05em', ...style }}
-    >
-      {timeStr}
-    </span>
-  );
-}
-
 import LyricTeleprompter from '@/components/LyricTeleprompter';
 
 type Item = {
@@ -65,12 +33,36 @@ type ProjectSong = {
   durationSec?: number;
   isrc?: string;
 };
-
 type Step =
   | { kind: 'song'; setIndex: number; setTitle?: string; song: ProjectSong }
   | { kind: 'endOfSet'; setIndex: number; setTitle?: string };
 
 export default function LyricModePage() {
+  function LiveClock({ colourFlip, style }: { colourFlip: boolean; style?: React.CSSProperties }) {
+    const [now, setNow] = useState(() => new Date());
+    useEffect(() => {
+      const timer = setInterval(() => setNow(new Date()), 1000);
+      return () => clearInterval(timer);
+    }, []);
+    const timeStr = now.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+    return (
+      <span
+        className={
+          colourFlip
+            ? 'text-green-700 font-mono drop-shadow'
+            : 'text-green-400 font-mono drop-shadow'
+        }
+        style={{ letterSpacing: '0.05em', ...style }}
+      >
+        {timeStr}
+      </span>
+    );
+  }
+
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [setlist, setSetlist] = useState<Setlist | null>(null);
@@ -83,7 +75,6 @@ export default function LyricModePage() {
   useEffect(() => {
     setMounted(true);
   }, []);
-  // Allow page scroll in lyric mode so controls are accessible
 
   useEffect(() => {
     let cancelled = false;
@@ -122,9 +113,8 @@ export default function LyricModePage() {
     if (!setlist) return [];
     const byId = new Map(songs.map((s) => [s.id, s] as const));
     const items = [...(setlist.items || [])].sort((a, b) => a.order - b.order);
-
     const result: Step[] = [];
-    let currentSet = 0; // 0 means pre-section block
+    let currentSet = 0;
     let pendingSongs: ProjectSong[] = [];
     const flushBlock = () => {
       if (pendingSongs.length === 0) return;
@@ -135,10 +125,8 @@ export default function LyricModePage() {
       result.push({ kind: 'endOfSet', setIndex, setTitle: undefined });
       pendingSongs = [];
     };
-
     for (const it of items) {
       if (it.type === 'section') {
-        // Close the previous block and start a new set
         flushBlock();
         currentSet += 1;
         continue;
@@ -147,19 +135,14 @@ export default function LyricModePage() {
       const song = it.songId ? byId.get(it.songId) : undefined;
       if (song) pendingSongs.push(song);
     }
-    // Flush trailing
     flushBlock();
-
-    // Edge case: no sections and no songs — nothing to show
     return result;
   }, [setlist, songs]);
 
   useEffect(() => {
-    // Reset to first step when steps change
     setStepIdx(0);
   }, [steps.length]);
 
-  // Page-level hotkeys for prev/next song (placed after steps to have length)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
@@ -202,10 +185,7 @@ export default function LyricModePage() {
   const step = steps[Math.max(0, Math.min(stepIdx, steps.length - 1))];
   const atFirst = stepIdx <= 0;
   const atLast = stepIdx >= steps.length - 1;
-
-  // Show what/where page before first song if enabled
   const showWhatWhere = !!setlist?.showWhatWhere && stepIdx === 0 && step.kind === 'song';
-  // Show what/where during breaks (endOfSet)
   const showWhatWhereBreak = !!setlist?.showWhatWhere && step.kind === 'endOfSet';
 
   return (
@@ -256,7 +236,6 @@ export default function LyricModePage() {
           </div>
         )}
       </div>
-
       {/* LyricTeleprompter or End of Set message */}
       <div className="flex-1 flex min-h-0">
         {showWhatWhere ? (
