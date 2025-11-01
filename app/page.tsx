@@ -5,6 +5,7 @@ import AnimatedDashboardDemo from '@/components/AnimatedDashboardDemo';
 export default function LandingPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white">
+      <h1 className="sr-only">SongDeck</h1>
       {/* Hero Section */}
       <section className="relative flex flex-col items-center justify-center text-center py-20 px-4 sm:px-8">
         <div className="absolute inset-0 -z-10">
