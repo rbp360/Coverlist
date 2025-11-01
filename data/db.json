@@ -270,6 +270,12 @@
       "email": "user-1761654958879-firefox-7-vfji21@test.local",
       "passwordHash": "$2b$10$d7UkMV1rbaavPBzcjGb6/eH.IItgmf0KcHpNRD103NYkluxfT4WhS",
       "createdAt": "2025-10-28T12:35:59.513Z"
+    },
+    {
+      "id": "88ab717d-e410-45f3-805b-0c8115eb3fb9",
+      "email": "user-1761974532592-chromium-3-0ihmx7@test.local",
+      "passwordHash": "$2b$10$MoLRb2GVIobV52waNwYUIej/bOJOA6v6uY8NrV0IOnEd7.VoY8WFm",
+      "createdAt": "2025-11-01T05:22:13.583Z"
     }
   ],
   "projects": [
@@ -1539,6 +1545,25 @@
       "mbid": "6a99ce01-1ac0-4ae0-9997-0a8ede605f7b",
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "createdAt": "2025-10-30T04:12:28.229Z"
+    },
+    {
+      "id": "794c8c8e-22af-4719-bc52-d6dc95f4a16b",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Lady Double Dealer",
+      "artist": "Deep Purple",
+      "durationSec": 201,
+      "mbid": "c25a42d8-0e6a-4663-abf4-e0c1dc930d6c",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-11-01T05:16:00.529Z"
+    },
+    {
+      "id": "7a9badc0-8d9f-4a14-973a-2bbd48286c05",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Guilty Of Love",
+      "artist": "Whitesnake",
+      "mbid": "de55af0c-f89a-448e-89bf-fc3eb77d4ac4",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-11-01T05:25:48.962Z"
     }
   ],
   "personalPractice": [

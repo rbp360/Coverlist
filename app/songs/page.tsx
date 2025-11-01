@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 
+import { ThemedAlert } from '../../components/ThemedAlert';
+
 type Result = {
   mbid?: string;
   title: string;
@@ -12,6 +14,7 @@ type Result = {
 type Song = { id: string; title: string; artist: string; mbid?: string };
 
 export default function SongsPage() {
+  const [alertMsg, setAlertMsg] = useState<string | null>(null);
   const [repSongs, setRepSongs] = useState<Song[]>([]); // existing songs in repertoire/projects (for de-dupe)
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
@@ -20,10 +23,14 @@ export default function SongsPage() {
   const [page, setPage] = useState(1);
   const [importing, setImporting] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [projects, setProjects] = useState<Array<{ id: string; name: string }>>([]);
+  // Assign a color to each project for consistent coloring
+  // (moved inside useEffect to avoid dependency warning)
+  const [projects, setProjects] = useState<Array<{ id: string; name: string; color: string }>>([]);
   const [targetProject, setTargetProject] = useState<string>('');
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
+    const projectColors = ['#22c55e', '#eab308', '#3b82f6', '#f43f5e', '#a21caf', '#f59e42'];
     (async () => {
       // Load current repertoire view (aggregated across projects + global repertoire)
       const rs = await fetch(`/api/repertoire/songs?q=&artist=`);
@@ -44,7 +51,11 @@ export default function SongsPage() {
       if (res.ok) {
         const data = await res.json();
         const list = Array.isArray(data) ? data : data?.projects || [];
-        const mapped = list.map((p: any) => ({ id: p.id, name: p.name }));
+        const mapped = list.map((p: any, i: number) => ({
+          id: p.id,
+          name: p.name,
+          color: projectColors[i % projectColors.length],
+        }));
         setProjects(mapped);
         if (mapped.length > 0) setTargetProject(mapped[0].id);
       }
@@ -107,20 +118,34 @@ export default function SongsPage() {
       <div className="flex items-end justify-between gap-2">
         <h2 className="text-2xl font-semibold">Add Songs</h2>
         {projects.length > 0 && (
-          <div className="flex items-center gap-2 text-sm">
-            <label className="text-neutral-300">Suggest to project To-Do:</label>
-            <select
-              className="rounded border bg-black text-white px-2 py-1"
-              value={targetProject}
-              onChange={(e) => setTargetProject(e.target.value)}
-              aria-label="Choose project to suggest songs to"
+          <div className="mb-6 flex items-center gap-3">
+            <button
+              type="button"
+              className="rounded border-2 px-4 py-2 text-base bg-white text-black font-bold"
+              style={{ borderColor: '#22c55e' }}
+              onClick={() => setShowDropdown((v) => !v)}
             >
-              {projects.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
+              {projects.find((p) => p.id === targetProject)?.name
+                ? `Selected project: ${projects.find((p) => p.id === targetProject)?.name}`
+                : 'Pick the project'}
+            </button>
+            {showDropdown && (
+              <div className="absolute mt-2 bg-black text-white border-2 border-green-700 rounded shadow-lg z-30">
+                {projects.map((p) => (
+                  <button
+                    key={p.id}
+                    className={`block w-full text-left px-4 py-2 font-bold ${targetProject === p.id ? 'bg-gray-200' : ''}`}
+                    style={{ color: p.color }}
+                    onClick={() => {
+                      setTargetProject(p.id);
+                      setShowDropdown(false);
+                    }}
+                  >
+                    {p.name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -170,7 +195,11 @@ export default function SongsPage() {
                         {r.release ? ' • ' : ''}
                       </>
                     )}
-                    {r.release && <span className="text-xs text-gray-500">{r.release}</span>}
+                    {r.release && (
+                      <span className="text-xs text-gray-500">
+                        {r.release.length > 50 ? r.release.slice(0, 50) + '...' : r.release}
+                      </span>
+                    )}
                   </div>
                 )}
               </div>
@@ -179,34 +208,68 @@ export default function SongsPage() {
                   className={`rounded border px-3 py-1 text-sm ${imported ? 'opacity-50 cursor-not-allowed' : ''}`}
                   onClick={() => !imported && !isBusy && importSong(r)}
                   disabled={imported || isBusy}
-                  title={imported ? 'Already in your repertoire' : 'Add to repertoire'}
+                  title={imported ? 'Already in your repertoire' : 'Add to my repertoire'}
                 >
-                  {imported ? 'Already added' : isBusy ? 'Adding…' : 'Add to repertoire'}
+                  {imported ? 'Already added' : isBusy ? 'Adding…' : 'Add to my repertoire'}
                 </button>
                 {projects.length > 0 && (
-                  <button
-                    className="rounded border px-3 py-1 text-sm"
-                    onClick={async () => {
-                      if (!targetProject) return;
-                      try {
-                        await fetch(`/api/projects/${targetProject}/todo`, {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            title: r.title,
-                            artist: r.artist,
-                            durationSec: r.durationSec,
-                            mbid: r.mbid,
-                            isrc: r.isrc,
-                          }),
-                        });
-                        alert('Suggested to project To-Do');
-                      } catch {}
-                    }}
-                    title="Suggest this song to the selected project's To-Do"
-                  >
-                    Suggest to To-Do
-                  </button>
+                  <>
+                    <button
+                      className="rounded border px-3 py-1 text-sm"
+                      onClick={async () => {
+                        if (!targetProject) return;
+                        try {
+                          await fetch(`/api/projects/${targetProject}/todo`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              title: r.title,
+                              artist: r.artist,
+                              durationSec: r.durationSec,
+                              mbid: r.mbid,
+                              isrc: r.isrc,
+                            }),
+                          });
+                          setAlertMsg('Suggested to project To-Do');
+                        } catch {}
+                      }}
+                      title="Suggest this song to the selected project's To-Do"
+                    >
+                      Suggest to-do
+                    </button>
+                    <div className="relative group">
+                      <button
+                        className="rounded border px-3 py-1 text-sm bg-green-700 text-white hover:bg-green-800 ml-1"
+                        onClick={async () => {
+                          if (!targetProject) return;
+                          try {
+                            // Add to repertoire first
+                            if (!imported && !isBusy) await importSong(r);
+                            // Then add to project
+                            await fetch(`/api/projects/${targetProject}/songs`, {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({
+                                title: r.title,
+                                artist: r.artist,
+                                durationSec: r.durationSec,
+                                mbid: r.mbid,
+                                isrc: r.isrc,
+                              }),
+                            });
+                            setAlertMsg('Added to your repertoire and project repertoire');
+                          } catch {}
+                        }}
+                        title="Push this song to your repertoire and the selected project's repertoire"
+                      >
+                        Send to project
+                      </button>
+                      <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-64 bg-black text-white text-xs rounded shadow-lg p-2 opacity-0 group-hover:opacity-100 pointer-events-none z-20 border border-gray-700 transition-opacity duration-200">
+                        This will add the song to <b>your repertoire</b> and also to the selected{' '}
+                        <b>project&apos;s repertoire</b> in one click.
+                      </div>
+                    </div>
+                  </>
                 )}
               </div>
             </li>
@@ -245,6 +308,7 @@ export default function SongsPage() {
           </button>
         </div>
       )}
+      {alertMsg && <ThemedAlert message={alertMsg} onClose={() => setAlertMsg(null)} />}
     </div>
   );
 }
