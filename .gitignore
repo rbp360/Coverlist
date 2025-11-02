@@ -11,3 +11,5 @@ npm-debug.log*
 
 # Exclude nested legacy copy to avoid submodule/gitlink issues
 Coverlist/
+
+.vercel
