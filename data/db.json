@@ -276,6 +276,12 @@
       "email": "user-1761974532592-chromium-3-0ihmx7@test.local",
       "passwordHash": "$2b$10$MoLRb2GVIobV52waNwYUIej/bOJOA6v6uY8NrV0IOnEd7.VoY8WFm",
       "createdAt": "2025-11-01T05:22:13.583Z"
+    },
+    {
+      "id": "507d92d8-040a-4c2f-8d7e-57c8b0c9da9a",
+      "email": "user-1762060216029-chromium-3-db1yt4@test.local",
+      "passwordHash": "$2b$10$ku41fMVajAgEv45HSk1c9u3TmNFNq85NBSunBUIJK/XILh9KRmPWe",
+      "createdAt": "2025-11-02T05:10:17.197Z"
     }
   ],
   "projects": [
@@ -612,15 +618,27 @@
       "addGapAfterEachSong": true,
       "items": [
         {
-          "id": "1d43f16d-0b9e-40d6-93e0-ee951b93aeb7",
+          "id": "4ed90127-4406-4225-a957-4400927af531",
           "type": "section",
           "order": 0,
           "title": "Set 1"
         },
         {
+          "id": "3c2d3e0b-3de7-4b9c-8845-227441232558",
+          "type": "section",
+          "order": 1,
+          "title": "Set 2"
+        },
+        {
+          "id": "180f73d7-3655-4cad-b17c-4e5d264dded1",
+          "type": "section",
+          "order": 2,
+          "title": "Set 3"
+        },
+        {
           "id": "0b97a3ae-83e4-4e63-ab7c-1070910ec871",
           "type": "song",
-          "order": 1,
+          "order": 3,
           "songId": "ab0d347e-0184-4a8a-9409-71168a7a36a7",
           "title": "Meant for You",
           "artist": "The Beach Boys",
@@ -629,13 +647,13 @@
         {
           "id": "80991adf-15e9-42fe-bf2a-c6c553eb9fca",
           "type": "note",
-          "order": 2,
+          "order": 4,
           "note": "test note to appear in green after the lyrics"
         },
         {
           "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
           "type": "song",
-          "order": 3,
+          "order": 5,
           "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
           "title": "Jungle of Love",
           "artist": "Lynch Mob",
@@ -645,29 +663,17 @@
         {
           "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
           "type": "note",
-          "order": 4,
+          "order": 6,
           "note": "⬇️ Tune down 1/2 step"
         },
         {
           "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
           "type": "song",
-          "order": 5,
+          "order": 7,
           "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
           "title": "Wonderwall",
           "artist": "Oasis",
           "durationSec": 269
-        },
-        {
-          "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
-          "type": "section",
-          "order": 6,
-          "title": "Set 2"
-        },
-        {
-          "id": "0caa44d3-8f37-4938-9e7d-5b566704e138",
-          "type": "section",
-          "order": 7,
-          "title": "Encore"
         },
         {
           "id": "3a2584d3-c60e-4d63-b697-674bb0de0040",
@@ -705,16 +711,10 @@
           "title": "Here I Go Again",
           "artist": "Whitesnake",
           "durationSec": 349
-        },
-        {
-          "id": "3023d8e7-02ca-43dc-a594-a449988f8698",
-          "type": "section",
-          "order": 13,
-          "title": "custom set section"
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-11-02T03:47:33.598Z",
+      "updatedAt": "2025-11-02T05:11:53.786Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,

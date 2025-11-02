@@ -584,7 +584,7 @@ export default function SetlistEditorPage() {
                 if (!setlistRes.ok) throw new Error('Failed to fetch setlist');
                 const setlistData = await setlistRes.json();
                 // Fetch lyrics for all songs in setlist
-                const lyrics = {};
+                const lyrics: Record<string, string> = {};
                 for (const item of setlistData.items || []) {
                   if (item.type === 'song' && item.songId) {
                     try {
