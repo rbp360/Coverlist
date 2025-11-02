@@ -649,19 +649,19 @@
           "note": "⬇️ Tune down 1/2 step"
         },
         {
-          "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
-          "type": "section",
-          "order": 5,
-          "title": "Set 2"
-        },
-        {
           "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
           "type": "song",
-          "order": 6,
+          "order": 5,
           "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
           "title": "Wonderwall",
           "artist": "Oasis",
           "durationSec": 269
+        },
+        {
+          "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
+          "type": "section",
+          "order": 6,
+          "title": "Set 2"
         },
         {
           "id": "0caa44d3-8f37-4938-9e7d-5b566704e138",
@@ -714,7 +714,7 @@
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-11-01T03:24:15.743Z",
+      "updatedAt": "2025-11-02T03:47:33.598Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,
