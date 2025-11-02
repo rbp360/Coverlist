@@ -130,10 +130,10 @@ export default function SetlistManagePage() {
             Lyric Mode
           </Link>
           <Link
-            className="rounded border px-3 py-3 text-center hover:bg-neutral-900"
-            href={`/setlists/${id}`}
+            className="rounded border px-3 py-3 text-center hover:bg-blue-900 text-blue-400 font-semibold"
+            href={`/setlists/${id}/editor`}
           >
-            Open Editor
+            Open Setlist Editor
           </Link>
           <button
             className="rounded border px-3 py-3 text-center hover:bg-neutral-900"

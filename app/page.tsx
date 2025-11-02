@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import AnimatedDashboardDemo from '@/components/AnimatedDashboardDemo';
+import LandingVideo from '@/components/LandingVideo';
 
 export default function LandingPage() {
   return (
@@ -42,7 +43,7 @@ export default function LandingPage() {
       {/* Introduction / Overview Section */}
       <section className="max-w-4xl mx-auto py-16 px-4 sm:px-8">
         <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-green-400">
-          Everything You Need to Run a Tight Band, All in One App
+          Everything You Need to Plan, Play and Perform - All in One App
         </h2>
         <p className="text-lg text-gray-200 mb-6">
           SongDeck is an all-in-one rehearsal manager, setlist builder, and performance assistant
@@ -94,31 +95,43 @@ export default function LandingPage() {
       <section className="max-w-4xl mx-auto py-12 px-4 sm:px-8">
         <h2 className="text-2xl font-bold mb-4 text-green-300">Why Musicians Love SongDeck</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-base">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">🔁</span>Integrated Spotify playlists
-            <span className="ml-auto text-green-400">
-              Practice and perform with synced playback
+          <div className="flex flex-col items-center bg-gray-900/80 rounded-xl p-5 shadow border border-green-700">
+            <span className="text-3xl mb-2">🔁</span>
+            <span className="font-bold text-lg mb-1">Integrated playlists</span>
+            <span className="text-green-400 text-center">
+              Create setlist playlists with one click
             </span>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">🏷️</span>Song metadata
-            <span className="ml-auto text-green-400">
+          <div className="flex flex-col items-center bg-gray-900/80 rounded-xl p-5 shadow border border-green-700">
+            <span className="text-3xl mb-2">🏷️</span>
+            <span className="font-bold text-lg mb-1">Song metadata</span>
+            <span className="text-green-400 text-center">
               Automatically fetch key, BPM, and duration
             </span>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">🌐</span>Shareable setlists
-            <span className="ml-auto text-green-400">Send to venues, engineers, or fans</span>
+          <div className="flex flex-col items-center bg-gray-900/80 rounded-xl p-5 shadow border border-green-700">
+            <span className="text-3xl mb-2">🌐</span>
+            <span className="font-bold text-lg mb-1">Shareable setlists</span>
+            <span className="text-green-400 text-center">Send to venues, engineers, or fans</span>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">📈</span>Rehearsal analytics
-            <span className="ml-auto text-green-400">
+          <div className="flex flex-col items-center bg-gray-900/80 rounded-xl p-5 shadow border border-green-700">
+            <span className="text-3xl mb-2">📈</span>
+            <span className="font-bold text-lg mb-1">Rehearsal analytics</span>
+            <span className="text-green-400 text-center">
               Track “road-readiness” and song freshness
             </span>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">🪶</span>Offline functionality
-            <span className="ml-auto text-green-400">Always ready, even without Wi-Fi</span>
+          <div className="flex flex-col items-center bg-gray-900/80 rounded-xl p-5 shadow border border-green-700">
+            <span className="text-3xl mb-2">🪶</span>
+            <span className="font-bold text-lg mb-1">Offline functionality</span>
+            <span className="text-green-400 text-center">Always ready, even without Wi-Fi</span>
+          </div>
+          <div className="flex flex-col items-center bg-gray-900/80 rounded-xl p-5 shadow border border-green-700">
+            <span className="text-3xl mb-2">📝</span>
+            <span className="font-bold text-lg mb-1">Setlist editor</span>
+            <span className="text-green-400 text-center">
+              Powerful editing software prints setlist for you
+            </span>
           </div>
         </div>
       </section>
@@ -135,35 +148,10 @@ export default function LandingPage() {
       </section>
 
       {/* Call-to-Action (End of Page) */}
-      <section className="max-w-2xl mx-auto py-16 px-4 sm:px-8 text-center">
-        <h2 className="text-3xl font-bold mb-4 text-green-400">
-          Ready to Simplify Your Rehearsals and Rock Your Next Gig?
-        </h2>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-          <button className="bg-green-500 hover:bg-green-600 text-black font-bold py-3 px-8 rounded-full text-lg shadow-lg transition">
-            👉 Get Started with SongDeck
-          </button>
-          <button className="bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-8 rounded-full text-lg border border-white/20 shadow-lg transition">
-            👉 Watch Demo Video
-          </button>
-        </div>
-        <div className="text-lg italic text-green-300 font-medium mb-2">
-          SongDeck — More Music. Less Admin.
-        </div>
-      </section>
+      {/* Call-to-Action (End of Page) section removed as requested */}
       {/* Hero animation video at bottom */}
-      <div className="mt-10 flex justify-center">
-        <video
-          src="/video/SD%20vid.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full max-w-xl md:max-w-lg h-auto object-cover rounded-lg shadow-lg border-4 border-green-700"
-          style={{ maxWidth: '65%' }}
-          poster="/images/hero-band-bg.jpg"
-        />
-      </div>
+      {/* Client component for interactive video with volume button */}
+      <LandingVideo />
     </main>
   );
 }

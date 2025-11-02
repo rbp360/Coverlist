@@ -37,7 +37,7 @@ type Step =
   | { kind: 'song'; setIndex: number; setTitle?: string; song: ProjectSong }
   | { kind: 'endOfSet'; setIndex: number; setTitle?: string };
 
-export default function LyricModePage() {
+export default function LyricModePageRoute() {
   function LiveClock({ colourFlip, style }: { colourFlip: boolean; style?: React.CSSProperties }) {
     const [now, setNow] = useState(() => new Date());
     useEffect(() => {
