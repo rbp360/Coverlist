@@ -304,7 +304,7 @@ export default function RepertoirePage() {
 
       {/* Jump to To-Do list, Add from My Repertoire, and Export Entire Repertoire cards */}
       <div className="flex flex-row gap-4 mt-4">
-        <div className="flex-1 rounded border bg-black p-4 flex flex-col items-start justify-between">
+        <div className="flex-1 rounded border bg-black p-4 flex flex-col items-center justify-between">
           <div className="mb-2 text-sm text-neutral-600">
             Click to access the To-Do list, see what others in your project have suggested, and give
             them a rating.
@@ -338,21 +338,15 @@ export default function RepertoirePage() {
           >
             Export Entire Repertoire (PDF)
           </button>
-          <button
-            className="rounded bg-black px-3 py-2 text-white border flex flex-col items-center"
-            onClick={async () => {
-              // Show QR code and link for online version
-              const url = `${window.location.origin}/projects/${id}/repertoire/export/public`;
-              await navigator.clipboard.writeText(url);
-              alert('Online repertoire link copied to clipboard!');
-            }}
+          <a
+            className="rounded bg-black px-3 py-2 text-white border text-center cursor-pointer hover:bg-neutral-900 mt-2 mb-2 w-full max-w-xs"
+            href={`/projects/${id}/repertoire/export/public`}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open a shareable, always-up-to-date online version of this repertoire"
           >
-            <span>
-              Copy Online Repertoire
-              <br />
-              QR Link
-            </span>
-          </button>
+            Show Current Repertoire Online
+          </a>
         </div>
       </div>
     </div>

@@ -9,9 +9,9 @@
       "name": "Roberto",
       "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
       "spotify": {
-        "accessToken": "BQDgEA2JBVOULFP8AUa3wvlqNVwLY2XEYmvKwi8M_ioSildvZ6dcYXfLHRUC_tXXIxBI1FeDC4FWSlNihMc4TaUtpTi31nHNitna8XHq8f5M1TWMUHwpUqn7qn2_sxubh_1iQ24EAZ0tMVgNdEivQHJ5Sg3sSH3JXID6KeQf8lC609BxVMo6MbJQ_S6fcJ4-_AsL9P6CwbhJR69nukjxRZQcck96-Tgsjly1mJrQx7uW5iZ7GO5zA4YHbwetDO5WFz2pbBCPexDrcaeomBo-",
+        "accessToken": "BQCY3YGKNLO76ezCY11OXt34VeIgZchLKwAb0XisBEu-F_ORWDyZk6PW7fV8qAzRTJDmgnpI4hBD9EbACLcjAF6fbu93JNfU830wjXGzChnCVRFUN0WkcJ49uwWpmnIQqijVQ5s0DE8xLJ7e1z4y7rmZvtXiNQRrGdyiXpDfWEgwfltcioPW8-bnpd1GzeUdqsL5nxayZ_E7EfsKojH4kJDThgq5n4-QOheGtWGwKt07KFDwUhsK0dK23aQX7261lml9ENzziHQ_6Z69T_07",
         "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
-        "expiresAt": 1762048731225,
+        "expiresAt": 1762068780257,
         "scope": "playlist-modify-private playlist-modify-public",
         "tokenType": "Bearer"
       }
