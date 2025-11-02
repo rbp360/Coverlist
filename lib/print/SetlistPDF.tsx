@@ -297,12 +297,12 @@ export default function SetlistPDF({
               <View style={styles.itemLeft}>
                 {/* Small tabulation before songs (no numbering) */}
                 <View style={{ width: 12 }} />
-                <View>
-                  <Text style={{ ...styles.songTitle, fontSize: scaled(34) }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={{ ...styles.songTitle, fontSize: scaled(17), marginRight: 8 }}>
                     {displayTitle(setlist, item, song)}
                   </Text>
                   {song && (
-                    <Text style={{ ...styles.songMeta, fontSize: scaled(9) }}>
+                    <Text style={{ ...styles.songMeta, fontSize: scaled(17) }}>
                       {setlist.showArtist !== false ? song.artist : ''}
                     </Text>
                   )}

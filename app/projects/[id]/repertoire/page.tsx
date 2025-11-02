@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
@@ -302,7 +302,7 @@ export default function RepertoirePage() {
         {saving && <div className="text-sm text-neutral-600">Saving changes…</div>}
       </div>
 
-      {/* Jump to To-Do list and Add from My Repertoire cards */}
+      {/* Jump to To-Do list, Add from My Repertoire, and Export Entire Repertoire cards */}
       <div className="flex flex-row gap-4 mt-4">
         <div className="flex-1 rounded border bg-black p-4 flex flex-col items-start justify-between">
           <div className="mb-2 text-sm text-neutral-600">
@@ -324,6 +324,35 @@ export default function RepertoirePage() {
           >
             Go to My Repertoire
           </Link>
+        </div>
+        <div className="flex-1 rounded border bg-black p-4 flex flex-col items-start justify-between">
+          <div className="mb-2 text-sm text-neutral-600">
+            Export your entire song repertoire to send to others or publish on your media channels.
+          </div>
+          <button
+            className="inline-block rounded bg-black px-3 py-2 text-white border mb-2"
+            onClick={async () => {
+              // Download PDF
+              window.open(`/api/projects/${id}/repertoire/export/pdf`, '_blank');
+            }}
+          >
+            Export Entire Repertoire (PDF)
+          </button>
+          <button
+            className="rounded bg-black px-3 py-2 text-white border flex flex-col items-center"
+            onClick={async () => {
+              // Show QR code and link for online version
+              const url = `${window.location.origin}/projects/${id}/repertoire/export/public`;
+              await navigator.clipboard.writeText(url);
+              alert('Online repertoire link copied to clipboard!');
+            }}
+          >
+            <span>
+              Copy Online Repertoire
+              <br />
+              QR Link
+            </span>
+          </button>
         </div>
       </div>
     </div>
