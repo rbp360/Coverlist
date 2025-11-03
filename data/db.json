@@ -282,6 +282,12 @@
       "email": "user-1762060216029-chromium-3-db1yt4@test.local",
       "passwordHash": "$2b$10$ku41fMVajAgEv45HSk1c9u3TmNFNq85NBSunBUIJK/XILh9KRmPWe",
       "createdAt": "2025-11-02T05:10:17.197Z"
+    },
+    {
+      "id": "SVJBczOjdaTDq7O2nOrn0lxJJS22",
+      "email": "jopfewjfoew@ohoho.com",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T06:22:43.078Z"
     }
   ],
   "projects": [
