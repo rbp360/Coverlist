@@ -28,6 +28,19 @@ const DB_FILE = path.join(DATA_DIR, 'db.json');
 function ensureDB() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
   if (!fs.existsSync(DB_FILE)) {
+    // Try to seed from a bundled repo snapshot at <repo>/data/db.json when available.
+    // On Vercel, we write to /tmp/data but can read a read-only seed from the build output.
+    const seedPath = path.join(process.cwd(), 'data', 'db.json');
+    try {
+      if (fs.existsSync(seedPath)) {
+        const seedRaw = fs.readFileSync(seedPath, 'utf-8');
+        const seed = JSON.parse(seedRaw) as DB;
+        fs.writeFileSync(DB_FILE, JSON.stringify(seed, null, 2));
+        return;
+      }
+    } catch {
+      // fall through to create an empty initial DB
+    }
     const initial: DB = {
       users: [],
       projects: [],
