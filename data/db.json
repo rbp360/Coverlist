@@ -366,6 +366,36 @@
       "email": "user-1762175652925-chromium-5-m1muk5@test.local",
       "passwordHash": "firebase",
       "createdAt": "2025-11-03T13:14:17.063Z"
+    },
+    {
+      "id": "hLtTVevaUkNqlVcKvr1DEJyTH0g2",
+      "email": "user-1762177205156-firefox-7-n4ehr8@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T13:40:10.292Z"
+    },
+    {
+      "id": "80EUhIE9qUYn0cgJrvzShoj0w683",
+      "email": "user-1762177200581-chromium-3-9w7kio@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T13:40:15.509Z"
+    },
+    {
+      "id": "u_27hnp3ovm4e1762177614013",
+      "email": "user-1762177613284-chromium-3-ujk6ny@test.local",
+      "passwordHash": "$2b$10$7g0C.7wPZnpH35z7DBwOz.OYSfQgTNVkgowex.Gz9CkNRQLMGRBqW",
+      "createdAt": "2025-11-03T13:46:54.177Z"
+    },
+    {
+      "id": "u_bliu8wwloj71762177615047",
+      "email": "user-1762177614928-webkit-11-8gbquy@test.local",
+      "passwordHash": "$2b$10$ym3Vq7M7CR/TfHN01NkEF.ZxvfWWXiL55bxIiJtcCxWwMkYA0HerO",
+      "createdAt": "2025-11-03T13:46:55.157Z"
+    },
+    {
+      "id": "u_uj198ax285o1762177617770",
+      "email": "user-1762177616841-firefox-7-n7ufou@test.local",
+      "passwordHash": "$2b$10$rdgbeQuSiw9A09g0IbanXe35fmgRzAjJxy5KPbaNhoaMJSeZESgRW",
+      "createdAt": "2025-11-03T13:46:57.885Z"
     }
   ],
   "projects": [
