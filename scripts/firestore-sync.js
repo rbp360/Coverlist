@@ -13,6 +13,13 @@
 
 const fs = require('fs');
 const path = require('path');
+// Load env from .env and .env.local if present (so local scripts have Admin creds)
+try {
+  require('dotenv').config({ path: path.join(process.cwd(), '.env') });
+} catch {}
+try {
+  require('dotenv').config({ path: path.join(process.cwd(), '.env.local') });
+} catch {}
 
 const ACTION = process.argv[2] || 'pull';
 const FIRESTORE_DOC_PATH = process.env.FIRESTORE_DB_DOC || 'coverlist/db';
@@ -48,15 +55,31 @@ async function run() {
   const ref = firestore.collection(col).doc(doc);
 
   if (ACTION === 'pull') {
-    const snap = await ref.get();
-    if (!snap.exists) {
-      console.log(`[firestore-sync] No document at ${FIRESTORE_DOC_PATH}; nothing to pull`);
-      process.exit(0);
+    try {
+      const snap = await ref.get();
+      if (!snap.exists) {
+        console.log(`[firestore-sync] No document at ${FIRESTORE_DOC_PATH}; nothing to pull`);
+        process.exit(0);
+      }
+      const data = snap.data();
+      if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
+      fs.writeFileSync(JSON_PATH, JSON.stringify(data, null, 2));
+      console.log(`[firestore-sync] Wrote ${JSON_PATH} from Firestore (${FIRESTORE_DOC_PATH})`);
+    } catch (err) {
+      const msg = (err && err.message) || String(err);
+      const code = err && (err.code || err.status);
+      // Gracefully skip when database is not yet created or doc is missing.
+      if (code === 5 || code === '5' || /NOT_FOUND/i.test(msg)) {
+        console.log(
+          `[firestore-sync] Firestore database or document not found; skipping pull (path=${FIRESTORE_DOC_PATH}).`,
+        );
+        console.log(
+          '[firestore-sync] To initialize, create a Firestore (Native) database in Firebase Console and optionally run "npm run data:push".',
+        );
+        process.exit(0);
+      }
+      throw err;
     }
-    const data = snap.data();
-    if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
-    fs.writeFileSync(JSON_PATH, JSON.stringify(data, null, 2));
-    console.log(`[firestore-sync] Wrote ${JSON_PATH} from Firestore (${FIRESTORE_DOC_PATH})`);
   } else if (ACTION === 'push') {
     if (!fs.existsSync(JSON_PATH)) {
       console.error(`[firestore-sync] Missing ${JSON_PATH}; nothing to push`);

@@ -354,6 +354,18 @@
       "email": "user-1762174075760-chromium-4-izorv6@test.local",
       "passwordHash": "firebase",
       "createdAt": "2025-11-03T12:47:59.679Z"
+    },
+    {
+      "id": "qx2wJe56hXR26cbPyVj088776t62",
+      "email": "user-1762175631710-chromium-5-ky4yx0@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T13:14:06.076Z"
+    },
+    {
+      "id": "yfIJCGruVCcG1qfLRonsdhPNux32",
+      "email": "user-1762175652925-chromium-5-m1muk5@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T13:14:17.063Z"
     }
   ],
   "projects": [
