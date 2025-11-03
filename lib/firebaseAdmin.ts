@@ -24,4 +24,4 @@ if (!admin.apps.length) {
 export { admin };
 export const firestore = admin.apps.length ? admin.firestore() : undefined;
 export const authAdmin = admin.apps.length ? admin.auth() : undefined;
-export const rtdb = admin.apps.length && admin.database ? admin.database() : undefined;
+// Realtime Database is not used; avoid touching admin.database() unless explicitly configured.

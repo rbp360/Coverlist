@@ -1,20 +1,15 @@
-## Password reset
+## Authentication and password reset (Firebase)
 
-The app includes a standard password reset flow:
+The app uses Firebase Authentication for email+password.
 
-1. Request a reset link: go to `/reset/request`, enter your email.
-2. You’ll receive a link (in development it’s shown directly on the page/response). In production you would wire this to your email service.
-3. Follow the link `/reset/[token]`, choose a new password, and you’ll be logged in.
-
-API endpoints:
-
-- POST `/api/auth/reset/request` { email }
-- POST `/api/auth/reset/confirm` { token, newPassword }
+- Sign up: Create an account on `/signup`. A verification email is sent automatically. You’ll be redirected to `/verify-email` with an option to resend the email.
+- Verify email: Click the link in your email; it opens `/auth/action?mode=verifyEmail&...` and completes verification.
+- Log in: Use `/login`. After sign-in, a secure server session cookie is set.
+- Forgot password: Go to `/reset/request`. You’ll receive a Firebase reset link; it opens `/auth/action?mode=resetPassword&...` where you set your new password.
 
 Notes:
 
-- Reset links expire after 15 minutes.
-- For local dev, access the site via `http://127.0.0.1:PORT` to align with cookie behavior and Spotify rules.
+- For local dev, access the site via `http://127.0.0.1:3001` (loopback IP works best with some providers and cookies).
 
 # Coverlist
 

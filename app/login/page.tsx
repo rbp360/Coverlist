@@ -1,6 +1,9 @@
 'use client';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { clientAuth } from '@/lib/firebaseClient';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,16 +14,24 @@ export default function LoginPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-    if (res.ok) {
-      // Force a full reload to ensure auth cookie is applied to server-rendered layout
+    try {
+      const cred = await signInWithEmailAndPassword(clientAuth, email, password);
+      const idToken = await cred.user.getIdToken();
+      const r = await fetch('/api/auth/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+      if (!r.ok) throw new Error('Failed to start session');
+      // If email not verified, guide user to verify page
+      if (!cred.user.emailVerified) {
+        window.location.href = '/verify-email';
+        return;
+      }
       window.location.href = '/projects';
-      return;
-    } else setError('Invalid credentials');
+    } catch (err: any) {
+      setError('Invalid credentials');
+    }
   }
 
   return (
@@ -47,6 +58,11 @@ export default function LoginPage() {
         No account?{' '}
         <a className="underline" href="/signup">
           Sign up
+        </a>
+      </p>
+      <p className="mt-2 text-sm">
+        <a className="underline" href="/reset/request">
+          Forgot your password?
         </a>
       </p>
     </div>

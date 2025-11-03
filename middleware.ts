@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const COOKIE_NAME = 'songdeck_token';
+const LEGACY_COOKIE_NAME = 'songdeck_token';
+// Duplicate of FIREBASE_SESSION_COOKIE to avoid importing server-only code in Edge middleware
+const FIREBASE_SESSION_COOKIE = 'firebase_session';
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const protectedPaths = ['/profile', '/projects', '/setlists'];
   const isProtected = protectedPaths.some((p) => pathname === p || pathname.startsWith(p + '/'));
   if (isProtected) {
-    const token = req.cookies.get(COOKIE_NAME)?.value;
-    if (!token) {
+    const hasLegacy = !!req.cookies.get(LEGACY_COOKIE_NAME)?.value;
+    const hasFirebase = !!req.cookies.get(FIREBASE_SESSION_COOKIE)?.value;
+    if (!(hasLegacy || hasFirebase)) {
       const url = new URL('/login', req.url);
       return NextResponse.redirect(url);
     }

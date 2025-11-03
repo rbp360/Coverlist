@@ -1,6 +1,9 @@
 'use client';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { clientAuth } from '@/lib/firebaseClient';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -11,16 +14,25 @@ export default function SignupPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    const res = await fetch('/api/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-    if (res.ok) {
-      // Force a full reload to ensure auth cookie is applied to server-rendered layout
-      window.location.href = '/projects';
-      return;
-    } else setError('Signup failed');
+    try {
+      const cred = await createUserWithEmailAndPassword(clientAuth, email, password);
+      try {
+        await sendEmailVerification(cred.user, {
+          url: typeof window !== 'undefined' ? `${window.location.origin}/auth/action` : undefined,
+          handleCodeInApp: true,
+        } as any);
+      } catch {}
+      const idToken = await cred.user.getIdToken();
+      const r = await fetch('/api/auth/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+      if (!r.ok) throw new Error('Failed to start session');
+      window.location.href = '/verify-email';
+    } catch (err: any) {
+      setError('Signup failed');
+    }
   }
 
   return (
@@ -49,6 +61,7 @@ export default function SignupPage() {
           Log in
         </a>
       </p>
+      <p className="mt-2 text-sm text-gray-600">Well email you a verification link.</p>
     </div>
   );
 }

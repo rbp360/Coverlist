@@ -1,13 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 
-import { getCurrentUser } from '@/lib/auth';
+import { getCurrentUserAsync } from '@/lib/auth';
 import { db } from '@/lib/db';
 
 import UserMenu from './UserMenu';
 
-export default function UserHeader() {
-  const user = getCurrentUser();
+export default async function UserHeader() {
+  // Server component: fetch current user (supports Firebase session)
+  const user = await getCurrentUserAsync();
   if (!user) {
     return (
       <Link

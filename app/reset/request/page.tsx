@@ -1,5 +1,8 @@
 'use client';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { useState } from 'react';
+
+import { clientAuth } from '@/lib/firebaseClient';
 
 export default function ResetRequestPage() {
   const [email, setEmail] = useState('');
@@ -11,15 +14,11 @@ export default function ResetRequestPage() {
     setStatus('Sending...');
     setResetUrl(null);
     try {
-      const res = await fetch('/api/auth/reset/request', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json?.error || 'failed');
+      await sendPasswordResetEmail(clientAuth, email, {
+        url: typeof window !== 'undefined' ? `${window.location.origin}/auth/action` : undefined,
+        handleCodeInApp: true,
+      } as any);
       setStatus('If that email exists, a reset link has been sent.');
-      if (json.resetUrl) setResetUrl(json.resetUrl);
     } catch (err: any) {
       setStatus('Failed to send reset link');
     }
@@ -44,14 +43,7 @@ export default function ResetRequestPage() {
         </button>
       </form>
       {status && <p className="mt-4 text-sm">{status}</p>}
-      {resetUrl && (
-        <p className="mt-2 text-xs text-gray-600 break-all">
-          Dev shortcut:{' '}
-          <a className="underline" href={resetUrl}>
-            {resetUrl}
-          </a>
-        </p>
-      )}
+      {resetUrl && null}
     </div>
   );
 }
