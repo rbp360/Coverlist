@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { clientAuth } from '@/lib/firebaseClient';
+import { clientAuth, FIREBASE_ENABLED } from '@/lib/firebaseClient';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -15,21 +15,32 @@ export default function SignupPage() {
     e.preventDefault();
     setError(null);
     try {
-      const cred = await createUserWithEmailAndPassword(clientAuth, email, password);
-      try {
-        await sendEmailVerification(cred.user, {
-          url: typeof window !== 'undefined' ? `${window.location.origin}/auth/action` : undefined,
-          handleCodeInApp: true,
-        } as any);
-      } catch {}
-      const idToken = await cred.user.getIdToken();
-      const r = await fetch('/api/auth/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken }),
-      });
-      if (!r.ok) throw new Error('Failed to start session');
-      window.location.href = '/verify-email';
+      if (FIREBASE_ENABLED && clientAuth) {
+        const cred = await createUserWithEmailAndPassword(clientAuth, email, password);
+        try {
+          await sendEmailVerification(cred.user, {
+            url:
+              typeof window !== 'undefined' ? `${window.location.origin}/auth/action` : undefined,
+            handleCodeInApp: true,
+          } as any);
+        } catch {}
+        const idToken = await cred.user.getIdToken();
+        const r = await fetch('/api/auth/session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken }),
+        });
+        if (!r.ok) throw new Error('Failed to start session');
+        window.location.href = '/verify-email';
+      } else {
+        const r = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        if (!r.ok) throw new Error('Failed to sign up');
+        window.location.href = '/projects';
+      }
     } catch (err: any) {
       setError('Signup failed');
     }

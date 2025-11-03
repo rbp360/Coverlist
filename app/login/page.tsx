@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { clientAuth } from '@/lib/firebaseClient';
+import { clientAuth, FIREBASE_ENABLED } from '@/lib/firebaseClient';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,20 +15,30 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     try {
-      const cred = await signInWithEmailAndPassword(clientAuth, email, password);
-      const idToken = await cred.user.getIdToken();
-      const r = await fetch('/api/auth/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken }),
-      });
-      if (!r.ok) throw new Error('Failed to start session');
-      // If email not verified, guide user to verify page
-      if (!cred.user.emailVerified) {
-        window.location.href = '/verify-email';
-        return;
+      if (FIREBASE_ENABLED && clientAuth) {
+        const cred = await signInWithEmailAndPassword(clientAuth, email, password);
+        const idToken = await cred.user.getIdToken();
+        const r = await fetch('/api/auth/session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken }),
+        });
+        if (!r.ok) throw new Error('Failed to start session');
+        // If email not verified, guide user to verify page
+        if (!cred.user.emailVerified) {
+          window.location.href = '/verify-email';
+          return;
+        }
+        window.location.href = '/projects';
+      } else {
+        const r = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        if (!r.ok) throw new Error('Invalid credentials');
+        window.location.href = '/projects';
       }
-      window.location.href = '/projects';
     } catch (err: any) {
       setError('Invalid credentials');
     }
