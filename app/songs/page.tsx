@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 
+import { InfoPopup } from '../../components/InfoPopup';
 import { ThemedAlert } from '../../components/ThemedAlert';
 
 type Result = {
@@ -237,7 +238,14 @@ export default function SongsPage() {
                     >
                       Suggest to-do
                     </button>
-                    <div className="relative group">
+                    <InfoPopup
+                      message={
+                        <>
+                          This will add the song to <b>your repertoire</b> and also to the selected{' '}
+                          <b>project&apos;s repertoire</b> in one click.
+                        </>
+                      }
+                    >
                       <button
                         className="rounded border px-3 py-1 text-sm bg-green-700 text-white hover:bg-green-800 ml-1"
                         onClick={async () => {
@@ -260,15 +268,10 @@ export default function SongsPage() {
                             setAlertMsg('Added to your repertoire and project repertoire');
                           } catch {}
                         }}
-                        title="Push this song to your repertoire and the selected project's repertoire"
                       >
                         Send to project
                       </button>
-                      <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-64 bg-black text-white text-xs rounded shadow-lg p-2 opacity-0 group-hover:opacity-100 pointer-events-none z-20 border border-gray-700 transition-opacity duration-200">
-                        This will add the song to <b>your repertoire</b> and also to the selected{' '}
-                        <b>project&apos;s repertoire</b> in one click.
-                      </div>
-                    </div>
+                    </InfoPopup>
                   </>
                 )}
               </div>

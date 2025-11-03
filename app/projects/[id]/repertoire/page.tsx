@@ -168,7 +168,9 @@ export default function RepertoirePage() {
                     )}
                   </button>
                 </td>
-                <td className="p-2">{s.title}</td>
+                <td className="p-2">
+                  {s.title.length > 45 ? s.title.slice(0, 45) + '...' : s.title}
+                </td>
                 <td className="p-2 text-neutral-600">{s.artist}</td>
                 <td className="p-2 text-neutral-600">{fmt(s.durationSec)}</td>
                 <td className="p-2">
