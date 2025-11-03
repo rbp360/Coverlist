@@ -53,6 +53,8 @@ npm run test:e2e
 - test:e2e: Playwright tests
 - e2e:report: Open Playwright HTML report
 - format: Prettier write
+- data:pull: Pull Firestore snapshot → data/db.json (requires Firebase Admin env)
+- data:push: Push local data/db.json → Firestore (requires Firebase Admin env)
 
 ## CI
 
@@ -71,6 +73,12 @@ Required variables:
 
 - JWT_SECRET: secret for signing auth cookies (set to a strong random value in production)
 
+Optional persistence variables (enable Firestore mirroring):
+
+- DATA_BACKEND=firestore
+- FIRESTORE_DB_DOC=coverlist/db (default if omitted)
+- FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY (Admin SDK for server)
+
 Optional provider variables:
 
 None at this time for key/tempo enrichment (external provider removed).
@@ -81,23 +89,27 @@ To enable creating Spotify playlists from setlists or song selections, set these
 
 - SPOTIFY_CLIENT_ID
 - SPOTIFY_CLIENT_SECRET
-- SPOTIFY_REDIRECT_URI (for local dev use: `http://127.0.0.1:3001/api/integrations/spotify/callback`)
+- NEXT_PUBLIC_BASE_URL (used to compute the redirect URI)
+
+Redirect URI (computed):
+
+- `${NEXT_PUBLIC_BASE_URL}/api/integrations/spotify/callback`
 
 Then in the Spotify Developer Dashboard:
 
 1. Create an app and copy the Client ID and Client Secret.
-2. Add the Redirect URI above to the app settings (exact match required). Note: per Spotify policy (April–Nov 2025), use HTTPS for public URLs; for local development, use a loopback IP literal (127.0.0.1 or [::1]) with HTTP. `localhost` is not allowed.
+2. Add the computed Redirect URI above to the app settings (exact match required). Note: per Spotify policy (April–Nov 2025), use HTTPS for public URLs; for local development, use a loopback IP literal (127.0.0.1 or [::1]) with HTTP. `localhost` is not allowed.
 3. Save and restart the dev server.
 
 Troubleshooting:
 
 - If you see "Missing required parameter; client_id" or "spotify_env_missing", your env vars are not set or the server needs a restart.
-- Ensure the redirect URI exactly matches the value configured in Spotify and in `.env.local`.
+- Ensure the redirect URI exactly matches the value configured in Spotify and the computed value above.
 
-Local demo storage:
+Local demo storage and persistence:
 
-- User accounts are stored in a JSON file at `data/db.json`.
-  Replace with a real database for production.
+- By default, data is stored in a JSON file at `data/db.json` (fast for local dev and tests).
+- On Vercel, the filesystem is ephemeral. To persist data, set `DATA_BACKEND=firestore` and provide Firebase Admin credentials. The build step pulls Firestore into `data/db.json`, and runtime writes mirror back to Firestore.
 
 ## Feature: Repertoire import
 
@@ -153,5 +165,33 @@ Usage:
 
 Notes:
 
-- The app currently persists to a local JSON file (`data/db.json`) for demos and tests. On Vercel, the filesystem is ephemeral; for production, migrate to Firestore/RTDB or another managed database. You can keep the current API routes and swap the `db` implementation behind the scenes.
+- The app can persist to a local JSON file (`data/db.json`) for demos and tests. On Vercel, enable Firestore mirroring (see below) to persist across deploys/cold starts.
 - If you adopt Firebase Authentication, update middleware and API routes to validate Firebase ID tokens (via `firebase-admin`) and remove the custom JWT cookie.
+
+## Persistence: Firestore mirroring (recommended on Vercel)
+
+This repo supports a zero-churn migration to Firestore as the durable store without changing app code:
+
+- Reads/writes continue to use the JSON file API (`lib/db.ts`).
+- At build time, a snapshot is pulled from Firestore into `data/db.json`.
+- At runtime, every write mirrors to Firestore (best-effort) to keep it up to date.
+
+Enable it by setting these environment variables (Vercel Project Settings → Environment Variables, or `.env.local` locally):
+
+- `DATA_BACKEND=firestore`
+- `FIRESTORE_DB_DOC=coverlist/db` (or your preferred `collection/document` path)
+- `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` (Admin SDK)
+
+Build behavior:
+
+- `npm run build` runs a prebuild step that pulls Firestore → `data/db.json` when Admin env is present.
+
+Manual sync scripts:
+
+- Pull: `npm run data:pull` (Firestore → `data/db.json`)
+- Push: `npm run data:push` (`data/db.json` → Firestore)
+
+Notes:
+
+- On Vercel, JSON writes go to `/tmp/data/db.json` and are mirrored to Firestore. The next deploy/cold start will seed from Firestore again.
+- If you later want to read directly from Firestore (fully async), you can replace the `db` implementation and update call sites incrementally.

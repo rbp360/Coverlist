@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "next dev -p 3001",
+    "prebuild": "node scripts/firestore-sync.js pull",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -17,7 +18,9 @@
     "test:e2e": "playwright test",
     "e2e:report": "playwright show-report",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "data:pull": "node scripts/firestore-sync.js pull",
+    "data:push": "node scripts/firestore-sync.js push"
   },
   "dependencies": {
     "@react-pdf/renderer": "^3.4.5",

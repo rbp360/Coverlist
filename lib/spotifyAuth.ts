@@ -3,8 +3,17 @@ import { db } from './db';
 
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
-const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI;
 const SPOTIFY_AUTH_BASE = 'https://accounts.spotify.com';
+
+// Determine base URL dynamically for local vs production
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  (process.env.NODE_ENV === 'production'
+    ? 'https://coverlist-m8kpsaldt-robs-projects-c826db47.vercel.app'
+    : 'http://127.0.0.1:3001');
+
+// Always point redirect to the API callback route
+export const SPOTIFY_REDIRECT_URI = `${BASE_URL}/api/integrations/spotify/callback`;
 
 export const SPOTIFY_SCOPES = ['playlist-modify-public', 'playlist-modify-private'].join(' ');
 
@@ -12,10 +21,9 @@ function ensureSpotifyEnv() {
   const missing: string[] = [];
   if (!SPOTIFY_CLIENT_ID) missing.push('SPOTIFY_CLIENT_ID');
   if (!SPOTIFY_CLIENT_SECRET) missing.push('SPOTIFY_CLIENT_SECRET');
-  if (!SPOTIFY_REDIRECT_URI) missing.push('SPOTIFY_REDIRECT_URI');
   if (missing.length) {
     throw new Error(
-      `spotify_env_missing:${missing.join(',')}. Set these in .env.local. Example SPOTIFY_REDIRECT_URI=http://localhost:3001/api/integrations/spotify/callback`,
+      `spotify_env_missing:${missing.join(',')}. Set these in env and ensure NEXT_PUBLIC_BASE_URL is configured.`,
     );
   }
 }
@@ -25,7 +33,7 @@ export function getSpotifyAuthUrl(state?: string) {
   const params = new URLSearchParams({
     response_type: 'code',
     client_id: SPOTIFY_CLIENT_ID!,
-    redirect_uri: SPOTIFY_REDIRECT_URI!,
+    redirect_uri: SPOTIFY_REDIRECT_URI,
     scope: SPOTIFY_SCOPES,
   });
   if (state) params.set('state', state);
@@ -37,7 +45,7 @@ export async function exchangeCodeForToken(code: string) {
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
     code,
-    redirect_uri: SPOTIFY_REDIRECT_URI!,
+    redirect_uri: SPOTIFY_REDIRECT_URI,
     client_id: SPOTIFY_CLIENT_ID!,
     client_secret: SPOTIFY_CLIENT_SECRET!,
   });

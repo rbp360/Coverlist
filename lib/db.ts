@@ -1,5 +1,7 @@
+/* eslint-disable import/order */
 import fs from 'fs';
 import path from 'path';
+import { firestore as adminFirestore } from './firebaseAdmin';
 
 import {
   User,
@@ -24,6 +26,8 @@ const DATA_DIR = (() => {
   return isVercel ? '/tmp/data' : path.join(process.cwd(), 'data');
 })();
 const DB_FILE = path.join(DATA_DIR, 'db.json');
+const USE_FIRESTORE_MIRROR = (process.env.DATA_BACKEND || '').toLowerCase() === 'firestore';
+const FIRESTORE_DOC_PATH = process.env.FIRESTORE_DB_DOC || 'coverlist/db';
 
 function ensureDB() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
@@ -89,6 +93,18 @@ function readDB(): DB {
 
 function writeDB(db: DB) {
   fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
+  // Mirror to Firestore (best-effort, non-blocking) when configured and admin SDK is initialized
+  if (USE_FIRESTORE_MIRROR && adminFirestore) {
+    try {
+      const [col, doc] = FIRESTORE_DOC_PATH.split('/');
+      if (col && doc)
+        void adminFirestore
+          .collection(col)
+          .doc(doc)
+          .set(db as any)
+          .catch(() => {});
+    } catch {}
+  }
 }
 
 export const db = {
