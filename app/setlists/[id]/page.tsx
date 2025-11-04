@@ -364,6 +364,26 @@ export default function SetlistEditorPage() {
     setOverId(null);
     setDragId(null);
     if (!setlist) return;
+    // Determine drop position relative to the target element (before/after)
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const before = e.clientY < rect.top + rect.height / 2;
+
+    // If we're dragging a new note from presets/input, insert near the target
+    if (payload.startsWith('note:')) {
+      const text = payload.slice('note:'.length).trim();
+      if (!text) return;
+      const items = [...sortedItems];
+      const toIdx = items.findIndex((i) => i.id === targetId);
+      if (toIdx === -1) return;
+      const newItem: Item = { id: crypto.randomUUID(), type: 'note', order: 0, note: text };
+      // Consistent rule: drop before/after target based on cursor position.
+      // For sections, 'after' means immediately after the section header.
+      const insertAt = before ? toIdx : toIdx + 1;
+      items.splice(insertAt, 0, newItem);
+      const reindexed = items.map((it, idx) => ({ ...it, order: idx }));
+      await save({ items: reindexed as any });
+      return;
+    }
 
     // If we're dragging a repertoire song, insert it near the target
     if (payload.startsWith('song:')) {
@@ -383,26 +403,15 @@ export default function SetlistEditorPage() {
         artist: song.artist,
         durationSec: song.durationSec,
       };
-      // If dropping on a section, append to end of that section block
-      if (items[toIdx].type === 'section') {
-        let insertAt = items.length;
-        for (let i = toIdx + 1; i < items.length; i++) {
-          if (items[i].type === 'section') {
-            insertAt = i;
-            break;
-          }
-        }
-        items.splice(insertAt, 0, newItem);
-      } else {
-        // Otherwise insert before the target item
-        items.splice(toIdx, 0, newItem);
-      }
+      // Consistent rule: drop before/after target based on cursor position
+      const insertAt = before ? toIdx : toIdx + 1;
+      items.splice(insertAt, 0, newItem);
       const reindexed = items.map((it, idx) => ({ ...it, order: idx }));
       await save({ items: reindexed as any });
       return;
     }
 
-    // Otherwise it's a list item drag
+    // Otherwise it's a list item drag (reorder/move existing item)
     const sourceId = payload.startsWith('item:') ? payload.slice('item:'.length) : payload;
     if (!sourceId || sourceId === targetId) return;
     const items = [...sortedItems];
@@ -410,15 +419,12 @@ export default function SetlistEditorPage() {
     const toIdx = items.findIndex((i) => i.id === targetId);
     if (fromIdx === -1 || toIdx === -1) return;
 
-    // If dropping an item onto a section, move it to end of that section
-    if (items[toIdx].type === 'section') {
-      const sectionId = items[toIdx].id;
-      moveItemToSection(sourceId, sectionId);
-      return;
-    }
-
+    // Reorder/move existing item with consistent before/after rule
     const [moved] = items.splice(fromIdx, 1);
-    items.splice(toIdx, 0, moved);
+    const newToIdx = items.findIndex((i) => i.id === targetId);
+    if (newToIdx === -1) return;
+    const insertAt = before ? newToIdx : newToIdx + 1;
+    items.splice(insertAt, 0, moved);
     const reindexed = items.map((i, idx) => ({ ...i, order: idx }));
     await save({ items: reindexed as any });
   }
@@ -464,27 +470,6 @@ export default function SetlistEditorPage() {
   }
 
   // Removed bulk add to section; drag-and-drop is the primary interaction
-
-  function moveItemToSection(itemId: string, sectionId: string) {
-    if (!setlist) return;
-    const items = [...sortedItems];
-    const fromIdx = items.findIndex((i) => i.id === itemId);
-    const sectionIdx = items.findIndex((i) => i.id === sectionId);
-    if (fromIdx === -1 || sectionIdx === -1) return;
-    const [moved] = items.splice(fromIdx, 1);
-    // Re-find section index if it shifted
-    const newSectionIdx = items.findIndex((i) => i.id === sectionId);
-    let insertAt = items.length;
-    for (let i = newSectionIdx + 1; i < items.length; i++) {
-      if (items[i].type === 'section') {
-        insertAt = i;
-        break;
-      }
-    }
-    items.splice(insertAt, 0, moved);
-    const reindexed = items.map((it, idx) => ({ ...it, order: idx }));
-    save({ items: reindexed as any });
-  }
 
   // Copy/Delete/JSON export actions are accessed from the main menu; no inline handlers needed here.
 
@@ -791,6 +776,11 @@ export default function SetlistEditorPage() {
                 className="flex min-w-0 items-center gap-2 rounded border px-2 py-1 text-left text-xs hover:bg-neutral-50 whitespace-nowrap"
                 title={p.label}
                 onClick={() => quickInsertNote(p.label)}
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.effectAllowed = 'copy';
+                  e.dataTransfer.setData('text/plain', `note:${p.label}`);
+                }}
               >
                 {p.gif ? (
                   // Optional GIF preview if assets are added to /public and wired here
@@ -814,7 +804,18 @@ export default function SetlistEditorPage() {
               onChange={(e) => setNoteText(e.target.value)}
               placeholder="Custom note"
             />
-            <button className="rounded border px-2 py-1 text-xs" onClick={addNote}>
+            <button
+              className="rounded border px-2 py-1 text-xs"
+              onClick={addNote}
+              draggable={noteText.trim().length > 0}
+              onDragStart={(e) => {
+                const text = noteText.trim();
+                if (!text) return;
+                e.dataTransfer.effectAllowed = 'copy';
+                e.dataTransfer.setData('text/plain', `note:${text}`);
+              }}
+              title={noteText.trim().length > 0 ? 'Drag to insert note at a position' : undefined}
+            >
               Add
             </button>
           </div>
