@@ -227,7 +227,7 @@ export default function SetlistPDF({
   // Build pages with simple flow; @react-pdf handles pagination automatically
   return (
     <Document>
-      <Page size="LETTER" style={{ ...styles.page, fontSize: scaled(10) }}>
+      <Page size="A4" style={{ ...styles.page, fontSize: scaled(10) }}>
         <View style={styles.header}>
           <View style={styles.headerRow}>
             <View style={styles.headerLeft}>

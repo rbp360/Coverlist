@@ -73,6 +73,14 @@ export default function SongsPage() {
       const data = await res.json();
       setResults(data.results || []);
       setPage(1);
+      setMessage(null);
+    } else {
+      // Provide a helpful message on auth or other failures
+      if (res.status === 401) {
+        setMessage('Please sign in to search songs.');
+      } else {
+        setMessage('Search failed. Please try again.');
+      }
     }
   }
 

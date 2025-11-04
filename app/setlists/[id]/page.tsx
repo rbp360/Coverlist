@@ -46,7 +46,6 @@ function fmt(sec?: number) {
 
 export default function SetlistEditorPage() {
   const { id } = useParams<{ id: string }>();
-  const [cacheStatus, setCacheStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const router = useRouter();
   const [setlist, setSetlist] = useState<Setlist | null>(null);
   const [editingName, setEditingName] = useState(false);
@@ -60,6 +59,7 @@ export default function SetlistEditorPage() {
   const [sectionTitle, setSectionTitle] = useState('Set 1');
   const [settings, setSettings] = useState<{ defaultSongGapSec: number } | null>(null);
   const [pdfFontSize, setPdfFontSize] = useState(1.0);
+  const [fitPages, setFitPages] = useState<'manual' | 1 | 2>('manual');
   const [isPublic, setIsPublic] = useState(false);
 
   // New state for multi-set workflow
@@ -126,16 +126,29 @@ export default function SetlistEditorPage() {
     return () => window.removeEventListener('popstate', onPopState);
   }, [id, revertName]);
 
-  const total = useMemo(() => {
-    const base = (setlist?.items || []).reduce((sum, it) => sum + (it.durationSec || 0), 0);
-    if (!setlist?.addGapAfterEachSong) return base;
+  // Totals
+  const stageTotalSec = useMemo(() => {
+    // Sum only SONG durations
+    const songDur = (setlist?.items || [])
+      .filter((i) => i.type === 'song')
+      .reduce((sum, it) => sum + (it.durationSec || 0), 0);
+    // Add optional gap between songs
+    if (!setlist?.addGapAfterEachSong) return songDur;
     const songCount = (setlist.items || []).filter((i) => i.type === 'song').length;
     const gap =
       typeof setlist.songGapSec === 'number'
         ? setlist.songGapSec
         : (settings?.defaultSongGapSec ?? 0);
-    return base + songCount * gap;
+    return songDur + songCount * gap;
   }, [setlist, settings]);
+
+  const breakTotalSec = useMemo(() => {
+    return (setlist?.items || [])
+      .filter((i) => i.type === 'break')
+      .reduce((sum, it) => sum + (it.durationSec || 0), 0);
+  }, [setlist]);
+
+  const showTotalSec = useMemo(() => stageTotalSec + breakTotalSec, [stageTotalSec, breakTotalSec]);
 
   const totalSongCount = useMemo(() => {
     return (setlist?.items || []).filter((i) => i.type === 'song').length;
@@ -179,6 +192,42 @@ export default function SetlistEditorPage() {
   const sections = useMemo(() => {
     return sortedItems.filter((i) => i.type === 'section');
   }, [sortedItems]);
+
+  // Heuristic estimator to fit PDF on 1 or 2 A4 pages by adjusting font scale
+  const estimateUnits = useCallback(() => {
+    // Base content units at scale=1.0
+    let units = 0;
+    for (const it of sortedItems) {
+      switch (it.type) {
+        case 'section':
+          units += 28; // header line
+          break;
+        case 'song':
+          units += 22; // title + meta row
+          break;
+        case 'break':
+          units += 22;
+          break;
+        case 'note':
+          units += 18;
+          break;
+      }
+    }
+    // Add a little fixed header/footer overhead
+    units += 120;
+    return units;
+  }, [sortedItems]);
+
+  const capacityPerPage = 780; // approx usable vertical units per A4 page at scale=1
+
+  const estimateScaleForPages = useCallback(
+    (pages: number) => {
+      const units = Math.max(1, estimateUnits());
+      const raw = (pages * capacityPerPage) / units;
+      return Math.max(0.6, Math.min(1.6, raw));
+    },
+    [estimateUnits],
+  );
 
   async function save(next: Partial<Setlist>) {
     if (!setlist) return;
@@ -437,49 +486,7 @@ export default function SetlistEditorPage() {
     save({ items: reindexed as any });
   }
 
-  async function del() {
-    if (!setlist) return;
-    if (!confirm('Delete setlist?')) return;
-    const res = await fetch(`/api/setlists/${setlist.id}`, { method: 'DELETE' });
-    if (res.ok) router.push(`/projects/${(setlist as any).projectId}/setlists`);
-  }
-
-  async function copyNow() {
-    if (!setlist) return;
-    const res = await fetch(`/api/setlists/${setlist.id}/copy`, { method: 'POST' });
-    if (res.ok) {
-      const created = await res.json();
-      router.push(`/setlists/${created.id}`);
-    }
-  }
-
-  async function copyJson() {
-    if (!setlist) return;
-    try {
-      const data = {
-        name: setlist.name,
-        showArtist: setlist.showArtist,
-        showTransposedKey: setlist.showTransposedKey,
-        date: setlist.date,
-        venue: setlist.venue,
-        addGapAfterEachSong: setlist.addGapAfterEachSong,
-        items: sortedItems.map((i) => ({
-          type: i.type,
-          songId: i.songId,
-          title: i.title,
-          artist: i.artist,
-          durationSec: i.durationSec,
-          note: i.note,
-          order: i.order,
-          transposedKey: i.transposedKey,
-        })),
-      };
-      await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
-      alert('Setlist JSON copied to clipboard');
-    } catch {
-      alert('Copy failed');
-    }
-  }
+  // Copy/Delete/JSON export actions are accessed from the main menu; no inline handlers needed here.
 
   if (!setlist) return <div>Loading…</div>;
 
@@ -539,7 +546,8 @@ export default function SetlistEditorPage() {
         </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-600">
-            Total: {totalSongCount} songs • {fmt(total)}
+            Total stage time: {totalSongCount} songs •{' '}
+            <span className="font-bold text-green-500">{fmt(stageTotalSec)}</span>
           </span>
           {setlist.addGapAfterEachSong && (
             <span className="text-xs text-gray-500">
@@ -550,20 +558,58 @@ export default function SetlistEditorPage() {
               s per song)
             </span>
           )}
-          {/* Show artist moved into settings section */}
-          <a className="rounded border px-3 py-1 text-sm" href={`/setlists/${id}/settings`}>
-            Settings
-          </a>
-          <div className="flex items-center gap-2 rounded border px-2 py-1 text-sm">
-            <span>PDF font</span>
-            <input
-              type="range"
-              min={0.6}
-              max={1.6}
-              step={0.1}
-              value={pdfFontSize}
-              onChange={(e) => setPdfFontSize(parseFloat(e.target.value))}
-            />
+          <span className="ml-2 text-sm text-gray-600">
+            Total show time: <span className="font-bold text-green-500">{fmt(showTotalSec)}</span>
+          </span>
+          {/* Settings link moved to details grid below for layout */}
+          <div className="flex items-center gap-3 rounded border px-3 py-2 text-sm">
+            <div className="flex items-center gap-2">
+              <span className="whitespace-nowrap">PDF font</span>
+              <input
+                type="range"
+                min={0.6}
+                max={1.6}
+                step={0.05}
+                value={pdfFontSize}
+                onChange={(e) => {
+                  setFitPages('manual');
+                  setPdfFontSize(parseFloat(e.target.value));
+                }}
+                title="Adjust base font size"
+              />
+            </div>
+            <div className="flex items-center gap-2 border-l pl-3">
+              <span className="whitespace-nowrap">Fit</span>
+              <label className="inline-flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="fitPages"
+                  value="1"
+                  checked={fitPages === 1}
+                  onChange={() => {
+                    const scale = estimateScaleForPages(1);
+                    setPdfFontSize(scale);
+                    setFitPages(1);
+                  }}
+                />
+                <span className="whitespace-nowrap">1 page</span>
+              </label>
+              <label className="inline-flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="fitPages"
+                  value="2"
+                  checked={fitPages === 2}
+                  onChange={() => {
+                    const scale = estimateScaleForPages(2);
+                    setPdfFontSize(scale);
+                    setFitPages(2);
+                  }}
+                />
+                <span className="whitespace-nowrap">2 pages</span>
+              </label>
+              {/* Manual button removed; manual mode is implied when using the slider, and overridden by fit radios */}
+            </div>
             <a
               className="rounded border px-2 py-1"
               href={`/api/setlists/${id}/print?fontSize=${pdfFontSize}`}
@@ -571,70 +617,7 @@ export default function SetlistEditorPage() {
               Export PDF
             </a>
           </div>
-          <button className="rounded border px-3 py-1 text-sm" onClick={copyNow}>
-            Copy
-          </button>
-          <button
-            className="rounded border border-green-600 px-3 py-1 text-sm text-green-500"
-            onClick={async () => {
-              setCacheStatus('saving');
-              try {
-                // Fetch setlist data
-                const setlistRes = await fetch(`/api/setlists/${id}`);
-                if (!setlistRes.ok) throw new Error('Failed to fetch setlist');
-                const setlistData = await setlistRes.json();
-                // Fetch lyrics for all songs in setlist
-                const lyrics: Record<string, string> = {};
-                for (const item of setlistData.items || []) {
-                  if (item.type === 'song' && item.songId) {
-                    try {
-                      const lyricRes = await fetch(`/api/songs/${item.songId}`);
-                      if (lyricRes.ok) {
-                        const song = await lyricRes.json();
-                        lyrics[item.songId] = song.lyrics || '';
-                      }
-                    } catch {}
-                  }
-                }
-                const cache = {
-                  id: setlistData.id,
-                  name: setlistData.name,
-                  items: setlistData.items,
-                  lyrics,
-                  updatedAt: new Date().toISOString(),
-                };
-                localStorage.setItem(`offline-setlist-${id}`, JSON.stringify(cache));
-                setCacheStatus('saved');
-                setTimeout(() => setCacheStatus('idle'), 2000);
-              } catch {
-                setCacheStatus('error');
-                setTimeout(() => setCacheStatus('idle'), 2000);
-              }
-            }}
-          >
-            Cache setlist and lyrics offline
-          </button>
-          <button
-            className="rounded border border-red-600 px-3 py-1 text-sm text-red-700"
-            onClick={del}
-          >
-            Delete
-          </button>
-          {cacheStatus !== 'idle' && (
-            <span
-              className={
-                cacheStatus === 'saved'
-                  ? 'ml-2 text-green-400'
-                  : cacheStatus === 'saving'
-                    ? 'ml-2 text-yellow-400'
-                    : 'ml-2 text-red-400'
-              }
-            >
-              {cacheStatus === 'saving' && 'Saving...'}
-              {cacheStatus === 'saved' && 'Saved for offline use!'}
-              {cacheStatus === 'error' && 'Error saving offline.'}
-            </span>
-          )}
+          {/* Copy/Delete/Offline cache actions removed from viewer; available in main menu */}
         </div>
       </div>
 
@@ -656,6 +639,14 @@ export default function SetlistEditorPage() {
             onBlur={(e) => save({ venue: e.target.value || undefined })}
           />
         </label>
+        <div className="flex items-center justify-end">
+          <a
+            className="rounded border px-3 py-1 text-sm font-bold"
+            href={`/setlists/${id}/settings`}
+          >
+            Settings
+          </a>
+        </div>
         {/* 'Add gap after each song' moved to per-setlist Settings page */}
         {/* Per-setlist settings moved to dedicated Settings page */}
       </div>

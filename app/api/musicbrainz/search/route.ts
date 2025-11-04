@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 
-import { getCurrentUser } from '@/lib/auth';
+import { getCurrentUserAsync } from '@/lib/auth';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
-  const user = getCurrentUser();
+  const user = await getCurrentUserAsync();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const url = new URL(request.url);
   const q = url.searchParams.get('q');
@@ -12,7 +15,10 @@ export async function GET(request: Request) {
   const limitParam = parseInt(url.searchParams.get('limit') || '30', 10) || 30;
   const limit = Math.min(limitParam, 30);
 
-  const headers = { 'User-Agent': 'SongDeck/0.1 (demo)' } as const;
+  // MusicBrainz requires a descriptive User-Agent with contact info per their usage policy
+  const headers = {
+    'User-Agent': 'Coverlist/1.0 (+https://github.com/rbp360/Coverlist)',
+  } as const;
 
   // Helpers
   // Broader pattern to detect "hits" style collections

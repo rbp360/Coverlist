@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { INSTRUMENTS } from '@/lib/presets';
 
@@ -24,6 +24,7 @@ export default function ProfilePage() {
   const [sel, setSel] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const userFileRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -116,14 +117,35 @@ export default function ProfilePage() {
               </div>
               <div>
                 <div className="text-sm text-neutral-400">{user?.email}</div>
-                <label className="mt-2 block text-sm">
-                  <span className="mb-1 block text-neutral-400">Upload photo</span>
+                <div className="mt-2 block text-sm">
+                  <button
+                    type="button"
+                    className="rounded border px-3 py-1"
+                    onClick={() => {
+                      if (user?.avatarUrl) {
+                        const ok = window.confirm('Do you want to replace the current picture?');
+                        if (!ok) return;
+                      }
+                      userFileRef.current?.click();
+                    }}
+                  >
+                    {user?.avatarUrl ? 'Replace picture' : 'Add picture'}
+                  </button>
                   <input
+                    ref={userFileRef}
                     type="file"
                     accept="image/*"
-                    onChange={(e) => e.target.files && uploadUserAvatar(e.target.files[0])}
+                    className="hidden"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) {
+                        uploadUserAvatar(f);
+                        // clear the value so selecting the same file again works
+                        e.currentTarget.value = '';
+                      }
+                    }}
                   />
-                </label>
+                </div>
               </div>
             </div>
             <label className="mt-4 block text-sm">
@@ -210,16 +232,37 @@ export default function ProfilePage() {
                       </div>
                     </div>
                   </div>
-                  <label className="text-sm">
-                    <span className="mb-1 mr-2 text-neutral-400">Project photo</span>
+                  <div className="text-sm">
+                    <button
+                      type="button"
+                      className="rounded border px-3 py-1 mr-2"
+                      onClick={() => {
+                        if (p.avatarUrl) {
+                          const ok = window.confirm('Do you want to replace the current picture?');
+                          if (!ok) return;
+                        }
+                        const input = document.getElementById(
+                          `project-file-${p.id}`,
+                        ) as HTMLInputElement | null;
+                        input?.click();
+                      }}
+                    >
+                      {p.avatarUrl ? 'Replace picture' : 'Add picture'}
+                    </button>
                     <input
+                      id={`project-file-${p.id}`}
                       type="file"
                       accept="image/*"
-                      onChange={(e) =>
-                        e.target.files && uploadProjectAvatar(p.id, e.target.files[0])
-                      }
+                      className="hidden"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        if (f) {
+                          uploadProjectAvatar(p.id, f);
+                          e.currentTarget.value = '';
+                        }
+                      }}
                     />
-                  </label>
+                  </div>
                 </li>
               ))}
               {projects.length === 0 && (

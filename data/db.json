@@ -354,6 +354,18 @@
       "email": "user-1762174075760-chromium-4-izorv6@test.local",
       "passwordHash": "firebase",
       "createdAt": "2025-11-03T12:47:59.679Z"
+    },
+    {
+      "id": "u_l8cntwd80ts1762218745037",
+      "email": "user-1762218744024-chromium-9-2txsjn@test.local",
+      "passwordHash": "$2b$10$.9zQc2U.Xd6RrY2YzAVCMO8oBeqILC1GcQ3AJRlosVc91/bq9VHYi",
+      "createdAt": "2025-11-04T01:12:25.148Z"
+    },
+    {
+      "id": "u_b14cqap4ubm1762218776329",
+      "email": "user-1762218776246-chromium-9-zfesyu@test.local",
+      "passwordHash": "$2b$10$lbVVoQmeoxUa3kQgLMYoZeNqDxHLQoOkZU6RihWeZlWE9HBNYRWRS",
+      "createdAt": "2025-11-04T01:12:56.426Z"
     }
   ],
   "projects": [
@@ -696,36 +708,30 @@
           "title": "Set 1"
         },
         {
-          "id": "3c2d3e0b-3de7-4b9c-8845-227441232558",
-          "type": "section",
+          "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
+          "type": "note",
           "order": 1,
-          "title": "Set 2"
-        },
-        {
-          "id": "180f73d7-3655-4cad-b17c-4e5d264dded1",
-          "type": "section",
-          "order": 2,
-          "title": "Set 3"
+          "note": "⬇️ Tune down 1/2 step"
         },
         {
           "id": "0b97a3ae-83e4-4e63-ab7c-1070910ec871",
           "type": "song",
-          "order": 3,
+          "order": 2,
           "songId": "ab0d347e-0184-4a8a-9409-71168a7a36a7",
           "title": "Meant for You",
           "artist": "The Beach Boys",
           "durationSec": 41
         },
         {
-          "id": "80991adf-15e9-42fe-bf2a-c6c553eb9fca",
-          "type": "note",
-          "order": 4,
-          "note": "test note to appear in green after the lyrics"
+          "id": "3c2d3e0b-3de7-4b9c-8845-227441232558",
+          "type": "section",
+          "order": 3,
+          "title": "Set 2"
         },
         {
           "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
           "type": "song",
-          "order": 5,
+          "order": 4,
           "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
           "title": "Jungle of Love",
           "artist": "Lynch Mob",
@@ -733,10 +739,17 @@
           "transposedKey": "B"
         },
         {
-          "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
-          "type": "note",
+          "id": "180f73d7-3655-4cad-b17c-4e5d264dded1",
+          "type": "section",
+          "order": 5,
+          "title": "Set 3"
+        },
+        {
+          "id": "4aecf3ca-5c03-4004-841e-de5f53d967d5",
+          "type": "break",
           "order": 6,
-          "note": "⬇️ Tune down 1/2 step"
+          "title": "Break",
+          "durationSec": 600
         },
         {
           "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
@@ -748,26 +761,28 @@
           "durationSec": 269
         },
         {
-          "id": "3a2584d3-c60e-4d63-b697-674bb0de0040",
-          "type": "break",
-          "order": 8,
-          "title": "Break",
-          "durationSec": 600
-        },
-        {
-          "id": "7afcba0b-f129-4312-9dc5-61b682502ffd",
+          "id": "80991adf-15e9-42fe-bf2a-c6c553eb9fca",
           "type": "note",
-          "order": 9,
-          "note": "1/2 step down"
+          "order": 8,
+          "note": "test note to appear in green after the lyrics"
         },
         {
           "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
           "type": "song",
-          "order": 10,
+          "order": 9,
           "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
           "title": "Hey Jude",
           "artist": "The Beatles",
           "durationSec": 305
+        },
+        {
+          "id": "6e0699d4-296c-4247-b079-1a2359f8aa95",
+          "type": "song",
+          "order": 10,
+          "songId": "72ba9218-7351-4f2c-9293-5406f66b8ece",
+          "title": "Only You Can Rock Me",
+          "artist": "UFO",
+          "durationSec": 249
         },
         {
           "id": "a908c3de-9959-4b19-b9ab-5b256fe4f9c5",
@@ -786,7 +801,7 @@
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-11-02T05:11:53.786Z",
+      "updatedAt": "2025-11-04T02:06:16.778Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,
