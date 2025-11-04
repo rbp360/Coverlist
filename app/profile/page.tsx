@@ -93,19 +93,14 @@ export default function ProfilePage() {
     }
   }
 
-  const instrumentCols = useMemo(() => {
-    // split instruments into 3 columns
-    const cols = [[], [], []] as string[][];
-    INSTRUMENTS.forEach((inst, idx) => cols[idx % 3].push(inst));
-    return cols;
-  }, []);
+  // No manual column splitting; use a responsive grid to avoid overlap/bleed
 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold">Profile</h2>
       {error && <div className="text-sm text-red-600">{error}</div>}
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="md:col-span-1">
+      <div className="grid gap-6 md:grid-cols-4">
+        <div className="md:col-span-2">
           <div className="rounded border bg-black p-4 text-white">
             <div className="mb-3 font-medium">Your Info</div>
             <div className="flex items-center gap-4">
@@ -151,25 +146,21 @@ export default function ProfilePage() {
             </label>
             <div className="mt-4">
               <div className="mb-1 text-sm text-neutral-400">Instruments</div>
-              {/* Responsive grid to avoid overlap: 1 col on small, 2 on md, 3 on lg+ */}
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                {instrumentCols.map((col, idx) => (
-                  <div key={idx} className="space-y-1">
-                    {col.map((inst) => (
-                      <label key={inst} className="flex items-start gap-2 text-sm leading-tight">
-                        <input
-                          type="checkbox"
-                          checked={sel.includes(inst)}
-                          onChange={(e) =>
-                            setSel((prev) =>
-                              e.target.checked ? [...prev, inst] : prev.filter((i) => i !== inst),
-                            )
-                          }
-                        />
-                        <span className="break-words whitespace-normal">{inst}</span>
-                      </label>
-                    ))}
-                  </div>
+              {/* Keep to max 3 columns to prevent overlap/bleed on wider screens */}
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {INSTRUMENTS.map((inst) => (
+                  <label key={inst} className="flex items-start gap-2 text-sm leading-5 min-w-0">
+                    <input
+                      type="checkbox"
+                      checked={sel.includes(inst)}
+                      onChange={(e) =>
+                        setSel((prev) =>
+                          e.target.checked ? [...prev, inst] : prev.filter((i) => i !== inst),
+                        )
+                      }
+                    />
+                    <span className="break-words whitespace-normal">{inst}</span>
+                  </label>
                 ))}
               </div>
             </div>

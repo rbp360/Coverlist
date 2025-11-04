@@ -95,7 +95,7 @@
       "createdAt": "2025-10-28T01:26:21.165Z"
     },
     {
-      "id": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
+      "id": "b6MG0Wi796bpR5h30xF09mIZy642",
       "email": "rob_b_paul@hotmail.com",
       "passwordHash": "$2b$10$zNAwF2ImHknsZ/SqA4.lpuWv0acL8TjvyfCv7ziRrsMTeuFp3md0K",
       "createdAt": "2025-10-28T07:18:49.841Z",
@@ -361,7 +361,7 @@
       "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "name": "test project",
       "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "memberIds": ["7d9bd818-1e5b-4300-818f-ecb70c926825", "08f1e9d5-afdb-42e9-ae02-42b95753a223"],
+      "memberIds": ["7d9bd818-1e5b-4300-818f-ecb70c926825", "b6MG0Wi796bpR5h30xF09mIZy642"],
       "createdAt": "2025-10-21T08:35:26.159Z",
       "avatarUrl": "/api/uploads/b179467d-df9b-4bd4-898c-ce8de77ed5d2.jpg"
     },
@@ -1215,7 +1215,7 @@
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
-      "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
+      "userId": "b6MG0Wi796bpR5h30xF09mIZy642",
       "instruments": ["Drums"]
     },
     {
@@ -1380,7 +1380,7 @@
     },
     {
       "id": "527d8978-5f01-4399-9eac-a1e77ed2d8dc",
-      "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
+      "userId": "b6MG0Wi796bpR5h30xF09mIZy642",
       "title": "Stairway",
       "artist": "Mark Lockheart",
       "durationSec": 111,
@@ -1561,7 +1561,7 @@
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "createdAt": "2025-10-28T07:17:09.615Z",
       "votes": {
-        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "no"
+        "b6MG0Wi796bpR5h30xF09mIZy642": "no"
       }
     },
     {
@@ -1574,7 +1574,7 @@
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "createdAt": "2025-10-28T07:17:09.615Z",
       "votes": {
-        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "yes"
+        "b6MG0Wi796bpR5h30xF09mIZy642": "yes"
       }
     },
     {
