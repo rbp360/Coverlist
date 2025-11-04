@@ -195,3 +195,7 @@ Notes:
 
 - On Vercel, JSON writes go to `/tmp/data/db.json` and are mirrored to Firestore. The next deploy/cold start will seed from Firestore again.
 - If you later want to read directly from Firestore (fully async), you can replace the `db` implementation and update call sites incrementally.
+
+User ID migration (legacy → Firebase):
+
+- When a user first signs in with Firebase, the server links their legacy account (matched by email) to their Firebase uid and transparently migrates all references (projects, memberships, practice logs, repertoire, join requests, and votes). This preserves existing data so users continue to see their content after switching auth providers.

@@ -108,6 +108,93 @@ function writeDB(db: DB) {
 }
 
 export const db = {
+  // Migrate all references from an old user id to a new user id (e.g., legacy -> Firebase uid)
+  migrateUserId(oldUserId: string, newUserId: string) {
+    if (!oldUserId || !newUserId || oldUserId === newUserId) return;
+    const d = readDB();
+    // Users
+    const uIdx = d.users.findIndex((u) => u.id === oldUserId);
+    if (uIdx !== -1) {
+      const existingNewIdx = d.users.findIndex((u) => u.id === newUserId);
+      if (existingNewIdx !== -1 && existingNewIdx !== uIdx) {
+        // Merge basic fields; prefer non-empty values
+        const oldU = d.users[uIdx] as any;
+        const newU = d.users[existingNewIdx] as any;
+        const merged = {
+          ...newU,
+          email: newU.email || oldU.email,
+          username: newU.username || oldU.username,
+          name: newU.name || oldU.name,
+          avatarUrl: newU.avatarUrl || oldU.avatarUrl,
+          passwordHash: newU.passwordHash || oldU.passwordHash,
+          spotify: newU.spotify || oldU.spotify,
+          createdAt: newU.createdAt || oldU.createdAt,
+        };
+        d.users[existingNewIdx] = { ...merged, id: newUserId } as any;
+        // Remove the old entry
+        d.users.splice(uIdx, 1);
+      } else {
+        d.users[uIdx] = { ...(d.users[uIdx] as any), id: newUserId } as any;
+      }
+    }
+    // Projects owner/member references
+    for (const p of d.projects) {
+      if (p.ownerId === oldUserId) p.ownerId = newUserId;
+      if (Array.isArray(p.memberIds)) {
+        p.memberIds = p.memberIds.map((m) => (m === oldUserId ? newUserId : m));
+        // de-dup if new id already present
+        p.memberIds = Array.from(new Set(p.memberIds));
+      }
+    }
+    // ProjectMembers entries
+    if (Array.isArray((d as any).projectMembers)) {
+      (d as any).projectMembers = (d as any).projectMembers.map((pm: any) =>
+        pm.userId === oldUserId ? { ...pm, userId: newUserId } : pm,
+      );
+    }
+    // Project practice
+    if (Array.isArray((d as any).projectPractice)) {
+      (d as any).projectPractice = (d as any).projectPractice.map((pe: any) =>
+        pe.userId === oldUserId ? { ...pe, userId: newUserId } : pe,
+      );
+    }
+    // Personal practice
+    if (Array.isArray((d as any).personalPractice)) {
+      (d as any).personalPractice = (d as any).personalPractice.map((pe: any) =>
+        pe.userId === oldUserId ? { ...pe, userId: newUserId } : pe,
+      );
+    }
+    // Repertoire
+    if (Array.isArray((d as any).repertoireSongs)) {
+      (d as any).repertoireSongs = (d as any).repertoireSongs.map((rs: any) =>
+        rs.userId === oldUserId ? { ...rs, userId: newUserId } : rs,
+      );
+    }
+    // Join requests
+    if (Array.isArray((d as any).joinRequests)) {
+      (d as any).joinRequests = (d as any).joinRequests.map((jr: any) =>
+        jr.userId === oldUserId ? { ...jr, userId: newUserId } : jr,
+      );
+    }
+    // Project todo votes map keyed by userId
+    if (Array.isArray((d as any).projectTodo)) {
+      (d as any).projectTodo = (d as any).projectTodo.map((t: any) => {
+        if (!t.votes) return t;
+        if (Object.prototype.hasOwnProperty.call(t.votes, oldUserId)) {
+          const nextVotes = { ...t.votes } as Record<string, 'yes' | 'no'>;
+          const vote = nextVotes[oldUserId];
+          delete nextVotes[oldUserId];
+          // Do not overwrite an existing newUserId vote if present
+          if (!Object.prototype.hasOwnProperty.call(nextVotes, newUserId)) {
+            nextVotes[newUserId] = vote;
+          }
+          return { ...t, votes: nextVotes };
+        }
+        return t;
+      });
+    }
+    writeDB(d);
+  },
   // Settings
   getSettings() {
     const d = readDB();

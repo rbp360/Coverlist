@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       db.createUser(toCreate);
       user = toCreate as any;
     } else if (user.id !== uid) {
-      db.updateUser({ ...user, id: uid } as any);
+      db.migrateUserId(user.id, uid);
       user = db.getUserById(uid) || user;
     }
     const legacy = signToken(user as any);

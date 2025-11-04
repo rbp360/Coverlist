@@ -64,8 +64,8 @@ export async function getCurrentUserAsync(): Promise<User | null> {
         } as User;
         db.createUser(user);
       } else if (user.id !== uid) {
-        // Migrate to use uid as id if needed
-        db.updateUser({ ...user, id: uid } as User);
+        // Migrate to use uid as id if needed, updating all cross-references
+        db.migrateUserId(user.id, uid);
         user = db.getUserById(uid) || user;
       }
       return user;
