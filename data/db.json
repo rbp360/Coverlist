@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "id": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "email": "jamconnect123@gmail.com",
       "passwordHash": "$2b$10$lCAPQYUtf2MZqgmsRbKDoOabsvshqzOwytqFMutKTKPsVrLDPoVXK",
       "createdAt": "2025-10-21T08:34:21.612Z",
@@ -9,9 +9,9 @@
       "name": "Roberto",
       "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
       "spotify": {
-        "accessToken": "BQA8Slq9S3raWPSa8zjpuCsjl8-i-7A53DHBy37z33DlgK98wHpf03qqodLpuHNsEHKORCvE98nL0Xt5-Jhr9cfQwkSmz5N_GZyxxlhWFyA0aBPmkwWM61wyYm5DSAMAkS5dfk1njbOdSiKzNW7DrnhRbDiF_GH7vxBoy8uZq0HG89WJ4xb9SaFdUG5d-ei-AWcmLBRg60X7UwWm6eYXLlYkCsgSRFDxOosZtJcdPfWe0pbRX9TLizmNDAncWDlUZAHT5_kueGFRpoEqGH7I",
+        "accessToken": "BQCY3YGKNLO76ezCY11OXt34VeIgZchLKwAb0XisBEu-F_ORWDyZk6PW7fV8qAzRTJDmgnpI4hBD9EbACLcjAF6fbu93JNfU830wjXGzChnCVRFUN0WkcJ49uwWpmnIQqijVQ5s0DE8xLJ7e1z4y7rmZvtXiNQRrGdyiXpDfWEgwfltcioPW8-bnpd1GzeUdqsL5nxayZ_E7EfsKojH4kJDThgq5n4-QOheGtWGwKt07KFDwUhsK0dK23aQX7261lml9ENzziHQ_6Z69T_07",
         "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
-        "expiresAt": 1762245464171,
+        "expiresAt": 1762068780257,
         "scope": "playlist-modify-private playlist-modify-public",
         "tokenType": "Bearer"
       }
@@ -95,7 +95,7 @@
       "createdAt": "2025-10-28T01:26:21.165Z"
     },
     {
-      "id": "b6MG0Wi796bpR5h30xF09mIZy642",
+      "id": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
       "email": "rob_b_paul@hotmail.com",
       "passwordHash": "$2b$10$zNAwF2ImHknsZ/SqA4.lpuWv0acL8TjvyfCv7ziRrsMTeuFp3md0K",
       "createdAt": "2025-10-28T07:18:49.841Z",
@@ -354,52 +354,28 @@
       "email": "user-1762174075760-chromium-4-izorv6@test.local",
       "passwordHash": "firebase",
       "createdAt": "2025-11-03T12:47:59.679Z"
-    },
-    {
-      "id": "u_l8cntwd80ts1762218745037",
-      "email": "user-1762218744024-chromium-9-2txsjn@test.local",
-      "passwordHash": "$2b$10$.9zQc2U.Xd6RrY2YzAVCMO8oBeqILC1GcQ3AJRlosVc91/bq9VHYi",
-      "createdAt": "2025-11-04T01:12:25.148Z"
-    },
-    {
-      "id": "u_b14cqap4ubm1762218776329",
-      "email": "user-1762218776246-chromium-9-zfesyu@test.local",
-      "passwordHash": "$2b$10$lbVVoQmeoxUa3kQgLMYoZeNqDxHLQoOkZU6RihWeZlWE9HBNYRWRS",
-      "createdAt": "2025-11-04T01:12:56.426Z"
-    },
-    {
-      "id": "u_szd7rjj8sx1762242852935",
-      "email": "user-1762242852368-chromium-13-g2xj4b@test.local",
-      "passwordHash": "$2b$10$le.O25j/Z6reI1aE2quHpeDOHfIKOwk6OizY/Kr5OZxLnQGgPs8uK",
-      "createdAt": "2025-11-04T07:54:13.057Z"
-    },
-    {
-      "id": "u_s9yvuc2l1m1762242858592",
-      "email": "user-1762242858531-chromium-13-24sn9u@test.local",
-      "passwordHash": "$2b$10$6IkzG4cneyBkHFYSOzZl/.Q8pdqJDKNl9e/AfHeVv66XFP1ga.aYK",
-      "createdAt": "2025-11-04T07:54:18.696Z"
     }
   ],
   "projects": [
     {
       "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "name": "test project",
-      "ownerId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
-      "memberIds": ["1UtlnxdKW4XkZdCKjuPAtOiVTVx1", "b6MG0Wi796bpR5h30xF09mIZy642"],
+      "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "memberIds": ["7d9bd818-1e5b-4300-818f-ecb70c926825", "08f1e9d5-afdb-42e9-ae02-42b95753a223"],
       "createdAt": "2025-10-21T08:35:26.159Z",
       "avatarUrl": "/api/uploads/b179467d-df9b-4bd4-898c-ce8de77ed5d2.jpg"
     },
     {
       "id": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
       "name": "test band 2",
-      "ownerId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "memberIds": [],
       "createdAt": "2025-10-21T09:21:13.785Z"
     },
     {
       "id": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "name": "enzos",
-      "ownerId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "memberIds": [],
       "createdAt": "2025-10-29T08:04:56.270Z",
       "avatarUrl": "/api/uploads/dd2b1b19-00e8-4523-9326-d529e91465fe.png"
@@ -416,10 +392,9 @@
       "key": "C#m",
       "tempo": 148,
       "createdAt": "2025-10-21T08:35:52.978Z",
-      "updatedAt": "2025-11-04T05:08:49.425Z",
+      "updatedAt": "2025-10-25T01:01:19.795Z",
       "transposedKey": "Again auto?",
-      "notes": "This is the 'notes' field from the repertoire",
-      "url": "https://open.spotify.com/track/7ygpwy2qP3NbrxVkHvUhXY"
+      "notes": "This is the 'notes' field from the repertoire"
     },
     {
       "id": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
@@ -431,9 +406,8 @@
       "key": "Ebm",
       "tempo": 119,
       "createdAt": "2025-10-21T09:03:02.535Z",
-      "updatedAt": "2025-11-04T05:08:49.767Z",
-      "transposedKey": "Yes",
-      "url": "https://open.spotify.com/track/6lvlzl1P9PpQCm13YuwiJR"
+      "updatedAt": "2025-10-25T01:27:20.728Z",
+      "transposedKey": "Yes"
     },
     {
       "id": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
@@ -445,8 +419,7 @@
       "key": "D",
       "tempo": 156,
       "createdAt": "2025-10-21T09:06:24.181Z",
-      "updatedAt": "2025-11-04T05:08:50.172Z",
-      "url": "https://open.spotify.com/track/1eT2CjXwFXNx6oY5ydvzKU"
+      "updatedAt": "2025-10-25T01:27:26.677Z"
     },
     {
       "id": "b4c4480d-7817-4b35-84c6-f1c4c4dc46cf",
@@ -471,8 +444,7 @@
       "key": "G#m",
       "tempo": 137,
       "createdAt": "2025-10-22T00:54:32.316Z",
-      "updatedAt": "2025-11-04T07:49:26.501Z",
-      "url": "https://open.spotify.com/track/1eT2CjXwFXNx6oY5ydvzKU"
+      "updatedAt": "2025-10-25T01:28:09.677Z"
     },
     {
       "id": "329708e7-5cb9-4d69-be42-4d6ba4192599",
@@ -495,10 +467,9 @@
       "durationSec": 249,
       "mbid": "b5506ff9-036b-460d-9bef-82f1afa7625d",
       "createdAt": "2025-10-22T04:32:24.137Z",
-      "updatedAt": "2025-11-04T05:08:51.055Z",
+      "updatedAt": "2025-10-25T01:28:02.811Z",
       "key": "Fm",
-      "tempo": 85,
-      "url": "https://open.spotify.com/track/24EisNEqlW4DYqaNepFM5k"
+      "tempo": 85
     },
     {
       "id": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
@@ -508,10 +479,9 @@
       "durationSec": 349,
       "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
       "createdAt": "2025-10-24T02:58:51.681Z",
-      "updatedAt": "2025-11-04T05:08:51.468Z",
+      "updatedAt": "2025-10-25T01:27:35.420Z",
       "key": "Dm",
-      "tempo": 128,
-      "url": "https://open.spotify.com/track/1tQ5TSr1tyeQUbHKBee0jv"
+      "tempo": 128
     },
     {
       "id": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
@@ -521,10 +491,9 @@
       "durationSec": 259,
       "mbid": "e7ccbc5c-b400-410c-b5b2-a334096ccbfd",
       "createdAt": "2025-10-24T02:59:08.710Z",
-      "updatedAt": "2025-11-04T07:38:33.840Z",
+      "updatedAt": "2025-10-25T01:28:19.348Z",
       "key": "Ab",
-      "tempo": 86,
-      "url": "https://open.spotify.com/track/3HRQtRUYnnuZY7fE900XtJ"
+      "tempo": 86
     },
     {
       "id": "f59018e6-629c-4992-830b-6c61d4e260c4",
@@ -554,10 +523,9 @@
       "durationSec": 212,
       "mbid": "bea681de-5228-4b12-968e-3db163ea4c92",
       "createdAt": "2025-10-24T03:49:51.900Z",
-      "updatedAt": "2025-11-04T05:08:52.264Z",
+      "updatedAt": "2025-10-25T01:28:15.435Z",
       "key": "Bb",
-      "tempo": 156,
-      "url": "https://open.spotify.com/track/5i36c6C2XRw8U71yWgcoTn"
+      "tempo": 156
     },
     {
       "id": "576e315d-db24-4fd7-956e-942b7985799d",
@@ -567,10 +535,9 @@
       "durationSec": 286,
       "mbid": "3ed7768b-5f8e-4d4c-be3d-0b5e18d3a611",
       "createdAt": "2025-10-24T04:53:33.392Z",
-      "updatedAt": "2025-11-04T05:08:52.693Z",
+      "updatedAt": "2025-10-24T05:27:08.668Z",
       "key": "Fm",
-      "tempo": 88,
-      "url": "https://open.spotify.com/track/5GajMY3svgJJa8UfbyNFpu"
+      "tempo": 88
     },
     {
       "id": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
@@ -580,10 +547,9 @@
       "durationSec": 281,
       "mbid": "1709638f-9f82-4f6b-aca9-50367f040a6c",
       "createdAt": "2025-10-24T04:57:25.028Z",
-      "updatedAt": "2025-11-04T07:49:22.134Z",
+      "updatedAt": "2025-10-24T05:27:04.610Z",
       "key": "C",
-      "tempo": 127,
-      "url": "https://open.spotify.com/track/0GONea6G2XdnHWjNZd6zt3"
+      "tempo": 127
     },
     {
       "id": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
@@ -711,9 +677,7 @@
       "mbid": "1a3a3518-dd33-4044-aa92-1d98eef05216",
       "url": "https://open.spotify.com/track/2h5cpnAVMC4kOOLF7NqmIr",
       "createdAt": "2025-10-30T10:36:06.288Z",
-      "updatedAt": "2025-11-04T07:49:15.838Z",
-      "key": "Am",
-      "tempo": 116
+      "updatedAt": "2025-10-30T10:36:06.288Z"
     }
   ],
   "setlists": [
@@ -732,18 +696,36 @@
           "title": "Set 1"
         },
         {
+          "id": "3c2d3e0b-3de7-4b9c-8845-227441232558",
+          "type": "section",
+          "order": 1,
+          "title": "Set 2"
+        },
+        {
+          "id": "180f73d7-3655-4cad-b17c-4e5d264dded1",
+          "type": "section",
+          "order": 2,
+          "title": "Set 3"
+        },
+        {
           "id": "0b97a3ae-83e4-4e63-ab7c-1070910ec871",
           "type": "song",
-          "order": 1,
+          "order": 3,
           "songId": "ab0d347e-0184-4a8a-9409-71168a7a36a7",
           "title": "Meant for You",
           "artist": "The Beach Boys",
           "durationSec": 41
         },
         {
+          "id": "80991adf-15e9-42fe-bf2a-c6c553eb9fca",
+          "type": "note",
+          "order": 4,
+          "note": "test note to appear in green after the lyrics"
+        },
+        {
           "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
           "type": "song",
-          "order": 2,
+          "order": 5,
           "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
           "title": "Jungle of Love",
           "artist": "Lynch Mob",
@@ -751,53 +733,32 @@
           "transposedKey": "B"
         },
         {
-          "id": "3c2d3e0b-3de7-4b9c-8845-227441232558",
-          "type": "section",
-          "order": 3,
-          "title": "Set 2"
-        },
-        {
           "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
           "type": "note",
-          "order": 4,
-          "note": "⬇️ Tune down 1/2 step"
-        },
-        {
-          "id": "6e0699d4-296c-4247-b079-1a2359f8aa95",
-          "type": "song",
-          "order": 5,
-          "songId": "72ba9218-7351-4f2c-9293-5406f66b8ece",
-          "title": "Only You Can Rock Me",
-          "artist": "UFO",
-          "durationSec": 249
-        },
-        {
-          "id": "180f73d7-3655-4cad-b17c-4e5d264dded1",
-          "type": "section",
           "order": 6,
-          "title": "Set 3"
-        },
-        {
-          "id": "4aecf3ca-5c03-4004-841e-de5f53d967d5",
-          "type": "break",
-          "order": 7,
-          "title": "Break",
-          "durationSec": 600
-        },
-        {
-          "id": "80991adf-15e9-42fe-bf2a-c6c553eb9fca",
-          "type": "note",
-          "order": 8,
-          "note": "test note to appear in green after the lyrics"
+          "note": "⬇️ Tune down 1/2 step"
         },
         {
           "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
           "type": "song",
-          "order": 9,
+          "order": 7,
           "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
           "title": "Wonderwall",
           "artist": "Oasis",
           "durationSec": 269
+        },
+        {
+          "id": "3a2584d3-c60e-4d63-b697-674bb0de0040",
+          "type": "break",
+          "order": 8,
+          "title": "Break",
+          "durationSec": 600
+        },
+        {
+          "id": "7afcba0b-f129-4312-9dc5-61b682502ffd",
+          "type": "note",
+          "order": 9,
+          "note": "1/2 step down"
         },
         {
           "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
@@ -825,7 +786,7 @@
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-11-04T03:49:41.026Z",
+      "updatedAt": "2025-11-02T05:11:53.786Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,
@@ -909,11 +870,11 @@
         }
       ],
       "createdAt": "2025-10-24T02:54:48.703Z",
-      "updatedAt": "2025-11-04T04:04:38.730Z",
+      "updatedAt": "2025-10-24T03:03:02.608Z",
       "public": true,
       "date": "2026-11-05",
       "venue": "whiskey a Go GO",
-      "showKey": true,
+      "showKey": false,
       "showNotesAfterLyrics": false,
       "showColourFlip": false,
       "showWhatWhere": false,
@@ -1248,18 +1209,18 @@
   "projectMembers": [
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "instruments": ["Electric Guitar"],
       "role": "bandMember"
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
-      "userId": "b6MG0Wi796bpR5h30xF09mIZy642",
+      "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
       "instruments": ["Drums"]
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "instruments": ["Vocals", "Bass Guitar", "Electric Guitar"]
     }
   ],
@@ -1267,49 +1228,49 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "329708e7-5cb9-4d69-be42-4d6ba4192599",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 3,
       "rating": 4
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 1
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "ac3922c6-7fcf-47de-a8aa-e8d337a4622a",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 1
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "2e9eec3d-1f82-4736-af13-fa8ab7c15ea2",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 1
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 1,
       "rating": 1
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "b4c4480d-7817-4b35-84c6-f1c4c4dc46cf",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 2,
       "rating": 2
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 8,
       "rating": 3,
       "lastRehearsed": "2020-01-01"
@@ -1317,7 +1278,7 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 5,
       "rating": 0,
       "lastRehearsed": "2025-10-01"
@@ -1325,7 +1286,7 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 3,
       "rating": 0,
       "lastRehearsed": "2025-09-20"
@@ -1333,14 +1294,14 @@
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 3
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 4,
       "lastRehearsed": "2025-10-29"
@@ -1348,14 +1309,14 @@
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 4
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "46071d93-22a8-41e3-b45e-e41efdf76751",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 4,
       "lastRehearsed": "2025-10-29"
@@ -1363,7 +1324,7 @@
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 3,
       "lastRehearsed": "2025-10-29"
@@ -1371,7 +1332,7 @@
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "40fb96e8-2f14-47fb-97fd-ae2a37b4cf5d",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 4,
       "lastRehearsed": "2025-10-29"
@@ -1379,28 +1340,28 @@
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "56649a8f-5c7d-488b-b101-8df07daeb64b",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 3
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 5
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "f2c325f6-a4c5-4a1d-812e-6dfc55086eac",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 2
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "2812d149-7093-40a1-9e43-c86be064bb4f",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 3
     }
@@ -1408,7 +1369,7 @@
   "repertoireSongs": [
     {
       "id": "aff926dd-92a4-4916-b112-124a35eb8613",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Born in the U.S.A.",
       "artist": "Bruce Springsteen",
       "durationSec": 492,
@@ -1419,7 +1380,7 @@
     },
     {
       "id": "527d8978-5f01-4399-9eac-a1e77ed2d8dc",
-      "userId": "b6MG0Wi796bpR5h30xF09mIZy642",
+      "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
       "title": "Stairway",
       "artist": "Mark Lockheart",
       "durationSec": 111,
@@ -1429,7 +1390,7 @@
     },
     {
       "id": "5a447b2b-0950-4aad-b26b-e5d31c3ecfed",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Too Young to Die, Too Drunk to Live",
       "artist": "Alcatrazz",
       "durationSec": 261,
@@ -1441,7 +1402,7 @@
     },
     {
       "id": "cd356510-eb9e-47ba-aa8f-755922e33f00",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Don’t Break My Heart Again",
       "artist": "Whitesnake",
       "durationSec": 243,
@@ -1453,7 +1414,7 @@
     },
     {
       "id": "2442620d-e153-44a5-b61a-3023743ea95f",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Would I Lie to You",
       "artist": "Whitesnake",
       "durationSec": 269,
@@ -1465,7 +1426,7 @@
     },
     {
       "id": "2bbee27a-f108-43c2-8275-411644d24acf",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Might Just Take Your Life",
       "artist": "Deep Purple",
       "durationSec": 279,
@@ -1477,7 +1438,7 @@
     },
     {
       "id": "e00e46ba-58bb-48ae-acb1-b176bd55860a",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Smoke on the Water",
       "artist": "Deep Purple",
       "durationSec": 341,
@@ -1488,7 +1449,7 @@
     },
     {
       "id": "5a65a673-c855-4846-b017-254880db7822",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Highway Star",
       "artist": "Deep Purple",
       "durationSec": 370,
@@ -1500,7 +1461,7 @@
     },
     {
       "id": "38d886db-fbca-4b8c-9b7a-36ea206ba325",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Black Night",
       "artist": "Deep Purple",
       "durationSec": 288,
@@ -1511,7 +1472,7 @@
     },
     {
       "id": "84d02144-11f3-4246-9bf1-4321caf675a4",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Holy Diver",
       "artist": "Dio",
       "durationSec": 352,
@@ -1522,7 +1483,7 @@
     },
     {
       "id": "b1325e03-2ee3-4a1b-a0a5-4a8b84c3960f",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "It’s My Life",
       "artist": "Bon Jovi",
       "durationSec": 224,
@@ -1534,7 +1495,7 @@
     },
     {
       "id": "46fa11fb-6132-4502-8e8b-dd298aea6c11",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "You Give Love a Bad Name",
       "artist": "Bon Jovi",
       "durationSec": 235,
@@ -1545,7 +1506,7 @@
     },
     {
       "id": "466b7331-44b0-4b19-b7ca-f312128f4a1a",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Love, Love, Love, Love, Love",
       "artist": "The Music Explosion",
       "durationSec": 164,
@@ -1556,7 +1517,7 @@
     },
     {
       "id": "b1c3557c-e881-436c-8c70-f348b83f90ac",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Innocent Eyes (The Luge mix)",
       "artist": "Delta Goodrem",
       "durationSec": 309,
@@ -1567,7 +1528,7 @@
     },
     {
       "id": "3005244f-165f-42fe-9fdc-4bb461b0d7e7",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Long Live Rock ’n’ Roll",
       "artist": "Rainbow",
       "durationSec": 261,
@@ -1578,7 +1539,7 @@
     },
     {
       "id": "a4eee9b5-c218-4d0a-8799-eb2ea0ca7b43",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "title": "Meant for You",
       "artist": "The Beach Boys",
       "durationSec": 41,
@@ -1586,16 +1547,6 @@
       "url": "https://open.spotify.com/track/2h5cpnAVMC4kOOLF7NqmIr",
       "createdAt": "2025-10-30T10:35:47.368Z",
       "updatedAt": "2025-10-30T10:35:47.368Z"
-    },
-    {
-      "id": "3b421909-20af-4c3f-8ce8-d8852de25961",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
-      "title": "Nothing’s Changed",
-      "artist": "Joe Lynn Turner",
-      "durationSec": 289,
-      "mbid": "8ab18ccb-fa3c-41ef-af2f-3498e8503788",
-      "createdAt": "2025-11-04T04:02:45.785Z",
-      "updatedAt": "2025-11-04T04:02:45.785Z"
     }
   ],
   "joinRequests": [],
@@ -1610,7 +1561,7 @@
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "createdAt": "2025-10-28T07:17:09.615Z",
       "votes": {
-        "b6MG0Wi796bpR5h30xF09mIZy642": "no"
+        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "no"
       }
     },
     {
@@ -1623,7 +1574,7 @@
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "createdAt": "2025-10-28T07:17:09.615Z",
       "votes": {
-        "b6MG0Wi796bpR5h30xF09mIZy642": "yes"
+        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "yes"
       }
     },
     {
@@ -1690,56 +1641,56 @@
   "personalPractice": [
     {
       "repertoireSongId": "aff926dd-92a4-4916-b112-124a35eb8613",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 1
     },
     {
       "repertoireSongId": "329708e7-5cb9-4d69-be42-4d6ba4192599",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 1,
       "rating": 4
     },
     {
       "repertoireSongId": "f59018e6-629c-4992-830b-6c61d4e260c4",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 2
     },
     {
       "repertoireSongId": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 1,
       "rating": 5
     },
     {
       "repertoireSongId": "54e54f61-9321-4de2-8dff-1ec357a65a23",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 1,
       "rating": 5
     },
     {
       "repertoireSongId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 4,
       "lastRehearsed": "2025-10-29"
     },
     {
       "repertoireSongId": "72ba9218-7351-4f2c-9293-5406f66b8ece",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 2
     },
     {
       "repertoireSongId": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 4
     },
     {
       "repertoireSongId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
-      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "passes": 0,
       "rating": 1
     }
