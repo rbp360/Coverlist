@@ -366,6 +366,18 @@
       "email": "user-1762218776246-chromium-9-zfesyu@test.local",
       "passwordHash": "$2b$10$lbVVoQmeoxUa3kQgLMYoZeNqDxHLQoOkZU6RihWeZlWE9HBNYRWRS",
       "createdAt": "2025-11-04T01:12:56.426Z"
+    },
+    {
+      "id": "u_szd7rjj8sx1762242852935",
+      "email": "user-1762242852368-chromium-13-g2xj4b@test.local",
+      "passwordHash": "$2b$10$le.O25j/Z6reI1aE2quHpeDOHfIKOwk6OizY/Kr5OZxLnQGgPs8uK",
+      "createdAt": "2025-11-04T07:54:13.057Z"
+    },
+    {
+      "id": "u_s9yvuc2l1m1762242858592",
+      "email": "user-1762242858531-chromium-13-24sn9u@test.local",
+      "passwordHash": "$2b$10$6IkzG4cneyBkHFYSOzZl/.Q8pdqJDKNl9e/AfHeVv66XFP1ga.aYK",
+      "createdAt": "2025-11-04T07:54:18.696Z"
     }
   ],
   "projects": [

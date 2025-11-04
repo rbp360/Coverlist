@@ -26,14 +26,7 @@ export default function LandingPage() {
           Built by musicians, for musicians. SongDeck takes the chaos out of rehearsals, setlists,
           and performance prep — so you can focus on what matters most: playing great music.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
-          <button className="bg-green-500 hover:bg-green-600 text-black font-bold py-3 px-8 rounded-full text-lg shadow-lg transition">
-            🎧 Try SongDeck Free
-          </button>
-          <button className="bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-8 rounded-full text-lg border border-white/20 shadow-lg transition">
-            📱 Learn More
-          </button>
-        </div>
+        {/* CTA buttons removed per request: "Try SongDeck Free" and "Learn More" */}
         <div className="mt-2 text-base italic text-green-300 font-medium">
           &quot;Play Smarter. Rehearse Better. Perform Flawlessly.&quot;
         </div>
