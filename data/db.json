@@ -739,19 +739,19 @@
           "note": "⬇️ Tune down 1/2 step"
         },
         {
-          "id": "180f73d7-3655-4cad-b17c-4e5d264dded1",
-          "type": "section",
-          "order": 5,
-          "title": "Set 3"
-        },
-        {
           "id": "6e0699d4-296c-4247-b079-1a2359f8aa95",
           "type": "song",
-          "order": 6,
+          "order": 5,
           "songId": "72ba9218-7351-4f2c-9293-5406f66b8ece",
           "title": "Only You Can Rock Me",
           "artist": "UFO",
           "durationSec": 249
+        },
+        {
+          "id": "180f73d7-3655-4cad-b17c-4e5d264dded1",
+          "type": "section",
+          "order": 6,
+          "title": "Set 3"
         },
         {
           "id": "4aecf3ca-5c03-4004-841e-de5f53d967d5",
@@ -801,7 +801,7 @@
         }
       ],
       "createdAt": "2025-10-21T08:45:11.572Z",
-      "updatedAt": "2025-11-04T03:46:45.814Z",
+      "updatedAt": "2025-11-04T03:49:41.026Z",
       "date": "2026-10-19",
       "venue": "My House",
       "public": true,

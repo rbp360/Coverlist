@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Dayglo color palette (Tailwind + custom)
@@ -19,6 +20,7 @@ function getProjectColor(projectId: string, projects: { id: string }[]): string 
 type Project = { id: string; name: string; avatarUrl?: string };
 
 export default function ProjectsPage() {
+  const router = useRouter();
   const [projects, setProjects] = useState<Project[]>([]);
   const [name, setName] = useState('');
 
@@ -57,24 +59,70 @@ export default function ProjectsPage() {
       </form>
       <ul className="divide-y rounded border bg-black text-white">
         {projects.map((p) => (
-          <li key={p.id} className="flex items-center justify-between p-3">
-            <div className="flex items-center gap-2 min-w-0">
-              {p.avatarUrl ? (
-                <Image
-                  src={p.avatarUrl}
-                  alt="project gif"
-                  width={24}
-                  height={24}
-                  className="h-6 w-6 rounded object-cover flex-none"
-                />
-              ) : null}
-              <span className={`truncate font-semibold ${getProjectColor(p.id, projects)}`}>
-                {p.name}
-              </span>
+          <li key={p.id} className="p-0">
+            <div
+              className="flex items-center justify-between p-3 hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-green-400 cursor-pointer"
+              role="link"
+              tabIndex={0}
+              onClick={() => router.push(`/projects/${p.id}`)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  router.push(`/projects/${p.id}`);
+                }
+              }}
+              title="Open project"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                {p.avatarUrl ? (
+                  <Image
+                    src={p.avatarUrl}
+                    alt="project gif"
+                    width={24}
+                    height={24}
+                    className="h-6 w-6 rounded object-cover flex-none"
+                  />
+                ) : null}
+                <span className={`truncate font-semibold ${getProjectColor(p.id, projects)}`}>
+                  {p.name}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <a
+                  className="rounded border px-2 py-1 text-xs hover:bg-neutral-800"
+                  href={`/projects/${p.id}/rehearsal`}
+                  title="Rehearsal mode"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Rehearsal mode
+                </a>
+                <a
+                  className="rounded border px-2 py-1 text-xs hover:bg-neutral-800 inline-flex items-center gap-1"
+                  href={`/projects/${p.id}/live`}
+                  title="Live mode"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span className="inline-block h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                  Live mode
+                </a>
+                <a
+                  className="rounded border px-2 py-1 text-xs hover:bg-neutral-800"
+                  href={`/projects/${p.id}`}
+                  title="Edit project"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Edit
+                </a>
+                <a
+                  className="rounded border px-2 py-1 text-xs hover:bg-neutral-800"
+                  href={`/projects/${p.id}/repertoire`}
+                  title="Repertoire"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Repertoire
+                </a>
+              </div>
             </div>
-            <a className="rounded border px-3 py-1 text-sm" href={`/projects/${p.id}`}>
-              Open
-            </a>
           </li>
         ))}
         {projects.length === 0 && <li className="p-4 text-sm text-gray-600">No projects yet.</li>}
