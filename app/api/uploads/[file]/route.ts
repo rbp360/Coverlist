@@ -4,7 +4,11 @@ import { join } from 'path';
 import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
-const UPLOAD_DIR = join(process.cwd(), 'data', 'uploads');
+// Match avatar upload logic: writable directory selection.
+const UPLOAD_DIR = (() => {
+  const isVercel = process.env.VERCEL === '1' || process.env.NOW === '1';
+  return isVercel ? '/tmp/uploads' : join(process.cwd(), 'data', 'uploads');
+})();
 
 function contentTypeFromExt(name: string) {
   const lower = name.toLowerCase();

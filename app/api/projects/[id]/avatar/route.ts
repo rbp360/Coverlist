@@ -8,7 +8,11 @@ import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
 
 export const runtime = 'nodejs';
-const UPLOAD_DIR = join(process.cwd(), 'data', 'uploads');
+// Use a writable directory. On Vercel the repo root is read-only, so fall back to /tmp.
+const UPLOAD_DIR = (() => {
+  const isVercel = process.env.VERCEL === '1' || process.env.NOW === '1';
+  return isVercel ? '/tmp/uploads' : join(process.cwd(), 'data', 'uploads');
+})();
 
 export async function POST(request: Request, { params }: { params: { id: string } }) {
   const user = getCurrentUser();
@@ -23,7 +27,11 @@ export async function POST(request: Request, { params }: { params: { id: string 
   const originalName = (form.get('filename') as string) || 'upload';
   const ab = await (file as any).arrayBuffer();
   const buf = Buffer.from(ab);
-  if (!existsSync(UPLOAD_DIR)) mkdirSync(UPLOAD_DIR, { recursive: true });
+  try {
+    if (!existsSync(UPLOAD_DIR)) mkdirSync(UPLOAD_DIR, { recursive: true });
+  } catch (e) {
+    return NextResponse.json({ error: 'Upload directory unavailable' }, { status: 500 });
+  }
   const ext = extname(originalName) || '.bin';
   const name = `${uuid()}${ext}`;
   const full = `${UPLOAD_DIR}/${name}`;

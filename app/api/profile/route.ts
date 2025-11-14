@@ -51,6 +51,8 @@ export async function PUT(request: Request) {
   if (!curr) return NextResponse.json({ error: 'User not found' }, { status: 404 });
   // Enforce username uniqueness (case-insensitive)
   const patch = parsed.data as any;
+  // Preserve existing avatarUrl when not provided so a profile save doesn't wipe it.
+  if (patch.avatarUrl === undefined) delete patch.avatarUrl;
   if (patch.username) {
     const existing = db.getUserByUsername(patch.username);
     if (existing && existing.id !== curr.id) {

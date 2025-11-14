@@ -199,3 +199,21 @@ Notes:
 User ID migration (legacy → Firebase):
 
 - When a user first signs in with Firebase, the server links their legacy account (matched by email) to their Firebase uid and transparently migrates all references (projects, memberships, practice logs, repertoire, join requests, and votes). This preserves existing data so users continue to see their content after switching auth providers.
+
+## Sync Data (one-click)
+
+Keep local in sync with production (Firestore):
+
+- VS Code task: `Dev: Pull + Next.js` runs a Firestore pull first, then starts the dev server.
+- Manual commands:
+
+```
+npm run data:pull
+npm run dev
+```
+
+Requirements:
+
+- Set Firebase Admin credentials in `.env.local`:
+  - `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` (escape newlines as `\n`)
+  - Optional: `FIRESTORE_DB_DOC` (defaults to `coverlist/db`)

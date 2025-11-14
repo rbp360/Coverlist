@@ -1,19 +1,26 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "Dev: Next.js",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"dev"
-			],
-			"isBackground": true,
-			"problemMatcher": [
-				"$tsc"
-			],
-			"group": "build"
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Dev: Next.js",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dev"],
+      "isBackground": true,
+      "problemMatcher": ["$tsc"],
+      "group": "build"
+    },
+    {
+      "label": "Data: Pull from Firestore",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "data:pull"],
+      "group": "build"
+    },
+    {
+      "label": "Dev: Pull + Next.js",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Data: Pull from Firestore", "Dev: Next.js"]
+    }
+  ]
 }
