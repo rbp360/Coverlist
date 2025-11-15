@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 type Item = {
   id: string;
@@ -56,8 +56,37 @@ export default function SetlistEditorPage() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [dragId, setDragId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
+  const [selectedSongIds, setSelectedSongIds] = useState<string[]>([]);
   const [sectionTitle, setSectionTitle] = useState('Set 1');
   const [settings, setSettings] = useState<{ defaultSongGapSec: number } | null>(null);
+  // Ref for auto-scroll during drag
+  const setlistRef = useState<React.RefObject<HTMLUListElement>>(() => React.createRef())[0];
+  // Auto-scroll interval
+  const autoScrollInterval = useState<NodeJS.Timeout | null>(null)[0];
+  // Infinite scroll during drag
+  useEffect(() => {
+    function onDragMove(e: MouseEvent) {
+      if (!dragId || !setlistRef.current) return;
+      const container = setlistRef.current;
+      const rect = container.getBoundingClientRect();
+      const mouseY = e.clientY;
+      const scrollThreshold = 40; // px from top/bottom
+      const scrollSpeed = 18; // px per frame
+      if (mouseY < rect.top + scrollThreshold) {
+        container.scrollTop -= scrollSpeed;
+      } else if (mouseY > rect.bottom - scrollThreshold) {
+        container.scrollTop += scrollSpeed;
+      }
+    }
+    if (dragId) {
+      window.addEventListener('mousemove', onDragMove);
+    } else {
+      window.removeEventListener('mousemove', onDragMove);
+    }
+    return () => {
+      window.removeEventListener('mousemove', onDragMove);
+    };
+  }, [dragId, setlistRef]);
   const [pdfFontSize, setPdfFontSize] = useState(1.0);
   const [fitPages, setFitPages] = useState<'manual' | 1 | 2>('manual');
   const [isPublic, setIsPublic] = useState(false);
@@ -165,8 +194,11 @@ export default function SetlistEditorPage() {
     for (let i = index + 1; i < items.length; i++) {
       const it = items[i];
       if (it.type === 'section') break;
-      if (it.durationSec) sum += it.durationSec;
-      if (it.type === 'song') songs += 1;
+      if (it.type === 'song') {
+        sum += it.durationSec || 0;
+        songs += 1;
+      }
+      // breaks, notes, etc are ignored for set duration
     }
     if (setlist?.addGapAfterEachSong) {
       const gap =
@@ -445,6 +477,30 @@ export default function SetlistEditorPage() {
     save({ items: [...items, item] as any });
   }
 
+  function addSelectedSongs() {
+    if (!setlist || selectedSongIds.length === 0) return;
+    const existingIds = new Set(
+      (setlist.items || [])
+        .filter((i) => i.type === 'song')
+        .map((i) => i.songId)
+        .filter(Boolean) as string[],
+    );
+    const toAppend = songs.filter((s) => selectedSongIds.includes(s.id) && !existingIds.has(s.id));
+    if (toAppend.length === 0) return;
+    const items = [...setlist.items];
+    let order = items.length ? Math.max(...items.map((i) => i.order)) + 1 : 0;
+    const newItems: Item[] = toAppend.map((s) => ({
+      id: crypto.randomUUID(),
+      type: 'song',
+      order: order++,
+      songId: s.id,
+      title: s.title,
+      artist: s.artist,
+      durationSec: s.durationSec,
+    }));
+    save({ items: [...items, ...newItems] as any });
+    setSelectedSongIds([]);
+  }
   function addAllFromRepertoire() {
     if (!setlist || songs.length === 0) return;
     const existingIds = new Set(
@@ -597,7 +653,7 @@ export default function SetlistEditorPage() {
             </div>
             <a
               className="rounded border px-2 py-1"
-              href={`/api/setlists/${id}/print?fontSize=${pdfFontSize}`}
+              href={`/api/setlists/${id}/print?fontSize=${pdfFontSize}${fitPages === 2 ? '&fit=2' : fitPages === 1 ? '&fit=1' : ''}`}
             >
               Export PDF
             </a>
@@ -639,7 +695,8 @@ export default function SetlistEditorPage() {
       {/* Visibility moved into settings grid below */}
 
       <div className="rounded border bg-black text-white">
-        <ul className="divide-y">
+        <ul className="divide-y" ref={setlistRef} style={{ maxHeight: 900, overflowY: 'auto' }}>
+          {/* ...existing code... */}
           {sortedItems.map((it) => (
             <li
               key={it.id}
@@ -655,9 +712,11 @@ export default function SetlistEditorPage() {
                   <div className="font-medium">
                     {(() => {
                       const song = songs.find((s) => s.id === it.songId);
+                      const baseTitle = song?.title || it.title || '';
                       const tKey = it.transposedKey || song?.transposedKey;
                       const title =
-                        setlist.showTransposedKey && tKey ? `${it.title} (${tKey})` : it.title;
+                        setlist.showTransposedKey && tKey ? `${baseTitle} (${tKey})` : baseTitle;
+                      const artist = song?.artist || it.artist;
                       return (
                         <>
                           {title}
@@ -666,9 +725,9 @@ export default function SetlistEditorPage() {
                               deleted from repertoire
                             </span>
                           )}
-                          {setlist.showArtist && it.artist && (
-                            <span className="text-gray-500"> — {it.artist}</span>
-                          )}
+                          {setlist.showArtist && artist ? (
+                            <span className="text-gray-500"> — {artist}</span>
+                          ) : null}
                           {song && setlist.showKey && song.key ? (
                             <div className="text-sm text-neutral-600">{song.key}</div>
                           ) : null}
@@ -709,8 +768,6 @@ export default function SetlistEditorPage() {
                 ) : (
                   <span />
                 )}
-                {/* Removed per-song 'Key' input box; key display is controlled in Settings */}
-                {/* Removed 'Move to set' dropdown in favor of drag-and-drop */}
                 <button
                   className="rounded border px-2 py-1 text-xs"
                   onClick={() => removeItem(it.id)}
@@ -732,14 +789,24 @@ export default function SetlistEditorPage() {
         <div className="rounded border bg-black p-3 text-white md:col-span-2 flex flex-col h-full">
           <div className="mb-2 flex items-center justify-between">
             <div className="font-medium">Add Song</div>
-            <button
-              className="rounded border px-2 py-1 text-xs disabled:opacity-50"
-              onClick={addAllFromRepertoire}
-              disabled={songs.length === 0}
-              title={songs.length === 0 ? 'No repertoire songs' : 'Append all repertoire songs'}
-            >
-              Add all from repertoire
-            </button>
+            <div className="flex gap-2">
+              <button
+                className="rounded border px-2 py-1 text-xs disabled:opacity-50"
+                onClick={addAllFromRepertoire}
+                disabled={songs.length === 0}
+                title={songs.length === 0 ? 'No repertoire songs' : 'Append all repertoire songs'}
+              >
+                Add all from repertoire
+              </button>
+              <button
+                className="rounded border px-2 py-1 text-xs disabled:opacity-50"
+                onClick={addSelectedSongs}
+                disabled={selectedSongIds.length === 0}
+                title={selectedSongIds.length === 0 ? 'Select songs below' : 'Add selected songs'}
+              >
+                Add selected songs
+              </button>
+            </div>
           </div>
           <ul className="flex-1 min-h-0 divide-y overflow-auto">
             {songs.map((s) => (
@@ -751,6 +818,15 @@ export default function SetlistEditorPage() {
                 title={'Drag into the setlist to add'}
               >
                 <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedSongIds.includes(s.id)}
+                    onChange={(e) => {
+                      setSelectedSongIds((prev) =>
+                        e.target.checked ? [...prev, s.id] : prev.filter((id) => id !== s.id),
+                      );
+                    }}
+                  />
                   <div className="text-[13px] font-medium">
                     {s.title} <span className="text-gray-500">— {s.artist}</span>
                   </div>

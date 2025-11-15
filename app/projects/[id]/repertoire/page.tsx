@@ -54,6 +54,8 @@ export default function RepertoirePage() {
   const [deleting, setDeleting] = useState<string | null>(null);
   const [project, setProject] = useState<any | null>(null);
   const [allProjects, setAllProjects] = useState<any[]>([]);
+  const [editingTitleId, setEditingTitleId] = useState<string | null>(null);
+  const [titleDraft, setTitleDraft] = useState<string>('');
 
   const filtered = songs;
 
@@ -168,14 +170,65 @@ export default function RepertoirePage() {
                     )}
                   </button>
                 </td>
-                <td className="p-2">
-                  {s.title.length > 45 ? s.title.slice(0, 45) + '...' : s.title}
+                <td className="p-2 relative">
+                  <div className="flex items-center gap-2">
+                    <span className="truncate max-w-[22rem]">
+                      {s.title.length > 45 ? s.title.slice(0, 45) + '...' : s.title}
+                    </span>
+                    <button
+                      type="button"
+                      className="rounded border px-1 py-0.5 text-xs"
+                      title="Edit display title"
+                      onClick={() => {
+                        setEditingTitleId((cur) => (cur === s.id ? null : s.id));
+                        setTitleDraft(s.title);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                  {editingTitleId === s.id && (
+                    <div className="absolute z-20 mt-1 rounded border bg-white text-black shadow-md p-2 w-72">
+                      <div className="mb-2 text-xs text-neutral-600">
+                        Set a custom display title for setlists.
+                      </div>
+                      <input
+                        className="w-full rounded border px-2 py-1 mb-2"
+                        value={titleDraft}
+                        onChange={(e) => setTitleDraft(e.target.value)}
+                        placeholder="Custom title"
+                        autoFocus
+                      />
+                      <div className="flex justify-end gap-2">
+                        <button
+                          type="button"
+                          className="rounded border px-2 py-1 text-xs"
+                          onClick={() => setEditingTitleId(null)}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className="rounded bg-black text-white px-2 py-1 text-xs"
+                          onClick={async () => {
+                            const next = (titleDraft || '').trim();
+                            if (next && next !== s.title) {
+                              await saveField(s, { title: next });
+                            }
+                            setEditingTitleId(null);
+                          }}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </td>
                 <td className="p-2 text-neutral-600">{s.artist}</td>
                 <td className="p-2 text-neutral-600">{fmt(s.durationSec)}</td>
-                <td className="p-2">
+                <td className="p-1">
                   <input
-                    className="w-24 rounded border px-2 py-1 font-mono"
+                    className="w-14 rounded border px-1 py-0.5 text-xs font-mono"
                     style={{
                       fontFamily:
                         'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
@@ -184,10 +237,10 @@ export default function RepertoirePage() {
                     onBlur={(e) => saveField(s, { key: formatKey(e.target.value) || undefined })}
                   />
                 </td>
-                <td className="p-2">
+                <td className="p-1">
                   <input
                     type="number"
-                    className="w-20 rounded border px-2 py-1"
+                    className="w-14 rounded border px-1 py-0.5 text-xs"
                     defaultValue={s.tempo || ''}
                     onBlur={(e) =>
                       saveField(s, { tempo: e.target.value ? Number(e.target.value) : undefined })

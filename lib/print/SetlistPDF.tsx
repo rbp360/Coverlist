@@ -80,25 +80,25 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   header: {
-    marginBottom: 12,
+    marginBottom: 6,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     borderBottomStyle: 'solid',
-    paddingBottom: 8,
+    paddingBottom: 4,
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  headerLeft: { width: '50%', paddingRight: 8 },
-  headerRight: { width: '50%', paddingLeft: 8 },
+  headerLeft: { flexDirection: 'row', alignItems: 'center', width: 'auto', paddingRight: 8 },
+  headerRight: { flex: 1, paddingLeft: 8 },
   logo: {
-    width: '100%',
+    width: 48,
     height: 48,
     objectFit: 'contain',
   },
-  title: { fontSize: 18, fontWeight: 'bold', textAlign: 'right', width: '100%' },
+  title: { fontSize: 10, fontWeight: 'bold', textAlign: 'right', width: '100%' },
   meta: {
     fontSize: 10,
     color: '#444',
@@ -134,6 +134,7 @@ export type SetlistPDFProps = {
   defaultSongGapSec: number;
   fontSize?: number; // base font size multiplier (1.0 = default)
   fontBaseUrl?: string; // absolute origin for font loading (e.g., http://localhost:3001)
+  fitMode?: 1 | 2 | 'manual';
 };
 
 function formatDuration(sec?: number): string {
@@ -187,149 +188,220 @@ export default function SetlistPDF({
   defaultSongGapSec,
   fontSize = 1.0,
   fontBaseUrl,
+  fitMode = 'manual',
 }: SetlistPDFProps) {
   ensureFonts(fontBaseUrl);
-  const scale = Math.max(0.6, Math.min(1.6, fontSize));
+  let scale = Math.max(0.6, Math.min(1.6, fontSize));
   const scaled = (n: number) => Math.round(n * scale);
 
   const resolveAssetUrl = (src?: string): string | undefined => {
-    if (!src) return undefined;
-    if (/^https?:\/\//i.test(src)) return src;
+    if (!src) {
+      if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.log('SetlistPDF: avatarUrl is missing');
+      }
+      return undefined;
+    }
+    if (/^https?:\/\//i.test(src)) {
+      if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.log('SetlistPDF: avatarUrl is absolute', src);
+      }
+      return src;
+    }
     const base = (fontBaseUrl || '').replace(/\/?$/, '');
-    return base ? encodeURI(`${base}${src.startsWith('/') ? '' : '/'}${src}`) : src;
+    const resolved = base ? encodeURI(`${base}${src.startsWith('/') ? '' : '/'}${src}`) : src;
+    if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
+      console.log('SetlistPDF: resolved avatarUrl', resolved);
+    }
+    return resolved;
   };
 
   const sanitizeNoteText = (input?: string): string => {
     if (!input) return '';
     let out = input;
-    // Remove Markdown images ![alt](url)
     out = out.replace(/!\[[^\]]*\]\([^\)]+\)/g, '');
-    // Remove HTML tags (e.g., <img .../>)
     out = out.replace(/<[^>]*>/g, '');
-    // Remove :emoji: style shortcodes
     out = out.replace(/:[a-zA-Z0-9_+\-]+:/g, '');
-    // Remove unicode pictographs/emojis
     try {
       out = out.replace(/\p{Extended_Pictographic}/gu, '');
-    } catch {
-      // ignore if engine doesn't support unicode properties
-    }
-    // Strip leading bullets/numbers from each line (e.g., -, *, •, 1., 1), a), etc.)
+    } catch {}
     out = out
       .split(/\r?\n/)
       .map((line) => line.replace(/^\s*([\-\*•\u2013\u2014]|\d+[\.)]|[A-Za-z][\)])\s+/, '').trim())
       .join(' ');
-    // Collapse whitespace
     out = out.replace(/\s+/g, ' ').trim();
     return out;
   };
 
-  // Build pages with simple flow; @react-pdf handles pagination automatically
+  // Helper to split items by section
+  function splitItemsBySections(items: SetlistItem[]) {
+    const result: SetlistItem[][] = [];
+    let current: SetlistItem[] = [];
+    for (const item of items) {
+      if (item.type === 'section') {
+        if (current.length > 0) result.push(current);
+        current = [item];
+      } else {
+        current.push(item);
+      }
+    }
+    if (current.length > 0) result.push(current);
+    return result;
+  }
+  const groups = splitItemsBySections(setlist.items);
+
+  // Decide pages based on fitMode
+  let sets: SetlistItem[][] = [];
+  if (fitMode === 2) {
+    if (groups.length <= 1) {
+      sets = [setlist.items];
+    } else if (groups.length === 2) {
+      sets = [groups[0], groups[1]];
+    } else if (groups.length >= 3) {
+      // If any section is an Encore, put Set 1 on page 1 and the rest (Set 2 + Encore(s)) on page 2
+      const hasEncore = groups.some(
+        (g) =>
+          g[0]?.type === 'section' && (g[0] as SetlistItem).title?.toLowerCase().includes('encore'),
+      );
+      if (hasEncore) {
+        sets = [groups[0], groups.slice(1).flat()];
+      } else {
+        const mid = Math.ceil(groups.length / 2);
+        sets = [groups.slice(0, mid).flat(), groups.slice(mid).flat()];
+      }
+    }
+  } else {
+    // fitMode '1' or 'manual' -> single flow; allow renderer to paginate
+    sets = [setlist.items];
+  }
+
+  // When fitMode=2, enforce scaling so each page fits onto a single page
+  if (fitMode === 2 && sets.length === 2) {
+    const capacityPerPage = 720; // conservative usable vertical units per A4 page at scale=1
+    const headerSpace = 56; // fixed header + spacer and borders
+    const footerSpace = 48; // footer area + breathing room
+    const unitFor = (item: SetlistItem): number => {
+      switch (item.type) {
+        case 'section':
+          return 36;
+        case 'song':
+          return 28;
+        case 'note':
+          return 22;
+        case 'break':
+          return 20; // spacer we render for breaks
+        default:
+          return 18;
+      }
+    };
+    const estimateUnits = (items: SetlistItem[]) => {
+      let u = headerSpace + footerSpace;
+      for (const it of items) u += unitFor(it);
+      return Math.max(1, u);
+    };
+    const neededScales = sets.map((pg) => {
+      const units = estimateUnits(pg);
+      const raw = capacityPerPage / units;
+      return Math.max(0.6, Math.min(1.6, raw));
+    });
+    const fitScale = Math.min(...neededScales) * 0.95; // safety margin
+    scale = Math.max(0.6, Math.min(scale, fitScale));
+  }
+
   return (
     <Document>
-      <Page size="A4" style={{ ...styles.page, fontSize: scaled(10) }}>
-        <View style={styles.header}>
-          <View style={styles.headerRow}>
-            <View style={styles.headerLeft}>
-              {project.avatarUrl ? (
-                // eslint-disable-next-line jsx-a11y/alt-text
-                <Image
-                  src={resolveAssetUrl(project.avatarUrl) || ''}
-                  style={{ ...styles.logo, height: scaled(48) }}
-                />
-              ) : (
-                <Text style={{ fontSize: scaled(14) }}>{project.name}</Text>
-              )}
-            </View>
-            <View style={styles.headerRight}>
-              <Text style={{ ...styles.title, fontSize: scaled(18) }}>{setlist.name}</Text>
-              {setlist.date ? (
-                <Text style={{ ...styles.meta, fontSize: scaled(9) }}>
-                  {formatCreatedDate(setlist.date)}
-                  {setlist.venue ? ` • ${setlist.venue}` : ''}
-                </Text>
-              ) : null}
-            </View>
-          </View>
-        </View>
-
-        {setlist.items.map((item, idx) => {
-          if (item.type === 'section') {
-            return (
-              <Text key={idx} style={{ ...styles.sectionHeader, fontSize: scaled(18) }}>
-                {item.title || 'Section'}
-              </Text>
-            );
-          }
-
-          if (item.type === 'note') {
-            return (
-              <View
-                key={idx}
-                style={{ ...styles.itemRow, justifyContent: 'flex-end', marginVertical: 1 }}
-              >
-                <Text style={{ ...styles.note, fontSize: scaled(10), textAlign: 'right' }}>
-                  {sanitizeNoteText(item.note)}
+      {sets.map((setItems, pageIdx) => (
+        <Page key={pageIdx} size="A4" style={{ ...styles.page, fontSize: scaled(10) }}>
+          <View fixed style={styles.header}>
+            <View style={styles.headerRow}>
+              <View style={styles.headerLeft}>
+                {project.avatarUrl ? (
+                  // eslint-disable-next-line jsx-a11y/alt-text
+                  <Image
+                    src={resolveAssetUrl(project.avatarUrl) || ''}
+                    style={{ ...styles.logo, width: scaled(40), height: scaled(40) }}
+                  />
+                ) : (
+                  <Text style={{ fontSize: scaled(12) }}>{project.name}</Text>
+                )}
+              </View>
+              <View style={styles.headerRight}>
+                <Text style={{ textAlign: 'right' }}>
+                  <Text style={{ fontSize: scaled(12), fontWeight: 'bold' }}>{setlist.name}</Text>
+                  {setlist.date || setlist.venue ? (
+                    <Text style={{ fontSize: scaled(9), color: '#555' }}>
+                      {` — ${setlist.date ? formatCreatedDate(setlist.date) : ''}${setlist.venue ? (setlist.date ? ' • ' : ' ') + setlist.venue : ''}`}
+                    </Text>
+                  ) : null}
                 </Text>
               </View>
-            );
-          }
+            </View>
+          </View>
 
-          if (item.type === 'break') {
+          {/* Spacer to avoid overlap with fixed header */}
+          <View style={{ height: scaled(44) }} />
+
+          {setItems.map((item, idx) => {
+            if (item.type === 'section') {
+              return (
+                <Text key={idx} style={{ ...styles.sectionHeader, fontSize: scaled(18) }}>
+                  {item.title || 'Section'}
+                </Text>
+              );
+            }
+            if (item.type === 'note') {
+              return (
+                <View
+                  key={idx}
+                  style={{ ...styles.itemRow, justifyContent: 'flex-end', marginVertical: 1 }}
+                >
+                  <Text style={{ ...styles.note, fontSize: scaled(10), textAlign: 'right' }}>
+                    {sanitizeNoteText(item.note)}
+                  </Text>
+                </View>
+              );
+            }
+            if (item.type === 'break') {
+              // Do not render break details; leave vertical space instead
+              return <View key={idx} style={{ height: scaled(16) }} />;
+            }
+            const song = item.songId ? songsById[item.songId] : undefined;
             return (
               <View key={idx} style={styles.itemRow}>
                 <View style={styles.itemLeft}>
-                  <Text style={{ ...styles.idx, fontSize: scaled(9) }}>{idx + 1}.</Text>
-                  <Text style={{ ...styles.break, fontSize: scaled(11) }}>
-                    {item.title || 'Break'}
-                  </Text>
+                  <View style={{ width: 12 }} />
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ ...styles.songTitle, fontSize: scaled(17), marginRight: 8 }}>
+                      {displayTitle(setlist, item, song)}
+                    </Text>
+                    {song && (
+                      <Text style={{ ...styles.songMeta, fontSize: scaled(17) }}>
+                        {setlist.showArtist !== false ? song.artist : ''}
+                      </Text>
+                    )}
+                  </View>
                 </View>
-                <Text style={{ ...styles.duration, fontSize: scaled(10) }}>
-                  {formatDuration(itemDurationSeconds(setlist, item, defaultSongGapSec))}
-                </Text>
               </View>
             );
-          }
+          })}
 
-          const song = item.songId ? songsById[item.songId] : undefined;
-          return (
-            <View key={idx} style={styles.itemRow}>
-              <View style={styles.itemLeft}>
-                {/* Small tabulation before songs (no numbering) */}
-                <View style={{ width: 12 }} />
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={{ ...styles.songTitle, fontSize: scaled(17), marginRight: 8 }}>
-                    {displayTitle(setlist, item, song)}
-                  </Text>
-                  {song && (
-                    <Text style={{ ...styles.songMeta, fontSize: scaled(17) }}>
-                      {setlist.showArtist !== false ? song.artist : ''}
-                    </Text>
-                  )}
-                </View>
-              </View>
-              {/* No right-side durations for songs in PDF */}
-            </View>
-          );
-        })}
-
-        {/* Footer watermark */}
-        <View style={styles.footer}>
-          <Text style={{ fontSize: scaled(8), color: '#777' }}>
-            Created: {formatCreatedDate(setlist.createdAt)}
-          </Text>
-          <Text style={{ fontSize: scaled(8), color: '#777', textAlign: 'center' }}>
-            {project.name} — {setlist.name}
-          </Text>
-          <Text style={{ fontSize: scaled(9) }}>
-            <Text style={{ color: '#666' }}>generated by </Text>
-            <Text style={{ color: '#22c55e' }}>Song</Text>
-            <Text style={{ color: '#111' }}>Deck</Text>
-          </Text>
-        </View>
-      </Page>
-      {/* Footer (watermark) on each page */}
-      {/* For multiple pages, include inside each Page; here we have a single Page component */}
+          <View style={styles.footer}>
+            <Text style={{ fontSize: scaled(8), color: '#777' }}>
+              Created: {formatCreatedDate(setlist.createdAt)}
+            </Text>
+            <Text style={{ fontSize: scaled(8), color: '#777', textAlign: 'center' }}>
+              {project.name} — {setlist.name}
+            </Text>
+            <Text style={{ fontSize: scaled(9) }}>
+              <Text style={{ color: '#666' }}>generated by </Text>
+              <Text style={{ color: '#22c55e' }}>Song</Text>
+              <Text style={{ color: '#111' }}>Deck</Text>
+            </Text>
+          </View>
+        </Page>
+      ))}
     </Document>
   );
 }

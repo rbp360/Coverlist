@@ -10,6 +10,8 @@ type Song = { id: string; title: string; artist: string; mbid?: string };
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [project, setProject] = useState<any | null>(null);
+  const [avatarUploading, setAvatarUploading] = useState(false);
+  const [avatarError, setAvatarError] = useState<string | null>(null);
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState('');
   const [songs, setSongs] = useState<Song[]>([]);
@@ -110,44 +112,123 @@ export default function ProjectDetailPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          {!project && <h2 className="text-2xl font-semibold">Project</h2>}
-          {project && !editingName && (
-            <h2 className="text-2xl font-semibold">
-              {project.name}{' '}
-              <button
-                type="button"
-                className="ml-2 rounded border px-2 py-1 text-sm"
-                title="Rename project"
-                onClick={() => {
-                  setEditingName(true);
-                  setNameDraft(project.name || '');
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            {!project && <h2 className="text-2xl font-semibold">Project</h2>}
+            {project && !editingName && (
+              <h2 className="text-2xl font-semibold">
+                {project.name}{' '}
+                <button
+                  type="button"
+                  className="ml-2 rounded border px-2 py-1 text-sm"
+                  title="Rename project"
+                  onClick={() => {
+                    setEditingName(true);
+                    setNameDraft(project.name || '');
+                  }}
+                >
+                  Edit
+                </button>
+              </h2>
+            )}
+            {project && editingName && (
+              <div className="flex items-center gap-2">
+                <input
+                  className="rounded border px-3 py-2"
+                  value={nameDraft}
+                  onChange={(e) => setNameDraft(e.target.value)}
+                  autoFocus
+                />
+                <button className="rounded border px-3 py-2" onClick={commitNameChange}>
+                  Save
+                </button>
+                <button
+                  className="rounded border px-3 py-2"
+                  onClick={() => {
+                    setEditingName(false);
+                    setNameDraft('');
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+          </div>
+          {/* Project avatar upload UI */}
+          {project && (
+            <div className="flex items-center gap-3 mt-2">
+              <div className="h-16 w-16 overflow-hidden rounded-full border bg-neutral-100 flex items-center justify-center">
+                {project.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={project.avatarUrl}
+                    alt="Project avatar"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <span className="text-xs text-neutral-400">No Avatar</span>
+                )}
+              </div>
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  setAvatarError(null);
+                  const fileInput = e.currentTarget.elements.namedItem(
+                    'avatar',
+                  ) as HTMLInputElement;
+                  if (!fileInput?.files?.[0]) {
+                    setAvatarError('No file selected');
+                    return;
+                  }
+                  const formData = new FormData();
+                  formData.append('avatar', fileInput.files[0]);
+                  setAvatarUploading(true);
+                  const res = await fetch(`/api/projects/${id}/avatar`, {
+                    method: 'POST',
+                    body: formData,
+                  });
+                  setAvatarUploading(false);
+                  if (res.ok) {
+                    const updated = await res.json();
+                    setProject(updated);
+                  } else {
+                    setAvatarError('Upload failed');
+                  }
                 }}
+                className="flex items-center gap-2"
               >
-                Edit
-              </button>
-            </h2>
-          )}
-          {project && editingName && (
-            <div className="flex items-center gap-2">
-              <input
-                className="rounded border px-3 py-2"
-                value={nameDraft}
-                onChange={(e) => setNameDraft(e.target.value)}
-                autoFocus
-              />
-              <button className="rounded border px-3 py-2" onClick={commitNameChange}>
-                Save
-              </button>
-              <button
-                className="rounded border px-3 py-2"
-                onClick={() => {
-                  setEditingName(false);
-                  setNameDraft('');
-                }}
-              >
-                Cancel
-              </button>
+                <input type="file" name="avatar" accept="image/*" className="text-xs" />
+                <button
+                  type="submit"
+                  className="rounded border px-2 py-1 text-xs"
+                  disabled={avatarUploading}
+                >
+                  {avatarUploading ? 'Uploading...' : 'Change Avatar'}
+                </button>
+                {avatarError && <span className="text-xs text-red-500">{avatarError}</span>}
+              </form>
+              {project.avatarUrl && (
+                <div className="flex items-center gap-2 text-xs mt-2">
+                  <code className="rounded bg-neutral-900 px-1 py-0.5 text-neutral-100 max-w-[22rem] truncate">
+                    {project.avatarUrl}
+                  </code>
+                  <a
+                    className="rounded border px-1 py-0.5"
+                    href={project.avatarUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open
+                  </a>
+                  <button
+                    className="rounded border px-1 py-0.5"
+                    onClick={() => navigator.clipboard.writeText(String(project.avatarUrl))}
+                    title="Copy URL"
+                  >
+                    Copy
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

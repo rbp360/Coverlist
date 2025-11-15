@@ -20,6 +20,8 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   const url = new URL(req.url);
   const fontSizeParam = url.searchParams.get('fontSize');
   const fontSize = fontSizeParam ? Math.max(0.6, Math.min(1.6, parseFloat(fontSizeParam))) : 1.0;
+  const fitParam = url.searchParams.get('fit');
+  const fitMode = fitParam === '2' ? 2 : fitParam === '1' ? 1 : 'manual';
   const fontBaseUrl = url.origin; // ensure fonts load on server via absolute URLs
 
   try {
@@ -31,6 +33,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
         defaultSongGapSec: settings.defaultSongGapSec,
         fontSize,
         fontBaseUrl,
+        fitMode,
       }),
     );
     return new NextResponse(stream as any, {

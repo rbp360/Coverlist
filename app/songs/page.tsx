@@ -186,6 +186,12 @@ export default function SongsPage() {
     <div className="space-y-4">
       <div className="flex items-end justify-between gap-2">
         <h2 className="text-2xl font-semibold">Add Songs</h2>
+        <a
+          href="/songs/create"
+          className="ml-4 rounded bg-green-600 px-4 py-2 text-white font-bold hover:bg-green-700"
+        >
+          Create a Song
+        </a>
         {projects.length > 0 && (
           <div className="mb-6 flex items-center gap-3">
             <button

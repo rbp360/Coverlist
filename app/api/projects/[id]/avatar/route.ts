@@ -20,11 +20,23 @@ export async function POST(request: Request, { params }: { params: { id: string 
   const project = db.getProject(params.id, user.id);
   if (!project) return NextResponse.json({ error: 'Project not found' }, { status: 404 });
   const form = await request.formData();
-  const file = form.get('file');
+  const file = form.get('avatar');
   if (!file || typeof (file as any).arrayBuffer !== 'function') {
     return NextResponse.json({ error: 'Missing file' }, { status: 400 });
   }
-  const originalName = (form.get('filename') as string) || 'upload';
+  const originalName = (file as any).name || 'upload';
+  const extLower = (extname(originalName) || '').toLowerCase();
+  // Restrict to PNG/JPEG for PDF compatibility (@react-pdf/pdfkit supports PNG/JPEG)
+  const allowed = new Set(['.png', '.jpg', '.jpeg']);
+  if (!allowed.has(extLower)) {
+    return NextResponse.json(
+      {
+        error:
+          'Unsupported image format. Please upload a PNG or JPEG (JPG). BMP, GIF, and WEBP are not supported in the PDF export.',
+      },
+      { status: 400 },
+    );
+  }
   const ab = await (file as any).arrayBuffer();
   const buf = Buffer.from(ab);
   try {
@@ -32,11 +44,11 @@ export async function POST(request: Request, { params }: { params: { id: string 
   } catch (e) {
     return NextResponse.json({ error: 'Upload directory unavailable' }, { status: 500 });
   }
-  const ext = extname(originalName) || '.bin';
-  const name = `${uuid()}${ext}`;
-  const full = `${UPLOAD_DIR}/${name}`;
+  const name = `${uuid()}${extLower}`;
+  const full = join(UPLOAD_DIR, name);
   writeFileSync(full, buf);
   const url = `/api/uploads/${name}`;
-  db.updateProject({ ...project, avatarUrl: url });
-  return NextResponse.json({ url });
+  const updatedProject = { ...project, avatarUrl: url };
+  db.updateProject(updatedProject);
+  return NextResponse.json(updatedProject);
 }
