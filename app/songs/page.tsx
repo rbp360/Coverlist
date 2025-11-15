@@ -11,6 +11,11 @@ type Result = {
   durationSec?: number;
   release?: string;
   isrc?: string;
+  releaseTypePrimary?: string;
+  releaseTypeSecondary?: string[];
+  releaseIsStudio?: boolean;
+  releaseIsLive?: boolean;
+  releaseIsCompilation?: boolean;
 };
 type Song = { id: string; title: string; artist: string; mbid?: string };
 
@@ -19,7 +24,7 @@ export default function SongsPage() {
   const [repSongs, setRepSongs] = useState<Song[]>([]); // existing songs in repertoire/projects (for de-dupe)
   const [q, setQ] = useState('');
   const [artist, setArtist] = useState('');
-  const [genre, setGenre] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [results, setResults] = useState<Result[]>([]);
   const [page, setPage] = useState(1);
   const [importing, setImporting] = useState<string | null>(null);
@@ -67,11 +72,66 @@ export default function SongsPage() {
     e.preventDefault();
     const params = new URLSearchParams({ q, limit: '30' });
     if (artist.trim()) params.set('artist', artist.trim());
-    if (genre.trim()) params.set('genre', genre.trim());
+    if (keyword.trim()) params.set('genre', keyword.trim());
     const res = await fetch(`/api/musicbrainz/search?${params.toString()}`);
     if (res.ok) {
       const data = await res.json();
-      setResults(data.results || []);
+      let results = data.results || [];
+      // Omit songs with no duration
+      results = results.filter(
+        (r: Result) => typeof r.durationSec === 'number' && r.durationSec > 0,
+      );
+      const normInputArtist = artist.trim()
+        ? artist
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, '')
+        : '';
+      const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const keywordLower = (typeof keyword === 'string' ? keyword : '').toLowerCase();
+      const boostLive = keywordLower.includes('live');
+      // Sort priority:
+      // If 'live' in keyword, boost live results to top
+      // Otherwise, studio albums above live albums
+      results = results.sort((a: Result, b: Result) => {
+        if (boostLive) {
+          if (a.releaseIsLive && !b.releaseIsLive) return -1;
+          if (!a.releaseIsLive && b.releaseIsLive) return 1;
+        } else {
+          if (a.releaseIsStudio && !b.releaseIsStudio) return -1;
+          if (!a.releaseIsStudio && b.releaseIsStudio) return 1;
+          if (a.releaseIsLive && !b.releaseIsLive) return 1;
+          if (!a.releaseIsLive && b.releaseIsLive) return -1;
+        }
+        const aMatch = normInputArtist
+          ? a.artist
+            ? norm(a.artist) === normInputArtist
+            : false
+          : true;
+        const bMatch = normInputArtist
+          ? b.artist
+            ? norm(b.artist) === normInputArtist
+            : false
+          : true;
+        const aStudio = !!a.releaseIsStudio && !a.releaseIsLive && !a.releaseIsCompilation;
+        const bStudio = !!b.releaseIsStudio && !b.releaseIsLive && !b.releaseIsCompilation;
+        const rank = (match: boolean, studio: boolean) => {
+          if (match && studio) return 0;
+          if (match && !studio) return 1;
+          if (!match && studio) return 2;
+          return 3;
+        };
+        const ra = rank(aMatch, aStudio);
+        const rb = rank(bMatch, bStudio);
+        if (ra !== rb) return ra - rb;
+        const yearA = a.release ? a.release.match(/\b(19|20)\d{2}\b/)?.[0] : undefined;
+        const yearB = b.release ? b.release.match(/\b(19|20)\d{2}\b/)?.[0] : undefined;
+        if (yearA && yearB && yearA !== yearB) return parseInt(yearA) - parseInt(yearB);
+        if (yearA && !yearB) return -1;
+        if (!yearA && yearB) return 1;
+        return a.title.localeCompare(b.title);
+      });
+      setResults(results);
       setPage(1);
       setMessage(null);
     } else {
@@ -174,9 +234,9 @@ export default function SongsPage() {
         />
         <input
           className="rounded border px-3 py-2"
-          placeholder="Genre/Tag (optional)"
-          value={genre}
-          onChange={(e) => setGenre(e.target.value)}
+          placeholder="Keyword (album, year, etc.)"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
         />
         <button className="rounded bg-black px-3 py-2 text-white">Search</button>
       </form>

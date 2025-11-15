@@ -361,7 +361,9 @@
       "passwordHash": "firebase",
       "createdAt": "2025-11-14T07:13:31.183Z",
       "avatarUrl": "/api/uploads/30e25f77-aa29-4db0-8ff6-5e3cf8aa5805.bmp",
-      "instruments": []
+      "instruments": ["Vocals"],
+      "name": "Bedlam",
+      "username": "bedlam"
     }
   ],
   "projects": [
@@ -1555,6 +1557,171 @@
       "url": "https://open.spotify.com/track/2h5cpnAVMC4kOOLF7NqmIr",
       "createdAt": "2025-10-30T10:35:47.368Z",
       "updatedAt": "2025-10-30T10:35:47.368Z"
+    },
+    {
+      "id": "f0ca1516-ed49-4971-a117-eb4e6af45cab",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Thunderstruck",
+      "artist": "AC/DC",
+      "durationSec": 293,
+      "mbid": "73c66ee8-d3ed-428c-a5dd-47d4a52b56a2",
+      "createdAt": "2025-11-15T02:39:55.539Z",
+      "updatedAt": "2025-11-15T02:39:55.539Z"
+    },
+    {
+      "id": "71db1ad4-2c38-4baa-84f7-35e93fb7de31",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Whole Lotta Rosie",
+      "artist": "AC/DC",
+      "durationSec": 271,
+      "mbid": "808113b9-2769-4917-9030-4e970ad1a867",
+      "isrc": "AUAP09200030",
+      "createdAt": "2025-11-15T02:40:21.358Z",
+      "updatedAt": "2025-11-15T02:40:21.358Z"
+    },
+    {
+      "id": "f2904149-172b-4989-a729-e668765a1b20",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Highway to Hell",
+      "artist": "AC/DC",
+      "durationSec": 206,
+      "mbid": "0016cdf1-eda9-42f5-98c1-9c6b632b4144",
+      "createdAt": "2025-11-15T02:41:05.419Z",
+      "updatedAt": "2025-11-15T02:41:05.419Z"
+    },
+    {
+      "id": "cd7c9cdb-be45-439a-9b74-f86aa7a02acd",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Summer of ’69",
+      "artist": "Bryan Adams",
+      "durationSec": 212,
+      "mbid": "c80d0c5a-2075-494c-b86c-58396be9e37d",
+      "createdAt": "2025-11-15T02:41:29.714Z",
+      "updatedAt": "2025-11-15T02:41:29.714Z"
+    },
+    {
+      "id": "db916ede-7ceb-4d52-b0a3-d6e1f269e141",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Breaking the Law",
+      "artist": "Judas Priest",
+      "durationSec": 160,
+      "mbid": "319a1ab7-cfad-454b-a4c5-beeb3baf81cb",
+      "createdAt": "2025-11-15T02:41:53.357Z",
+      "updatedAt": "2025-11-15T02:41:53.357Z"
+    },
+    {
+      "id": "d01f2c20-e017-4c98-bb5a-e48f687ba04d",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "The Trooper",
+      "artist": "Iron Maiden",
+      "durationSec": 252,
+      "mbid": "8f13d546-0cc6-4d8b-8d3a-27805f3ca264",
+      "isrc": "GBCHB1500031",
+      "createdAt": "2025-11-15T02:42:11.261Z",
+      "updatedAt": "2025-11-15T02:42:11.261Z"
+    },
+    {
+      "id": "bad3ab62-8689-4c05-b820-fec6f21bbc1e",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Eye of the Tiger",
+      "artist": "Survivor",
+      "durationSec": 245,
+      "mbid": "25da6d6f-5960-4176-b7c5-885b0b9edfcf",
+      "isrc": "USVR10400292",
+      "createdAt": "2025-11-15T02:42:46.464Z",
+      "updatedAt": "2025-11-15T02:42:46.464Z"
+    },
+    {
+      "id": "3a03da10-ea76-4013-a85d-afd8619636d9",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Whatever You Want",
+      "artist": "Status Quo",
+      "durationSec": 274,
+      "mbid": "ed3a4700-daf4-485c-9a66-6b6725a04669",
+      "createdAt": "2025-11-15T02:43:03.642Z",
+      "updatedAt": "2025-11-15T02:43:03.642Z"
+    },
+    {
+      "id": "a3e513b5-66bb-4182-9708-2377684417f7",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Rockin' All Over the World",
+      "artist": "Status Quo",
+      "durationSec": 236,
+      "mbid": "fc3e6e69-1153-4c77-9c4b-920dbb0175e6",
+      "createdAt": "2025-11-15T02:43:15.281Z",
+      "updatedAt": "2025-11-15T02:43:15.281Z"
+    },
+    {
+      "id": "59d0f5b8-6264-44d7-a02a-f9d1b51d223d",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "I Believe in a Thing Called Love",
+      "artist": "The Darkness",
+      "durationSec": 217,
+      "mbid": "2afe5070-b737-4b24-85d2-ea4cafbfbbaa",
+      "isrc": "GBAHS0300702",
+      "createdAt": "2025-11-15T02:43:44.041Z",
+      "updatedAt": "2025-11-15T02:43:44.041Z"
+    },
+    {
+      "id": "69fae357-c19d-40fe-a360-81f92af2f265",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Jailbreak",
+      "artist": "Thin Lizzy",
+      "durationSec": 241,
+      "mbid": "338eb089-85ae-4c50-afb4-99ecf914ac2a",
+      "createdAt": "2025-11-15T02:44:09.149Z",
+      "updatedAt": "2025-11-15T02:44:09.149Z"
+    },
+    {
+      "id": "f7e88ffa-83f4-45fe-8789-7c6b5e0ae59e",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Don't Believe a Word (live, 2003 Monsters of Rock)",
+      "artist": "Gary Moore",
+      "durationSec": 436,
+      "mbid": "4f9808a4-ab30-4c08-8a2d-c8eca3acfc6a",
+      "createdAt": "2025-11-15T02:44:50.802Z",
+      "updatedAt": "2025-11-15T02:44:50.802Z"
+    },
+    {
+      "id": "751ba492-e8c8-4989-ab00-d7475679b51d",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Wishing Well",
+      "artist": "Free",
+      "durationSec": 217,
+      "mbid": "1a3081c9-5575-4246-bf35-3f23b477b620",
+      "createdAt": "2025-11-15T02:45:20.458Z",
+      "updatedAt": "2025-11-15T02:45:20.458Z"
+    },
+    {
+      "id": "6a4078a3-8ae9-4ca8-892d-627adac6ab35",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Love Gun",
+      "artist": "KISS",
+      "durationSec": 282,
+      "mbid": "d4a3d387-05a4-4338-8d93-4039284256c1",
+      "createdAt": "2025-11-15T02:45:38.016Z",
+      "updatedAt": "2025-11-15T02:45:38.016Z"
+    },
+    {
+      "id": "a13ddd0b-0d16-4284-9fd4-5b5a7947b26f",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Crazy Train",
+      "artist": "Ozzy Osbourne",
+      "durationSec": 290,
+      "mbid": "fa6901b2-adcf-46ed-89d1-849a17d91cf4",
+      "isrc": "USSM10204723",
+      "createdAt": "2025-11-15T02:46:16.967Z",
+      "updatedAt": "2025-11-15T02:46:16.967Z"
+    },
+    {
+      "id": "4802a3cd-ee2e-4c77-87ca-79648ce36dd0",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Enter Sandman",
+      "artist": "Metallica",
+      "durationSec": 322,
+      "mbid": "c0389c14-0a15-47e6-b602-c1fd37789753",
+      "createdAt": "2025-11-15T02:48:35.559Z",
+      "updatedAt": "2025-11-15T02:48:35.559Z"
     }
   ],
   "joinRequests": [],

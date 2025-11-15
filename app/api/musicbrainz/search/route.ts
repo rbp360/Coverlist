@@ -151,7 +151,8 @@ export async function GET(request: Request) {
 
   // Branch 1: recording title provided
   if (q && q.length >= 2) {
-    const terms = [`recording:${q}`];
+    const quotedQ = q.includes(' ') ? `"${q}"` : q;
+    const terms = [`recording:${quotedQ}`];
     if (artist) terms.push(`artist:${artist}`);
     if (genre) terms.push(`tag:${genre}`);
     const query = terms.join(' ');
@@ -197,14 +198,32 @@ export async function GET(request: Request) {
           return da - db;
         })[0];
         const release = bestRelease?.title as string | undefined;
+        const rg = bestRelease?.['release-group'] ?? {};
+        const releaseTypePrimary = String(rg['primary-type'] || rg['type'] || '') || undefined;
+        const releaseTypeSecondary: string[] = Array.isArray(rg['secondary-types'])
+          ? rg['secondary-types'].map((s: any) => String(s))
+          : [];
         const earliestDateMs = releases.length
           ? Math.min(...releases.map((rel) => parseDateToMs(rel?.date)))
           : Number.POSITIVE_INFINITY;
         const bestRank = bestRelease ? releaseStudioRank(bestRelease, title) : 999;
-        const finalRank = bestRank + artistPenalty; // incorporate artist quality into rank
+        let finalRank = bestRank + artistPenalty;
+        const qLower = q.toLowerCase();
+        const recLower = title.toLowerCase();
+        const exactRecordingMatch = recLower === qLower;
+        const partialRecordingMatch = recLower.includes(qLower);
+        // Strong boost for exact recording title match
+        if (exactRecordingMatch) finalRank -= 5;
+        // Moderate boost for partial recording title match
+        else if (partialRecordingMatch) finalRank -= 2;
         const isStudio = bestRelease ? isStudioAlbumRelease(bestRelease, title) : false;
+        const isLive = releaseTypeSecondary.map((s) => s.toLowerCase()).includes('live');
+        const isCompilation = releaseTypeSecondary
+          .map((s) => s.toLowerCase())
+          .includes('compilation');
         let score = 0;
-        if (q && title.toLowerCase().includes(q.toLowerCase())) score += 2;
+        if (exactRecordingMatch) score += 10;
+        else if (partialRecordingMatch) score += 5;
         if (artist && a.toLowerCase().includes(artist.toLowerCase())) score += 2;
         if (durationSec) score += 1;
         const isrcs: string[] = Array.isArray(r.isrcs) ? r.isrcs : [];
@@ -216,6 +235,11 @@ export async function GET(request: Request) {
           durationSec,
           release,
           isrc,
+          releaseTypePrimary,
+          releaseTypeSecondary,
+          releaseIsStudio: isStudio,
+          releaseIsLive: isLive,
+          releaseIsCompilation: isCompilation,
           _hitsCount: hitsCount,
           _score: score,
           _rank: finalRank,
@@ -287,12 +311,21 @@ export async function GET(request: Request) {
           return da - db;
         })[0];
         const release = bestRelease?.title as string | undefined;
+        const rg = bestRelease?.['release-group'] ?? {};
+        const releaseTypePrimary = String(rg['primary-type'] || rg['type'] || '') || undefined;
+        const releaseTypeSecondary: string[] = Array.isArray(rg['secondary-types'])
+          ? rg['secondary-types'].map((s: any) => String(s))
+          : [];
         const earliestDateMs = releases.length
           ? Math.min(...releases.map((rel) => parseDateToMs(rel?.date)))
           : Number.POSITIVE_INFINITY;
         const bestRank = bestRelease ? releaseStudioRank(bestRelease, title) : 999;
         const finalRank = bestRank + artistPenalty;
         const isStudio = bestRelease ? isStudioAlbumRelease(bestRelease, title) : false;
+        const isLive = releaseTypeSecondary.map((s) => s.toLowerCase()).includes('live');
+        const isCompilation = releaseTypeSecondary
+          .map((s) => s.toLowerCase())
+          .includes('compilation');
         let score = 0;
         if (artist && a.toLowerCase().includes(artist.toLowerCase())) score += 2;
         if (durationSec) score += 1;
@@ -305,6 +338,11 @@ export async function GET(request: Request) {
           durationSec,
           release,
           isrc,
+          releaseTypePrimary,
+          releaseTypeSecondary,
+          releaseIsStudio: isStudio,
+          releaseIsLive: isLive,
+          releaseIsCompilation: isCompilation,
           _hitsCount: hitsCount,
           _score: score,
           _rank: finalRank,
