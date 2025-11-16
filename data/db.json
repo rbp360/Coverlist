@@ -7,7 +7,12 @@
       "createdAt": "2025-10-21T08:34:21.612Z",
       "avatarUrl": "/api/uploads/e8efb7c6-b620-4455-914d-6ae959b72f51.jpg",
       "name": "Roberto",
-      "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
+      "instruments": [
+        "Vocals",
+        "Bass Guitar",
+        "Acoustic Guitar",
+        "Electric Guitar"
+      ],
       "spotify": {
         "accessToken": "BQCY3YGKNLO76ezCY11OXt34VeIgZchLKwAb0XisBEu-F_ORWDyZk6PW7fV8qAzRTJDmgnpI4hBD9EbACLcjAF6fbu93JNfU830wjXGzChnCVRFUN0WkcJ49uwWpmnIQqijVQ5s0DE8xLJ7e1z4y7rmZvtXiNQRrGdyiXpDfWEgwfltcioPW8-bnpd1GzeUdqsL5nxayZ_E7EfsKojH4kJDThgq5n4-QOheGtWGwKt07KFDwUhsK0dK23aQX7261lml9ENzziHQ_6Z69T_07",
         "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
@@ -101,7 +106,9 @@
       "createdAt": "2025-10-28T07:18:49.841Z",
       "name": "Bob",
       "username": "drummerbob",
-      "instruments": ["Drums"]
+      "instruments": [
+        "Drums"
+      ]
     },
     {
       "id": "e14ec1c8-e7d4-4aef-b5ef-dc243f82b4ef",
@@ -361,7 +368,9 @@
       "passwordHash": "firebase",
       "createdAt": "2025-11-14T07:13:31.183Z",
       "avatarUrl": "/api/uploads/30e25f77-aa29-4db0-8ff6-5e3cf8aa5805.bmp",
-      "instruments": ["Vocals"],
+      "instruments": [
+        "Vocals"
+      ],
       "name": "Bedlam",
       "username": "bedlam"
     }
@@ -371,7 +380,10 @@
       "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "name": "test project",
       "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "memberIds": ["7d9bd818-1e5b-4300-818f-ecb70c926825", "08f1e9d5-afdb-42e9-ae02-42b95753a223"],
+      "memberIds": [
+        "7d9bd818-1e5b-4300-818f-ecb70c926825",
+        "08f1e9d5-afdb-42e9-ae02-42b95753a223"
+      ],
       "createdAt": "2025-10-21T08:35:26.159Z",
       "avatarUrl": "/api/uploads/b179467d-df9b-4bd4-898c-ce8de77ed5d2.jpg"
     },
@@ -1597,19 +1609,19 @@
       "addGapAfterEachSong": true,
       "items": [
         {
-          "id": "c15faff7-4036-422e-baad-c4e4dbf7a364",
-          "type": "section",
-          "order": 0,
-          "title": "Set 1"
-        },
-        {
           "id": "f3f0b644-e130-4df7-8115-cb1d96223534",
           "type": "song",
-          "order": 1,
+          "order": 0,
           "songId": "8aa4ba5c-04ed-4d22-b296-a42b624caa55",
           "title": "Jailbreak",
           "artist": "Thin Lizzy",
           "durationSec": 241
+        },
+        {
+          "id": "c15faff7-4036-422e-baad-c4e4dbf7a364",
+          "type": "section",
+          "order": 1,
+          "title": "Set 1"
         },
         {
           "id": "c2bcb94d-b232-4a43-8515-89cf08738455",
@@ -1864,7 +1876,7 @@
         }
       ],
       "createdAt": "2025-11-15T03:06:00.200Z",
-      "updatedAt": "2025-11-15T14:23:14.370Z",
+      "updatedAt": "2025-11-16T00:23:57.873Z",
       "public": true,
       "showNotesAfterLyrics": false,
       "showColourFlip": false,
@@ -1930,18 +1942,26 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "instruments": ["Electric Guitar"],
+      "instruments": [
+        "Electric Guitar"
+      ],
       "role": "bandMember"
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
-      "instruments": ["Drums"]
+      "instruments": [
+        "Drums"
+      ]
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "instruments": ["Vocals", "Bass Guitar", "Electric Guitar"]
+      "instruments": [
+        "Vocals",
+        "Bass Guitar",
+        "Electric Guitar"
+      ]
     }
   ],
   "projectPractice": [

@@ -15,6 +15,13 @@ Notes:
 
 A Next.js 14 + TypeScript starter with Tailwind CSS, Jest, and Playwright. Windows-friendly scripts and docs.
 
+### Lyrics fetching
+
+- Source: LRCLib (`https://lrclib.net/api/get`).
+- Strategy: We first try ISRC. If unavailable or missing, we try combinations of track/artist/album/duration. We also generate sanitized variants (e.g., strip "(Live)", "- Remastered 2009", remove feat./ft., collapse punctuation) to avoid mismatched releases from MusicBrainz selections.
+- Fallback: If synced LRC is unavailable but plain text exists, we show plain lyrics. If nothing is found, a warning suggests selecting a standard release.
+- Component: `components/LyricTeleprompter.tsx` uses `fetchLyricsLRCLibRobust` from `lib/lyrics.ts` and surfaces warnings when all attempts fail.
+
 ## Quick start (Windows cmd.exe)
 
 1. Install Node.js 20 LTS.

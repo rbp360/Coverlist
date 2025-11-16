@@ -34,6 +34,7 @@ type ProjectSong = {
   isrc?: string;
 };
 type Step =
+  | { kind: 'intro' }
   | { kind: 'song'; setIndex: number; setTitle?: string; song: ProjectSong }
   | { kind: 'endOfSet'; setIndex: number; setTitle?: string };
 
@@ -136,6 +137,10 @@ export default function LyricModePageRoute() {
       if (song) pendingSongs.push(song);
     }
     flushBlock();
+    // Prepend an intro step if enabled and there is at least one song
+    if (setlist.showWhatWhere && result.some((s) => s.kind === 'song')) {
+      return [{ kind: 'intro' }, ...result];
+    }
     return result;
   }, [setlist, songs]);
 
@@ -185,7 +190,6 @@ export default function LyricModePageRoute() {
   const step = steps[Math.max(0, Math.min(stepIdx, steps.length - 1))];
   const atFirst = stepIdx <= 0;
   const atLast = stepIdx >= steps.length - 1;
-  const showWhatWhere = !!setlist?.showWhatWhere && stepIdx === 0 && step.kind === 'song';
   const showWhatWhereBreak = !!setlist?.showWhatWhere && step.kind === 'endOfSet';
 
   return (
@@ -216,7 +220,13 @@ export default function LyricModePageRoute() {
             ◀ Prev
           </button>
           <div className="text-xs text-neutral-400 whitespace-nowrap">
-            Song {stepIdx + 1} / {steps.length}
+            {step.kind === 'intro' ? (
+              <>Intro</>
+            ) : (
+              <>
+                Song {stepIdx + 1} / {steps.length}
+              </>
+            )}
           </div>
           <button
             className="rounded border px-2 py-1 font-semibold disabled:opacity-50"
@@ -236,9 +246,9 @@ export default function LyricModePageRoute() {
           </div>
         )}
       </div>
-      {/* LyricTeleprompter or End of Set message */}
+      {/* LyricTeleprompter or Intro or End of Set message */}
       <div className="flex-1 flex min-h-0">
-        {showWhatWhere ? (
+        {step.kind === 'intro' ? (
           <div className="flex flex-1 items-center justify-center">
             <div className="px-8 text-center">
               <div className="text-2xl font-semibold mb-2">{setlist.venue || 'Venue'}</div>

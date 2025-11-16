@@ -3,7 +3,13 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // import { LiveClock } from '@/app/setlists/[id]/lyric-mode/page';
-import { fetchSyncedLyricsLRCLib, findActiveIndex, LyricLine } from '@/lib/lyrics';
+import {
+  fetchSyncedLyricsLRCLib,
+  fetchLyricsLRCLibRobust,
+  findActiveIndex,
+  LyricLine,
+  LyricAttempt,
+} from '@/lib/lyrics';
 
 import styles from './LyricTeleprompter.module.css';
 
@@ -61,6 +67,9 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
   const [lines, setLines] = useState<LyricLine[]>([]);
   const [plain, setPlain] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
+  const [attempts, setAttempts] = useState<LyricAttempt[] | null>(null);
+  const [usedVariantIndex, setUsedVariantIndex] = useState<number | null>(null);
 
   const [state, setState] = useState<PlayState>('idle');
   const [startAt, setStartAt] = useState<number | null>(null); // performance.now()
@@ -72,15 +81,19 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
   const autoScrollFlag = useRef(false);
   const lastTargetRef = useRef(0);
 
-  // Fetch lyrics on mount / prop changes
+  // Fetch lyrics on mount / prop changes (robust multi-attempt)
   useEffect(() => {
     let cancelled = false;
     async function load() {
       setError(null);
+      setWarning(null);
       setLines([]);
       setPlain(undefined);
+      setAttempts(null);
+      setUsedVariantIndex(null);
       try {
-        const res = await fetchSyncedLyricsLRCLib({
+        // Prefer robust fetch; fallback to legacy if fails unexpectedly
+        const res = await fetchLyricsLRCLibRobust({
           isrc,
           title: titleHint,
           artist: artistHint,
@@ -90,11 +103,37 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
         if (cancelled) return;
         setLines(res.lines);
         setPlain(res.plain || fallbackPlainLyrics);
+        setAttempts(res.attempts);
+        setUsedVariantIndex(res.usedVariantIndex);
+        if (res.warning) setWarning(res.warning);
         if (!res.lines.length && !res.plain && !fallbackPlainLyrics) {
-          setError('No lyrics found.');
+          const placeholderTitle = titleHint || 'Unknown Title';
+          const placeholderArtist = artistHint || 'Unknown Artist';
+          setPlain(`${placeholderTitle} — ${placeholderArtist}`);
+          setWarning('No lyrics found; using placeholder.');
         }
       } catch (e) {
-        if (!cancelled) setError('Failed to load lyrics.');
+        // Attempt legacy single fetch before final error
+        try {
+          const legacy = await fetchSyncedLyricsLRCLib({
+            isrc,
+            title: titleHint,
+            artist: artistHint,
+            album: albumHint,
+            durationMs,
+          });
+          if (cancelled) return;
+          setLines(legacy.lines);
+          setPlain(legacy.plain || fallbackPlainLyrics);
+          if (!legacy.lines.length && !legacy.plain && !fallbackPlainLyrics) {
+            const placeholderTitle = titleHint || 'Unknown Title';
+            const placeholderArtist = artistHint || 'Unknown Artist';
+            setPlain(`${placeholderTitle} — ${placeholderArtist}`);
+            setWarning('No lyrics found; using placeholder.');
+          }
+        } catch {
+          if (!cancelled) setError('Failed to load lyrics.');
+        }
       }
     }
     load();
@@ -481,9 +520,22 @@ export default function LyricTeleprompter(props: LyricTeleprompterProps) {
         )}
       </div>
 
-      {error && (
+      {(error || warning) && (
         <div className={styles.controls}>
-          <span className={styles.error}>{error}</span>
+          {error && <span className={styles.error}>{error}</span>}
+          {!error && warning && (
+            <span className={styles.error} style={{ opacity: 0.85 }}>
+              {warning}
+              {attempts && attempts.length > 1 && usedVariantIndex != null && (
+                <>
+                  {' '}
+                  <br />
+                  Using variant #{usedVariantIndex + 1} ({attempts[usedVariantIndex].variant.reason}
+                  ).
+                </>
+              )}
+            </span>
+          )}
         </div>
       )}
     </div>
