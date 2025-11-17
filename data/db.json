@@ -7,12 +7,7 @@
       "createdAt": "2025-10-21T08:34:21.612Z",
       "avatarUrl": "/api/uploads/e8efb7c6-b620-4455-914d-6ae959b72f51.jpg",
       "name": "Roberto",
-      "instruments": [
-        "Vocals",
-        "Bass Guitar",
-        "Acoustic Guitar",
-        "Electric Guitar"
-      ],
+      "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
       "spotify": {
         "accessToken": "BQCY3YGKNLO76ezCY11OXt34VeIgZchLKwAb0XisBEu-F_ORWDyZk6PW7fV8qAzRTJDmgnpI4hBD9EbACLcjAF6fbu93JNfU830wjXGzChnCVRFUN0WkcJ49uwWpmnIQqijVQ5s0DE8xLJ7e1z4y7rmZvtXiNQRrGdyiXpDfWEgwfltcioPW8-bnpd1GzeUdqsL5nxayZ_E7EfsKojH4kJDThgq5n4-QOheGtWGwKt07KFDwUhsK0dK23aQX7261lml9ENzziHQ_6Z69T_07",
         "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
@@ -106,9 +101,7 @@
       "createdAt": "2025-10-28T07:18:49.841Z",
       "name": "Bob",
       "username": "drummerbob",
-      "instruments": [
-        "Drums"
-      ]
+      "instruments": ["Drums"]
     },
     {
       "id": "e14ec1c8-e7d4-4aef-b5ef-dc243f82b4ef",
@@ -368,9 +361,7 @@
       "passwordHash": "firebase",
       "createdAt": "2025-11-14T07:13:31.183Z",
       "avatarUrl": "/api/uploads/30e25f77-aa29-4db0-8ff6-5e3cf8aa5805.bmp",
-      "instruments": [
-        "Vocals"
-      ],
+      "instruments": ["Vocals"],
       "name": "Bedlam",
       "username": "bedlam"
     }
@@ -380,10 +371,7 @@
       "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "name": "test project",
       "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "memberIds": [
-        "7d9bd818-1e5b-4300-818f-ecb70c926825",
-        "08f1e9d5-afdb-42e9-ae02-42b95753a223"
-      ],
+      "memberIds": ["7d9bd818-1e5b-4300-818f-ecb70c926825", "08f1e9d5-afdb-42e9-ae02-42b95753a223"],
       "createdAt": "2025-10-21T08:35:26.159Z",
       "avatarUrl": "/api/uploads/b179467d-df9b-4bd4-898c-ce8de77ed5d2.jpg"
     },
@@ -1123,6 +1111,16 @@
       "mbid": "d8524df6-d7b2-4ed2-8823-2df911c60b4f",
       "createdAt": "2025-11-15T03:35:22.916Z",
       "updatedAt": "2025-11-15T03:35:22.916Z"
+    },
+    {
+      "id": "8b6f60c9-6019-4f22-941c-b359034a0044",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Whiskey in the Jar",
+      "artist": "Metallica",
+      "durationSec": 328,
+      "mbid": "7e9b2d03-b107-41e1-ae98-8e1b905965e8",
+      "createdAt": "2025-11-17T06:35:22.947Z",
+      "updatedAt": "2025-11-17T06:35:22.947Z"
     }
   ],
   "setlists": [
@@ -1609,19 +1607,19 @@
       "addGapAfterEachSong": true,
       "items": [
         {
+          "id": "c15faff7-4036-422e-baad-c4e4dbf7a364",
+          "type": "section",
+          "order": 0,
+          "title": "Set 1"
+        },
+        {
           "id": "f3f0b644-e130-4df7-8115-cb1d96223534",
           "type": "song",
-          "order": 0,
+          "order": 1,
           "songId": "8aa4ba5c-04ed-4d22-b296-a42b624caa55",
           "title": "Jailbreak",
           "artist": "Thin Lizzy",
           "durationSec": 241
-        },
-        {
-          "id": "c15faff7-4036-422e-baad-c4e4dbf7a364",
-          "type": "section",
-          "order": 1,
-          "title": "Set 1"
         },
         {
           "id": "c2bcb94d-b232-4a43-8515-89cf08738455",
@@ -1745,9 +1743,18 @@
           "durationSec": 436
         },
         {
-          "id": "1d2f3f89-4734-4a7c-a040-74fc6e332a73",
+          "id": "859162a5-5b91-4455-a874-55bb375c801d",
           "type": "song",
           "order": 16,
+          "songId": "8b6f60c9-6019-4f22-941c-b359034a0044",
+          "title": "Whiskey in the Jar",
+          "artist": "Metallica",
+          "durationSec": 328
+        },
+        {
+          "id": "1d2f3f89-4734-4a7c-a040-74fc6e332a73",
+          "type": "song",
+          "order": 17,
           "songId": "dd7a503b-768c-46dc-99ba-dbbcb30d770c",
           "title": "Waiting for an Alibi",
           "artist": "Thin Lizzy",
@@ -1756,7 +1763,7 @@
         {
           "id": "fc0dc76a-3dc4-4162-b81e-92b9bc095c7e",
           "type": "song",
-          "order": 17,
+          "order": 18,
           "songId": "2e46aa05-0b06-4203-b333-e9bf2ae22354",
           "title": "You Give Love a Bad Name",
           "artist": "Bon Jovi",
@@ -1765,7 +1772,7 @@
         {
           "id": "bec52139-2465-4e24-b36b-8bef523f2b69",
           "type": "song",
-          "order": 18,
+          "order": 19,
           "songId": "64c78433-6318-4e03-85ab-66adb1a02cd1",
           "title": "It’s My Life",
           "artist": "Bon Jovi",
@@ -1774,7 +1781,7 @@
         {
           "id": "df5814a4-19f5-4c2b-8a40-fb455f799d12",
           "type": "song",
-          "order": 19,
+          "order": 20,
           "songId": "83d55c93-458b-46e2-80ef-821dc49732f5",
           "title": "Love Gun",
           "artist": "KISS",
@@ -1783,7 +1790,7 @@
         {
           "id": "f74e9614-1633-41a2-992e-f1481deb3af0",
           "type": "song",
-          "order": 20,
+          "order": 21,
           "songId": "f3288c07-df3e-4443-8205-6c7e421c1f73",
           "title": "Crazy Train",
           "artist": "Ozzy Osbourne",
@@ -1792,7 +1799,7 @@
         {
           "id": "537bd075-ca7e-4e1d-b8d0-ba9c0edb48c4",
           "type": "song",
-          "order": 21,
+          "order": 22,
           "songId": "5932fa9d-8ffb-4a22-8e22-846449c0e18f",
           "title": "Whole Lotta Rosie",
           "artist": "AC/DC",
@@ -1801,7 +1808,7 @@
         {
           "id": "3d6bed1a-6847-402e-a50a-24c74949b992",
           "type": "song",
-          "order": 22,
+          "order": 23,
           "songId": "e211ac5a-a24e-490d-85ec-55aae14d2fbd",
           "title": "Whatever You Want",
           "artist": "Status Quo",
@@ -1810,7 +1817,7 @@
         {
           "id": "319c5d4a-69d8-44c1-9ed2-306e08e601a2",
           "type": "song",
-          "order": 23,
+          "order": 24,
           "songId": "e2563c03-ee50-4191-a5fc-5b12e5d57443",
           "title": "I Believe in a Thing Called Love",
           "artist": "The Darkness",
@@ -1819,7 +1826,7 @@
         {
           "id": "2690d06d-d0c1-4e16-a23d-d1ab0a669f20",
           "type": "song",
-          "order": 24,
+          "order": 25,
           "songId": "5fad799a-1c6e-4eb4-8e64-6921052c24ff",
           "title": "Breaking the Law",
           "artist": "Judas Priest",
@@ -1828,7 +1835,7 @@
         {
           "id": "06fb921e-c900-4f80-a97e-9dce5793f2b2",
           "type": "song",
-          "order": 25,
+          "order": 26,
           "songId": "687c0020-e81d-488f-bb45-73b9f7ccc4e5",
           "title": "Tie Your Mother Down",
           "artist": "Queen",
@@ -1837,20 +1844,20 @@
         {
           "id": "0bff2a5b-e87b-4fbd-8254-81e6e6377363",
           "type": "break",
-          "order": 26,
+          "order": 27,
           "title": "Break",
           "durationSec": 120
         },
         {
           "id": "2af5ff39-5d5a-4763-8a44-c0df7a8c5eff",
           "type": "section",
-          "order": 27,
+          "order": 28,
           "title": "Encore"
         },
         {
           "id": "a34cc52c-b869-47a1-81c0-b020d034a2dc",
           "type": "song",
-          "order": 28,
+          "order": 29,
           "songId": "ba43acd1-b7e0-40e0-b06f-57ee32a1f012",
           "title": "The Trooper",
           "artist": "Iron Maiden",
@@ -1859,7 +1866,7 @@
         {
           "id": "b71e07bb-fb63-471b-be98-bd59aaf0a0db",
           "type": "song",
-          "order": 29,
+          "order": 30,
           "songId": "65b43906-29ea-4331-9bb5-908d89ebaa24",
           "title": "Don’t Stop Believin’",
           "artist": "Journey",
@@ -1868,7 +1875,7 @@
         {
           "id": "0284e0bf-2d8a-45eb-8f5c-7f0be4796931",
           "type": "song",
-          "order": 30,
+          "order": 31,
           "songId": "97280db7-8f6b-4b36-8394-d2b43b3eb0bb",
           "title": "Highway to Hell",
           "artist": "AC/DC",
@@ -1876,7 +1883,7 @@
         }
       ],
       "createdAt": "2025-11-15T03:06:00.200Z",
-      "updatedAt": "2025-11-16T00:23:57.873Z",
+      "updatedAt": "2025-11-17T06:36:24.058Z",
       "public": true,
       "showNotesAfterLyrics": false,
       "showColourFlip": false,
@@ -1942,26 +1949,18 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "instruments": [
-        "Electric Guitar"
-      ],
+      "instruments": ["Electric Guitar"],
       "role": "bandMember"
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
-      "instruments": [
-        "Drums"
-      ]
+      "instruments": ["Drums"]
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "instruments": [
-        "Vocals",
-        "Bass Guitar",
-        "Electric Guitar"
-      ]
+      "instruments": ["Vocals", "Bass Guitar", "Electric Guitar"]
     }
   ],
   "projectPractice": [
@@ -2702,6 +2701,16 @@
       "mbid": "d8524df6-d7b2-4ed2-8823-2df911c60b4f",
       "createdAt": "2025-11-15T03:35:21.090Z",
       "updatedAt": "2025-11-15T03:35:21.090Z"
+    },
+    {
+      "id": "0c0ae34c-3bb8-4a1e-8a12-7bc28ba8ff0a",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Whiskey in the Jar",
+      "artist": "Metallica",
+      "durationSec": 328,
+      "mbid": "7e9b2d03-b107-41e1-ae98-8e1b905965e8",
+      "createdAt": "2025-11-17T06:35:09.121Z",
+      "updatedAt": "2025-11-17T06:35:09.121Z"
     }
   ],
   "joinRequests": [],

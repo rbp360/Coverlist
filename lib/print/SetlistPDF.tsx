@@ -254,7 +254,50 @@ export default function SetlistPDF({
 
   // Decide pages based on fitMode
   let sets: SetlistItem[][] = [];
-  if (fitMode === 2) {
+  if (fitMode === 'manual' || fitMode === 1) {
+    // Font-size mode: paginate by whole sections so sets never cross pages
+    const capacityPerPage = 720; // base vertical units per page at scale=1
+    const headerSpace = 56; // fixed header + spacer and borders
+    const footerSpace = 48; // footer area + breathing room
+    const effCapacity = capacityPerPage / Math.max(0.6, Math.min(1.6, scale));
+    const unitFor = (item: SetlistItem): number => {
+      switch (item.type) {
+        case 'section':
+          return 36;
+        case 'song':
+          return 28;
+        case 'note':
+          return 22;
+        case 'break':
+          return 20;
+        default:
+          return 18;
+      }
+    };
+    const groupUnits = (group: SetlistItem[]) => group.reduce((u, it) => u + unitFor(it), 0);
+
+    const pages: SetlistItem[][] = [];
+    let current: SetlistItem[] = [];
+    let used = headerSpace + footerSpace; // per-page overhead
+    for (const grp of groups) {
+      const gu = groupUnits(grp);
+      const would = used + gu;
+      if (current.length === 0) {
+        // First group on page always goes in, even if it overflows slightly
+        current.push(...grp);
+        used = would;
+      } else if (would <= effCapacity) {
+        current.push(...grp);
+        used = would;
+      } else {
+        pages.push(current);
+        current = [...grp];
+        used = headerSpace + footerSpace + gu;
+      }
+    }
+    if (current.length) pages.push(current);
+    sets = pages.length ? pages : [setlist.items];
+  } else if (fitMode === 2) {
     if (groups.length <= 1) {
       sets = [setlist.items];
     } else if (groups.length === 2) {
