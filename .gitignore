@@ -2,6 +2,9 @@
 node_modules/
 coverage/
 e2e-report/
+.swc/
+test-results/
+tsconfig.tsbuildinfo
 .env.local
 .env*
 .env.*.local
@@ -13,3 +16,12 @@ npm-debug.log*
 Coverlist/
 
 .vercel
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.log
+
+# Playwright artifacts (in case configured)
+playwright-report/
+playwright/.cache/
