@@ -411,16 +411,12 @@ export default function RehearsalPage() {
                       />
                     ) : null}
 
-                    {/* Hover/focus panel with textarea editor */}
+                    {/* Notes panel (mobile-friendly: toggled by button, not hover) */}
                     <div
-                      className={`absolute left-0 top-full z-20 mt-1 hidden min-w-[18rem] max-w-[28rem] rounded border bg-white p-2 text-black shadow-lg group-hover:block focus-within:block ${
-                        openNoteFor === s.id ? 'block' : ''
-                      }`}
-                      onMouseLeave={() => setOpenNoteFor(null)}
+                      className={`absolute left-0 top-full z-20 mt-1 ${
+                        openNoteFor === s.id ? 'block' : 'hidden'
+                      } min-w-[18rem] max-w-[28rem] rounded border bg-white p-2 text-black shadow-lg`}
                     >
-                      <div className="mb-2 text-xs text-neutral-600">
-                        Free text rehearsal notes (shown on hover, hidden in table)
-                      </div>
                       <textarea
                         className="w-full rounded border px-2 py-1 h-24 text-sm bg-white text-black"
                         placeholder="Type your rehearsal notes here…"
@@ -430,6 +426,14 @@ export default function RehearsalPage() {
                         }
                       />
                       <div className="mt-2 flex items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          className="rounded border px-2 py-0.5 text-xs"
+                          onClick={() => setOpenNoteFor(null)}
+                          title="Close"
+                        >
+                          Close
+                        </button>
                         {Boolean(s.notes) && (
                           <button
                             type="button"
