@@ -1961,6 +1961,11 @@
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "instruments": ["Vocals", "Bass Guitar", "Electric Guitar"]
+    },
+    {
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "instruments": ["Vocals"]
     }
   ],
   "projectPractice": [

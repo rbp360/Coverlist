@@ -326,6 +326,19 @@ export default function ProjectSetlistsPage() {
                           {cacheStatus[s.id] === 'error' && 'Error saving offline.'}
                         </span>
                       )}
+                      <button
+                        className="rounded border border-neutral-500 px-2 py-1 text-xs text-white hover:bg-neutral-800 ml-auto"
+                        title="Edit setlist"
+                        aria-label="Edit setlist"
+                        tabIndex={-1}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.location.href = `/setlists/${s.id}`;
+                        }}
+                      >
+                        ✏️ Edit
+                      </button>
                     </td>
                   </tr>
                 </Link>
