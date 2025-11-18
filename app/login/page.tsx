@@ -89,6 +89,11 @@ export default function LoginPage() {
                 setError(
                   'An account already exists with this email using a different sign-in method. Please log in with your email and password, then link your Google account from your profile/settings.',
                 );
+              } else if (err?.code === 'auth/unauthorized-domain') {
+                const host = typeof window !== 'undefined' ? window.location.host : 'this domain';
+                setError(
+                  `This domain (${host}) is not authorized for Firebase Authentication. In Firebase Console → Authentication → Settings → Authorized domains, add your deployed domain (e.g., ${host}) and your production/custom domain(s).`,
+                );
               } else if (err?.code === 'auth/popup-blocked') {
                 setError('Popup was blocked by the browser. Please allow popups and try again.');
               } else if (err?.code === 'auth/popup-closed-by-user') {
