@@ -372,12 +372,14 @@ export default function RepertoirePage() {
           </Link>
         </div>
         <div className="flex-1 rounded border bg-black p-4 flex flex-col items-start justify-between">
-          <div className="mb-2 text-sm text-neutral-600">Add songs from my repertoire</div>
+          <div className="mb-2 text-sm text-neutral-600">
+            Add songs from your personal repertoire (not the band’s)
+          </div>
           <Link
             className="inline-block rounded bg-black px-3 py-2 text-white border"
             href="/repertoire"
           >
-            Go to My Repertoire
+            Open Personal Repertoire
           </Link>
         </div>
         <div className="flex-1 rounded border bg-black p-4 flex flex-col items-start justify-between">
