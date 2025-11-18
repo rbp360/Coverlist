@@ -1,7 +1,7 @@
 import { fetchLyricsLRCLibRobust } from '../lib/lyrics';
 
 describe('fetchLyricsLRCLibRobust', () => {
-  const originalFetch = global.fetch;
+  const originalFetch = global.fetch as any;
 
   afterEach(() => {
     global.fetch = originalFetch;
@@ -9,9 +9,8 @@ describe('fetchLyricsLRCLibRobust', () => {
   });
 
   it('selects a later variant that succeeds', async () => {
-    const responses: { [url: string]: any } = {};
     // Will respond only for sanitized variant (simulate variant #3+)
-    global.fetch = jest.fn(async (input: RequestInfo) => {
+    const fetchMock = jest.fn(async (input: any) => {
       const url = String(input);
       // Detect sanitized variant by presence of no punctuation (e.g., track_name without parentheses)
       if (/track_name=Hello%20World&artist_name=Artist/i.test(url)) {
@@ -21,7 +20,8 @@ describe('fetchLyricsLRCLibRobust', () => {
         } as any;
       }
       return { ok: true, json: async () => ({}) } as any; // empty result
-    });
+    }) as unknown as typeof fetch;
+    global.fetch = fetchMock as any;
 
     const result = await fetchLyricsLRCLibRobust({
       title: 'Hello World (Live)',
@@ -32,11 +32,14 @@ describe('fetchLyricsLRCLibRobust', () => {
     expect(result.lines.length).toBe(2);
     expect(result.usedVariantIndex).not.toBeNull();
     expect(result.warning).toBeUndefined();
-    expect(global.fetch).toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalled();
   });
 
   it('produces warning when no variants return lyrics', async () => {
-    global.fetch = jest.fn(async () => ({ ok: true, json: async () => ({}) }) as any);
+    const fetchMock = jest.fn(
+      async () => ({ ok: true, json: async () => ({}) }) as any,
+    ) as unknown as typeof fetch;
+    global.fetch = fetchMock as any;
     const result = await fetchLyricsLRCLibRobust({
       title: 'Unknown Song',
       artist: 'Obscure Artist',
