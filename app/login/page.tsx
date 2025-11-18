@@ -10,6 +10,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [gLoading, setGLoading] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -66,10 +67,13 @@ export default function LoginPage() {
       </form>
       <div className="mt-6">
         <button
-          className="w-full flex items-center justify-center gap-2 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-700"
+          type="button"
+          disabled={gLoading}
+          className="w-full flex items-center justify-center gap-2 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-700 disabled:opacity-60"
           onClick={async () => {
             setError(null);
             try {
+              setGLoading(true);
               const cred = await signInWithGoogle();
               const idToken = await cred.user.getIdToken();
               const r = await fetch('/api/auth/session', {
@@ -80,7 +84,22 @@ export default function LoginPage() {
               if (!r.ok) throw new Error('Failed to start session');
               window.location.href = '/projects';
             } catch (err: any) {
-              setError('Google sign-in failed');
+              console.error('Google sign-in error', err);
+              if (err?.code === 'auth/account-exists-with-different-credential') {
+                setError(
+                  'An account already exists with this email using a different sign-in method. Please log in with your email and password, then link your Google account from your profile/settings.',
+                );
+              } else if (err?.code === 'auth/popup-blocked') {
+                setError('Popup was blocked by the browser. Please allow popups and try again.');
+              } else if (err?.code === 'auth/popup-closed-by-user') {
+                setError('Popup closed before completing sign-in. Please try again.');
+              } else if (err?.code === 'auth/cancelled-popup-request') {
+                setError('Another sign-in attempt was in progress. Please try again.');
+              } else {
+                setError('Google sign-in failed');
+              }
+            } finally {
+              setGLoading(false);
             }
           }}
         >

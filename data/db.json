@@ -354,12 +354,6 @@
       "email": "user-1762174075760-chromium-4-izorv6@test.local",
       "passwordHash": "firebase",
       "createdAt": "2025-11-03T12:47:59.679Z"
-    },
-    {
-      "id": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
-      "email": "bedlamthebandbedlam@gmail.com",
-      "passwordHash": "firebase",
-      "createdAt": "2025-11-18T01:53:10.139Z"
     }
   ],
   "projects": [
