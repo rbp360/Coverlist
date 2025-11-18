@@ -2,7 +2,7 @@
 // Uses NEXT_PUBLIC_* env vars only. Safe to import in client components.
 
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 // Determine if all required public config values are present
@@ -38,3 +38,10 @@ if (FIREBASE_ENABLED) {
 }
 
 export { app as default, clientDb, clientAuth };
+
+// Helper for Google sign-in
+export async function signInWithGoogle() {
+  if (!FIREBASE_ENABLED || !clientAuth) throw new Error('Firebase not enabled');
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(clientAuth, provider);
+}
