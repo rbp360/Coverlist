@@ -72,7 +72,8 @@ export default function ProjectMembersPage() {
     setMySel(m?.instruments || []);
   }, [members, me]);
 
-  const myInstrumentOptions = useMemo(() => me?.instruments || INSTRUMENTS, [me]);
+  // Match setup: allow choosing from the full preset list, not just profile
+  const myInstrumentOptions = useMemo(() => INSTRUMENTS, []);
 
   async function save() {
     setSaving(true);
@@ -167,6 +168,27 @@ export default function ProjectMembersPage() {
             </div>
           ) : (
             <>
+              <div className="mb-2 flex flex-wrap items-center gap-2 text-xs text-neutral-400">
+                <button
+                  type="button"
+                  className="rounded border px-2 py-0.5 text-xs text-white"
+                  title="Apply your profile instruments"
+                  onClick={() => setMySel(me?.instruments || [])}
+                >
+                  Use profile selection
+                </button>
+                <button
+                  type="button"
+                  className="rounded border px-2 py-0.5 text-xs text-white"
+                  title="Clear instruments"
+                  onClick={() => setMySel([])}
+                >
+                  Clear
+                </button>
+                <span className="ml-auto">
+                  Selected: <span className="tabular-nums">{mySel.length}</span>
+                </span>
+              </div>
               <div className="grid grid-cols-1 gap-1 md:grid-cols-2">
                 {myInstrumentOptions.map((inst) => (
                   <label key={inst} className="flex items-center gap-2 text-sm">
