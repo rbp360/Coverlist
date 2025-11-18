@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "id": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "email": "jamconnect123@gmail.com",
       "passwordHash": "$2b$10$lCAPQYUtf2MZqgmsRbKDoOabsvshqzOwytqFMutKTKPsVrLDPoVXK",
       "createdAt": "2025-10-21T08:34:21.612Z",
@@ -95,7 +95,7 @@
       "createdAt": "2025-10-28T01:26:21.165Z"
     },
     {
-      "id": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
+      "id": "b6MG0Wi796bpR5h30xF09mIZy642",
       "email": "rob_b_paul@hotmail.com",
       "passwordHash": "$2b$10$zNAwF2ImHknsZ/SqA4.lpuWv0acL8TjvyfCv7ziRrsMTeuFp3md0K",
       "createdAt": "2025-10-28T07:18:49.841Z",
@@ -370,22 +370,22 @@
     {
       "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "name": "test project",
-      "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
-      "memberIds": ["7d9bd818-1e5b-4300-818f-ecb70c926825", "08f1e9d5-afdb-42e9-ae02-42b95753a223"],
+      "ownerId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "memberIds": ["1UtlnxdKW4XkZdCKjuPAtOiVTVx1", "b6MG0Wi796bpR5h30xF09mIZy642"],
       "createdAt": "2025-10-21T08:35:26.159Z",
       "avatarUrl": "/api/uploads/b179467d-df9b-4bd4-898c-ce8de77ed5d2.jpg"
     },
     {
       "id": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
       "name": "test band 2",
-      "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "ownerId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "memberIds": [],
       "createdAt": "2025-10-21T09:21:13.785Z"
     },
     {
       "id": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "name": "enzos",
-      "ownerId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "ownerId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "memberIds": [],
       "createdAt": "2025-10-29T08:04:56.270Z",
       "avatarUrl": "/api/uploads/dd2b1b19-00e8-4523-9326-d529e91465fe.png"
@@ -1948,18 +1948,18 @@
   "projectMembers": [
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "instruments": ["Electric Guitar"],
       "role": "bandMember"
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
-      "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
+      "userId": "b6MG0Wi796bpR5h30xF09mIZy642",
       "instruments": ["Drums"]
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "instruments": ["Vocals", "Bass Guitar", "Electric Guitar"]
     }
   ],
@@ -1967,49 +1967,49 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "329708e7-5cb9-4d69-be42-4d6ba4192599",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 3,
       "rating": 4
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 1
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "ac3922c6-7fcf-47de-a8aa-e8d337a4622a",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 1
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "2e9eec3d-1f82-4736-af13-fa8ab7c15ea2",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 1
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 1,
       "rating": 1
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "b4c4480d-7817-4b35-84c6-f1c4c4dc46cf",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 2,
       "rating": 2
     },
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 8,
       "rating": 3,
       "lastRehearsed": "2020-01-01"
@@ -2017,7 +2017,7 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 5,
       "rating": 0,
       "lastRehearsed": "2025-10-01"
@@ -2025,7 +2025,7 @@
     {
       "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
       "songId": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 3,
       "rating": 0,
       "lastRehearsed": "2025-09-20"
@@ -2033,14 +2033,15 @@
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
-      "rating": 3
+      "rating": 3,
+      "lastRehearsed": "2025-11-17"
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 4,
       "lastRehearsed": "2025-10-29"
@@ -2048,22 +2049,23 @@
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
-      "rating": 4
+      "rating": 4,
+      "lastRehearsed": "2025-11-17"
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "46071d93-22a8-41e3-b45e-e41efdf76751",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 4,
-      "lastRehearsed": "2025-10-29"
+      "lastRehearsed": "2025-11-17"
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 3,
       "lastRehearsed": "2025-10-29"
@@ -2071,36 +2073,36 @@
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "40fb96e8-2f14-47fb-97fd-ae2a37b4cf5d",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 4,
-      "lastRehearsed": "2025-10-29"
+      "lastRehearsed": "2025-11-17"
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "56649a8f-5c7d-488b-b101-8df07daeb64b",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 3
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 5
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "f2c325f6-a4c5-4a1d-812e-6dfc55086eac",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 2
     },
     {
       "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
       "songId": "2812d149-7093-40a1-9e43-c86be064bb4f",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 3
     }
@@ -2108,7 +2110,7 @@
   "repertoireSongs": [
     {
       "id": "aff926dd-92a4-4916-b112-124a35eb8613",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Born in the U.S.A.",
       "artist": "Bruce Springsteen",
       "durationSec": 492,
@@ -2119,7 +2121,7 @@
     },
     {
       "id": "527d8978-5f01-4399-9eac-a1e77ed2d8dc",
-      "userId": "08f1e9d5-afdb-42e9-ae02-42b95753a223",
+      "userId": "b6MG0Wi796bpR5h30xF09mIZy642",
       "title": "Stairway",
       "artist": "Mark Lockheart",
       "durationSec": 111,
@@ -2129,7 +2131,7 @@
     },
     {
       "id": "5a447b2b-0950-4aad-b26b-e5d31c3ecfed",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Too Young to Die, Too Drunk to Live",
       "artist": "Alcatrazz",
       "durationSec": 261,
@@ -2141,7 +2143,7 @@
     },
     {
       "id": "cd356510-eb9e-47ba-aa8f-755922e33f00",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Don’t Break My Heart Again",
       "artist": "Whitesnake",
       "durationSec": 243,
@@ -2153,7 +2155,7 @@
     },
     {
       "id": "2442620d-e153-44a5-b61a-3023743ea95f",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Would I Lie to You",
       "artist": "Whitesnake",
       "durationSec": 269,
@@ -2165,7 +2167,7 @@
     },
     {
       "id": "2bbee27a-f108-43c2-8275-411644d24acf",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Might Just Take Your Life",
       "artist": "Deep Purple",
       "durationSec": 279,
@@ -2177,7 +2179,7 @@
     },
     {
       "id": "e00e46ba-58bb-48ae-acb1-b176bd55860a",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Smoke on the Water",
       "artist": "Deep Purple",
       "durationSec": 341,
@@ -2188,7 +2190,7 @@
     },
     {
       "id": "5a65a673-c855-4846-b017-254880db7822",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Highway Star",
       "artist": "Deep Purple",
       "durationSec": 370,
@@ -2200,7 +2202,7 @@
     },
     {
       "id": "38d886db-fbca-4b8c-9b7a-36ea206ba325",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Black Night",
       "artist": "Deep Purple",
       "durationSec": 288,
@@ -2211,7 +2213,7 @@
     },
     {
       "id": "84d02144-11f3-4246-9bf1-4321caf675a4",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Holy Diver",
       "artist": "Dio",
       "durationSec": 352,
@@ -2222,7 +2224,7 @@
     },
     {
       "id": "b1325e03-2ee3-4a1b-a0a5-4a8b84c3960f",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "It’s My Life",
       "artist": "Bon Jovi",
       "durationSec": 224,
@@ -2234,7 +2236,7 @@
     },
     {
       "id": "46fa11fb-6132-4502-8e8b-dd298aea6c11",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "You Give Love a Bad Name",
       "artist": "Bon Jovi",
       "durationSec": 235,
@@ -2245,7 +2247,7 @@
     },
     {
       "id": "466b7331-44b0-4b19-b7ca-f312128f4a1a",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Love, Love, Love, Love, Love",
       "artist": "The Music Explosion",
       "durationSec": 164,
@@ -2256,7 +2258,7 @@
     },
     {
       "id": "b1c3557c-e881-436c-8c70-f348b83f90ac",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Innocent Eyes (The Luge mix)",
       "artist": "Delta Goodrem",
       "durationSec": 309,
@@ -2267,7 +2269,7 @@
     },
     {
       "id": "3005244f-165f-42fe-9fdc-4bb461b0d7e7",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Long Live Rock ’n’ Roll",
       "artist": "Rainbow",
       "durationSec": 261,
@@ -2278,7 +2280,7 @@
     },
     {
       "id": "a4eee9b5-c218-4d0a-8799-eb2ea0ca7b43",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "title": "Meant for You",
       "artist": "The Beach Boys",
       "durationSec": 41,
@@ -2711,6 +2713,19 @@
       "mbid": "7e9b2d03-b107-41e1-ae98-8e1b905965e8",
       "createdAt": "2025-11-17T06:35:09.121Z",
       "updatedAt": "2025-11-17T06:35:09.121Z"
+    },
+    {
+      "id": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Here I Go Again",
+      "artist": "Whitesnake",
+      "durationSec": 349,
+      "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
+      "key": "Dm",
+      "tempo": 128,
+      "url": "https://open.spotify.com/track/1tQ5TSr1tyeQUbHKBee0jv",
+      "createdAt": "2025-10-29T08:13:22.448Z",
+      "updatedAt": "2025-10-29T08:19:54.937Z"
     }
   ],
   "joinRequests": [],
@@ -2725,7 +2740,7 @@
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "createdAt": "2025-10-28T07:17:09.615Z",
       "votes": {
-        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "no"
+        "b6MG0Wi796bpR5h30xF09mIZy642": "no"
       }
     },
     {
@@ -2738,7 +2753,7 @@
       "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
       "createdAt": "2025-10-28T07:17:09.615Z",
       "votes": {
-        "08f1e9d5-afdb-42e9-ae02-42b95753a223": "yes"
+        "b6MG0Wi796bpR5h30xF09mIZy642": "yes"
       }
     },
     {
@@ -2805,56 +2820,56 @@
   "personalPractice": [
     {
       "repertoireSongId": "aff926dd-92a4-4916-b112-124a35eb8613",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 1
     },
     {
       "repertoireSongId": "329708e7-5cb9-4d69-be42-4d6ba4192599",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 1,
       "rating": 4
     },
     {
       "repertoireSongId": "f59018e6-629c-4992-830b-6c61d4e260c4",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 2
     },
     {
       "repertoireSongId": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 1,
       "rating": 5
     },
     {
       "repertoireSongId": "54e54f61-9321-4de2-8dff-1ec357a65a23",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 1,
       "rating": 5
     },
     {
       "repertoireSongId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 4,
       "lastRehearsed": "2025-10-29"
     },
     {
       "repertoireSongId": "72ba9218-7351-4f2c-9293-5406f66b8ece",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 2
     },
     {
       "repertoireSongId": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 4
     },
     {
       "repertoireSongId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
-      "userId": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
       "passes": 0,
       "rating": 1
     }
