@@ -82,6 +82,16 @@ export default function LoginPage() {
                 body: JSON.stringify({ idToken }),
               });
               if (!r.ok) throw new Error('Failed to start session');
+              // Confirm server set firebase_session before redirect
+              const verify = await fetch('/api/auth/debug-cookies');
+              const cookieInfo = await verify.json();
+              if (!cookieInfo.hasFirebase) {
+                console.warn('Firebase session cookie missing after login', cookieInfo);
+                setError(
+                  'Session cookie not set yet. Please retry (or check domain/cookie settings).',
+                );
+                return; // Do not redirect
+              }
               window.location.href = '/projects';
             } catch (err: any) {
               console.error('Google sign-in error', err);
