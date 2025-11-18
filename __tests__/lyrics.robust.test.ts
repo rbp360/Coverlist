@@ -11,9 +11,12 @@ describe('fetchLyricsLRCLibRobust', () => {
   it('selects a later variant that succeeds', async () => {
     // Will respond only for sanitized variant (simulate variant #3+)
     const fetchMock = jest.fn(async (input: any) => {
-      const url = String(input);
-      // Detect sanitized variant by presence of no punctuation (e.g., track_name without parentheses)
-      if (/track_name=Hello%20World&artist_name=Artist/i.test(url)) {
+      const href = String(input);
+      const u = new URL(href);
+      const track = u.searchParams.get('track_name');
+      const artist = u.searchParams.get('artist_name');
+      // Detect sanitized variant by exact param values, regardless of encoding/order
+      if (track === 'Hello World' && artist === 'Artist') {
         return {
           ok: true,
           json: async () => ({ syncedLyrics: '[00:00.00] Hello\n[00:01.00] World' }),
