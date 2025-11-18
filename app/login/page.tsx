@@ -1,9 +1,14 @@
 'use client';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { clientAuth, FIREBASE_ENABLED, signInWithGoogle } from '@/lib/firebaseClient';
+import {
+  clientAuth,
+  FIREBASE_ENABLED,
+  signInWithGoogleRedirect,
+  getGoogleRedirectResult,
+} from '@/lib/firebaseClient';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,6 +16,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [gLoading, setGLoading] = useState(false);
+  const [processingRedirect, setProcessingRedirect] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -45,6 +51,56 @@ export default function LoginPage() {
     }
   }
 
+  // Handle Google sign-in redirect result on load
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      if (!FIREBASE_ENABLED || !clientAuth) return;
+      setProcessingRedirect(true);
+      try {
+        const result = await getGoogleRedirectResult();
+        if (result && active) {
+          const idToken = await result.user.getIdToken();
+          const r = await fetch('/api/auth/session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken }),
+          });
+          if (!r.ok) throw new Error('Failed to start session');
+          const verify = await fetch('/api/auth/debug-cookies');
+          const cookieInfo = await verify.json();
+          if (!cookieInfo.hasFirebase) {
+            console.warn('Firebase session cookie missing after redirect login', cookieInfo);
+            setError('Session cookie not set yet. Please retry (or check domain/cookie settings).');
+          } else {
+            window.location.href = '/projects';
+          }
+        }
+      } catch (err: any) {
+        console.error('Google redirect result error', err);
+        if (err?.code === 'auth/account-exists-with-different-credential') {
+          setError(
+            'An account already exists with this email using a different sign-in method. Please log in with your email and password, then link your Google account from your profile/settings.',
+          );
+        } else if (err?.code === 'auth/unauthorized-domain') {
+          const host = typeof window !== 'undefined' ? window.location.host : 'this domain';
+          setError(
+            `This domain (${host}) is not authorized for Firebase Authentication. In Firebase Console → Authentication → Settings → Authorized domains, add your deployed domain (e.g., ${host}).`,
+          );
+        } else if (err?.code) {
+          setError(`Google sign-in failed (${err.code})`);
+        } else {
+          setError('Google sign-in failed');
+        }
+      } finally {
+        if (active) setProcessingRedirect(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <div className="mx-auto max-w-sm">
       <h2 className="mb-4 text-2xl font-semibold">Log in</h2>
@@ -74,25 +130,7 @@ export default function LoginPage() {
             setError(null);
             try {
               setGLoading(true);
-              const cred = await signInWithGoogle();
-              const idToken = await cred.user.getIdToken();
-              const r = await fetch('/api/auth/session', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idToken }),
-              });
-              if (!r.ok) throw new Error('Failed to start session');
-              // Confirm server set firebase_session before redirect
-              const verify = await fetch('/api/auth/debug-cookies');
-              const cookieInfo = await verify.json();
-              if (!cookieInfo.hasFirebase) {
-                console.warn('Firebase session cookie missing after login', cookieInfo);
-                setError(
-                  'Session cookie not set yet. Please retry (or check domain/cookie settings).',
-                );
-                return; // Do not redirect
-              }
-              window.location.href = '/projects';
+              await signInWithGoogleRedirect();
             } catch (err: any) {
               console.error('Google sign-in error', err);
               if (err?.code === 'auth/account-exists-with-different-credential') {
