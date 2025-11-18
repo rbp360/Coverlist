@@ -68,13 +68,8 @@ export default function RehearsalPage() {
   const [creating, setCreating] = useState(false);
   const [playlistUrl, setPlaylistUrl] = useState<string | null>(null);
   const [lastInput, setLastInput] = useState<Record<string, string>>({});
-  const [notePreview, setNotePreview] = useState<null | {
-    songId: string;
-    title: string;
-    artist: string;
-    note: string;
-  }>(null);
-  const NOTE_PREVIEW_MAX = 80;
+  const [noteDrafts, setNoteDrafts] = useState<Record<string, string>>({});
+  const [openNoteFor, setOpenNoteFor] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -220,6 +215,26 @@ export default function RehearsalPage() {
           },
         }));
         setLastInput((prev) => ({ ...prev, [songId]: formatISOToDDMMYY(saved.lastRehearsed) }));
+      }
+    } finally {
+      setSaving(null);
+    }
+  }
+
+  async function updateSongNotes(songId: string, noteText: string) {
+    // Empty string will clear notes
+    const notes = noteText.trim() === '' ? undefined : noteText;
+    setSaving(songId);
+    try {
+      const res = await fetch(`/api/projects/${id}/songs`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: songId, notes }),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setSongs((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
+        setNoteDrafts((prev) => ({ ...prev, [songId]: updated.notes || '' }));
       }
     } finally {
       setSaving(null);
@@ -378,33 +393,72 @@ export default function RehearsalPage() {
                   />
                 </td>
                 <td className="p-2 align-top">
-                  <div className="flex items-start gap-2">
-                    <div
-                      className="text-xs text-neutral-200 max-w-[14rem] md:max-w-[20rem] truncate"
-                      title={s.notes || ''}
+                  <div className="relative inline-flex items-center gap-2 group">
+                    {/* Indicator button */}
+                    <button
+                      type="button"
+                      className="rounded border px-2 py-0.5 text-xs whitespace-nowrap hover:bg-neutral-100 text-black"
+                      onClick={() => setOpenNoteFor((cur) => (cur === s.id ? null : s.id))}
+                      title={s.notes ? 'View/edit note' : 'Add a note'}
                     >
-                      {s.notes
-                        ? s.notes.length > NOTE_PREVIEW_MAX
-                          ? `${s.notes.slice(0, NOTE_PREVIEW_MAX - 1)}…`
-                          : s.notes
-                        : ''}
-                    </div>
-                    {s.notes && s.notes.length > NOTE_PREVIEW_MAX ? (
-                      <button
-                        className="rounded border px-2 py-0.5 text-xs whitespace-nowrap"
-                        onClick={() =>
-                          setNotePreview({
-                            songId: s.id,
-                            title: s.title,
-                            artist: s.artist,
-                            note: s.notes || '',
-                          })
-                        }
-                        title="View full note"
-                      >
-                        View
-                      </button>
+                      {s.notes ? 'Notes •' : 'Add note'}
+                    </button>
+                    {/* Small dot when a note exists */}
+                    {s.notes ? (
+                      <span
+                        className="h-2 w-2 rounded-full inline-block"
+                        style={{ backgroundColor: '#22c55e' }}
+                      />
                     ) : null}
+
+                    {/* Hover/focus panel with textarea editor */}
+                    <div
+                      className={`absolute left-0 top-full z-20 mt-1 hidden min-w-[18rem] max-w-[28rem] rounded border bg-white p-2 text-black shadow-lg group-hover:block focus-within:block ${
+                        openNoteFor === s.id ? 'block' : ''
+                      }`}
+                      onMouseLeave={() => setOpenNoteFor(null)}
+                    >
+                      <div className="mb-2 text-xs text-neutral-600">
+                        Free text rehearsal notes (shown on hover, hidden in table)
+                      </div>
+                      <textarea
+                        className="w-full rounded border px-2 py-1 h-24 text-sm bg-white text-black"
+                        placeholder="Type your rehearsal notes here…"
+                        value={noteDrafts[s.id] ?? s.notes ?? ''}
+                        onChange={(e) =>
+                          setNoteDrafts((prev) => ({ ...prev, [s.id]: e.target.value }))
+                        }
+                      />
+                      <div className="mt-2 flex items-center justify-end gap-2">
+                        {Boolean(s.notes) && (
+                          <button
+                            type="button"
+                            className="rounded border px-2 py-0.5 text-xs"
+                            onClick={async () => {
+                              await updateSongNotes(s.id, '');
+                              setOpenNoteFor(null);
+                            }}
+                            disabled={saving === s.id}
+                            title="Clear note"
+                          >
+                            Clear
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="rounded bg-black text-white px-2 py-0.5 text-xs"
+                          onClick={async () => {
+                            const text = noteDrafts[s.id] ?? '';
+                            await updateSongNotes(s.id, text);
+                            setOpenNoteFor(null);
+                          }}
+                          disabled={saving === s.id}
+                          title="Save note"
+                        >
+                          {saving === s.id ? 'Saving…' : 'Save'}
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </td>
                 <td className="p-2">
@@ -544,40 +598,7 @@ export default function RehearsalPage() {
         )}
       </div>
 
-      {notePreview && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setNotePreview(null)}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') setNotePreview(null);
-          }}
-        >
-          <div
-            className="w-full max-w-xl rounded-md border bg-neutral-900 p-4 text-white shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="mb-2 flex items-start justify-between gap-4">
-              <div>
-                <div className="text-sm text-neutral-400">{notePreview.artist}</div>
-                <div className="text-lg font-semibold">{notePreview.title}</div>
-              </div>
-              <button
-                className="rounded border px-2 py-0.5 text-xs"
-                onClick={() => setNotePreview(null)}
-                aria-label="Close"
-                title="Close"
-              >
-                Close
-              </button>
-            </div>
-            <div className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed">
-              {notePreview.note}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* No modal; notes are edited via hover panel to keep the table clean */}
     </div>
   );
 }
