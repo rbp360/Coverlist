@@ -9,6 +9,8 @@ import {
   FIREBASE_MISSING,
   FIREBASE_ACTIVATION_FLAG,
   signInWithGoogle,
+  signInWithGoogleRedirect,
+  getGoogleRedirectResult,
 } from '@/lib/firebaseClient';
 
 export default function LoginPage() {
@@ -17,7 +19,9 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [gLoading, setGLoading] = useState(false);
-  // Redirect flow removed; popup only.
+  // Configure sign-in mode: 'popup' (default), 'redirect', or 'auto'
+  const GOOGLE_SIGNIN_MODE = (process.env.NEXT_PUBLIC_GOOGLE_SIGNIN_MODE || 'popup').toLowerCase();
+  const [processingRedirect, setProcessingRedirect] = useState(false);
   const DEBUG_AUTH = (process.env.NEXT_PUBLIC_AUTH_DEBUG || '').toLowerCase() === 'true';
   const [showDebug, setShowDebug] = useState(false);
   const [debugInfo, setDebugInfo] = useState<any>(null);
@@ -106,7 +110,49 @@ export default function LoginPage() {
     }
   }
 
-  // Redirect processing removed.
+  // Handle Google sign-in redirect result when mode is redirect/auto
+  useEffect(() => {
+    if (!FIREBASE_ENABLED || !clientAuth) return;
+    if (GOOGLE_SIGNIN_MODE === 'popup') return;
+    let active = true;
+    (async () => {
+      setProcessingRedirect(true);
+      try {
+        const result = await getGoogleRedirectResult();
+        if (!result || !active) return;
+        const idToken = await result.user.getIdToken();
+        setIdTokenForLink(idToken);
+        setAuthUserInfo({
+          uid: result.user.uid,
+          email: result.user.email,
+          providers: result.user.providerData.map((p) => p.providerId),
+        });
+        let r = await fetch('/api/auth/session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken }),
+        });
+        if (!r.ok) {
+          await new Promise((res) => setTimeout(res, 300));
+          r = await fetch('/api/auth/session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken }),
+          });
+        }
+        if (!r.ok) throw new Error('Failed to start session');
+        window.location.href = '/projects';
+      } catch (err: any) {
+        // Only surface errors if a redirect result existed; otherwise remain quiet
+        if (err?.code) setError(`Google sign-in failed (${err.code})`);
+      } finally {
+        if (active) setProcessingRedirect(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [GOOGLE_SIGNIN_MODE]);
 
   // Live auth state listener (popup flow & general visibility)
   useEffect(() => {
@@ -240,26 +286,46 @@ export default function LoginPage() {
               setPopupError(null);
               try {
                 setGLoading(true);
+                if (GOOGLE_SIGNIN_MODE === 'redirect') {
+                  await signInWithGoogleRedirect();
+                  return;
+                }
                 setPopupAttempted(true);
-                console.info('Starting Google popup sign-in');
-                const cred = await signInWithGoogle();
-                const idToken = await cred.user.getIdToken();
-                setIdTokenForLink(idToken);
-                let r = await fetch('/api/auth/session', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ idToken }),
-                });
-                if (!r.ok) {
-                  await new Promise((res) => setTimeout(res, 300));
-                  r = await fetch('/api/auth/session', {
+                try {
+                  const cred = await signInWithGoogle();
+                  const idToken = await cred.user.getIdToken();
+                  setIdTokenForLink(idToken);
+                  let r = await fetch('/api/auth/session', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ idToken }),
                   });
+                  if (!r.ok) {
+                    await new Promise((res) => setTimeout(res, 300));
+                    r = await fetch('/api/auth/session', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ idToken }),
+                    });
+                  }
+                  if (!r.ok) throw new Error('Failed to start session (popup flow)');
+                  window.location.href = '/projects';
+                } catch (popupErr: any) {
+                  const code = popupErr?.code || '';
+                  const msg = String(popupErr?.message || '').toLowerCase();
+                  const shouldRedirectFallback =
+                    GOOGLE_SIGNIN_MODE === 'auto' &&
+                    (code === 'auth/popup-blocked' ||
+                      code === 'auth/cancelled-popup-request' ||
+                      code === 'auth/popup-closed-by-user' ||
+                      msg.includes('webauthn') ||
+                      msg.includes('passkey'));
+                  if (shouldRedirectFallback) {
+                    await signInWithGoogleRedirect();
+                    return;
+                  }
+                  throw popupErr;
                 }
-                if (!r.ok) throw new Error('Failed to start session (popup flow)');
-                window.location.href = '/projects';
               } catch (err: any) {
                 console.error('Google popup error', err);
                 setPopupError(err?.code ? `Popup failed (${err.code})` : 'Popup sign-in failed');
@@ -268,6 +334,32 @@ export default function LoginPage() {
               }
             }}
           >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g>
+                <path
+                  d="M44.5 20H24V28.5H35.7C34.3 32.1 30.7 34.5 26.5 34.5C21.5 34.5 17.5 30.5 17.5 25.5C17.5 20.5 21.5 16.5 26.5 16.5C28.7 16.5 30.7 17.3 32.2 18.6L37.1 13.7C34.1 11.1 30.5 9.5 26.5 9.5C16.7 9.5 8.5 17.7 8.5 27.5C8.5 37.3 16.7 45.5 26.5 45.5C36.3 45.5 44.5 37.3 44.5 27.5C44.5 25.7 44.3 23.9 44.5 22.1V20Z"
+                  fill="#4285F4"
+                />
+                <path
+                  d="M8.5 27.5C8.5 17.7 16.7 9.5 26.5 9.5C30.5 9.5 34.1 11.1 37.1 13.7L32.2 18.6C30.7 17.3 28.7 16.5 26.5 16.5C21.5 16.5 17.5 20.5 17.5 25.5C17.5 30.5 21.5 34.5 26.5 34.5C30.7 34.5 34.3 32.1 35.7 28.5H24V20H44.5V22.1C44.3 23.9 44.5 25.7 44.5 27.5C44.5 37.3 36.3 45.5 26.5 45.5C16.7 45.5 8.5 37.3 8.5 27.5Z"
+                  fill="#34A853"
+                />
+                <path
+                  d="M44.5 20H24V28.5H35.7C34.3 32.1 30.7 34.5 26.5 34.5C21.5 34.5 17.5 30.5 17.5 25.5C17.5 20.5 21.5 16.5 26.5 16.5C28.7 16.5 30.7 17.3 32.2 18.6L37.1 13.7C34.1 11.1 30.5 9.5 26.5 9.5C16.7 9.5 8.5 17.7 8.5 27.5C8.5 37.3 16.7 45.5 26.5 45.5C36.3 45.5 44.5 37.3 44.5 27.5C44.5 25.7 44.3 23.9 44.5 22.1V20Z"
+                  fill="#FBBC05"
+                />
+                <path
+                  d="M44.5 20H24V28.5H35.7C34.3 32.1 30.7 34.5 26.5 34.5C21.5 34.5 17.5 30.5 17.5 25.5C17.5 20.5 21.5 16.5 26.5 16.5C28.7 16.5 30.7 17.3 32.2 18.6L37.1 13.7C34.1 11.1 30.5 9.5 26.5 9.5C16.7 9.5 8.5 17.7 8.5 27.5C8.5 37.3 16.7 45.5 26.5 45.5C36.3 45.5 44.5 37.3 44.5 27.5C44.5 25.7 44.3 23.9 44.5 22.1V20Z"
+                  fill="#EA4335"
+                />
+              </g>
+            </svg>
             Sign in with Google
           </button>
           {authUserInfo && (
@@ -277,13 +369,10 @@ export default function LoginPage() {
               onClick={async () => {
                 try {
                   setError(null);
-                  // Sign out Firebase client user to allow selecting another account.
                   if (clientAuth?.currentUser) {
                     await clientAuth.signOut();
                   }
-                  // Clear server cookies via logout endpoint.
                   await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
-                  // Reload to show login state again.
                   window.location.href = '/login';
                 } catch (e) {
                   setError('Failed to sign out');
@@ -304,6 +393,10 @@ export default function LoginPage() {
             <div className="mt-2 rounded border p-2">
               <div>FIREBASE_ENABLED: {String(FIREBASE_ENABLED)}</div>
               <div>clientAuth: {clientAuth ? 'yes' : 'no'}</div>
+              <div>mode: {GOOGLE_SIGNIN_MODE}</div>
+              {GOOGLE_SIGNIN_MODE !== 'popup' && processingRedirect && (
+                <div>processing redirect...</div>
+              )}
               <div>popupAttempted: {String(popupAttempted)}</div>
               {popupError && <div className="text-red-600">{popupError}</div>}
               <div>
