@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 import { setAuthCookie, signToken } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { authAdmin } from '@/lib/firebaseAdmin';
@@ -83,12 +86,36 @@ export async function POST(request: Request) {
       }
     }
     const legacy = signToken(user as any);
+    // Set via cookies API for server consumers
     setAuthCookie(legacy);
-    trace.legacyCookieSet = true;
+    // Also set both cookies directly on the response to ensure the browser receives them
+    const res = NextResponse.json({ ok: true, debug: trace });
+    res.headers.set('Cache-Control', 'no-store');
+    try {
+      const maxAge = 7 * 24 * 60 * 60; // seconds
+      res.cookies.set('firebase_session', sessionCookie!, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge,
+      });
+    } catch {}
+    try {
+      const maxAge = 7 * 24 * 60 * 60; // seconds
+      res.cookies.set('songdeck_token', legacy, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge,
+      });
+      trace.legacyCookieSet = true;
+    } catch {}
     trace.durationMs = Date.now() - started;
     trace.phase = 'complete';
     if (debug) console.log('[session] success', trace);
-    return NextResponse.json({ ok: true, debug: trace });
+    return res;
   } catch (e: any) {
     trace.phase = 'error';
     trace.unhandled = e?.message || 'session_error';

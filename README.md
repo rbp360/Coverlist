@@ -1,15 +1,16 @@
-## Authentication and password reset (Firebase)
+## Authentication
 
-The app uses Firebase Authentication for email+password.
+Current implementation is simple email + password using a local JSON store (`data/db.json`) and a signed HTTP-only JWT cookie (`songdeck_token`).
 
-- Sign up: Create an account on `/signup`. A verification email is sent automatically. You’ll be redirected to `/verify-email` with an option to resend the email.
-- Verify email: Click the link in your email; it opens `/auth/action?mode=verifyEmail&...` and completes verification.
-- Log in: Use `/login`. After sign-in, a secure server session cookie is set.
-- Forgot password: Go to `/reset/request`. You’ll receive a Firebase reset link; it opens `/auth/action?mode=resetPassword&...` where you set your new password.
+- Sign up: POST to `/api/auth/signup` (UI at `/signup`). Requires email and password (≥6 chars). Sets auth cookie immediately.
+- Log in: POST to `/api/auth/login` (UI at `/login`). On success sets auth cookie and redirects to `/projects`.
+- Password reset: Legacy Firebase-based reset flow removed. To add a local reset flow later, implement endpoints to generate a one-time token and update the password after confirmation.
 
 Notes:
 
-- For local dev, access the site via `http://127.0.0.1:3001` (loopback IP works best with some providers and cookies).
+- Use a strong `JWT_SECRET` in production.
+- On Vercel the JSON file is ephemeral; enable Firestore mirroring (see Persistence section) if you need durability.
+- All previous Google / Firebase Authentication logic has been removed; re‑introduce via a fresh branch when desired.
 
 # Coverlist
 

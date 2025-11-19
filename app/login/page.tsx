@@ -1,239 +1,45 @@
 'use client';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
-
-import {
-  clientAuth,
-  FIREBASE_ENABLED,
-  FIREBASE_MISSING,
-  FIREBASE_ACTIVATION_FLAG,
-  signInWithGoogle,
-  signInWithGoogleRedirect,
-  getGoogleRedirectResult,
-} from '@/lib/firebaseClient';
+import { useState } from 'react';
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [gLoading, setGLoading] = useState(false);
-  // Configure sign-in mode: 'popup' (default), 'redirect', or 'auto'
-  const GOOGLE_SIGNIN_MODE = (process.env.NEXT_PUBLIC_GOOGLE_SIGNIN_MODE || 'popup').toLowerCase();
-  const [processingRedirect, setProcessingRedirect] = useState(false);
-  const DEBUG_AUTH = (process.env.NEXT_PUBLIC_AUTH_DEBUG || '').toLowerCase() === 'true';
-  const [showDebug, setShowDebug] = useState(false);
-  const [debugInfo, setDebugInfo] = useState<any>(null);
-  const [cookieInfo, setCookieInfo] = useState<any>(null);
-  const [popupAttempted, setPopupAttempted] = useState(false);
-  const [popupError, setPopupError] = useState<string | null>(null);
-  const [authUserInfo, setAuthUserInfo] = useState<any>(null);
-  const [idTokenForLink, setIdTokenForLink] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     try {
-      if (FIREBASE_ENABLED && clientAuth) {
-        try {
-          const cred = await signInWithEmailAndPassword(clientAuth, email, password);
-          const idToken = await cred.user.getIdToken();
-          let r = await fetch('/api/auth/session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idToken }),
-          });
-          if (!r.ok) {
-            // small retry to avoid race on first init
-            await new Promise((res) => setTimeout(res, 300));
-            r = await fetch('/api/auth/session', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ idToken }),
-            });
-          }
-          if (!r.ok) {
-            // Fall back to legacy local login
-            const lr = await fetch('/api/auth/login', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, password }),
-            });
-            if (!lr.ok) throw new Error('session_start_failed');
-          }
-          if (!cred.user.emailVerified) {
-            window.location.href = '/verify-email';
-            return;
-          }
-          window.location.href = '/projects';
-        } catch (fbErr: any) {
-          // Firebase sign-in failed (e.g., no Firebase account). Try legacy login.
-          const lr = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-          });
-          if (!lr.ok) {
-            const code = fbErr?.code || '';
-            if (code === 'auth/user-not-found' || code === 'auth/wrong-password') {
-              throw new Error('invalid_credentials');
-            } else if (code === 'auth/invalid-email') {
-              throw new Error('invalid_email');
-            } else if (code === 'auth/too-many-requests') {
-              throw new Error('too_many_requests');
-            } else {
-              throw new Error('login_failed');
-            }
-          }
-          window.location.href = '/projects';
-          return;
-        }
-      } else {
-        const r = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        });
-        if (!r.ok) throw new Error('Invalid credentials');
-        window.location.href = '/projects';
+      const r = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!r.ok) {
+        const data = await r.json().catch(() => ({}));
+        if (data.error === 'invalid_credentials') setError('Invalid email or password');
+        else if (data.error === 'invalid_input') setError('Please fill all fields');
+        else setError('Login failed');
+        return;
       }
+      window.location.href = '/projects';
     } catch (err: any) {
-      const msg = err?.message;
-      if (msg === 'invalid_credentials') setError('Invalid email or password');
-      else if (msg === 'invalid_email') setError('Please enter a valid email address');
-      else if (msg === 'too_many_requests')
-        setError('Too many attempts. Please wait a moment and try again.');
-      else if (msg === 'session_start_failed')
-        setError('Signed in, but failed to start a server session. Please retry.');
-      else setError('Login failed');
+      setError(err?.message || 'Login failed');
+    } finally {
+      setLoading(false);
     }
   }
-
-  // Handle Google sign-in redirect result when mode is redirect/auto
-  useEffect(() => {
-    if (!FIREBASE_ENABLED || !clientAuth) return;
-    if (GOOGLE_SIGNIN_MODE === 'popup') return;
-    let active = true;
-    (async () => {
-      setProcessingRedirect(true);
-      try {
-        const result = await getGoogleRedirectResult();
-        if (!result || !active) return;
-        const idToken = await result.user.getIdToken();
-        setIdTokenForLink(idToken);
-        setAuthUserInfo({
-          uid: result.user.uid,
-          email: result.user.email,
-          providers: result.user.providerData.map((p) => p.providerId),
-        });
-        let r = await fetch('/api/auth/session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ idToken }),
-        });
-        if (!r.ok) {
-          await new Promise((res) => setTimeout(res, 300));
-          r = await fetch('/api/auth/session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idToken }),
-          });
-        }
-        if (!r.ok) throw new Error('Failed to start session');
-        window.location.href = '/projects';
-      } catch (err: any) {
-        // Only surface errors if a redirect result existed; otherwise remain quiet
-        if (err?.code) setError(`Google sign-in failed (${err.code})`);
-      } finally {
-        if (active) setProcessingRedirect(false);
-      }
-    })();
-    return () => {
-      active = false;
-    };
-  }, [GOOGLE_SIGNIN_MODE]);
-
-  // Live auth state listener (popup flow & general visibility)
-  useEffect(() => {
-    if (!FIREBASE_ENABLED || !clientAuth) return;
-    const unsub = clientAuth.onAuthStateChanged((u: any) => {
-      if (u) {
-        setAuthUserInfo({
-          uid: u.uid,
-          email: u.email,
-          providers: (u.providerData || []).map((p: any) => p.providerId),
-          emailVerified: u.emailVerified,
-        });
-      } else {
-        setAuthUserInfo(null);
-      }
-    });
-    return () => unsub();
-  }, []);
-
-  // Fetch debug info on demand
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      if (!showDebug) return;
-      try {
-        const [cfgRes, ckRes] = await Promise.all([
-          fetch('/api/auth/debug-config'),
-          fetch('/api/auth/debug-cookies'),
-        ]);
-        const [cfg, ck] = await Promise.all([cfgRes.json(), ckRes.json()]);
-        if (!active) return;
-        setDebugInfo(cfg);
-        setCookieInfo(ck);
-      } catch (e) {
-        // noop
-      }
-    })();
-    return () => {
-      active = false;
-    };
-  }, [showDebug]);
 
   return (
     <div className="mx-auto max-w-sm">
       <h2 className="mb-4 text-2xl font-semibold">Log in</h2>
-      {authUserInfo && (
-        <div className="mb-4 rounded border border-green-300 bg-green-50 p-3 text-green-800 text-sm">
-          <div className="font-semibold">You’re signed in</div>
-          <div className="mt-1">
-            {authUserInfo.email} ({authUserInfo.uid})
-          </div>
-          <div className="mt-2 flex gap-2">
-            <a
-              href="/projects"
-              className="rounded bg-green-600 px-3 py-1 text-white hover:bg-green-700"
-            >
-              Go to Projects
-            </a>
-            <button
-              type="button"
-              className="rounded border px-3 py-1 hover:bg-neutral-100"
-              onClick={async () => {
-                try {
-                  setError(null);
-                  if (clientAuth?.currentUser) await clientAuth.signOut();
-                  await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
-                  window.location.href = '/login';
-                } catch (e) {
-                  setError('Failed to sign out');
-                }
-              }}
-            >
-              Switch Account
-            </button>
-          </div>
-        </div>
-      )}
       <form onSubmit={onSubmit} className="space-y-3">
         <input
           className="w-full rounded border px-3 py-2"
           placeholder="Email"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -241,248 +47,23 @@ export default function LoginPage() {
           className="w-full rounded border px-3 py-2"
           placeholder="Password"
           type="password"
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         {error && <p className="text-sm text-red-600">{error}</p>}
-        <button className="w-full rounded bg-black px-3 py-2 text-white">Log in</button>
+        <button
+          disabled={loading}
+          className="w-full rounded bg-black px-3 py-2 text-white disabled:opacity-60"
+        >
+          {loading ? 'Logging in…' : 'Log in'}
+        </button>
       </form>
-      {!FIREBASE_ENABLED && (
-        <div className="mt-4 text-sm rounded border border-yellow-400 bg-yellow-50 p-3 text-yellow-800">
-          <div className="font-semibold mb-1">Google sign-in unavailable</div>
-          {!FIREBASE_ACTIVATION_FLAG && (
-            <div>
-              Set <code>NEXT_PUBLIC_AUTH_USE_FIREBASE=true</code> in <code>.env.local</code> and
-              restart the dev server.
-            </div>
-          )}
-          {FIREBASE_ACTIVATION_FLAG && FIREBASE_MISSING.length > 0 && (
-            <div>
-              Missing required public Firebase keys:
-              <ul className="ml-4 list-disc">
-                {FIREBASE_MISSING.map((k) => (
-                  <li key={k}>{k}</li>
-                ))}
-              </ul>
-              Add them to <code>.env.local</code> then restart.
-            </div>
-          )}
-          {FIREBASE_ACTIVATION_FLAG && FIREBASE_MISSING.length === 0 && (
-            <div>
-              All keys present but initialization still disabled; try a full restart (`Ctrl+C` then
-              `npm run dev`) and ensure you are not mixing hosts (use one origin consistently).
-            </div>
-          )}
-        </div>
-      )}
-      {FIREBASE_ENABLED && (
-        <div className="mt-6">
-          <button
-            type="button"
-            disabled={gLoading}
-            className="w-full flex items-center justify-center gap-2 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-700 disabled:opacity-60"
-            onClick={async () => {
-              setError(null);
-              setPopupError(null);
-              try {
-                setGLoading(true);
-                if (GOOGLE_SIGNIN_MODE === 'redirect') {
-                  await signInWithGoogleRedirect();
-                  return;
-                }
-                setPopupAttempted(true);
-                try {
-                  const cred = await signInWithGoogle();
-                  const idToken = await cred.user.getIdToken();
-                  setIdTokenForLink(idToken);
-                  let r = await fetch('/api/auth/session', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ idToken }),
-                  });
-                  if (!r.ok) {
-                    await new Promise((res) => setTimeout(res, 300));
-                    r = await fetch('/api/auth/session', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ idToken }),
-                    });
-                  }
-                  if (!r.ok) throw new Error('Failed to start session (popup flow)');
-                  window.location.href = '/projects';
-                } catch (popupErr: any) {
-                  const code = popupErr?.code || '';
-                  const msg = String(popupErr?.message || '').toLowerCase();
-                  const shouldRedirectFallback =
-                    GOOGLE_SIGNIN_MODE === 'auto' &&
-                    (code === 'auth/popup-blocked' ||
-                      code === 'auth/cancelled-popup-request' ||
-                      code === 'auth/popup-closed-by-user' ||
-                      msg.includes('webauthn') ||
-                      msg.includes('passkey'));
-                  if (shouldRedirectFallback) {
-                    await signInWithGoogleRedirect();
-                    return;
-                  }
-                  throw popupErr;
-                }
-              } catch (err: any) {
-                console.error('Google popup error', err);
-                setPopupError(err?.code ? `Popup failed (${err.code})` : 'Popup sign-in failed');
-              } finally {
-                setGLoading(false);
-              }
-            }}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 48 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g>
-                <path
-                  d="M44.5 20H24V28.5H35.7C34.3 32.1 30.7 34.5 26.5 34.5C21.5 34.5 17.5 30.5 17.5 25.5C17.5 20.5 21.5 16.5 26.5 16.5C28.7 16.5 30.7 17.3 32.2 18.6L37.1 13.7C34.1 11.1 30.5 9.5 26.5 9.5C16.7 9.5 8.5 17.7 8.5 27.5C8.5 37.3 16.7 45.5 26.5 45.5C36.3 45.5 44.5 37.3 44.5 27.5C44.5 25.7 44.3 23.9 44.5 22.1V20Z"
-                  fill="#4285F4"
-                />
-                <path
-                  d="M8.5 27.5C8.5 17.7 16.7 9.5 26.5 9.5C30.5 9.5 34.1 11.1 37.1 13.7L32.2 18.6C30.7 17.3 28.7 16.5 26.5 16.5C21.5 16.5 17.5 20.5 17.5 25.5C17.5 30.5 21.5 34.5 26.5 34.5C30.7 34.5 34.3 32.1 35.7 28.5H24V20H44.5V22.1C44.3 23.9 44.5 25.7 44.5 27.5C44.5 37.3 36.3 45.5 26.5 45.5C16.7 45.5 8.5 37.3 8.5 27.5Z"
-                  fill="#34A853"
-                />
-                <path
-                  d="M44.5 20H24V28.5H35.7C34.3 32.1 30.7 34.5 26.5 34.5C21.5 34.5 17.5 30.5 17.5 25.5C17.5 20.5 21.5 16.5 26.5 16.5C28.7 16.5 30.7 17.3 32.2 18.6L37.1 13.7C34.1 11.1 30.5 9.5 26.5 9.5C16.7 9.5 8.5 17.7 8.5 27.5C8.5 37.3 16.7 45.5 26.5 45.5C36.3 45.5 44.5 37.3 44.5 27.5C44.5 25.7 44.3 23.9 44.5 22.1V20Z"
-                  fill="#FBBC05"
-                />
-                <path
-                  d="M44.5 20H24V28.5H35.7C34.3 32.1 30.7 34.5 26.5 34.5C21.5 34.5 17.5 30.5 17.5 25.5C17.5 20.5 21.5 16.5 26.5 16.5C28.7 16.5 30.7 17.3 32.2 18.6L37.1 13.7C34.1 11.1 30.5 9.5 26.5 9.5C16.7 9.5 8.5 17.7 8.5 27.5C8.5 37.3 16.7 45.5 26.5 45.5C36.3 45.5 44.5 37.3 44.5 27.5C44.5 25.7 44.3 23.9 44.5 22.1V20Z"
-                  fill="#EA4335"
-                />
-              </g>
-            </svg>
-            Sign in with Google
-          </button>
-          {authUserInfo && (
-            <button
-              type="button"
-              className="mt-2 w-full flex items-center justify-center gap-2 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-700"
-              onClick={async () => {
-                try {
-                  setError(null);
-                  if (clientAuth?.currentUser) {
-                    await clientAuth.signOut();
-                  }
-                  await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
-                  window.location.href = '/login';
-                } catch (e) {
-                  setError('Failed to sign out');
-                }
-              }}
-            >
-              Switch Google Account
-            </button>
-          )}
-        </div>
-      )}
-      {DEBUG_AUTH && (
-        <div className="mt-4 text-xs text-gray-500">
-          <button type="button" className="underline" onClick={() => setShowDebug((v) => !v)}>
-            {showDebug ? 'Hide auth debug' : 'Show auth debug'}
-          </button>
-          {showDebug && (
-            <div className="mt-2 rounded border p-2">
-              <div>FIREBASE_ENABLED: {String(FIREBASE_ENABLED)}</div>
-              <div>clientAuth: {clientAuth ? 'yes' : 'no'}</div>
-              <div>mode: {GOOGLE_SIGNIN_MODE}</div>
-              {GOOGLE_SIGNIN_MODE !== 'popup' && processingRedirect && (
-                <div>processing redirect...</div>
-              )}
-              <div>popupAttempted: {String(popupAttempted)}</div>
-              {popupError && <div className="text-red-600">{popupError}</div>}
-              <div>
-                currentOrigin: {typeof window !== 'undefined' ? window.location.origin : 'server'}
-              </div>
-              <div>
-                currentHref: {typeof window !== 'undefined' ? window.location.href : 'server'}
-              </div>
-              {debugInfo && (
-                <div className="mt-2">
-                  <div className="font-semibold">server config</div>
-                  <div>adminReady: {String(debugInfo.serverConfig?.adminReady)}</div>
-                  <div>NODE_ENV: {String(debugInfo.serverConfig?.NODE_ENV)}</div>
-                  <div className="font-semibold mt-1">public config</div>
-                  <div>
-                    AUTH_USE_FIREBASE:{' '}
-                    {String(debugInfo.publicConfig?.NEXT_PUBLIC_AUTH_USE_FIREBASE)}
-                  </div>
-                  <div>API_KEY: {String(debugInfo.publicConfig?.NEXT_PUBLIC_FIREBASE_API_KEY)}</div>
-                  <div>
-                    AUTH_DOMAIN: {String(debugInfo.publicConfig?.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN)}
-                  </div>
-                  <div>
-                    PROJECT_ID: {String(debugInfo.publicConfig?.NEXT_PUBLIC_FIREBASE_PROJECT_ID)}
-                  </div>
-                </div>
-              )}
-              {cookieInfo && (
-                <div className="mt-2">
-                  <div className="font-semibold">cookies</div>
-                  <div>
-                    legacy: {String(cookieInfo.hasLegacy)} | firebase:{' '}
-                    {String(cookieInfo.hasFirebase)}
-                  </div>
-                </div>
-              )}
-              {authUserInfo && (
-                <div className="mt-2">
-                  <div className="font-semibold">client auth user</div>
-                  <div>uid: {authUserInfo.uid}</div>
-                  <div>email: {authUserInfo.email}</div>
-                  <div>verified: {String(authUserInfo.emailVerified)}</div>
-                  <div>providers: {authUserInfo.providers.join(', ')}</div>
-                  <button
-                    type="button"
-                    className="mt-2 rounded border px-2 py-1 text-xs hover:bg-neutral-200"
-                    onClick={async () => {
-                      try {
-                        const r = await fetch('/api/auth/link', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ idToken: idTokenForLink }),
-                        });
-                        const j = await r.json();
-                        console.info('link result', j);
-                        if (j.migrated) {
-                          setError(null);
-                        } else if (j.error) {
-                          setError(`Link failed: ${j.error}`);
-                        } else if (j.reason) {
-                          setError(`Link status: ${j.reason}`);
-                        }
-                      } catch (e: any) {
-                        setError('Link request error');
-                      }
-                    }}
-                  >
-                    Link legacy data
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-      <p className="mt-3 text-sm text-gray-600">
-        No account?{' '}
-        <a className="underline" href="/signup">
-          Sign up
+      <div className="mt-4 text-sm text-center">
+        <a href="/signup" className="underline">
+          Need an account? Sign up
         </a>
-      </p>
-      <p className="mt-2 text-sm">
-        <a className="underline" href="/reset/request">
-          Forgot your password?
-        </a>
-      </p>
+      </div>
     </div>
   );
 }
