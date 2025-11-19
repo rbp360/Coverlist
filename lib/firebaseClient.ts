@@ -11,9 +11,13 @@ import {
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// Determine if all required public config values are present
+// Determine if all required public config values are present AND explicitly enabled.
+// Default to disabled unless `NEXT_PUBLIC_AUTH_USE_FIREBASE` is 'true'.
+const PUBLIC_WANTS_FIREBASE =
+  (process.env.NEXT_PUBLIC_AUTH_USE_FIREBASE || '').toLowerCase() === 'true';
 export const FIREBASE_ENABLED = Boolean(
-  process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
+  PUBLIC_WANTS_FIREBASE &&
+    process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
     process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN &&
     process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID &&
     process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET &&

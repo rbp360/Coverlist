@@ -10,9 +10,12 @@ export async function POST(request: Request) {
     const { idToken } = await request.json();
     if (!idToken || typeof idToken !== 'string')
       return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
+    // If Firebase admin isn't initialized, signal the client to fall back.
+    if (!authAdmin) {
+      return NextResponse.json({ error: 'admin_unavailable' }, { status: 503 });
+    }
     await createServerSessionCookie(idToken);
     // Back-compat: set legacy JWT cookie so existing APIs keep working during migration
-    if (!authAdmin) throw new Error('admin_not_initialized');
     const decoded = await authAdmin.verifyIdToken(idToken);
     const uid = decoded.uid;
     const email = decoded.email || '';

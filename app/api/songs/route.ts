@@ -30,6 +30,8 @@ export async function POST(request: Request) {
     createdAt: now,
     updatedAt: now,
   };
+  export const dynamic = 'force-dynamic';
+  export const revalidate = 0;
   // Try to auto-populate Spotify link immediately using ISRC (preferred) or title+artist
   try {
     const resolved = await resolveSpotifyTrackUrl({
@@ -61,7 +63,12 @@ export async function POST(request: Request) {
     song.tempo = enriched.tempo;
   }
   db.createSong(song);
-  return NextResponse.json(song, { status: 201 });
+  return new NextResponse(JSON.stringify(song), {
+    status: 201,
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+  });
 }
 
 export async function PUT(request: Request) {

@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { NextResponse } from 'next/server';
 
 import { getCurrentUser } from '@/lib/auth';
@@ -17,5 +20,10 @@ export async function PUT(request: Request) {
   const parsed = settingsUpdateSchema.safeParse(json);
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
   db.updateSettings(parsed.data);
-  return NextResponse.json(db.getSettings());
+  return new NextResponse(JSON.stringify(db.getSettings()), {
+    status: 200,
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+  });
 }

@@ -4,6 +4,8 @@ import { v4 as uuid } from 'uuid';
 import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { projectCreateSchema } from '@/lib/schemas';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET() {
   const user = getCurrentUser();
@@ -26,5 +28,10 @@ export async function POST(request: Request) {
     createdAt: now,
   };
   db.createProject(project);
-  return NextResponse.json(project, { status: 201 });
+  return new NextResponse(JSON.stringify(project), {
+    status: 201,
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+  });
 }

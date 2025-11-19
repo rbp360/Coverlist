@@ -20,7 +20,8 @@ export async function POST(request: Request, { params }: { params: { id: string 
   const project = db.getProject(params.id, user.id);
   if (!project) return NextResponse.json({ error: 'Project not found' }, { status: 404 });
   const form = await request.formData();
-  const file = form.get('avatar');
+  // Accept both 'file' and 'avatar' to match client implementations
+  const file = (form.get('file') as any) || (form.get('avatar') as any);
   if (!file || typeof (file as any).arrayBuffer !== 'function') {
     return NextResponse.json({ error: 'Missing file' }, { status: 400 });
   }

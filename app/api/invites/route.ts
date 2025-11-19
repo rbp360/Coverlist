@@ -24,5 +24,12 @@ export async function GET() {
         createdAt: i.createdAt,
       };
     });
-  return NextResponse.json({ invites, count: invites.length });
+  export const dynamic = 'force-dynamic';
+  export const revalidate = 0;
+  return new NextResponse(JSON.stringify({ invites, count: invites.length }), {
+    status: 200,
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+  });
 }
