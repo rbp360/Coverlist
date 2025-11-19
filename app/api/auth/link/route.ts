@@ -55,6 +55,16 @@ export async function POST(request: Request) {
     }
     const uid = (decoded as any).uid || (decoded as any).sub;
     const email = (decoded as any).email as string | undefined;
+    // Optionally fetch Firebase user for photoURL/displayName during migration.
+    let photoUrl: string | undefined;
+    let displayName: string | undefined;
+    try {
+      if (authAdmin) {
+        const fbUser = await authAdmin.getUser(uid);
+        photoUrl = fbUser.photoURL || undefined;
+        displayName = fbUser.displayName || undefined;
+      }
+    } catch {}
     if (!uid || !email) {
       return NextResponse.json({ error: 'missing_uid_email' }, { status: 400 });
     }
@@ -69,6 +79,18 @@ export async function POST(request: Request) {
     }
     const oldId = legacyUser.id;
     db.migrateUserId(oldId, uid);
+    // Backfill avatar/name if missing
+    const migratedUser = db.getUserById(uid);
+    if (migratedUser) {
+      const needsAvatar =
+        !migratedUser.avatarUrl || /lh3\.googleusercontent\.com/.test(migratedUser.avatarUrl);
+      const next: any = { ...migratedUser };
+      if (photoUrl && needsAvatar) next.avatarUrl = photoUrl;
+      if (displayName && !next.name) next.name = displayName;
+      if (next.avatarUrl !== migratedUser.avatarUrl || next.name !== (migratedUser as any).name) {
+        db.updateUser(next);
+      }
+    }
     // Re-fetch projects count after migration
     const projects = db.listProjects(uid);
     return NextResponse.json({

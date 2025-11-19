@@ -2,6 +2,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { clientAuth, FIREBASE_ENABLED } from '@/lib/firebaseClient';
+
 export default function SignOutButton({
   redirectTo = '/login',
   className,
@@ -14,6 +16,12 @@ export default function SignOutButton({
   async function onClick() {
     setLoading(true);
     try {
+      // Best-effort sign-out of client-side Firebase user so the Google chooser reappears
+      if (FIREBASE_ENABLED && clientAuth?.currentUser) {
+        try {
+          await clientAuth.signOut();
+        } catch {}
+      }
       await fetch('/api/auth/logout', { method: 'POST' });
       // After clearing the cookie, send the user to login
       router.push(redirectTo);

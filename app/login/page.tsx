@@ -8,8 +8,6 @@ import {
   FIREBASE_ENABLED,
   FIREBASE_MISSING,
   FIREBASE_ACTIVATION_FLAG,
-  signInWithGoogleRedirect,
-  getGoogleRedirectResult,
   signInWithGoogle,
 } from '@/lib/firebaseClient';
 
@@ -19,11 +17,11 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [gLoading, setGLoading] = useState(false);
-  const [processingRedirect, setProcessingRedirect] = useState(false);
+  // Redirect flow removed; popup only.
+  const DEBUG_AUTH = (process.env.NEXT_PUBLIC_AUTH_DEBUG || '').toLowerCase() === 'true';
   const [showDebug, setShowDebug] = useState(false);
   const [debugInfo, setDebugInfo] = useState<any>(null);
   const [cookieInfo, setCookieInfo] = useState<any>(null);
-  const [redirectAttempted, setRedirectAttempted] = useState(false);
   const [popupAttempted, setPopupAttempted] = useState(false);
   const [popupError, setPopupError] = useState<string | null>(null);
   const [authUserInfo, setAuthUserInfo] = useState<any>(null);
@@ -108,79 +106,7 @@ export default function LoginPage() {
     }
   }
 
-  // Handle Google sign-in redirect result on load
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      if (!FIREBASE_ENABLED || !clientAuth) {
-        console.info('Auth init skipped', { FIREBASE_ENABLED, hasClientAuth: !!clientAuth });
-        return;
-      }
-      console.info('Auth init begin', {
-        FIREBASE_ENABLED,
-        hasClientAuth: !!clientAuth,
-        location: typeof window !== 'undefined' ? window.location.href : 'server',
-      });
-      setProcessingRedirect(true);
-      try {
-        const result = await getGoogleRedirectResult();
-        if (result && active) {
-          const idToken = await result.user.getIdToken();
-          setIdTokenForLink(idToken);
-          setAuthUserInfo({
-            uid: result.user.uid,
-            email: result.user.email,
-            providers: result.user.providerData.map((p) => p.providerId),
-          });
-          let r = await fetch('/api/auth/session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idToken }),
-          });
-          if (!r.ok) {
-            await new Promise((res) => setTimeout(res, 300));
-            r = await fetch('/api/auth/session', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ idToken }),
-            });
-          }
-          if (!r.ok) throw new Error('Failed to start session');
-          const verify = await fetch('/api/auth/debug-cookies');
-          const cookieInfo = await verify.json();
-          if (!cookieInfo.hasFirebase) {
-            console.warn('Firebase session cookie missing after redirect login', cookieInfo);
-            setError('Session cookie not set yet. Please retry (or check domain/cookie settings).');
-          } else {
-            window.location.href = '/projects';
-          }
-        } else {
-          console.info('No redirect result present (likely first visit or failure)');
-        }
-      } catch (err: any) {
-        console.error('Google redirect result error', err);
-        if (err?.code === 'auth/account-exists-with-different-credential') {
-          setError(
-            'An account already exists with this email using a different sign-in method. Please log in with your email and password, then link your Google account from your profile/settings.',
-          );
-        } else if (err?.code === 'auth/unauthorized-domain') {
-          const host = typeof window !== 'undefined' ? window.location.host : 'this domain';
-          setError(
-            `This domain (${host}) is not authorized for Firebase Authentication. In Firebase Console → Authentication → Settings → Authorized domains, add your deployed domain (e.g., ${host}).`,
-          );
-        } else if (err?.code) {
-          setError(`Google sign-in failed (${err.code})`);
-        } else {
-          setError('Google sign-in failed');
-        }
-      } finally {
-        if (active) setProcessingRedirect(false);
-      }
-    })();
-    return () => {
-      active = false;
-    };
-  }, []);
+  // Redirect processing removed.
 
   // Live auth state listener (popup flow & general visibility)
   useEffect(() => {
@@ -311,73 +237,6 @@ export default function LoginPage() {
             className="w-full flex items-center justify-center gap-2 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-700 disabled:opacity-60"
             onClick={async () => {
               setError(null);
-              try {
-                setGLoading(true);
-                setRedirectAttempted(true);
-                console.info('Starting Google redirect sign-in', {
-                  href: window.location.href,
-                  host: window.location.host,
-                });
-                await signInWithGoogleRedirect();
-              } catch (err: any) {
-                console.error('Google sign-in error', err);
-                if (err?.code === 'auth/account-exists-with-different-credential') {
-                  setError(
-                    'An account already exists with this email using a different sign-in method. Please log in with your email and password, then link your Google account from your profile/settings.',
-                  );
-                } else if (err?.code === 'auth/unauthorized-domain') {
-                  const host = typeof window !== 'undefined' ? window.location.host : 'this domain';
-                  setError(
-                    `This domain (${host}) is not authorized for Firebase Authentication. In Firebase Console → Authentication → Settings → Authorized domains, add your deployed domain (e.g., ${host}) and your production/custom domain(s).`,
-                  );
-                } else if (err?.code === 'auth/popup-blocked') {
-                  setError('Popup was blocked by the browser. Please allow popups and try again.');
-                } else if (err?.code === 'auth/popup-closed-by-user') {
-                  setError('Popup closed before completing sign-in. Please try again.');
-                } else if (err?.code === 'auth/cancelled-popup-request') {
-                  setError('Another sign-in attempt was in progress. Please try again.');
-                } else {
-                  setError('Google sign-in failed');
-                }
-              } finally {
-                setGLoading(false);
-              }
-            }}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 48 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g>
-                <path
-                  d="M44.5 20H24V28.5H35.7C34.3 32.1 30.7 34.5 26.5 34.5C21.5 34.5 17.5 30.5 17.5 25.5C17.5 20.5 21.5 16.5 26.5 16.5C28.7 16.5 30.7 17.3 32.2 18.6L37.1 13.7C34.1 11.1 30.5 9.5 26.5 9.5C16.7 9.5 8.5 17.7 8.5 27.5C8.5 37.3 16.7 45.5 26.5 45.5C36.3 45.5 44.5 37.3 44.5 27.5C44.5 25.7 44.3 23.9 44.5 22.1V20Z"
-                  fill="#4285F4"
-                />
-                <path
-                  d="M8.5 27.5C8.5 17.7 16.7 9.5 26.5 9.5C30.5 9.5 34.1 11.1 37.1 13.7L32.2 18.6C30.7 17.3 28.7 16.5 26.5 16.5C21.5 16.5 17.5 20.5 17.5 25.5C17.5 30.5 21.5 34.5 26.5 34.5C30.7 34.5 34.3 32.1 35.7 28.5H24V20H44.5V22.1C44.3 23.9 44.5 25.7 44.5 27.5C44.5 37.3 36.3 45.5 26.5 45.5C16.7 45.5 8.5 37.3 8.5 27.5Z"
-                  fill="#34A853"
-                />
-                <path
-                  d="M44.5 20H24V28.5H35.7C34.3 32.1 30.7 34.5 26.5 34.5C21.5 34.5 17.5 30.5 17.5 25.5C17.5 20.5 21.5 16.5 26.5 16.5C28.7 16.5 30.7 17.3 32.2 18.6L37.1 13.7C34.1 11.1 30.5 9.5 26.5 9.5C16.7 9.5 8.5 17.7 8.5 27.5C8.5 37.3 16.7 45.5 26.5 45.5C36.3 45.5 44.5 37.3 44.5 27.5C44.5 25.7 44.3 23.9 44.5 22.1V20Z"
-                  fill="#FBBC05"
-                />
-                <path
-                  d="M44.5 20H24V28.5H35.7C34.3 32.1 30.7 34.5 26.5 34.5C21.5 34.5 17.5 30.5 17.5 25.5C17.5 20.5 21.5 16.5 26.5 16.5C28.7 16.5 30.7 17.3 32.2 18.6L37.1 13.7C34.1 11.1 30.5 9.5 26.5 9.5C16.7 9.5 8.5 17.7 8.5 27.5C8.5 37.3 16.7 45.5 26.5 45.5C36.3 45.5 44.5 37.3 44.5 27.5C44.5 25.7 44.3 23.9 44.5 22.1V20Z"
-                  fill="#EA4335"
-                />
-              </g>
-            </svg>
-            Sign in with Google
-          </button>
-          <button
-            type="button"
-            disabled={gLoading}
-            className="mt-2 w-full flex items-center justify-center gap-2 rounded bg-purple-600 px-3 py-2 text-white hover:bg-purple-700 disabled:opacity-60"
-            onClick={async () => {
-              setError(null);
               setPopupError(null);
               try {
                 setGLoading(true);
@@ -409,7 +268,7 @@ export default function LoginPage() {
               }
             }}
           >
-            Popup Google Sign-in (fallback)
+            Sign in with Google
           </button>
           {authUserInfo && (
             <button
@@ -436,89 +295,90 @@ export default function LoginPage() {
           )}
         </div>
       )}
-      <div className="mt-4 text-xs text-gray-500">
-        <button type="button" className="underline" onClick={() => setShowDebug((v) => !v)}>
-          {showDebug ? 'Hide auth debug' : 'Show auth debug'}
-        </button>
-        {showDebug && (
-          <div className="mt-2 rounded border p-2">
-            <div>FIREBASE_ENABLED: {String(FIREBASE_ENABLED)}</div>
-            <div>clientAuth: {clientAuth ? 'yes' : 'no'}</div>
-            {processingRedirect && <div>processing redirect...</div>}
-            <div>redirectAttempted: {String(redirectAttempted)}</div>
-            <div>popupAttempted: {String(popupAttempted)}</div>
-            {popupError && <div className="text-red-600">{popupError}</div>}
-            <div>
-              currentOrigin: {typeof window !== 'undefined' ? window.location.origin : 'server'}
-            </div>
-            <div>
-              currentHref: {typeof window !== 'undefined' ? window.location.href : 'server'}
-            </div>
-            {debugInfo && (
-              <div className="mt-2">
-                <div className="font-semibold">server config</div>
-                <div>adminReady: {String(debugInfo.serverConfig?.adminReady)}</div>
-                <div>NODE_ENV: {String(debugInfo.serverConfig?.NODE_ENV)}</div>
-                <div className="font-semibold mt-1">public config</div>
-                <div>
-                  AUTH_USE_FIREBASE: {String(debugInfo.publicConfig?.NEXT_PUBLIC_AUTH_USE_FIREBASE)}
-                </div>
-                <div>API_KEY: {String(debugInfo.publicConfig?.NEXT_PUBLIC_FIREBASE_API_KEY)}</div>
-                <div>
-                  AUTH_DOMAIN: {String(debugInfo.publicConfig?.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN)}
-                </div>
-                <div>
-                  PROJECT_ID: {String(debugInfo.publicConfig?.NEXT_PUBLIC_FIREBASE_PROJECT_ID)}
-                </div>
+      {DEBUG_AUTH && (
+        <div className="mt-4 text-xs text-gray-500">
+          <button type="button" className="underline" onClick={() => setShowDebug((v) => !v)}>
+            {showDebug ? 'Hide auth debug' : 'Show auth debug'}
+          </button>
+          {showDebug && (
+            <div className="mt-2 rounded border p-2">
+              <div>FIREBASE_ENABLED: {String(FIREBASE_ENABLED)}</div>
+              <div>clientAuth: {clientAuth ? 'yes' : 'no'}</div>
+              <div>popupAttempted: {String(popupAttempted)}</div>
+              {popupError && <div className="text-red-600">{popupError}</div>}
+              <div>
+                currentOrigin: {typeof window !== 'undefined' ? window.location.origin : 'server'}
               </div>
-            )}
-            {cookieInfo && (
-              <div className="mt-2">
-                <div className="font-semibold">cookies</div>
-                <div>
-                  legacy: {String(cookieInfo.hasLegacy)} | firebase:{' '}
-                  {String(cookieInfo.hasFirebase)}
-                </div>
+              <div>
+                currentHref: {typeof window !== 'undefined' ? window.location.href : 'server'}
               </div>
-            )}
-            {authUserInfo && (
-              <div className="mt-2">
-                <div className="font-semibold">client auth user</div>
-                <div>uid: {authUserInfo.uid}</div>
-                <div>email: {authUserInfo.email}</div>
-                <div>verified: {String(authUserInfo.emailVerified)}</div>
-                <div>providers: {authUserInfo.providers.join(', ')}</div>
-                <button
-                  type="button"
-                  className="mt-2 rounded border px-2 py-1 text-xs hover:bg-neutral-200"
-                  onClick={async () => {
-                    try {
-                      const r = await fetch('/api/auth/link', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ idToken: idTokenForLink }),
-                      });
-                      const j = await r.json();
-                      console.info('link result', j);
-                      if (j.migrated) {
-                        setError(null);
-                      } else if (j.error) {
-                        setError(`Link failed: ${j.error}`);
-                      } else if (j.reason) {
-                        setError(`Link status: ${j.reason}`);
+              {debugInfo && (
+                <div className="mt-2">
+                  <div className="font-semibold">server config</div>
+                  <div>adminReady: {String(debugInfo.serverConfig?.adminReady)}</div>
+                  <div>NODE_ENV: {String(debugInfo.serverConfig?.NODE_ENV)}</div>
+                  <div className="font-semibold mt-1">public config</div>
+                  <div>
+                    AUTH_USE_FIREBASE:{' '}
+                    {String(debugInfo.publicConfig?.NEXT_PUBLIC_AUTH_USE_FIREBASE)}
+                  </div>
+                  <div>API_KEY: {String(debugInfo.publicConfig?.NEXT_PUBLIC_FIREBASE_API_KEY)}</div>
+                  <div>
+                    AUTH_DOMAIN: {String(debugInfo.publicConfig?.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN)}
+                  </div>
+                  <div>
+                    PROJECT_ID: {String(debugInfo.publicConfig?.NEXT_PUBLIC_FIREBASE_PROJECT_ID)}
+                  </div>
+                </div>
+              )}
+              {cookieInfo && (
+                <div className="mt-2">
+                  <div className="font-semibold">cookies</div>
+                  <div>
+                    legacy: {String(cookieInfo.hasLegacy)} | firebase:{' '}
+                    {String(cookieInfo.hasFirebase)}
+                  </div>
+                </div>
+              )}
+              {authUserInfo && (
+                <div className="mt-2">
+                  <div className="font-semibold">client auth user</div>
+                  <div>uid: {authUserInfo.uid}</div>
+                  <div>email: {authUserInfo.email}</div>
+                  <div>verified: {String(authUserInfo.emailVerified)}</div>
+                  <div>providers: {authUserInfo.providers.join(', ')}</div>
+                  <button
+                    type="button"
+                    className="mt-2 rounded border px-2 py-1 text-xs hover:bg-neutral-200"
+                    onClick={async () => {
+                      try {
+                        const r = await fetch('/api/auth/link', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ idToken: idTokenForLink }),
+                        });
+                        const j = await r.json();
+                        console.info('link result', j);
+                        if (j.migrated) {
+                          setError(null);
+                        } else if (j.error) {
+                          setError(`Link failed: ${j.error}`);
+                        } else if (j.reason) {
+                          setError(`Link status: ${j.reason}`);
+                        }
+                      } catch (e: any) {
+                        setError('Link request error');
                       }
-                    } catch (e: any) {
-                      setError('Link request error');
-                    }
-                  }}
-                >
-                  Link legacy data
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+                    }}
+                  >
+                    Link legacy data
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
       <p className="mt-3 text-sm text-gray-600">
         No account?{' '}
         <a className="underline" href="/signup">

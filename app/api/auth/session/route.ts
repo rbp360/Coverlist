@@ -19,6 +19,14 @@ export async function POST(request: Request) {
     const decoded = await authAdmin.verifyIdToken(idToken);
     const uid = decoded.uid;
     const email = decoded.email || '';
+    // Attempt to fetch richer Firebase user record (photoURL, displayName)
+    let photoUrl: string | undefined;
+    let displayName: string | undefined;
+    try {
+      const fbUser = await authAdmin.getUser(uid);
+      photoUrl = fbUser.photoURL || undefined;
+      displayName = fbUser.displayName || undefined;
+    } catch {}
     let user = db.getUserById(uid) || (email ? db.getUserByEmail(email) : undefined);
     if (!user) {
       const toCreate = {
@@ -26,12 +34,25 @@ export async function POST(request: Request) {
         email,
         passwordHash: 'firebase',
         createdAt: new Date().toISOString(),
+        avatarUrl: photoUrl,
+        name: displayName,
       } as any;
       db.createUser(toCreate);
       user = toCreate as any;
     } else if (user.id !== uid) {
       db.migrateUserId(user.id, uid);
       user = db.getUserById(uid) || user;
+    }
+    // Backfill avatar/name if absent and we have Google data. Avoid overwriting custom uploads.
+    if (user) {
+      const needsAvatar = !user.avatarUrl || /lh3\.googleusercontent\.com/.test(user.avatarUrl);
+      const next: any = { ...user };
+      if (photoUrl && needsAvatar) next.avatarUrl = photoUrl;
+      if (displayName && !next.name) next.name = displayName;
+      if (next.avatarUrl !== user.avatarUrl || next.name !== (user as any).name) {
+        db.updateUser(next);
+        user = next;
+      }
     }
     const legacy = signToken(user as any);
     setAuthCookie(legacy);

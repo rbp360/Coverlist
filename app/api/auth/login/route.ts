@@ -18,16 +18,9 @@ export async function POST(request: Request) {
     const valid = await verifyPassword(password, user.passwordHash);
     if (!valid) return NextResponse.json({ error: 'invalid_credentials' }, { status: 400 });
     const token = signToken(user as any);
+    // set via Next cookies API; no need to duplicate on response
     setAuthCookie(token);
-    const res = NextResponse.json({ ok: true });
-    res.cookies.set('songdeck_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-    });
-    return res;
+    return NextResponse.json({ ok: true });
   } catch (e) {
     return NextResponse.json({ error: 'login_error' }, { status: 400 });
   }
