@@ -7,6 +7,9 @@ import { enrichKeyTempoStub } from '@/lib/enrich';
 import { songImportSchema } from '@/lib/schemas';
 import { resolveSpotifyTrackUrl } from '@/lib/spotifyTrack';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function POST(request: Request) {
   const user = getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -30,8 +33,6 @@ export async function POST(request: Request) {
     createdAt: now,
     updatedAt: now,
   };
-  export const dynamic = 'force-dynamic';
-  export const revalidate = 0;
   // Try to auto-populate Spotify link immediately using ISRC (preferred) or title+artist
   try {
     const resolved = await resolveSpotifyTrackUrl({
