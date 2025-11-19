@@ -6,28 +6,54 @@ import { authAdmin } from '@/lib/firebaseAdmin';
 import { createServerSessionCookie } from '@/lib/firebaseSession';
 
 export async function POST(request: Request) {
+  const started = Date.now();
+  const url = new URL(request.url);
+  const debug = url.searchParams.get('debug') === '1';
+  const trace: any = {
+    phase: 'start',
+    ts: new Date().toISOString(),
+    adminPresent: !!authAdmin,
+  };
   try {
-    const { idToken } = await request.json();
-    if (!idToken || typeof idToken !== 'string')
-      return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
-    // If Firebase admin isn't initialized, signal the client to fall back.
-    if (!authAdmin) {
-      return NextResponse.json({ error: 'admin_unavailable' }, { status: 503 });
+    const body = await request.json().catch(() => ({}));
+    const idToken = body.idToken;
+    if (!idToken || typeof idToken !== 'string') {
+      trace.error = 'invalid_input';
+      if (debug) console.log('[session] invalid_input', trace);
+      return NextResponse.json({ error: 'invalid_input', debug: trace }, { status: 400 });
     }
-    await createServerSessionCookie(idToken);
-    // Back-compat: set legacy JWT cookie so existing APIs keep working during migration
+    if (!authAdmin) {
+      trace.error = 'admin_unavailable';
+      if (debug) console.log('[session] admin_unavailable', trace);
+      return NextResponse.json({ error: 'admin_unavailable', debug: trace }, { status: 503 });
+    }
+    let sessionCookie: string | undefined;
+    try {
+      sessionCookie = await createServerSessionCookie(idToken);
+      trace.sessionCookieSet = !!sessionCookie;
+    } catch (e: any) {
+      trace.sessionCreateError = e?.message || 'session_cookie_error';
+      if (debug) console.log('[session] createServerSessionCookie failed', trace);
+      return NextResponse.json({ error: 'session_cookie_error', debug: trace }, { status: 500 });
+    }
     const decoded = await authAdmin.verifyIdToken(idToken);
     const uid = decoded.uid;
     const email = decoded.email || '';
-    // Attempt to fetch richer Firebase user record (photoURL, displayName)
+    trace.uid = uid;
+    trace.email = email || null;
     let photoUrl: string | undefined;
     let displayName: string | undefined;
     try {
       const fbUser = await authAdmin.getUser(uid);
       photoUrl = fbUser.photoURL || undefined;
       displayName = fbUser.displayName || undefined;
-    } catch {}
+      trace.photoUrl = !!photoUrl;
+      trace.displayName = !!displayName;
+    } catch (e: any) {
+      trace.fetchUserError = e?.message || 'fb_user_error';
+    }
     let user = db.getUserById(uid) || (email ? db.getUserByEmail(email) : undefined);
+    trace.preUserFound = !!user;
     if (!user) {
       const toCreate = {
         id: uid,
@@ -39,11 +65,12 @@ export async function POST(request: Request) {
       } as any;
       db.createUser(toCreate);
       user = toCreate as any;
+      trace.userCreated = true;
     } else if (user.id !== uid) {
       db.migrateUserId(user.id, uid);
       user = db.getUserById(uid) || user;
+      trace.userMigrated = true;
     }
-    // Backfill avatar/name if absent and we have Google data. Avoid overwriting custom uploads.
     if (user) {
       const needsAvatar = !user.avatarUrl || /lh3\.googleusercontent\.com/.test(user.avatarUrl);
       const next: any = { ...user };
@@ -52,12 +79,21 @@ export async function POST(request: Request) {
       if (next.avatarUrl !== user.avatarUrl || next.name !== (user as any).name) {
         db.updateUser(next);
         user = next;
+        trace.userBackfilled = true;
       }
     }
     const legacy = signToken(user as any);
     setAuthCookie(legacy);
-    return NextResponse.json({ ok: true });
+    trace.legacyCookieSet = true;
+    trace.durationMs = Date.now() - started;
+    trace.phase = 'complete';
+    if (debug) console.log('[session] success', trace);
+    return NextResponse.json({ ok: true, debug: trace });
   } catch (e: any) {
-    return NextResponse.json({ error: 'session_error' }, { status: 400 });
+    trace.phase = 'error';
+    trace.unhandled = e?.message || 'session_error';
+    trace.durationMs = Date.now() - started;
+    if (debug) console.log('[session] error', trace);
+    return NextResponse.json({ error: 'session_error', debug: trace }, { status: 400 });
   }
 }
