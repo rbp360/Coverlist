@@ -1,20 +1,20 @@
 import { NextResponse } from 'next/server';
 import { v4 as uuid } from 'uuid';
 
-import { getCurrentUser } from '@/lib/auth';
+import { getCurrentUserAsync } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { projectCreateSchema } from '@/lib/schemas';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export async function GET() {
-  const user = getCurrentUser();
+  const user = await getCurrentUserAsync();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   return NextResponse.json(db.listProjects(user.id));
 }
 
 export async function POST(request: Request) {
-  const user = getCurrentUser();
+  const user = await getCurrentUserAsync();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const json = await request.json();
   const parsed = projectCreateSchema.safeParse(json);

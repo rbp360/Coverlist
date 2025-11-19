@@ -94,19 +94,13 @@ None at this time for key/tempo enrichment (external provider removed).
 
 To enable creating Spotify playlists from setlists or song selections, set these variables in `.env.local`:
 
-- SPOTIFY_CLIENT_ID
-- SPOTIFY_CLIENT_SECRET
-- NEXT_PUBLIC_BASE_URL (used to compute the redirect URI)
-
 Redirect URI (computed):
 
-- `${NEXT_PUBLIC_BASE_URL}/api/integrations/spotify/callback`
+Standard dev port is `3001` (script enforces `next dev -p 3001`). Use a single origin consistently (e.g. `http://localhost:3001` or `http://127.0.0.1:3001`) during auth flows; mixing hosts or ports breaks Firebase redirect handling.
 
 Then in the Spotify Developer Dashboard:
 
-1. Create an app and copy the Client ID and Client Secret.
-2. Add the computed Redirect URI above to the app settings (exact match required). Note: per Spotify policy (April–Nov 2025), use HTTPS for public URLs; for local development, use a loopback IP literal (127.0.0.1 or [::1]) with HTTP. `localhost` is not allowed.
-3. Save and restart the dev server.
+Dynamically derived via runtime origin (no need to hard-code multiple ports). Internally: `window.location.origin + '/api/integrations/spotify/callback'` for local dev. 2. Add the computed Redirect URI above to the app settings (exact match required). Note: per Spotify policy (April–Nov 2025), use HTTPS for public URLs; for local development, use a loopback IP literal (127.0.0.1 or [::1]) with HTTP. `localhost` is not allowed. 3. Save and restart the dev server. 3. Add the computed Redirect URI above to the app settings (exact match required). Note: per Spotify policy (April–Nov 2025), use HTTPS for public URLs; for local development, use a loopback IP literal (127.0.0.1 or [::1]) with HTTP. `localhost` may be rejected—prefer `127.0.0.1` if you encounter issues.
 
 Troubleshooting:
 
@@ -224,3 +218,60 @@ Requirements:
 - Set Firebase Admin credentials in `.env.local`:
   - `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` (escape newlines as `\n`)
   - Optional: `FIRESTORE_DB_DOC` (defaults to `coverlist/db`)
+
+## Data Migration to Firestore
+
+This project includes a one-time, bulk migration script to:
+
+- Align legacy JSON users to Firebase Authentication UIDs (by matching email). If a Firebase user has no legacy entry, a placeholder user is created locally with `id=uid`.
+- Rewrite all user ID references across projects, memberships, practice logs, repertoire, join requests, and todo votes.
+- Write a full snapshot of `data/db.json` to Firestore at `FIRESTORE_DB_DOC`.
+
+Prerequisites:
+
+- Service account credentials in environment:
+  - `FIREBASE_PROJECT_ID`
+  - `FIREBASE_CLIENT_EMAIL`
+  - `FIREBASE_PRIVATE_KEY` (use `\n` for newlines in `.env.local`)
+- Optional: `FIRESTORE_DB_DOC` (defaults to `coverlist/db`)
+
+Env loading order:
+
+- The script loads variables from `.env`, then `.env.local`, then `import.env` if they exist. You can also set variables in the shell session.
+
+Commands (Windows):
+
+- Dry-run (PowerShell):
+
+```
+$env:DRY_RUN=1; npm run migrate:firestore
+```
+
+- Dry-run (cmd.exe):
+
+```
+cmd /C "set DRY_RUN=1 && npm run migrate:firestore"
+```
+
+- Full migration:
+
+```
+npm run migrate:firestore
+```
+
+What it does:
+
+- Creates a timestamped backup of `data/db.json` in `data/`.
+- Updates `data/db.json` with aligned user IDs.
+- Writes the entire DB object to Firestore at `FIRESTORE_DB_DOC`.
+
+Verification:
+
+- Check Firestore Console for the document at your configured `FIRESTORE_DB_DOC`.
+- Review the backup file in `data/` to compare pre/post state.
+- Rerun with dry-run to confirm subsequent runs are no-ops.
+
+Notes:
+
+- The script logs the raw `DRY_RUN` env value and CLI args for clarity.
+- You can also use `npm run migrate:firestore -- --dry-run` to enable dry-run.

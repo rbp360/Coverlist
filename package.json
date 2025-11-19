@@ -20,7 +20,9 @@
     "format": "prettier --write .",
     "prepare": "husky",
     "data:pull": "node scripts/firestore-sync.js pull",
-    "data:push": "node scripts/firestore-sync.js push"
+    "data:push": "node scripts/firestore-sync.js push",
+    "migrate:firestore": "node scripts/migrate-firestore.js",
+    "data:backups": "node scripts/firestore-backups-list.js"
   },
   "dependencies": {
     "@react-pdf/renderer": "^3.4.5",

@@ -1,19 +1,30 @@
 import { getCurrentUser } from './auth';
 import { db } from './db';
 
+// Determine base URL dynamically. Avoid rigid NEXT_PUBLIC_BASE_URL dependence so
+// dev port switches (3000/3001) or host differences (localhost/127.0.0.1) do not break flows.
+function computeBaseUrl(): string {
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+  // Server-side fallback order
+  if (process.env.NEXT_PUBLIC_BASE_URL) return process.env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, '');
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return 'http://localhost:3000';
+}
+
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const SPOTIFY_AUTH_BASE = 'https://accounts.spotify.com';
 
-// Determine base URL dynamically for local vs production
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ||
-  (process.env.NODE_ENV === 'production'
-    ? 'https://coverlist-m8kpsaldt-robs-projects-c826db47.vercel.app'
-    : 'http://127.0.0.1:3001');
+// Exported helper for other modules if needed
+export function getPublicBaseUrl() {
+  return computeBaseUrl();
+}
 
-// Always point redirect to the API callback route
-export const SPOTIFY_REDIRECT_URI = `${BASE_URL}/api/integrations/spotify/callback`;
+export function getSpotifyRedirectUri() {
+  return `${computeBaseUrl()}/api/integrations/spotify/callback`;
+}
 
 export const SPOTIFY_SCOPES = ['playlist-modify-public', 'playlist-modify-private'].join(' ');
 
@@ -33,7 +44,7 @@ export function getSpotifyAuthUrl(state?: string) {
   const params = new URLSearchParams({
     response_type: 'code',
     client_id: SPOTIFY_CLIENT_ID!,
-    redirect_uri: SPOTIFY_REDIRECT_URI,
+    redirect_uri: getSpotifyRedirectUri(),
     scope: SPOTIFY_SCOPES,
   });
   if (state) params.set('state', state);
@@ -45,7 +56,7 @@ export async function exchangeCodeForToken(code: string) {
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
     code,
-    redirect_uri: SPOTIFY_REDIRECT_URI,
+    redirect_uri: getSpotifyRedirectUri(),
     client_id: SPOTIFY_CLIENT_ID!,
     client_secret: SPOTIFY_CLIENT_SECRET!,
   });

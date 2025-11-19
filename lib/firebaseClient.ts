@@ -15,6 +15,17 @@ import { getFirestore } from 'firebase/firestore';
 // Default to disabled unless `NEXT_PUBLIC_AUTH_USE_FIREBASE` is 'true'.
 const PUBLIC_WANTS_FIREBASE =
   (process.env.NEXT_PUBLIC_AUTH_USE_FIREBASE || '').toLowerCase() === 'true';
+// IMPORTANT: Next.js only inlines env vars when referenced directly (process.env.KEY).
+// Avoid dynamic indexing (process.env[k]) or values will be undefined in the browser bundle.
+export const FIREBASE_MISSING = [
+  !process.env.NEXT_PUBLIC_FIREBASE_API_KEY && 'NEXT_PUBLIC_FIREBASE_API_KEY',
+  !process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN && 'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN',
+  !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID && 'NEXT_PUBLIC_FIREBASE_PROJECT_ID',
+  !process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET && 'NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET',
+  !process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID &&
+    'NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID',
+  !process.env.NEXT_PUBLIC_FIREBASE_APP_ID && 'NEXT_PUBLIC_FIREBASE_APP_ID',
+].filter(Boolean) as string[];
 export const FIREBASE_ENABLED = Boolean(
   PUBLIC_WANTS_FIREBASE &&
     process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
@@ -24,6 +35,7 @@ export const FIREBASE_ENABLED = Boolean(
     process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID &&
     process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 );
+export const FIREBASE_ACTIVATION_FLAG = PUBLIC_WANTS_FIREBASE;
 
 let app: any | undefined;
 let clientDb: any | undefined;
@@ -53,6 +65,8 @@ export { app as default, clientDb, clientAuth };
 export async function signInWithGoogle() {
   if (!FIREBASE_ENABLED || !clientAuth) throw new Error('Firebase not enabled');
   const provider = new GoogleAuthProvider();
+  // Force account chooser each time to allow selecting among multiple Google accounts.
+  provider.setCustomParameters({ prompt: 'select_account' });
   return signInWithPopup(clientAuth, provider);
 }
 
@@ -60,6 +74,7 @@ export async function signInWithGoogle() {
 export async function signInWithGoogleRedirect() {
   if (!FIREBASE_ENABLED || !clientAuth) throw new Error('Firebase not enabled');
   const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
   await signInWithRedirect(clientAuth, provider);
 }
 

@@ -3,6 +3,10 @@ import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth';
 import { db } from '@/lib/db';
 
+// Disable caching and ensure dynamic evaluation
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   const user = getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -24,8 +28,6 @@ export async function GET() {
         createdAt: i.createdAt,
       };
     });
-  export const dynamic = 'force-dynamic';
-  export const revalidate = 0;
   return new NextResponse(JSON.stringify({ invites, count: invites.length }), {
     status: 200,
     headers: {

@@ -25,7 +25,7 @@ export default function LandingVideo() {
           muted={muted}
           className="w-full max-w-xl md:max-w-lg h-auto object-cover rounded-lg shadow-lg border-4 border-green-700"
           style={{ maxWidth: '65%' }}
-          poster="/images/hero-band-bg.jpg"
+          poster="/images/hero-band-bg.svg"
         />
         <button
           type="button"

@@ -11,13 +11,13 @@ export default function LandingPage() {
       <section className="relative flex flex-col items-center justify-center text-center py-20 px-4 sm:px-8">
         <div className="absolute inset-0 -z-10">
           <Image
-            src="/images/hero-band-bg.jpg"
-            alt="Live band background"
+            src="/images/hero-band-bg.svg"
+            alt="Abstract band themed background"
             fill
-            className="object-cover opacity-60"
             priority
+            className="object-cover opacity-80"
           />
-          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-black/50" />
         </div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
           SongDeck — The Ultimate Setlist & Rehearsal Companion for Gigging Musicians
