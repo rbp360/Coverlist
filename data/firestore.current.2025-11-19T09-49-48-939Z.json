@@ -1,0 +1,2877 @@
+{
+  "users": [
+    {
+      "id": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "email": "jamconnect123@gmail.com",
+      "passwordHash": "$2b$10$lCAPQYUtf2MZqgmsRbKDoOabsvshqzOwytqFMutKTKPsVrLDPoVXK",
+      "createdAt": "2025-10-21T08:34:21.612Z",
+      "avatarUrl": "/api/uploads/e8efb7c6-b620-4455-914d-6ae959b72f51.jpg",
+      "name": "Roberto",
+      "instruments": ["Vocals", "Bass Guitar", "Acoustic Guitar", "Electric Guitar"],
+      "spotify": {
+        "accessToken": "BQCY3YGKNLO76ezCY11OXt34VeIgZchLKwAb0XisBEu-F_ORWDyZk6PW7fV8qAzRTJDmgnpI4hBD9EbACLcjAF6fbu93JNfU830wjXGzChnCVRFUN0WkcJ49uwWpmnIQqijVQ5s0DE8xLJ7e1z4y7rmZvtXiNQRrGdyiXpDfWEgwfltcioPW8-bnpd1GzeUdqsL5nxayZ_E7EfsKojH4kJDThgq5n4-QOheGtWGwKt07KFDwUhsK0dK23aQX7261lml9ENzziHQ_6Z69T_07",
+        "refreshToken": "AQCxxPvHly0MKxTR-GV8h901VY01vH8bEMJciqoWMK8XXEL1fFHJSqBhHdQkZDMJwva4dvzMFXX6ZjO_e-yJTA9nAwBes8uQChczKlQ2ZJVjym_LGqFh8o7IVE14zQ2tx_k",
+        "expiresAt": 1762068780257,
+        "scope": "playlist-modify-private playlist-modify-public",
+        "tokenType": "Bearer"
+      }
+    },
+    {
+      "id": "404a435d-f6c3-4510-ac92-0cbc94eee0da",
+      "email": "user1761440365584@test.local",
+      "passwordHash": "$2b$10$VMq7oJtc244vNYe.WBNs4.o2LANtPyimXt6.mYHuzdIx3vVhAJlnm",
+      "createdAt": "2025-10-26T00:59:26.304Z"
+    },
+    {
+      "id": "86990f3a-d077-47cd-8add-4f018233bc43",
+      "email": "user1761440366632@test.local",
+      "passwordHash": "$2b$10$FjJ0lXB5SD1cGbmrEa8zR.ejmjxM.cPq54yXdKMpR8lmNadsqUJz2",
+      "createdAt": "2025-10-26T00:59:26.981Z"
+    },
+    {
+      "id": "3031d101-8d9d-4498-9d96-3f824c81e38c",
+      "email": "user1761440587272@test.local",
+      "passwordHash": "$2b$10$bWEcvu6YH6uKM9hp75/lhO01hfVrDHJ5LwDSPZ6tUMKJdvZfETiCy",
+      "createdAt": "2025-10-26T01:03:07.912Z"
+    },
+    {
+      "id": "987acc49-f145-4910-af3f-8dff31f988e9",
+      "email": "user1761440589339@test.local",
+      "passwordHash": "$2b$10$S5M31UNmV4f9etRpm80TsOPhomz6EkAjtCc7JM1U.syB4xDHb89RC",
+      "createdAt": "2025-10-26T01:03:09.758Z"
+    },
+    {
+      "id": "b7c700cc-900c-4c38-a6f1-cfa20fec49f6",
+      "email": "user1761440848230@test.local",
+      "passwordHash": "$2b$10$OAGF6Pw8nx/0A38HKhs2reULdKRkzMiM9amStHvU581gxz2oqE.mW",
+      "createdAt": "2025-10-26T01:07:28.793Z"
+    },
+    {
+      "id": "b461d828-7073-485b-984c-ef4b2d25f123",
+      "email": "user1761440848536@test.local",
+      "passwordHash": "$2b$10$3/eoqHKqxzCgV7NLvNtIQOLaGAUL3zMSU8NVFqqquCsoBq.AOUjRG",
+      "createdAt": "2025-10-26T01:07:28.967Z"
+    },
+    {
+      "id": "49ab0472-acc8-4d46-870f-03bdc6611942",
+      "email": "user1761440850219@test.local",
+      "passwordHash": "$2b$10$HljDMrmph5XrVDdGm0wFh.vMkvGDvi5BUnz1NstSffaPEkVf4hrIu",
+      "createdAt": "2025-10-26T01:07:30.656Z"
+    },
+    {
+      "id": "75ad9e9e-ac7b-417d-8902-50895efc610d",
+      "email": "user1761441078417@test.local",
+      "passwordHash": "$2b$10$i.vy/5VGgqfjURc3NqkbZu0XOl2ZqiJGOn/wk4v3pCtAUP8XtOuci",
+      "createdAt": "2025-10-26T01:11:19.427Z"
+    },
+    {
+      "id": "3b11e26c-5cb6-47aa-a7fd-d4bae5c26296",
+      "email": "user1761441080264@test.local",
+      "passwordHash": "$2b$10$CQwWwH84Rs4uuCh4cO.Wde34Vbm3MatMXVZEjb/lDjzvQ22eByaMG",
+      "createdAt": "2025-10-26T01:11:20.570Z"
+    },
+    {
+      "id": "3c5d184e-0dab-42c7-b428-24ef03b0e281",
+      "email": "user1761443281416@test.local",
+      "passwordHash": "$2b$10$vY3IvTCBgEL0m4pL.wpV.O3u9dZjqWp7PaAp8Y6JhqJxgaK6MVYIC",
+      "createdAt": "2025-10-26T01:48:02.679Z"
+    },
+    {
+      "id": "0478e9bb-4897-4099-9a4c-5f7ac25b8525",
+      "email": "user1761443359113@test.local",
+      "passwordHash": "$2b$10$VXCKuESsZcQH4CEBHAAxUO24xCDuyS/sN94s2nD41D3lnY6vekEy.",
+      "createdAt": "2025-10-26T01:49:19.340Z"
+    },
+    {
+      "id": "dc9cf996-c136-4211-a738-e65fc7f57b8a",
+      "email": "user1761614203996@test.local",
+      "passwordHash": "$2b$10$gBsvqwHGpFWDremOXpsXo.rsatZKAxLjit0TWnY.gwiHNhxOPdH3K",
+      "createdAt": "2025-10-28T01:16:44.704Z"
+    },
+    {
+      "id": "de97dbfa-1d40-4d6e-8a65-57b657010e3e",
+      "email": "user1761614780296@test.local",
+      "passwordHash": "$2b$10$8qF.dE4RK5jY911xXhDeE.swIbr2CpdAFWn/VGtmuGhvEUcC1UE5i",
+      "createdAt": "2025-10-28T01:26:21.165Z"
+    },
+    {
+      "id": "b6MG0Wi796bpR5h30xF09mIZy642",
+      "email": "rob_b_paul@hotmail.com",
+      "passwordHash": "$2b$10$zNAwF2ImHknsZ/SqA4.lpuWv0acL8TjvyfCv7ziRrsMTeuFp3md0K",
+      "createdAt": "2025-10-28T07:18:49.841Z",
+      "name": "Bob",
+      "username": "drummerbob",
+      "instruments": ["Drums"]
+    },
+    {
+      "id": "e14ec1c8-e7d4-4aef-b5ef-dc243f82b4ef",
+      "email": "user1761636513231@test.local",
+      "passwordHash": "$2b$10$HnsaY0ZU4WiktUhdmXBTGuXn4TFgWaKjKvrMOrQvRohqVf9vQ0nx6",
+      "createdAt": "2025-10-28T07:28:34.158Z"
+    },
+    {
+      "id": "6fe99d3c-4da8-43ca-aa34-8f6c148f8bae",
+      "email": "user1761636587246@test.local",
+      "passwordHash": "$2b$10$eC4GhnY0DRaCmMMmdo39eOiIG2D3OYGzXzYT8NhelIqUuJdGg1cI2",
+      "createdAt": "2025-10-28T07:29:48.411Z"
+    },
+    {
+      "id": "ce82d4c4-9fad-4848-9dba-60d8367b9cbd",
+      "email": "user1761636752590@test.local",
+      "passwordHash": "$2b$10$CsEMOi18Uqoqp3uDBpE/fexZ//kE13b2eqUQ9nuZ0n2tilxRkqZEW",
+      "createdAt": "2025-10-28T07:32:33.228Z"
+    },
+    {
+      "id": "84c7eae3-9053-4ab0-82e7-b4f508c95ca5",
+      "email": "user1761636816386@test.local",
+      "passwordHash": "$2b$10$qevZ8.GHn3rV/Ayc2wvUDObJiQ2t/KT.k7Kkgus6UDSP4uGVLy1he",
+      "createdAt": "2025-10-28T07:33:36.633Z"
+    },
+    {
+      "id": "30fdc173-79dc-4159-8777-07a1edc58e00",
+      "email": "user1761637331579@test.local",
+      "passwordHash": "$2b$10$6znWH/NWpnNcP17fw3up5uOMEfRYoUzo1P3jnV02fzvbmQ9BfQ/v6",
+      "createdAt": "2025-10-28T07:42:12.188Z"
+    },
+    {
+      "id": "e0f3694c-73b9-4a0b-a2d3-58d9fd12bf61",
+      "email": "user1761637633809@test.local",
+      "passwordHash": "$2b$10$CtF1NAmtUz8fyLTyGJizy.9a/hBttoXFcon.NNqTNahdfpoMFL4Cy",
+      "createdAt": "2025-10-28T07:47:14.420Z"
+    },
+    {
+      "id": "e87fa48b-0715-49b9-9112-398c41ddd5ec",
+      "email": "user-1761645010050-webkit-0-9ipku5@test.local",
+      "passwordHash": "$2b$10$zz3Zt8G2zbrLfRQxFFBP/uXNwAtS9zY0rHTC4r2JY5yRWf/Jdl5yO",
+      "createdAt": "2025-10-28T09:50:10.518Z"
+    },
+    {
+      "id": "6a5e50a9-318e-497c-9588-44ec9bb16a0c",
+      "email": "user-1761645164420-chromium-3-7pu8r1@test.local",
+      "passwordHash": "$2b$10$Mn3LemVz4rhUQrey1gGRvef5SCgTnyOvY8DJv8yk5QM42Pa3pYiXy",
+      "createdAt": "2025-10-28T09:52:45.118Z"
+    },
+    {
+      "id": "5f06d50a-f331-4b93-b0a5-f67ffdfc2ad4",
+      "email": "user-1761645168850-firefox-7-8tt906@test.local",
+      "passwordHash": "$2b$10$..Kk/sIYFSxVtCgKlm7Rwu6Buj/2/qbrUH3jVqO6aBQpFUfejRkN.",
+      "createdAt": "2025-10-28T09:52:49.400Z"
+    },
+    {
+      "id": "fded17db-207b-4da4-87e6-6b17418b5f57",
+      "email": "user-1761651779328-chromium-3-6hf7bo@test.local",
+      "passwordHash": "$2b$10$P95A8QPBS8pLau3VX5CnYuCFOcUNdRVr.inOtIVrr/b3jwtkIUbyi",
+      "createdAt": "2025-10-28T11:42:59.696Z"
+    },
+    {
+      "id": "f33fa1b6-cab1-4bbe-828b-68e90dcac0f2",
+      "email": "user-1761651780890-webkit-11-wandul@test.local",
+      "passwordHash": "$2b$10$Y5s/HU9TOQIPsPFuEdiwlOINdhSPoMOQyaYLqFDolZOBLHRSzJu4C",
+      "createdAt": "2025-10-28T11:43:01.356Z"
+    },
+    {
+      "id": "0d023336-8deb-44e3-87d0-996f042ff8ee",
+      "email": "user-1761651782835-firefox-7-qpnif1@test.local",
+      "passwordHash": "$2b$10$C1CNMqLw8bzKFVlVxwnsQuAbjGHOnIJhr1VrAxViAOdpOSTW6V4qi",
+      "createdAt": "2025-10-28T11:43:03.173Z"
+    },
+    {
+      "id": "283260d7-6d9b-44d7-99f7-122a2db98d16",
+      "email": "user-1761652064923-chromium-3-ajj8ia@test.local",
+      "passwordHash": "$2b$10$nYgkhYLjL1gdPm1l6FK2I.lY7HR8tddZ3dpwg7bdrRhgtOn1hl3DW",
+      "createdAt": "2025-10-28T11:47:45.245Z"
+    },
+    {
+      "id": "6f97e418-a307-423d-a192-710d759c0941",
+      "email": "user-1761652066619-webkit-11-l6b15c@test.local",
+      "passwordHash": "$2b$10$vDFBnhQDZRySToxQGmaHjeKsGl97MwRKqT6Nsx8QidPDRw.DwHmZ6",
+      "createdAt": "2025-10-28T11:47:47.064Z"
+    },
+    {
+      "id": "30505883-c65a-4bc5-85f5-4cfee319016a",
+      "email": "user-1761652067876-firefox-7-ugget1@test.local",
+      "passwordHash": "$2b$10$EQl6HJmB7mB2gyEuYuaYYeJA.VG3mbbiv0QxAsXsMY.RmZufDPNoa",
+      "createdAt": "2025-10-28T11:47:48.250Z"
+    },
+    {
+      "id": "eeb94312-6fb7-40d7-94a1-e5531818156a",
+      "email": "user-1761653343432-chromium-3-lhtgzf@test.local",
+      "passwordHash": "$2b$10$VcuIVXvj6xfT1CWhznxdLeJ8SOlPFBJc8d0YNQWQK5MiN4BYakBtS",
+      "createdAt": "2025-10-28T12:09:04.530Z"
+    },
+    {
+      "id": "dcf54e20-bb24-4288-b5d8-0fd9cc9f8653",
+      "email": "user-1761653346067-firefox-7-zp7jrl@test.local",
+      "passwordHash": "$2b$10$R8FmUIoFuZWYb3RaO7dwT.uCU7Wi0eGyhCR1WzN3/BhadcV8fDQWC",
+      "createdAt": "2025-10-28T12:09:06.415Z"
+    },
+    {
+      "id": "a54c6e26-aba7-4bef-850d-ef2a5ee7dfb8",
+      "email": "user-1761654552506-webkit-0-2b61dh@test.local",
+      "passwordHash": "$2b$10$KDUY2KpOqiE5leqRN8TPiOeVEtanK.QRxD7DyRaOGd/tGKu.4gCQq",
+      "createdAt": "2025-10-28T12:29:12.835Z"
+    },
+    {
+      "id": "8bab4315-11b2-4210-8751-3a486509f7d3",
+      "email": "user-1761654623275-webkit-0-zk6wmk@test.local",
+      "passwordHash": "$2b$10$phcZmXGa2Th275cgfnH8lef5Da5.WmErltE0F7X1nQmj/UMp/lKJy",
+      "createdAt": "2025-10-28T12:30:23.928Z"
+    },
+    {
+      "id": "401a052d-5398-43d9-815a-a96a164a711b",
+      "email": "user-1761654649220-chromium-3-aak1xy@test.local",
+      "passwordHash": "$2b$10$NdbXGMqkiobujdgAHu9ruOOv57QKh4kkiNUkmxSXL6gK2wzPzdlcq",
+      "createdAt": "2025-10-28T12:30:49.610Z"
+    },
+    {
+      "id": "6afd0ab3-df15-4e4d-9b9c-1d9e7a89ad71",
+      "email": "user-1761654649697-webkit-10-riefaq@test.local",
+      "passwordHash": "$2b$10$f9UZ2v/c2iHLhR9tfWzvCu28un6yG6rMs1nTKulGEfNgM.NELceo2",
+      "createdAt": "2025-10-28T12:30:49.928Z"
+    },
+    {
+      "id": "f32d390a-c138-4474-ac56-4ef0e06c13f5",
+      "email": "user-1761654652117-firefox-7-2nqr1x@test.local",
+      "passwordHash": "$2b$10$ECBgQqdhLTpSiXioRT6pD.ZmAKs6rhjyBIGMIBzIKbcr/CUCAP58O",
+      "createdAt": "2025-10-28T12:30:52.278Z"
+    },
+    {
+      "id": "9b5f165c-acfc-495b-b3d2-e0f6fb67f7cb",
+      "email": "user-1761654659140-chromium-3-5y59gg@test.local",
+      "passwordHash": "$2b$10$/SXOMZVS0f9Nw9ECyKVFVuoJYwOqNoyuiq8GfPKdTD5/xNIDEqgfy",
+      "createdAt": "2025-10-28T12:30:59.303Z"
+    },
+    {
+      "id": "32c6814c-de6e-4f0f-a463-5fa1a471f472",
+      "email": "user-1761654660841-webkit-11-cahi6q@test.local",
+      "passwordHash": "$2b$10$wJMl0QE52fKu0EUgEdmbCeW56hBbNJSk18PimOnmaMyF/azXDfaNy",
+      "createdAt": "2025-10-28T12:31:01.020Z"
+    },
+    {
+      "id": "5d8cf6b3-ca77-4295-bc70-a4446d27c839",
+      "email": "user-1761654661938-firefox-7-w50wzt@test.local",
+      "passwordHash": "$2b$10$G1ZDw7gJ3UN4Fu4JpNQ53eP2mGGWGHmgG0UlTho.8cbW/ZfauEy/a",
+      "createdAt": "2025-10-28T12:31:02.093Z"
+    },
+    {
+      "id": "e910b97c-0000-42bf-95cd-100e33cd8c2c",
+      "email": "user-1761654952141-chromium-3-2g1yvo@test.local",
+      "passwordHash": "$2b$10$84ll.DZeE.4WEyj507au6eybDuxBnlMNswz5hG5MAlYSkvFCYeCbO",
+      "createdAt": "2025-10-28T12:35:53.206Z"
+    },
+    {
+      "id": "88c82dc1-6196-436e-b949-330d44b06a5a",
+      "email": "user-1761654957991-webkit-11-dlojox@test.local",
+      "passwordHash": "$2b$10$/d3RnYnuECnOPrU5xkiJA.O4WHYPnhJp78zHAxOoW5cUpXGEdPxui",
+      "createdAt": "2025-10-28T12:35:58.595Z"
+    },
+    {
+      "id": "8e64a6b0-e234-4df8-8349-06b425785998",
+      "email": "user-1761654958879-firefox-7-vfji21@test.local",
+      "passwordHash": "$2b$10$d7UkMV1rbaavPBzcjGb6/eH.IItgmf0KcHpNRD103NYkluxfT4WhS",
+      "createdAt": "2025-10-28T12:35:59.513Z"
+    },
+    {
+      "id": "88ab717d-e410-45f3-805b-0c8115eb3fb9",
+      "email": "user-1761974532592-chromium-3-0ihmx7@test.local",
+      "passwordHash": "$2b$10$MoLRb2GVIobV52waNwYUIej/bOJOA6v6uY8NrV0IOnEd7.VoY8WFm",
+      "createdAt": "2025-11-01T05:22:13.583Z"
+    },
+    {
+      "id": "507d92d8-040a-4c2f-8d7e-57c8b0c9da9a",
+      "email": "user-1762060216029-chromium-3-db1yt4@test.local",
+      "passwordHash": "$2b$10$ku41fMVajAgEv45HSk1c9u3TmNFNq85NBSunBUIJK/XILh9KRmPWe",
+      "createdAt": "2025-11-02T05:10:17.197Z"
+    },
+    {
+      "id": "SVJBczOjdaTDq7O2nOrn0lxJJS22",
+      "email": "jopfewjfoew@ohoho.com",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T06:22:43.078Z"
+    },
+    {
+      "id": "hhKjk6paJVWrBKn64lUEkcCi0Ol1",
+      "email": "user-1762152968367-chromium-4-mwxe1f@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T06:56:22.755Z"
+    },
+    {
+      "id": "4QVykmLxURZ3NgZBOBUrkXBDJjT2",
+      "email": "user-1762153016537-chromium-5-kh432t@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T06:56:59.921Z"
+    },
+    {
+      "id": "Ui7K78cU8WgbDdmoS41q9VXB6JJ2",
+      "email": "user-1762153069930-chromium-6-m08xqh@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T06:57:53.684Z"
+    },
+    {
+      "id": "qJ2Onmcjr0b50oUnVjc0EQLQ7OD3",
+      "email": "user-1762153160730-chromium-7-tpucnz@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T06:59:24.721Z"
+    },
+    {
+      "id": "1Q2kLvhpHGZrakPc9mgnrr3RtBs1",
+      "email": "user-1762153203350-chromium-8-lnhxcy@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T07:00:07.532Z"
+    },
+    {
+      "id": "fGMeiztcTbUBAiBTmfMwCxUOLmI3",
+      "email": "user-1762173393252-chromium-1-vaejyy@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T12:36:48.810Z"
+    },
+    {
+      "id": "95lYBZ1U2jXqBkYatl70Joz7owj2",
+      "email": "user-1762173421472-chromium-1-kng0xf@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T12:37:05.024Z"
+    },
+    {
+      "id": "tA5K2roEpSOA0MFPSAicqE6hogR2",
+      "email": "user-1762174026977-chromium-2-ytm6nt@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T12:47:20.709Z"
+    },
+    {
+      "id": "FBYYCKhCcXM3khjmUft7w6ubv0t1",
+      "email": "user-1762174048608-chromium-2-qzqiqm@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T12:47:32.018Z"
+    },
+    {
+      "id": "Wd2htwP2pTcJyF2s9At07r7Ilut1",
+      "email": "user-1762174066552-chromium-4-bjvl3p@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T12:47:50.190Z"
+    },
+    {
+      "id": "w2b13pU41SNhzkEpsUia3AhpYwn2",
+      "email": "user-1762174075760-chromium-4-izorv6@test.local",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-03T12:47:59.679Z"
+    },
+    {
+      "id": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "email": "bedlamthebandbedlam@gmail.com",
+      "passwordHash": "firebase",
+      "createdAt": "2025-11-14T07:13:31.183Z",
+      "avatarUrl": "/api/uploads/30e25f77-aa29-4db0-8ff6-5e3cf8aa5805.bmp",
+      "instruments": ["Vocals"],
+      "name": "Bedlam",
+      "username": "bedlam"
+    }
+  ],
+  "projects": [
+    {
+      "id": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "name": "test project",
+      "ownerId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "memberIds": ["1UtlnxdKW4XkZdCKjuPAtOiVTVx1", "b6MG0Wi796bpR5h30xF09mIZy642"],
+      "createdAt": "2025-10-21T08:35:26.159Z",
+      "avatarUrl": "/api/uploads/b179467d-df9b-4bd4-898c-ce8de77ed5d2.jpg"
+    },
+    {
+      "id": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
+      "name": "test band 2",
+      "ownerId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "memberIds": [],
+      "createdAt": "2025-10-21T09:21:13.785Z"
+    },
+    {
+      "id": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "name": "enzos",
+      "ownerId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "memberIds": [],
+      "createdAt": "2025-10-29T08:04:56.270Z",
+      "avatarUrl": "/api/uploads/dd2b1b19-00e8-4523-9326-d529e91465fe.png"
+    },
+    {
+      "id": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "name": "bedlam",
+      "ownerId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "memberIds": [],
+      "createdAt": "2025-11-15T03:02:43.473Z",
+      "avatarUrl": "/api/uploads/7441dfde-a89f-4691-9815-74942abacd8c.jpg"
+    }
+  ],
+  "songs": [
+    {
+      "id": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Wonderwall",
+      "artist": "Oasis",
+      "durationSec": 269,
+      "mbid": "9de3f212-2121-4c48-9240-96a52b512733",
+      "key": "C#m",
+      "tempo": 148,
+      "createdAt": "2025-10-21T08:35:52.978Z",
+      "updatedAt": "2025-10-25T01:01:19.795Z",
+      "transposedKey": "Again auto?",
+      "notes": "This is the 'notes' field from the repertoire"
+    },
+    {
+      "id": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Jungle of Love",
+      "artist": "Lynch Mob",
+      "durationSec": 231,
+      "mbid": "30b7ba98-a1e3-4787-82ad-0064f69a63ad",
+      "key": "Ebm",
+      "tempo": 119,
+      "createdAt": "2025-10-21T09:03:02.535Z",
+      "updatedAt": "2025-10-25T01:27:20.728Z",
+      "transposedKey": "Yes"
+    },
+    {
+      "id": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Hey Jude",
+      "artist": "The Beatles",
+      "durationSec": 305,
+      "mbid": "4865b5ee-3bc2-4053-b303-0b841d85bb1d",
+      "key": "D",
+      "tempo": 156,
+      "createdAt": "2025-10-21T09:06:24.181Z",
+      "updatedAt": "2025-10-25T01:27:26.677Z"
+    },
+    {
+      "id": "b4c4480d-7817-4b35-84c6-f1c4c4dc46cf",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Old L.A. Tonight",
+      "artist": "Ozzy Osbourne",
+      "durationSec": 289,
+      "mbid": "37d3f653-585f-44a8-90b2-e7eb9f38412b",
+      "key": "A",
+      "tempo": 164,
+      "createdAt": "2025-10-21T09:30:19.446Z",
+      "updatedAt": "2025-10-25T02:09:38.446Z",
+      "url": "https://open.spotify.com/track/1Oh14mYGFRA3lbD9Cqx1Bx"
+    },
+    {
+      "id": "2e9eec3d-1f82-4736-af13-fa8ab7c15ea2",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Hey Jude",
+      "artist": "The Beatles",
+      "durationSec": 239,
+      "mbid": "7953cb71-41c1-449a-bd23-aa2daf394332",
+      "key": "G#m",
+      "tempo": 137,
+      "createdAt": "2025-10-22T00:54:32.316Z",
+      "updatedAt": "2025-10-25T01:28:09.677Z"
+    },
+    {
+      "id": "329708e7-5cb9-4d69-be42-4d6ba4192599",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Bark at the Moon",
+      "artist": "Ozzy Osbourne",
+      "durationSec": 257,
+      "mbid": "29d1a35f-51fd-4b55-abe9-2d04fd926fca",
+      "createdAt": "2025-10-22T01:23:39.731Z",
+      "updatedAt": "2025-10-25T01:42:20.564Z",
+      "key": "G",
+      "tempo": 107,
+      "url": "https://open.spotify.com/track/2E7W1X4maFFcjHrVrFA7Vs"
+    },
+    {
+      "id": "72ba9218-7351-4f2c-9293-5406f66b8ece",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Only You Can Rock Me",
+      "artist": "UFO",
+      "durationSec": 249,
+      "mbid": "b5506ff9-036b-460d-9bef-82f1afa7625d",
+      "createdAt": "2025-10-22T04:32:24.137Z",
+      "updatedAt": "2025-10-25T01:28:02.811Z",
+      "key": "Fm",
+      "tempo": 85
+    },
+    {
+      "id": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Here I Go Again",
+      "artist": "Whitesnake",
+      "durationSec": 349,
+      "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
+      "createdAt": "2025-10-24T02:58:51.681Z",
+      "updatedAt": "2025-10-25T01:27:35.420Z",
+      "key": "Dm",
+      "tempo": 128
+    },
+    {
+      "id": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Don���t Stop Believin���",
+      "artist": "Journey",
+      "durationSec": 259,
+      "mbid": "e7ccbc5c-b400-410c-b5b2-a334096ccbfd",
+      "createdAt": "2025-10-24T02:59:08.710Z",
+      "updatedAt": "2025-10-25T01:28:19.348Z",
+      "key": "Ab",
+      "tempo": 86
+    },
+    {
+      "id": "f59018e6-629c-4992-830b-6c61d4e260c4",
+      "projectId": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
+      "title": "Alone",
+      "artist": "Heart",
+      "durationSec": 219,
+      "mbid": "d2c1d3fa-31ae-4fd1-b0be-daf95ee06d21",
+      "createdAt": "2025-10-24T03:01:14.102Z",
+      "updatedAt": "2025-10-24T03:01:14.102Z"
+    },
+    {
+      "id": "54e54f61-9321-4de2-8dff-1ec357a65a23",
+      "projectId": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
+      "title": "Don���t Stop Believin���",
+      "artist": "Journey",
+      "durationSec": 259,
+      "mbid": "e7ccbc5c-b400-410c-b5b2-a334096ccbfd",
+      "createdAt": "2025-10-24T03:01:32.532Z",
+      "updatedAt": "2025-10-24T03:01:32.532Z"
+    },
+    {
+      "id": "df5b6aa1-79b9-4437-967d-6b58b05d752d",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Wheel in the Sky",
+      "artist": "Journey",
+      "durationSec": 212,
+      "mbid": "bea681de-5228-4b12-968e-3db163ea4c92",
+      "createdAt": "2025-10-24T03:49:51.900Z",
+      "updatedAt": "2025-10-25T01:28:15.435Z",
+      "key": "Bb",
+      "tempo": 156
+    },
+    {
+      "id": "576e315d-db24-4fd7-956e-942b7985799d",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Wake Me Up When September Ends",
+      "artist": "Green Day",
+      "durationSec": 286,
+      "mbid": "3ed7768b-5f8e-4d4c-be3d-0b5e18d3a611",
+      "createdAt": "2025-10-24T04:53:33.392Z",
+      "updatedAt": "2025-10-24T05:27:08.668Z",
+      "key": "Fm",
+      "tempo": 88
+    },
+    {
+      "id": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Summer of ���69",
+      "artist": "Bryan Adams",
+      "durationSec": 281,
+      "mbid": "1709638f-9f82-4f6b-aca9-50367f040a6c",
+      "createdAt": "2025-10-24T04:57:25.028Z",
+      "updatedAt": "2025-10-24T05:27:04.610Z",
+      "key": "C",
+      "tempo": 127
+    },
+    {
+      "id": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Here I Go Again",
+      "artist": "Whitesnake",
+      "durationSec": 349,
+      "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
+      "key": "Dm",
+      "tempo": 128,
+      "createdAt": "2025-10-29T08:13:22.448Z",
+      "updatedAt": "2025-10-29T08:19:54.937Z",
+      "url": "https://open.spotify.com/track/1tQ5TSr1tyeQUbHKBee0jv"
+    },
+    {
+      "id": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Black Night",
+      "artist": "Deep Purple",
+      "durationSec": 288,
+      "mbid": "6a99ce01-1ac0-4ae0-9997-0a8ede605f7b",
+      "url": "https://open.spotify.com/track/1E7oNnsJH79DxtvEDNjIU4",
+      "createdAt": "2025-10-29T08:15:11.227Z",
+      "updatedAt": "2025-10-29T08:15:11.227Z"
+    },
+    {
+      "id": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Don���t Break My Heart Again",
+      "artist": "Whitesnake",
+      "durationSec": 243,
+      "mbid": "d9bcd7c4-a1d4-4362-ae05-763e7382dceb",
+      "isrc": "GB01A1100187",
+      "url": "https://open.spotify.com/track/0ncf2ieRSLMJk5F6K3EFCD",
+      "createdAt": "2025-10-29T08:15:12.330Z",
+      "updatedAt": "2025-10-29T08:15:12.330Z"
+    },
+    {
+      "id": "46071d93-22a8-41e3-b45e-e41efdf76751",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Highway Star",
+      "artist": "Deep Purple",
+      "durationSec": 370,
+      "mbid": "ef4b4163-adc5-4165-9b14-c7dd378e61c2",
+      "isrc": "USRH12302687",
+      "url": "https://open.spotify.com/track/79iqhAauL0vjOXtZvf0Hy5",
+      "createdAt": "2025-10-29T08:15:51.929Z",
+      "updatedAt": "2025-10-29T08:15:51.929Z"
+    },
+    {
+      "id": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Holy Diver",
+      "artist": "Dio",
+      "durationSec": 352,
+      "mbid": "10e39239-3150-42d1-bd71-6b8e6a1c2e16",
+      "url": "https://open.spotify.com/track/54yLLvpezvPO1lA3GspiZj",
+      "createdAt": "2025-10-29T08:15:52.944Z",
+      "updatedAt": "2025-10-29T08:15:52.944Z"
+    },
+    {
+      "id": "40fb96e8-2f14-47fb-97fd-ae2a37b4cf5d",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "It���s My Life",
+      "artist": "Bon Jovi",
+      "durationSec": 224,
+      "mbid": "0afa4f4a-af47-4efc-82c4-e71a94c2fbf6",
+      "isrc": "GBCAD1300444",
+      "url": "https://open.spotify.com/track/3XLe0P5j4hT5rKYnSNXAP0",
+      "createdAt": "2025-10-29T08:15:53.357Z",
+      "updatedAt": "2025-10-29T08:15:53.357Z"
+    },
+    {
+      "id": "56649a8f-5c7d-488b-b101-8df07daeb64b",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Might Just Take Your Life",
+      "artist": "Deep Purple",
+      "durationSec": 279,
+      "mbid": "ad528c07-ae9f-4600-8f97-338a411c0afc",
+      "isrc": "CDDXG0400002",
+      "url": "https://open.spotify.com/track/2CCabtrP0Y8JNYuV0mo8w8",
+      "createdAt": "2025-10-29T08:15:54.150Z",
+      "updatedAt": "2025-10-29T08:15:54.150Z"
+    },
+    {
+      "id": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Smoke on the Water",
+      "artist": "Deep Purple",
+      "durationSec": 341,
+      "mbid": "ee8a3d90-656a-45a2-af38-a14ec40a76e7",
+      "url": "https://open.spotify.com/track/5MMnwYs0hIxkENRsbkWJ2G",
+      "createdAt": "2025-10-29T08:15:54.835Z",
+      "updatedAt": "2025-10-29T08:15:54.835Z"
+    },
+    {
+      "id": "f2c325f6-a4c5-4a1d-812e-6dfc55086eac",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Would I Lie to You",
+      "artist": "Whitesnake",
+      "durationSec": 269,
+      "mbid": "ed10eb09-c59e-4454-8604-436899654bc0",
+      "isrc": "GB01A8100007",
+      "url": "https://open.spotify.com/track/06yvn5UIUOMhcVbxPXEv4E",
+      "createdAt": "2025-10-29T08:15:55.384Z",
+      "updatedAt": "2025-10-29T08:15:55.384Z"
+    },
+    {
+      "id": "2812d149-7093-40a1-9e43-c86be064bb4f",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "You Give Love a Bad Name",
+      "artist": "Bon Jovi",
+      "durationSec": 235,
+      "mbid": "f66a8576-9047-47c5-b5b2-52afe1ed154c",
+      "url": "https://open.spotify.com/track/6rCHGKyJNcAeN00ivrbpy8",
+      "createdAt": "2025-10-29T08:15:56.135Z",
+      "updatedAt": "2025-10-29T08:15:56.135Z"
+    },
+    {
+      "id": "ab0d347e-0184-4a8a-9409-71168a7a36a7",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Meant for You",
+      "artist": "The Beach Boys",
+      "durationSec": 41,
+      "mbid": "1a3a3518-dd33-4044-aa92-1d98eef05216",
+      "url": "https://open.spotify.com/track/2h5cpnAVMC4kOOLF7NqmIr",
+      "createdAt": "2025-10-30T10:36:06.288Z",
+      "updatedAt": "2025-10-30T10:36:06.288Z"
+    },
+    {
+      "id": "b103523b-97cd-4cd3-bcf3-63e2218026dd",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Black Night",
+      "artist": "Deep Purple",
+      "durationSec": 190,
+      "mbid": "1603a116-6a3f-491a-a735-eab4f86f2115",
+      "createdAt": "2025-11-15T03:03:02.863Z",
+      "updatedAt": "2025-11-15T03:03:02.863Z"
+    },
+    {
+      "id": "341667bc-f05a-4d35-bf80-be4261b9c975",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Born to Be Wild",
+      "artist": "Steppenwolf",
+      "durationSec": 209,
+      "mbid": "42d57332-5798-4171-83ce-c9c5ce759c3b",
+      "isrc": "USMC10400120",
+      "createdAt": "2025-11-15T03:03:02.882Z",
+      "updatedAt": "2025-11-15T03:03:02.882Z"
+    },
+    {
+      "id": "5fad799a-1c6e-4eb4-8e64-6921052c24ff",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Breaking the Law",
+      "artist": "Judas Priest",
+      "durationSec": 160,
+      "mbid": "319a1ab7-cfad-454b-a4c5-beeb3baf81cb",
+      "createdAt": "2025-11-15T03:03:02.891Z",
+      "updatedAt": "2025-11-15T03:03:02.891Z"
+    },
+    {
+      "id": "514b6e93-df30-40b8-b0d5-0e8f125dca9d",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Can't Get Enough",
+      "artist": "Bad Company",
+      "durationSec": 200,
+      "mbid": "de84926d-397e-4dec-98bd-839cce8a1741",
+      "createdAt": "2025-11-15T03:03:02.901Z",
+      "updatedAt": "2025-11-15T03:03:02.901Z"
+    },
+    {
+      "id": "f3288c07-df3e-4443-8205-6c7e421c1f73",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Crazy Train",
+      "artist": "Ozzy Osbourne",
+      "durationSec": 290,
+      "mbid": "fa6901b2-adcf-46ed-89d1-849a17d91cf4",
+      "isrc": "USSM10204723",
+      "createdAt": "2025-11-15T03:03:02.910Z",
+      "updatedAt": "2025-11-15T03:03:02.910Z"
+    },
+    {
+      "id": "447bb521-ff6c-4afa-977b-fcc45aa3876c",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Don't Believe a Word",
+      "artist": "Gary Moore",
+      "durationSec": 436,
+      "mbid": "4f9808a4-ab30-4c08-8a2d-c8eca3acfc6a",
+      "createdAt": "2025-11-15T03:03:02.920Z",
+      "updatedAt": "2025-11-15T13:54:51.829Z"
+    },
+    {
+      "id": "d83a7561-7c96-4122-9352-d74882ae10a6",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Enter Sandman",
+      "artist": "Metallica",
+      "durationSec": 322,
+      "mbid": "c0389c14-0a15-47e6-b602-c1fd37789753",
+      "createdAt": "2025-11-15T03:03:02.928Z",
+      "updatedAt": "2025-11-15T03:03:02.928Z"
+    },
+    {
+      "id": "3555b9cc-ca13-4dee-872b-b0446f970365",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Eye of the Tiger",
+      "artist": "Survivor",
+      "durationSec": 245,
+      "mbid": "25da6d6f-5960-4176-b7c5-885b0b9edfcf",
+      "isrc": "USVR10400292",
+      "createdAt": "2025-11-15T03:03:02.937Z",
+      "updatedAt": "2025-11-15T03:03:02.937Z"
+    },
+    {
+      "id": "3e45d3f9-1266-494e-860e-7519bb3257b7",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Final Countdown",
+      "artist": "Europe",
+      "durationSec": 268,
+      "mbid": "e16cee41-bf7e-48cf-a963-09a4060845a0",
+      "createdAt": "2025-11-15T03:03:02.944Z",
+      "updatedAt": "2025-11-15T03:03:02.944Z"
+    },
+    {
+      "id": "49da6250-9ea2-405d-a164-b6899f2f71b0",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Here I Go Again",
+      "artist": "Whitesnake",
+      "durationSec": 349,
+      "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
+      "createdAt": "2025-11-15T03:03:02.953Z",
+      "updatedAt": "2025-11-15T03:03:02.953Z"
+    },
+    {
+      "id": "97280db7-8f6b-4b36-8394-d2b43b3eb0bb",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Highway to Hell",
+      "artist": "AC/DC",
+      "durationSec": 206,
+      "mbid": "0016cdf1-eda9-42f5-98c1-9c6b632b4144",
+      "createdAt": "2025-11-15T03:03:02.967Z",
+      "updatedAt": "2025-11-15T03:03:02.967Z"
+    },
+    {
+      "id": "d7c4ba04-cb35-4d33-83f3-d6c49a6e5225",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Hot Blooded",
+      "artist": "Foreigner",
+      "durationSec": 266,
+      "mbid": "df6b8ca0-a256-4f30-b518-3bb168e81770",
+      "isrc": "USAT20610557",
+      "createdAt": "2025-11-15T03:03:02.976Z",
+      "updatedAt": "2025-11-15T03:03:02.976Z"
+    },
+    {
+      "id": "e2563c03-ee50-4191-a5fc-5b12e5d57443",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "I Believe in a Thing Called Love",
+      "artist": "The Darkness",
+      "durationSec": 217,
+      "mbid": "2afe5070-b737-4b24-85d2-ea4cafbfbbaa",
+      "isrc": "GBAHS0300702",
+      "createdAt": "2025-11-15T03:03:02.987Z",
+      "updatedAt": "2025-11-15T03:03:02.987Z"
+    },
+    {
+      "id": "ab0ed010-225b-4a3b-87c7-7bc48e36de40",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "I Love Rock and Roll",
+      "artist": "Joan Jett & the Blackhearts",
+      "durationSec": 173,
+      "mbid": "452c0c04-e3d0-42cd-a12c-7e3ed77de4a5",
+      "createdAt": "2025-11-15T03:03:02.998Z",
+      "updatedAt": "2025-11-15T13:55:02.383Z"
+    },
+    {
+      "id": "64c78433-6318-4e03-85ab-66adb1a02cd1",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "It���s My Life",
+      "artist": "Bon Jovi",
+      "durationSec": 224,
+      "mbid": "0afa4f4a-af47-4efc-82c4-e71a94c2fbf6",
+      "isrc": "GBCAD1300444",
+      "createdAt": "2025-11-15T03:03:03.009Z",
+      "updatedAt": "2025-11-15T03:03:03.009Z"
+    },
+    {
+      "id": "8aa4ba5c-04ed-4d22-b296-a42b624caa55",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Jailbreak",
+      "artist": "Thin Lizzy",
+      "durationSec": 241,
+      "mbid": "338eb089-85ae-4c50-afb4-99ecf914ac2a",
+      "createdAt": "2025-11-15T03:03:03.018Z",
+      "updatedAt": "2025-11-15T03:03:03.018Z"
+    },
+    {
+      "id": "1fbee13d-480e-4250-949e-86bd925bd7f5",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Living After Midnight",
+      "artist": "Judas Priest",
+      "durationSec": 285,
+      "mbid": "b7c601af-ddd1-4aba-9196-1933038b3999",
+      "isrc": "GBBBN8700024",
+      "createdAt": "2025-11-15T03:03:03.041Z",
+      "updatedAt": "2025-11-15T03:03:03.041Z"
+    },
+    {
+      "id": "83d55c93-458b-46e2-80ef-821dc49732f5",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Love Gun",
+      "artist": "KISS",
+      "durationSec": 282,
+      "mbid": "d4a3d387-05a4-4338-8d93-4039284256c1",
+      "createdAt": "2025-11-15T03:03:03.058Z",
+      "updatedAt": "2025-11-15T03:03:03.058Z"
+    },
+    {
+      "id": "4a04db3a-3b8f-40e5-b163-bc9015a48b1e",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Mama Weer All Crazee Now",
+      "artist": "Slade",
+      "durationSec": 224,
+      "mbid": "2f940a10-e72a-4872-af8a-b2a76eb6dba1",
+      "isrc": "GBAKW7201003",
+      "createdAt": "2025-11-15T03:03:03.071Z",
+      "updatedAt": "2025-11-15T03:03:03.071Z"
+    },
+    {
+      "id": "1d29ac25-55e9-4bc8-943f-dfc54e70f672",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Paranoid",
+      "artist": "Black Sabbath",
+      "durationSec": 270,
+      "mbid": "10d191bb-c7c6-45ff-842c-21d725f14059",
+      "isrc": "USSM19704475",
+      "createdAt": "2025-11-15T03:03:03.080Z",
+      "updatedAt": "2025-11-15T03:03:03.080Z"
+    },
+    {
+      "id": "31b2f77b-6d01-430d-bd66-5c37988a644f",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Hurricane",
+      "artist": "Scorpions",
+      "durationSec": 260,
+      "mbid": "026febac-1530-4949-80b6-d59a746c0ba5",
+      "isrc": "DELV41501106",
+      "createdAt": "2025-11-15T03:03:03.088Z",
+      "updatedAt": "2025-11-15T13:55:45.327Z"
+    },
+    {
+      "id": "eda33aa7-bdc2-4d10-8406-51c6e01fe7aa",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Rockin' All Over the World",
+      "artist": "Status Quo",
+      "durationSec": 236,
+      "mbid": "fc3e6e69-1153-4c77-9c4b-920dbb0175e6",
+      "createdAt": "2025-11-15T03:03:03.097Z",
+      "updatedAt": "2025-11-15T03:03:03.097Z"
+    },
+    {
+      "id": "73b05248-703d-4296-8803-568054d8dc3b",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Smoke on the Water",
+      "artist": "Deep Purple",
+      "durationSec": 304,
+      "mbid": "e357cfed-e8c9-4936-a453-2a21e3cad1fa",
+      "createdAt": "2025-11-15T03:03:03.106Z",
+      "updatedAt": "2025-11-15T03:03:03.106Z"
+    },
+    {
+      "id": "893a4681-7a20-4d82-98e1-de4746a70df8",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Summer of ���69",
+      "artist": "Bryan Adams",
+      "durationSec": 212,
+      "mbid": "c80d0c5a-2075-494c-b86c-58396be9e37d",
+      "createdAt": "2025-11-15T03:03:03.112Z",
+      "updatedAt": "2025-11-15T03:03:03.112Z"
+    },
+    {
+      "id": "f7c216da-b057-485b-8185-77319114f644",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Teenage Kicks",
+      "artist": "The Undertones",
+      "durationSec": 146,
+      "mbid": "fb591523-6e6c-464e-a416-7ecd0a2af967",
+      "isrc": "GBAJE7800192",
+      "createdAt": "2025-11-15T03:03:03.121Z",
+      "updatedAt": "2025-11-15T03:03:03.121Z"
+    },
+    {
+      "id": "ba43acd1-b7e0-40e0-b06f-57ee32a1f012",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "The Trooper",
+      "artist": "Iron Maiden",
+      "durationSec": 252,
+      "mbid": "8f13d546-0cc6-4d8b-8d3a-27805f3ca264",
+      "isrc": "GBCHB1500031",
+      "createdAt": "2025-11-15T03:03:03.127Z",
+      "updatedAt": "2025-11-15T03:03:03.127Z"
+    },
+    {
+      "id": "25a89013-01a1-435b-8e74-75ba9fa81404",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Thunderstruck",
+      "artist": "AC/DC",
+      "durationSec": 293,
+      "mbid": "73c66ee8-d3ed-428c-a5dd-47d4a52b56a2",
+      "createdAt": "2025-11-15T03:03:03.139Z",
+      "updatedAt": "2025-11-15T03:03:03.139Z"
+    },
+    {
+      "id": "687c0020-e81d-488f-bb45-73b9f7ccc4e5",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Tie Your Mother Down",
+      "artist": "Queen",
+      "durationSec": 227,
+      "mbid": "697f5fb7-b3f1-47e0-a454-62f449a24ab7",
+      "createdAt": "2025-11-15T03:03:03.147Z",
+      "updatedAt": "2025-11-15T03:03:03.147Z"
+    },
+    {
+      "id": "ee6b3f52-c9a6-4f55-8465-9c07f47377f5",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Trouble",
+      "artist": "Gillan",
+      "durationSec": 185,
+      "mbid": "6264a0a5-1bec-49e5-80fd-8d5623fb787f",
+      "createdAt": "2025-11-15T03:03:03.155Z",
+      "updatedAt": "2025-11-15T03:03:03.155Z"
+    },
+    {
+      "id": "dd7a503b-768c-46dc-99ba-dbbcb30d770c",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Waiting for an Alibi",
+      "artist": "Thin Lizzy",
+      "durationSec": 210,
+      "mbid": "1a990ee8-3229-4ebd-9307-64888649c064",
+      "isrc": "USWB10503411",
+      "createdAt": "2025-11-15T03:03:03.161Z",
+      "updatedAt": "2025-11-15T03:03:03.161Z"
+    },
+    {
+      "id": "71b939d4-afb6-432d-98bc-78c623c74174",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "We Are the Champions",
+      "artist": "Queen",
+      "durationSec": 189,
+      "mbid": "8d059246-e827-4515-8d17-faee99cbcbae",
+      "createdAt": "2025-11-15T03:03:03.171Z",
+      "updatedAt": "2025-11-15T03:03:03.171Z"
+    },
+    {
+      "id": "e211ac5a-a24e-490d-85ec-55aae14d2fbd",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Whatever You Want",
+      "artist": "Status Quo",
+      "durationSec": 274,
+      "mbid": "ed3a4700-daf4-485c-9a66-6b6725a04669",
+      "createdAt": "2025-11-15T03:03:03.181Z",
+      "updatedAt": "2025-11-15T03:03:03.181Z"
+    },
+    {
+      "id": "b4d2cdae-cf78-4a0a-bdac-82aad72d106e",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Whole Lotta Love",
+      "artist": "Led Zeppelin",
+      "durationSec": 185,
+      "mbid": "57b80964-da55-4c02-b69f-86165ec47972",
+      "createdAt": "2025-11-15T03:03:03.190Z",
+      "updatedAt": "2025-11-15T03:03:03.190Z"
+    },
+    {
+      "id": "5932fa9d-8ffb-4a22-8e22-846449c0e18f",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Whole Lotta Rosie",
+      "artist": "AC/DC",
+      "durationSec": 271,
+      "mbid": "808113b9-2769-4917-9030-4e970ad1a867",
+      "isrc": "AUAP09200030",
+      "createdAt": "2025-11-15T03:03:03.199Z",
+      "updatedAt": "2025-11-15T03:03:03.199Z"
+    },
+    {
+      "id": "d7416bf3-1ea6-49c3-b9cd-6bed2afd1eb9",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Wishing Well",
+      "artist": "Free",
+      "durationSec": 217,
+      "mbid": "1a3081c9-5575-4246-bf35-3f23b477b620",
+      "createdAt": "2025-11-15T03:03:03.207Z",
+      "updatedAt": "2025-11-15T03:03:03.207Z"
+    },
+    {
+      "id": "2e46aa05-0b06-4203-b333-e9bf2ae22354",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Bad Name",
+      "artist": "Bon Jovi",
+      "durationSec": 223,
+      "mbid": "f8eac915-a9c7-4573-bdbc-0f3dc4c1b427",
+      "createdAt": "2025-11-15T03:03:03.217Z",
+      "updatedAt": "2025-11-15T13:55:19.591Z"
+    },
+    {
+      "id": "3716744d-f1e8-4c83-8de2-ac13e6c25aaf",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "The Trooper",
+      "artist": "Iron Maiden",
+      "durationSec": 253,
+      "mbid": "ab5c6d1d-6c3f-4623-9f8c-8e84eb4d5313",
+      "createdAt": "2025-11-15T03:03:46.716Z",
+      "updatedAt": "2025-11-15T03:03:46.716Z"
+    },
+    {
+      "id": "585a4975-6808-4d39-b5cd-20c6199fd851",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Run To The Hills",
+      "artist": "Iron Maiden",
+      "durationSec": 230,
+      "mbid": "5119d18a-6f7a-4867-8a7c-ccb7c1f3808e",
+      "createdAt": "2025-11-15T03:04:03.858Z",
+      "updatedAt": "2025-11-15T03:04:03.858Z"
+    },
+    {
+      "id": "751eebd7-34f8-455f-b86d-0f99d2f77b3c",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "We're Not Gonna Take It",
+      "artist": "Twisted Sister",
+      "durationSec": 220,
+      "mbid": "81e6ef05-73e6-40e3-b61f-60edb456c746",
+      "isrc": "USRH12400698",
+      "createdAt": "2025-11-15T03:04:25.166Z",
+      "updatedAt": "2025-11-15T03:04:25.166Z"
+    },
+    {
+      "id": "65b43906-29ea-4331-9bb5-908d89ebaa24",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Don���t Stop Believin���",
+      "artist": "Journey",
+      "durationSec": 283,
+      "mbid": "d8524df6-d7b2-4ed2-8823-2df911c60b4f",
+      "createdAt": "2025-11-15T03:35:22.916Z",
+      "updatedAt": "2025-11-15T03:35:22.916Z"
+    },
+    {
+      "id": "8b6f60c9-6019-4f22-941c-b359034a0044",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "title": "Whiskey in the Jar",
+      "artist": "Metallica",
+      "durationSec": 328,
+      "mbid": "7e9b2d03-b107-41e1-ae98-8e1b905965e8",
+      "createdAt": "2025-11-17T06:35:22.947Z",
+      "updatedAt": "2025-11-17T06:35:22.947Z"
+    }
+  ],
+  "setlists": [
+    {
+      "id": "fa9bc7c9-bc31-4730-9c96-d284d015bf01",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "name": "main list",
+      "showArtist": false,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": true,
+      "items": [
+        {
+          "id": "4ed90127-4406-4225-a957-4400927af531",
+          "type": "section",
+          "order": 0,
+          "title": "Set 1"
+        },
+        {
+          "id": "3c2d3e0b-3de7-4b9c-8845-227441232558",
+          "type": "section",
+          "order": 1,
+          "title": "Set 2"
+        },
+        {
+          "id": "180f73d7-3655-4cad-b17c-4e5d264dded1",
+          "type": "section",
+          "order": 2,
+          "title": "Set 3"
+        },
+        {
+          "id": "0b97a3ae-83e4-4e63-ab7c-1070910ec871",
+          "type": "song",
+          "order": 3,
+          "songId": "ab0d347e-0184-4a8a-9409-71168a7a36a7",
+          "title": "Meant for You",
+          "artist": "The Beach Boys",
+          "durationSec": 41
+        },
+        {
+          "id": "80991adf-15e9-42fe-bf2a-c6c553eb9fca",
+          "type": "note",
+          "order": 4,
+          "note": "test note to appear in green after the lyrics"
+        },
+        {
+          "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
+          "type": "song",
+          "order": 5,
+          "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
+          "title": "Jungle of Love",
+          "artist": "Lynch Mob",
+          "durationSec": 231,
+          "transposedKey": "B"
+        },
+        {
+          "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
+          "type": "note",
+          "order": 6,
+          "note": "Լ紩� Tune down 1/2 step"
+        },
+        {
+          "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
+          "type": "song",
+          "order": 7,
+          "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+          "title": "Wonderwall",
+          "artist": "Oasis",
+          "durationSec": 269
+        },
+        {
+          "id": "3a2584d3-c60e-4d63-b697-674bb0de0040",
+          "type": "break",
+          "order": 8,
+          "title": "Break",
+          "durationSec": 600
+        },
+        {
+          "id": "7afcba0b-f129-4312-9dc5-61b682502ffd",
+          "type": "note",
+          "order": 9,
+          "note": "1/2 step down"
+        },
+        {
+          "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
+          "type": "song",
+          "order": 10,
+          "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "durationSec": 305
+        },
+        {
+          "id": "a908c3de-9959-4b19-b9ab-5b256fe4f9c5",
+          "type": "note",
+          "order": 11,
+          "note": "1/2 step down"
+        },
+        {
+          "id": "f5100cc2-f4a2-4001-b399-6fe330d57217",
+          "type": "song",
+          "order": 12,
+          "songId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
+          "title": "Here I Go Again",
+          "artist": "Whitesnake",
+          "durationSec": 349
+        }
+      ],
+      "createdAt": "2025-10-21T08:45:11.572Z",
+      "updatedAt": "2025-11-02T05:11:53.786Z",
+      "date": "2026-10-19",
+      "venue": "My House",
+      "public": true,
+      "showKey": false,
+      "songGapSec": 20,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": true
+    },
+    {
+      "id": "a71f897c-305f-472b-ac50-596c8002df22",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "name": "New Setlist\\New stelist test",
+      "showArtist": false,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": false,
+      "items": [
+        {
+          "id": "622a9013-a79b-48a8-b3ca-ae2bbb4abaa8",
+          "type": "song",
+          "order": 0,
+          "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+          "title": "Wonderwall",
+          "artist": "Oasis",
+          "durationSec": 269
+        },
+        {
+          "id": "9d051cd7-9152-449b-b176-948c84c39f35",
+          "type": "note",
+          "order": 1,
+          "note": "��ĩ Capo IV"
+        },
+        {
+          "id": "630154ea-4a09-4e15-95cd-daf1aa6c02ac",
+          "type": "section",
+          "order": 2,
+          "title": "Set 1"
+        }
+      ],
+      "createdAt": "2025-10-21T09:16:33.799Z",
+      "updatedAt": "2025-10-21T09:16:33.799Z",
+      "public": false,
+      "showKey": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
+    },
+    {
+      "id": "8153c54d-f4e6-4279-a733-77d714049ef9",
+      "projectId": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
+      "name": "test band 2 setlist (public)",
+      "showArtist": true,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": true,
+      "items": [
+        {
+          "id": "b23951df-b06b-4f64-ab7b-4e014cc85833",
+          "type": "note",
+          "order": 0,
+          "note": "���� Intro"
+        },
+        {
+          "id": "65dded5f-9cf3-4389-a83c-78e8ee5aa807",
+          "type": "song",
+          "order": 1,
+          "songId": "54e54f61-9321-4de2-8dff-1ec357a65a23",
+          "title": "Don���t Stop Believin���",
+          "artist": "Journey",
+          "durationSec": 259
+        },
+        {
+          "id": "15aed963-9c25-42e7-bf15-d52a5965e4ab",
+          "type": "song",
+          "order": 2,
+          "songId": "f59018e6-629c-4992-830b-6c61d4e260c4",
+          "title": "Alone",
+          "artist": "Heart",
+          "durationSec": 219
+        }
+      ],
+      "createdAt": "2025-10-24T02:54:48.703Z",
+      "updatedAt": "2025-10-24T03:03:02.608Z",
+      "public": true,
+      "date": "2026-11-05",
+      "venue": "whiskey a Go GO",
+      "showKey": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
+    },
+    {
+      "id": "c69a1a2e-b1a8-4ddd-a696-0049286b6972",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "name": "main list (copy but working)",
+      "showArtist": false,
+      "showKey": false,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": false,
+      "items": [
+        {
+          "id": "1d43f16d-0b9e-40d6-93e0-ee951b93aeb7",
+          "type": "section",
+          "order": 0,
+          "title": "Set 1"
+        },
+        {
+          "id": "14be59b9-540e-43aa-bb34-a25b1981ef2b",
+          "type": "song",
+          "order": 1,
+          "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
+          "title": "Jungle of Love",
+          "artist": "Lynch Mob",
+          "durationSec": 231,
+          "transposedKey": "B"
+        },
+        {
+          "id": "114a72a1-870f-40a9-8d42-d95ab9381f95",
+          "type": "note",
+          "order": 2,
+          "note": "Լ紩� Tune down 1/2 step"
+        },
+        {
+          "id": "65186e58-687f-4179-9370-6f9b1d39d23e",
+          "type": "section",
+          "order": 3,
+          "title": "Set 2"
+        },
+        {
+          "id": "c6bed509-ef5c-4193-bd57-c7f002ee626d",
+          "type": "song",
+          "order": 4,
+          "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+          "title": "Wonderwall",
+          "artist": "Oasis",
+          "durationSec": 269
+        },
+        {
+          "id": "0caa44d3-8f37-4938-9e7d-5b566704e138",
+          "type": "section",
+          "order": 5,
+          "title": "Encore"
+        },
+        {
+          "id": "3e96d741-cb24-4ae3-922f-83f1adc187e4",
+          "type": "song",
+          "order": 6,
+          "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "durationSec": 305
+        },
+        {
+          "id": "f5100cc2-f4a2-4001-b399-6fe330d57217",
+          "type": "song",
+          "order": 7,
+          "songId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
+          "title": "Here I Go Again",
+          "artist": "Whitesnake",
+          "durationSec": 349
+        },
+        {
+          "id": "3023d8e7-02ca-43dc-a594-a449988f8698",
+          "type": "section",
+          "order": 8,
+          "title": "custom set section"
+        }
+      ],
+      "createdAt": "2025-10-28T01:45:49.871Z",
+      "updatedAt": "2025-10-28T01:45:49.871Z",
+      "public": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
+    },
+    {
+      "id": "5a38c6c1-033d-4abc-86b9-960a69c422c3",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "name": "rehearsal list",
+      "showArtist": true,
+      "showKey": false,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": false,
+      "items": [
+        {
+          "id": "f8714c36-86f0-4fae-b40a-cdd5b062b33f",
+          "type": "song",
+          "order": 0,
+          "songId": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+          "title": "Here I Go Again",
+          "artist": "Whitesnake",
+          "durationSec": 349
+        },
+        {
+          "id": "f09946e7-a86b-4282-9b52-dba34f5b8e79",
+          "type": "song",
+          "order": 1,
+          "songId": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
+          "title": "Black Night",
+          "artist": "Deep Purple",
+          "durationSec": 288
+        },
+        {
+          "id": "d5a82ea4-daa6-46c9-a685-521c6ce3f60b",
+          "type": "song",
+          "order": 2,
+          "songId": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
+          "title": "Don���t Break My Heart Again",
+          "artist": "Whitesnake",
+          "durationSec": 243
+        },
+        {
+          "id": "b5345434-0523-493a-9cd8-db0badc76b19",
+          "type": "song",
+          "order": 3,
+          "songId": "46071d93-22a8-41e3-b45e-e41efdf76751",
+          "title": "Highway Star",
+          "artist": "Deep Purple",
+          "durationSec": 370
+        },
+        {
+          "id": "d66d7635-7433-4787-9a17-17780a924d93",
+          "type": "song",
+          "order": 4,
+          "songId": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
+          "title": "Holy Diver",
+          "artist": "Dio",
+          "durationSec": 352
+        },
+        {
+          "id": "2c047b06-9e44-4ab1-8957-cedf63e5f956",
+          "type": "song",
+          "order": 5,
+          "songId": "40fb96e8-2f14-47fb-97fd-ae2a37b4cf5d",
+          "title": "It���s My Life",
+          "artist": "Bon Jovi",
+          "durationSec": 224
+        },
+        {
+          "id": "898c2c6d-14a0-4127-a731-ec93cc40d20e",
+          "type": "song",
+          "order": 6,
+          "songId": "56649a8f-5c7d-488b-b101-8df07daeb64b",
+          "title": "Might Just Take Your Life",
+          "artist": "Deep Purple",
+          "durationSec": 279
+        },
+        {
+          "id": "f443dd2e-4ad9-4beb-a323-0d5b82f81b29",
+          "type": "song",
+          "order": 7,
+          "songId": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
+          "title": "Smoke on the Water",
+          "artist": "Deep Purple",
+          "durationSec": 341
+        },
+        {
+          "id": "32a0fc74-f3f5-4cfc-86c8-55a1c9179836",
+          "type": "song",
+          "order": 8,
+          "songId": "f2c325f6-a4c5-4a1d-812e-6dfc55086eac",
+          "title": "Would I Lie to You",
+          "artist": "Whitesnake",
+          "durationSec": 269
+        },
+        {
+          "id": "1c0d19c0-608b-4eb4-9822-2871876f538a",
+          "type": "song",
+          "order": 9,
+          "songId": "2812d149-7093-40a1-9e43-c86be064bb4f",
+          "title": "You Give Love a Bad Name",
+          "artist": "Bon Jovi",
+          "durationSec": 235
+        }
+      ],
+      "createdAt": "2025-10-29T08:20:54.907Z",
+      "updatedAt": "2025-10-29T08:21:18.134Z",
+      "public": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
+    },
+    {
+      "id": "c09f9675-90b8-4583-8b3b-b87ac8d5c5bf",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "name": "New Setlist",
+      "showArtist": true,
+      "showKey": false,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": false,
+      "items": [
+        {
+          "id": "2789c3f6-b347-4240-a7be-e9df9bdee61c",
+          "type": "section",
+          "order": 0,
+          "title": "Set 1"
+        },
+        {
+          "id": "3a8e4b0d-2ab9-4a40-89f4-fe814ec02f23",
+          "type": "song",
+          "order": 1,
+          "songId": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+          "title": "Here I Go Again",
+          "artist": "Whitesnake",
+          "durationSec": 349
+        },
+        {
+          "id": "8465a5e9-459a-49cc-9e80-351757d2c8a1",
+          "type": "section",
+          "order": 2,
+          "title": "Set 2"
+        },
+        {
+          "id": "a8375a3d-1679-4f1a-83f6-eaf664fedafb",
+          "type": "song",
+          "order": 3,
+          "songId": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
+          "title": "Black Night",
+          "artist": "Deep Purple",
+          "durationSec": 288
+        },
+        {
+          "id": "60598e89-2509-456e-9b62-e03caf540c2f",
+          "type": "song",
+          "order": 4,
+          "songId": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
+          "title": "Don���t Break My Heart Again",
+          "artist": "Whitesnake",
+          "durationSec": 243
+        },
+        {
+          "id": "63bf69d7-726d-4be7-b426-d1dca7fdcc57",
+          "type": "song",
+          "order": 5,
+          "songId": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
+          "title": "Holy Diver",
+          "artist": "Dio",
+          "durationSec": 352
+        },
+        {
+          "id": "289159df-b33a-4825-88eb-df6cc946f426",
+          "type": "song",
+          "order": 6,
+          "songId": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
+          "title": "Smoke on the Water",
+          "artist": "Deep Purple",
+          "durationSec": 341
+        },
+        {
+          "id": "4db1d012-63fd-4944-9f2b-9fa37aabbd9b",
+          "type": "section",
+          "order": 7,
+          "title": "Encore"
+        }
+      ],
+      "createdAt": "2025-10-29T13:32:07.849Z",
+      "updatedAt": "2025-10-29T13:32:44.569Z",
+      "public": false,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": false,
+      "showLiveClock": false
+    },
+    {
+      "id": "5c618558-1943-428f-974b-728d894b342e",
+      "projectId": "e6e492c1-546c-47d8-b249-4bd9aa68af01",
+      "name": "bedlam",
+      "showArtist": false,
+      "showKey": false,
+      "showTransposedKey": false,
+      "addGapAfterEachSong": true,
+      "items": [
+        {
+          "id": "c15faff7-4036-422e-baad-c4e4dbf7a364",
+          "type": "section",
+          "order": 0,
+          "title": "Set 1"
+        },
+        {
+          "id": "f3f0b644-e130-4df7-8115-cb1d96223534",
+          "type": "song",
+          "order": 1,
+          "songId": "8aa4ba5c-04ed-4d22-b296-a42b624caa55",
+          "title": "Jailbreak",
+          "artist": "Thin Lizzy",
+          "durationSec": 241
+        },
+        {
+          "id": "c2bcb94d-b232-4a43-8515-89cf08738455",
+          "type": "song",
+          "order": 2,
+          "songId": "341667bc-f05a-4d35-bf80-be4261b9c975",
+          "title": "Born to Be Wild",
+          "artist": "Steppenwolf",
+          "durationSec": 209
+        },
+        {
+          "id": "0b904647-ca9a-43d5-ab65-f3c4b3a69d3c",
+          "type": "song",
+          "order": 3,
+          "songId": "d7416bf3-1ea6-49c3-b9cd-6bed2afd1eb9",
+          "title": "Wishing Well",
+          "artist": "Free",
+          "durationSec": 217
+        },
+        {
+          "id": "2af8664b-b23e-438c-9169-1ddcc1bdce44",
+          "type": "song",
+          "order": 4,
+          "songId": "3555b9cc-ca13-4dee-872b-b0446f970365",
+          "title": "Eye of the Tiger",
+          "artist": "Survivor",
+          "durationSec": 245
+        },
+        {
+          "id": "693b89ce-950d-4512-9ee6-0a45508eeeaa",
+          "type": "song",
+          "order": 5,
+          "songId": "751eebd7-34f8-455f-b86d-0f99d2f77b3c",
+          "title": "We're Not Gonna Take It",
+          "artist": "Twisted Sister",
+          "durationSec": 220
+        },
+        {
+          "id": "029c997d-7eca-4958-810d-e417778b0f25",
+          "type": "song",
+          "order": 6,
+          "songId": "893a4681-7a20-4d82-98e1-de4746a70df8",
+          "title": "Summer of ���69",
+          "artist": "Bryan Adams",
+          "durationSec": 212
+        },
+        {
+          "id": "cc12e973-c322-4914-8f32-33f57abc3769",
+          "type": "song",
+          "order": 7,
+          "songId": "1fbee13d-480e-4250-949e-86bd925bd7f5",
+          "title": "Living After Midnight",
+          "artist": "Judas Priest",
+          "durationSec": 285
+        },
+        {
+          "id": "fc02dac7-dc97-42c9-b9c2-f28ccefd48bc",
+          "type": "song",
+          "order": 8,
+          "songId": "1d29ac25-55e9-4bc8-943f-dfc54e70f672",
+          "title": "Paranoid",
+          "artist": "Black Sabbath",
+          "durationSec": 270
+        },
+        {
+          "id": "6c721946-c4ed-4c93-b43b-a42f0b51e092",
+          "type": "song",
+          "order": 9,
+          "songId": "585a4975-6808-4d39-b5cd-20c6199fd851",
+          "title": "Run To The Hills",
+          "artist": "Iron Maiden",
+          "durationSec": 230
+        },
+        {
+          "id": "f2a817f8-bda5-44a0-8368-e408fe9b4034",
+          "type": "song",
+          "order": 10,
+          "songId": "d83a7561-7c96-4122-9352-d74882ae10a6",
+          "title": "Enter Sandman",
+          "artist": "Metallica",
+          "durationSec": 322
+        },
+        {
+          "id": "e380761e-a76f-494d-905c-f9ff596b1062",
+          "type": "song",
+          "order": 11,
+          "songId": "31b2f77b-6d01-430d-bd66-5c37988a644f",
+          "title": "Rock You Like a Hurricane",
+          "artist": "Scorpions",
+          "durationSec": 260
+        },
+        {
+          "id": "f1e90ab9-fa54-43b8-be56-b4acd0f5ffb5",
+          "type": "song",
+          "order": 12,
+          "songId": "ee6b3f52-c9a6-4f55-8465-9c07f47377f5",
+          "title": "Trouble",
+          "artist": "Gillan",
+          "durationSec": 185
+        },
+        {
+          "id": "80218e0c-a781-4e5e-b25b-4dd3d584bf89",
+          "type": "break",
+          "order": 13,
+          "title": "Break",
+          "durationSec": 1200
+        },
+        {
+          "id": "2807c989-61c5-440c-9ae7-044b778828b9",
+          "type": "section",
+          "order": 14,
+          "title": "Set 2"
+        },
+        {
+          "id": "e1ed59f7-ef36-494f-8d1e-17a3a3e22b5c",
+          "type": "song",
+          "order": 15,
+          "songId": "447bb521-ff6c-4afa-977b-fcc45aa3876c",
+          "title": "Don't Believe a Word (live, 2003 Monsters of Rock)",
+          "artist": "Gary Moore",
+          "durationSec": 436
+        },
+        {
+          "id": "859162a5-5b91-4455-a874-55bb375c801d",
+          "type": "song",
+          "order": 16,
+          "songId": "8b6f60c9-6019-4f22-941c-b359034a0044",
+          "title": "Whiskey in the Jar",
+          "artist": "Metallica",
+          "durationSec": 328
+        },
+        {
+          "id": "1d2f3f89-4734-4a7c-a040-74fc6e332a73",
+          "type": "song",
+          "order": 17,
+          "songId": "dd7a503b-768c-46dc-99ba-dbbcb30d770c",
+          "title": "Waiting for an Alibi",
+          "artist": "Thin Lizzy",
+          "durationSec": 210
+        },
+        {
+          "id": "fc0dc76a-3dc4-4162-b81e-92b9bc095c7e",
+          "type": "song",
+          "order": 18,
+          "songId": "2e46aa05-0b06-4203-b333-e9bf2ae22354",
+          "title": "You Give Love a Bad Name",
+          "artist": "Bon Jovi",
+          "durationSec": 223
+        },
+        {
+          "id": "bec52139-2465-4e24-b36b-8bef523f2b69",
+          "type": "song",
+          "order": 19,
+          "songId": "64c78433-6318-4e03-85ab-66adb1a02cd1",
+          "title": "It���s My Life",
+          "artist": "Bon Jovi",
+          "durationSec": 224
+        },
+        {
+          "id": "df5814a4-19f5-4c2b-8a40-fb455f799d12",
+          "type": "song",
+          "order": 20,
+          "songId": "83d55c93-458b-46e2-80ef-821dc49732f5",
+          "title": "Love Gun",
+          "artist": "KISS",
+          "durationSec": 282
+        },
+        {
+          "id": "f74e9614-1633-41a2-992e-f1481deb3af0",
+          "type": "song",
+          "order": 21,
+          "songId": "f3288c07-df3e-4443-8205-6c7e421c1f73",
+          "title": "Crazy Train",
+          "artist": "Ozzy Osbourne",
+          "durationSec": 290
+        },
+        {
+          "id": "537bd075-ca7e-4e1d-b8d0-ba9c0edb48c4",
+          "type": "song",
+          "order": 22,
+          "songId": "5932fa9d-8ffb-4a22-8e22-846449c0e18f",
+          "title": "Whole Lotta Rosie",
+          "artist": "AC/DC",
+          "durationSec": 271
+        },
+        {
+          "id": "3d6bed1a-6847-402e-a50a-24c74949b992",
+          "type": "song",
+          "order": 23,
+          "songId": "e211ac5a-a24e-490d-85ec-55aae14d2fbd",
+          "title": "Whatever You Want",
+          "artist": "Status Quo",
+          "durationSec": 274
+        },
+        {
+          "id": "319c5d4a-69d8-44c1-9ed2-306e08e601a2",
+          "type": "song",
+          "order": 24,
+          "songId": "e2563c03-ee50-4191-a5fc-5b12e5d57443",
+          "title": "I Believe in a Thing Called Love",
+          "artist": "The Darkness",
+          "durationSec": 217
+        },
+        {
+          "id": "2690d06d-d0c1-4e16-a23d-d1ab0a669f20",
+          "type": "song",
+          "order": 25,
+          "songId": "5fad799a-1c6e-4eb4-8e64-6921052c24ff",
+          "title": "Breaking the Law",
+          "artist": "Judas Priest",
+          "durationSec": 160
+        },
+        {
+          "id": "06fb921e-c900-4f80-a97e-9dce5793f2b2",
+          "type": "song",
+          "order": 26,
+          "songId": "687c0020-e81d-488f-bb45-73b9f7ccc4e5",
+          "title": "Tie Your Mother Down",
+          "artist": "Queen",
+          "durationSec": 227
+        },
+        {
+          "id": "0bff2a5b-e87b-4fbd-8254-81e6e6377363",
+          "type": "break",
+          "order": 27,
+          "title": "Break",
+          "durationSec": 120
+        },
+        {
+          "id": "2af5ff39-5d5a-4763-8a44-c0df7a8c5eff",
+          "type": "section",
+          "order": 28,
+          "title": "Encore"
+        },
+        {
+          "id": "a34cc52c-b869-47a1-81c0-b020d034a2dc",
+          "type": "song",
+          "order": 29,
+          "songId": "ba43acd1-b7e0-40e0-b06f-57ee32a1f012",
+          "title": "The Trooper",
+          "artist": "Iron Maiden",
+          "durationSec": 252
+        },
+        {
+          "id": "b71e07bb-fb63-471b-be98-bd59aaf0a0db",
+          "type": "song",
+          "order": 30,
+          "songId": "65b43906-29ea-4331-9bb5-908d89ebaa24",
+          "title": "Don���t Stop Believin���",
+          "artist": "Journey",
+          "durationSec": 283
+        },
+        {
+          "id": "0284e0bf-2d8a-45eb-8f5c-7f0be4796931",
+          "type": "song",
+          "order": 31,
+          "songId": "97280db7-8f6b-4b36-8394-d2b43b3eb0bb",
+          "title": "Highway to Hell",
+          "artist": "AC/DC",
+          "durationSec": 206
+        }
+      ],
+      "createdAt": "2025-11-15T03:06:00.200Z",
+      "updatedAt": "2025-11-17T06:36:24.058Z",
+      "public": true,
+      "showNotesAfterLyrics": false,
+      "showColourFlip": false,
+      "showWhatWhere": true,
+      "showLiveClock": true,
+      "date": "2025-11-21",
+      "venue": "junction - otley",
+      "songGapSec": 20
+    }
+  ],
+  "invites": [
+    {
+      "id": "1ce0440e-9373-4698-9807-926155baee21",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "email": "rob_b_paul@hotmail.com",
+      "token": "78d6d202-be1b-435a-87d0-3abc7e3567a4",
+      "status": "accepted",
+      "invitedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-26T01:52:44.848Z",
+      "updatedAt": "2025-10-26T01:52:53.389Z",
+      "role": "bandMember"
+    },
+    {
+      "id": "6128b5df-170f-4b8b-ade6-7e5602e56a0a",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "email": "rob_b_paul@hotmail.com",
+      "token": "20ec1a12-565e-446d-9d37-f130d3a182fd",
+      "status": "accepted",
+      "invitedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:20:55.265Z",
+      "updatedAt": "2025-10-28T07:43:41.318Z",
+      "role": "bandMember"
+    },
+    {
+      "id": "fcc37528-6ded-4443-bba3-5ddbe6aa56ce",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "email": "rob_b_paul@hotmail.com",
+      "token": "3813910d-3831-42d4-b7ac-38bb762f0966",
+      "status": "accepted",
+      "invitedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:36:55.315Z",
+      "updatedAt": "2025-10-28T07:43:42.876Z",
+      "role": "bandMember"
+    },
+    {
+      "id": "0fc81bec-cd88-4aa9-a7c6-9806ef02332f",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "email": "rob_b_paul@hotmail.com",
+      "token": "17eebf9c-3729-454a-a421-dd1cb0fc56dd",
+      "status": "accepted",
+      "invitedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:43:29.340Z",
+      "updatedAt": "2025-10-28T07:43:43.958Z",
+      "role": "bandMember"
+    }
+  ],
+  "settings": {
+    "defaultSongGapSec": 30,
+    "enrichmentMode": "stub",
+    "enrichOnImport": false
+  },
+  "projectMembers": [
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "instruments": ["Electric Guitar"],
+      "role": "bandMember"
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "userId": "b6MG0Wi796bpR5h30xF09mIZy642",
+      "instruments": ["Drums"]
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "instruments": ["Vocals", "Bass Guitar", "Electric Guitar"]
+    }
+  ],
+  "projectPractice": [
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "329708e7-5cb9-4d69-be42-4d6ba4192599",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 3,
+      "rating": 4
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "fa8bf40d-a763-4640-89d7-bbf0fb800bde",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 1
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "ac3922c6-7fcf-47de-a8aa-e8d337a4622a",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 1
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "2e9eec3d-1f82-4736-af13-fa8ab7c15ea2",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 1
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "74ab66d0-3cfd-4780-808a-62ca0716aa9c",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 1,
+      "rating": 1
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "b4c4480d-7817-4b35-84c6-f1c4c4dc46cf",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 2,
+      "rating": 2
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 8,
+      "rating": 3,
+      "lastRehearsed": "2020-01-01"
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 5,
+      "rating": 0,
+      "lastRehearsed": "2025-10-01"
+    },
+    {
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "songId": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 3,
+      "rating": 0,
+      "lastRehearsed": "2025-09-20"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "bce97843-c66d-498f-af4c-dd9ec3fda9fe",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 3,
+      "lastRehearsed": "2025-11-17"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "b81f8daf-dc01-4e6f-bc96-8682df770a0c",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 4,
+      "lastRehearsed": "2025-10-29"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 4,
+      "lastRehearsed": "2025-11-17"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "46071d93-22a8-41e3-b45e-e41efdf76751",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 4,
+      "lastRehearsed": "2025-11-17"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "0d4411e3-6e99-42fe-baf1-0cd8dd3e0376",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 3,
+      "lastRehearsed": "2025-10-29"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "40fb96e8-2f14-47fb-97fd-ae2a37b4cf5d",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 4,
+      "lastRehearsed": "2025-11-17"
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "56649a8f-5c7d-488b-b101-8df07daeb64b",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 3
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "9693e6bf-ff56-4812-bd3e-77f822eed8e8",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 5
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "f2c325f6-a4c5-4a1d-812e-6dfc55086eac",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 2
+    },
+    {
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "songId": "2812d149-7093-40a1-9e43-c86be064bb4f",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 3
+    }
+  ],
+  "repertoireSongs": [
+    {
+      "id": "aff926dd-92a4-4916-b112-124a35eb8613",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Born in the U.S.A.",
+      "artist": "Bruce Springsteen",
+      "durationSec": 492,
+      "mbid": "04bcaa21-3b4e-4d55-8f05-b741ae3286f8",
+      "url": "https://open.spotify.com/track/0dOg1ySSI7NkpAe89Zo0b9",
+      "createdAt": "2025-10-25T02:47:28.305Z",
+      "updatedAt": "2025-10-25T02:47:28.305Z"
+    },
+    {
+      "id": "527d8978-5f01-4399-9eac-a1e77ed2d8dc",
+      "userId": "b6MG0Wi796bpR5h30xF09mIZy642",
+      "title": "Stairway",
+      "artist": "Mark Lockheart",
+      "durationSec": 111,
+      "mbid": "80b54360-4099-4ab9-92a9-60168f468039",
+      "createdAt": "2025-10-28T07:22:29.584Z",
+      "updatedAt": "2025-10-28T07:22:29.584Z"
+    },
+    {
+      "id": "5a447b2b-0950-4aad-b26b-e5d31c3ecfed",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Too Young to Die, Too Drunk to Live",
+      "artist": "Alcatrazz",
+      "durationSec": 261,
+      "mbid": "371876ac-ab3d-4459-a5a2-56ad0070ed7b",
+      "isrc": "GBHQK0803576",
+      "url": "https://open.spotify.com/track/7ID1s1zlUvISaj7fmaXtW4",
+      "createdAt": "2025-10-29T05:05:56.967Z",
+      "updatedAt": "2025-10-29T05:05:56.967Z"
+    },
+    {
+      "id": "cd356510-eb9e-47ba-aa8f-755922e33f00",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Don���t Break My Heart Again",
+      "artist": "Whitesnake",
+      "durationSec": 243,
+      "mbid": "d9bcd7c4-a1d4-4362-ae05-763e7382dceb",
+      "isrc": "GB01A1100187",
+      "url": "https://open.spotify.com/track/0ncf2ieRSLMJk5F6K3EFCD",
+      "createdAt": "2025-10-29T08:09:03.269Z",
+      "updatedAt": "2025-10-29T08:09:03.269Z"
+    },
+    {
+      "id": "2442620d-e153-44a5-b61a-3023743ea95f",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Would I Lie to You",
+      "artist": "Whitesnake",
+      "durationSec": 269,
+      "mbid": "ed10eb09-c59e-4454-8604-436899654bc0",
+      "isrc": "GB01A8100007",
+      "url": "https://open.spotify.com/track/06yvn5UIUOMhcVbxPXEv4E",
+      "createdAt": "2025-10-29T08:09:29.831Z",
+      "updatedAt": "2025-10-29T08:09:29.831Z"
+    },
+    {
+      "id": "2bbee27a-f108-43c2-8275-411644d24acf",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Might Just Take Your Life",
+      "artist": "Deep Purple",
+      "durationSec": 279,
+      "mbid": "ad528c07-ae9f-4600-8f97-338a411c0afc",
+      "isrc": "CDDXG0400002",
+      "url": "https://open.spotify.com/track/2CCabtrP0Y8JNYuV0mo8w8",
+      "createdAt": "2025-10-29T08:10:02.823Z",
+      "updatedAt": "2025-10-29T08:10:02.823Z"
+    },
+    {
+      "id": "e00e46ba-58bb-48ae-acb1-b176bd55860a",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Smoke on the Water",
+      "artist": "Deep Purple",
+      "durationSec": 341,
+      "mbid": "ee8a3d90-656a-45a2-af38-a14ec40a76e7",
+      "url": "https://open.spotify.com/track/5MMnwYs0hIxkENRsbkWJ2G",
+      "createdAt": "2025-10-29T08:10:33.110Z",
+      "updatedAt": "2025-10-29T08:10:33.110Z"
+    },
+    {
+      "id": "5a65a673-c855-4846-b017-254880db7822",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Highway Star",
+      "artist": "Deep Purple",
+      "durationSec": 370,
+      "mbid": "ef4b4163-adc5-4165-9b14-c7dd378e61c2",
+      "isrc": "USRH12302687",
+      "url": "https://open.spotify.com/track/79iqhAauL0vjOXtZvf0Hy5",
+      "createdAt": "2025-10-29T08:10:49.147Z",
+      "updatedAt": "2025-10-29T08:10:49.147Z"
+    },
+    {
+      "id": "38d886db-fbca-4b8c-9b7a-36ea206ba325",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Black Night",
+      "artist": "Deep Purple",
+      "durationSec": 288,
+      "mbid": "6a99ce01-1ac0-4ae0-9997-0a8ede605f7b",
+      "url": "https://open.spotify.com/track/1E7oNnsJH79DxtvEDNjIU4",
+      "createdAt": "2025-10-29T08:11:22.408Z",
+      "updatedAt": "2025-10-29T08:11:22.408Z"
+    },
+    {
+      "id": "84d02144-11f3-4246-9bf1-4321caf675a4",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Holy Diver",
+      "artist": "Dio",
+      "durationSec": 352,
+      "mbid": "10e39239-3150-42d1-bd71-6b8e6a1c2e16",
+      "url": "https://open.spotify.com/track/54yLLvpezvPO1lA3GspiZj",
+      "createdAt": "2025-10-29T08:11:39.190Z",
+      "updatedAt": "2025-10-29T08:11:39.190Z"
+    },
+    {
+      "id": "b1325e03-2ee3-4a1b-a0a5-4a8b84c3960f",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "It���s My Life",
+      "artist": "Bon Jovi",
+      "durationSec": 224,
+      "mbid": "0afa4f4a-af47-4efc-82c4-e71a94c2fbf6",
+      "isrc": "GBCAD1300444",
+      "url": "https://open.spotify.com/track/3XLe0P5j4hT5rKYnSNXAP0",
+      "createdAt": "2025-10-29T08:11:58.650Z",
+      "updatedAt": "2025-10-29T08:11:58.650Z"
+    },
+    {
+      "id": "46fa11fb-6132-4502-8e8b-dd298aea6c11",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "You Give Love a Bad Name",
+      "artist": "Bon Jovi",
+      "durationSec": 235,
+      "mbid": "f66a8576-9047-47c5-b5b2-52afe1ed154c",
+      "url": "https://open.spotify.com/track/6rCHGKyJNcAeN00ivrbpy8",
+      "createdAt": "2025-10-29T08:12:13.464Z",
+      "updatedAt": "2025-10-29T08:12:13.464Z"
+    },
+    {
+      "id": "466b7331-44b0-4b19-b7ca-f312128f4a1a",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Love, Love, Love, Love, Love",
+      "artist": "The Music Explosion",
+      "durationSec": 164,
+      "mbid": "ad0c8544-b033-4cdc-863b-a33bb8cc178c",
+      "url": "https://open.spotify.com/track/6EIq4LyoFOsxGmo3Xe8wqG",
+      "createdAt": "2025-10-29T08:30:46.437Z",
+      "updatedAt": "2025-10-29T08:30:46.437Z"
+    },
+    {
+      "id": "b1c3557c-e881-436c-8c70-f348b83f90ac",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Innocent Eyes (The Luge mix)",
+      "artist": "Delta Goodrem",
+      "durationSec": 309,
+      "mbid": "607ae069-73a1-4376-8d3d-dc03a3f415c7",
+      "url": "https://open.spotify.com/track/4UQRviMnocSSvfnoFlJcqm",
+      "createdAt": "2025-10-29T13:29:32.539Z",
+      "updatedAt": "2025-10-29T13:29:32.539Z"
+    },
+    {
+      "id": "3005244f-165f-42fe-9fdc-4bb461b0d7e7",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Long Live Rock ���n��� Roll",
+      "artist": "Rainbow",
+      "durationSec": 261,
+      "mbid": "ece30374-2a26-4f67-a2de-cbc243ac2f80",
+      "url": "https://open.spotify.com/track/2lRhq1ZfHNiaVNHkTWeXUv",
+      "createdAt": "2025-10-30T00:36:23.692Z",
+      "updatedAt": "2025-10-30T00:36:23.692Z"
+    },
+    {
+      "id": "a4eee9b5-c218-4d0a-8799-eb2ea0ca7b43",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Meant for You",
+      "artist": "The Beach Boys",
+      "durationSec": 41,
+      "mbid": "1a3a3518-dd33-4044-aa92-1d98eef05216",
+      "url": "https://open.spotify.com/track/2h5cpnAVMC4kOOLF7NqmIr",
+      "createdAt": "2025-10-30T10:35:47.368Z",
+      "updatedAt": "2025-10-30T10:35:47.368Z"
+    },
+    {
+      "id": "f0ca1516-ed49-4971-a117-eb4e6af45cab",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Thunderstruck",
+      "artist": "AC/DC",
+      "durationSec": 293,
+      "mbid": "73c66ee8-d3ed-428c-a5dd-47d4a52b56a2",
+      "createdAt": "2025-11-15T02:39:55.539Z",
+      "updatedAt": "2025-11-15T02:39:55.539Z"
+    },
+    {
+      "id": "71db1ad4-2c38-4baa-84f7-35e93fb7de31",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Whole Lotta Rosie",
+      "artist": "AC/DC",
+      "durationSec": 271,
+      "mbid": "808113b9-2769-4917-9030-4e970ad1a867",
+      "isrc": "AUAP09200030",
+      "createdAt": "2025-11-15T02:40:21.358Z",
+      "updatedAt": "2025-11-15T02:40:21.358Z"
+    },
+    {
+      "id": "f2904149-172b-4989-a729-e668765a1b20",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Highway to Hell",
+      "artist": "AC/DC",
+      "durationSec": 206,
+      "mbid": "0016cdf1-eda9-42f5-98c1-9c6b632b4144",
+      "createdAt": "2025-11-15T02:41:05.419Z",
+      "updatedAt": "2025-11-15T02:41:05.419Z"
+    },
+    {
+      "id": "cd7c9cdb-be45-439a-9b74-f86aa7a02acd",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Summer of ���69",
+      "artist": "Bryan Adams",
+      "durationSec": 212,
+      "mbid": "c80d0c5a-2075-494c-b86c-58396be9e37d",
+      "createdAt": "2025-11-15T02:41:29.714Z",
+      "updatedAt": "2025-11-15T02:41:29.714Z"
+    },
+    {
+      "id": "db916ede-7ceb-4d52-b0a3-d6e1f269e141",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Breaking the Law",
+      "artist": "Judas Priest",
+      "durationSec": 160,
+      "mbid": "319a1ab7-cfad-454b-a4c5-beeb3baf81cb",
+      "createdAt": "2025-11-15T02:41:53.357Z",
+      "updatedAt": "2025-11-15T02:41:53.357Z"
+    },
+    {
+      "id": "d01f2c20-e017-4c98-bb5a-e48f687ba04d",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "The Trooper",
+      "artist": "Iron Maiden",
+      "durationSec": 252,
+      "mbid": "8f13d546-0cc6-4d8b-8d3a-27805f3ca264",
+      "isrc": "GBCHB1500031",
+      "createdAt": "2025-11-15T02:42:11.261Z",
+      "updatedAt": "2025-11-15T02:42:11.261Z"
+    },
+    {
+      "id": "bad3ab62-8689-4c05-b820-fec6f21bbc1e",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Eye of the Tiger",
+      "artist": "Survivor",
+      "durationSec": 245,
+      "mbid": "25da6d6f-5960-4176-b7c5-885b0b9edfcf",
+      "isrc": "USVR10400292",
+      "createdAt": "2025-11-15T02:42:46.464Z",
+      "updatedAt": "2025-11-15T02:42:46.464Z"
+    },
+    {
+      "id": "3a03da10-ea76-4013-a85d-afd8619636d9",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Whatever You Want",
+      "artist": "Status Quo",
+      "durationSec": 274,
+      "mbid": "ed3a4700-daf4-485c-9a66-6b6725a04669",
+      "createdAt": "2025-11-15T02:43:03.642Z",
+      "updatedAt": "2025-11-15T02:43:03.642Z"
+    },
+    {
+      "id": "a3e513b5-66bb-4182-9708-2377684417f7",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Rockin' All Over the World",
+      "artist": "Status Quo",
+      "durationSec": 236,
+      "mbid": "fc3e6e69-1153-4c77-9c4b-920dbb0175e6",
+      "createdAt": "2025-11-15T02:43:15.281Z",
+      "updatedAt": "2025-11-15T02:43:15.281Z"
+    },
+    {
+      "id": "59d0f5b8-6264-44d7-a02a-f9d1b51d223d",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "I Believe in a Thing Called Love",
+      "artist": "The Darkness",
+      "durationSec": 217,
+      "mbid": "2afe5070-b737-4b24-85d2-ea4cafbfbbaa",
+      "isrc": "GBAHS0300702",
+      "createdAt": "2025-11-15T02:43:44.041Z",
+      "updatedAt": "2025-11-15T02:43:44.041Z"
+    },
+    {
+      "id": "69fae357-c19d-40fe-a360-81f92af2f265",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Jailbreak",
+      "artist": "Thin Lizzy",
+      "durationSec": 241,
+      "mbid": "338eb089-85ae-4c50-afb4-99ecf914ac2a",
+      "createdAt": "2025-11-15T02:44:09.149Z",
+      "updatedAt": "2025-11-15T02:44:09.149Z"
+    },
+    {
+      "id": "f7e88ffa-83f4-45fe-8789-7c6b5e0ae59e",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Don't Believe a Word (live, 2003 Monsters of Rock)",
+      "artist": "Gary Moore",
+      "durationSec": 436,
+      "mbid": "4f9808a4-ab30-4c08-8a2d-c8eca3acfc6a",
+      "createdAt": "2025-11-15T02:44:50.802Z",
+      "updatedAt": "2025-11-15T02:44:50.802Z"
+    },
+    {
+      "id": "751ba492-e8c8-4989-ab00-d7475679b51d",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Wishing Well",
+      "artist": "Free",
+      "durationSec": 217,
+      "mbid": "1a3081c9-5575-4246-bf35-3f23b477b620",
+      "createdAt": "2025-11-15T02:45:20.458Z",
+      "updatedAt": "2025-11-15T02:45:20.458Z"
+    },
+    {
+      "id": "6a4078a3-8ae9-4ca8-892d-627adac6ab35",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Love Gun",
+      "artist": "KISS",
+      "durationSec": 282,
+      "mbid": "d4a3d387-05a4-4338-8d93-4039284256c1",
+      "createdAt": "2025-11-15T02:45:38.016Z",
+      "updatedAt": "2025-11-15T02:45:38.016Z"
+    },
+    {
+      "id": "a13ddd0b-0d16-4284-9fd4-5b5a7947b26f",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Crazy Train",
+      "artist": "Ozzy Osbourne",
+      "durationSec": 290,
+      "mbid": "fa6901b2-adcf-46ed-89d1-849a17d91cf4",
+      "isrc": "USSM10204723",
+      "createdAt": "2025-11-15T02:46:16.967Z",
+      "updatedAt": "2025-11-15T02:46:16.967Z"
+    },
+    {
+      "id": "4802a3cd-ee2e-4c77-87ca-79648ce36dd0",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Enter Sandman",
+      "artist": "Metallica",
+      "durationSec": 322,
+      "mbid": "c0389c14-0a15-47e6-b602-c1fd37789753",
+      "createdAt": "2025-11-15T02:48:35.559Z",
+      "updatedAt": "2025-11-15T02:48:35.559Z"
+    },
+    {
+      "id": "1e6b5981-80b3-4003-9458-11436d76c98a",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Waiting for an Alibi",
+      "artist": "Thin Lizzy",
+      "durationSec": 210,
+      "mbid": "1a990ee8-3229-4ebd-9307-64888649c064",
+      "isrc": "USWB10503411",
+      "createdAt": "2025-11-15T02:53:48.416Z",
+      "updatedAt": "2025-11-15T02:53:48.416Z"
+    },
+    {
+      "id": "7defd5c7-7d45-4204-b66c-b335cb682aff",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "You Give Love a Bad Name",
+      "artist": "Bon Jovi",
+      "durationSec": 223,
+      "mbid": "f8eac915-a9c7-4573-bdbc-0f3dc4c1b427",
+      "createdAt": "2025-11-15T02:54:02.107Z",
+      "updatedAt": "2025-11-15T02:54:02.107Z"
+    },
+    {
+      "id": "7b980b5e-fa0f-4d8e-86af-4a43ae93ef91",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "It���s My Life",
+      "artist": "Bon Jovi",
+      "durationSec": 224,
+      "mbid": "0afa4f4a-af47-4efc-82c4-e71a94c2fbf6",
+      "isrc": "GBCAD1300444",
+      "createdAt": "2025-11-15T02:54:14.445Z",
+      "updatedAt": "2025-11-15T02:54:14.445Z"
+    },
+    {
+      "id": "72a5d10f-df1a-426f-aa3d-24aec8c08d9d",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Born to Be Wild",
+      "artist": "Steppenwolf",
+      "durationSec": 209,
+      "mbid": "42d57332-5798-4171-83ce-c9c5ce759c3b",
+      "isrc": "USMC10400120",
+      "createdAt": "2025-11-15T02:54:35.496Z",
+      "updatedAt": "2025-11-15T02:54:35.496Z"
+    },
+    {
+      "id": "ec803051-7b82-4d6b-91bc-edd1f9164528",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "We Are the Champions",
+      "artist": "Queen",
+      "durationSec": 189,
+      "mbid": "8d059246-e827-4515-8d17-faee99cbcbae",
+      "createdAt": "2025-11-15T02:54:54.796Z",
+      "updatedAt": "2025-11-15T02:54:54.796Z"
+    },
+    {
+      "id": "9e4bd3aa-b34e-4f0b-9a53-35df93c45e63",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Can't Get Enough",
+      "artist": "Bad Company",
+      "durationSec": 200,
+      "mbid": "de84926d-397e-4dec-98bd-839cce8a1741",
+      "createdAt": "2025-11-15T02:55:18.413Z",
+      "updatedAt": "2025-11-15T02:55:18.413Z"
+    },
+    {
+      "id": "5ee3cd57-90a4-4fff-a247-d7fa5d1baeee",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Mama Weer All Crazee Now",
+      "artist": "Slade",
+      "durationSec": 224,
+      "mbid": "2f940a10-e72a-4872-af8a-b2a76eb6dba1",
+      "isrc": "GBAKW7201003",
+      "createdAt": "2025-11-15T02:55:34.169Z",
+      "updatedAt": "2025-11-15T02:55:34.169Z"
+    },
+    {
+      "id": "8522537c-264a-4d54-a59c-46e08a9b5351",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Final Countdown",
+      "artist": "Europe",
+      "durationSec": 268,
+      "mbid": "e16cee41-bf7e-48cf-a963-09a4060845a0",
+      "createdAt": "2025-11-15T02:56:16.870Z",
+      "updatedAt": "2025-11-15T02:56:16.870Z"
+    },
+    {
+      "id": "a20099f6-ecdd-4374-b8c5-347a3472d37a",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Here I Go Again",
+      "artist": "Whitesnake",
+      "durationSec": 349,
+      "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
+      "createdAt": "2025-11-15T02:56:35.867Z",
+      "updatedAt": "2025-11-15T02:56:35.867Z"
+    },
+    {
+      "id": "4e5132b7-0d31-4970-8ea7-3b24f83316de",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Hot Blooded",
+      "artist": "Foreigner",
+      "durationSec": 266,
+      "mbid": "df6b8ca0-a256-4f30-b518-3bb168e81770",
+      "isrc": "USAT20610557",
+      "createdAt": "2025-11-15T02:56:53.293Z",
+      "updatedAt": "2025-11-15T02:56:53.293Z"
+    },
+    {
+      "id": "046b8129-720e-411a-88a9-6a2e95aa74e9",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Rock You Like a Hurricane",
+      "artist": "Scorpions",
+      "durationSec": 260,
+      "mbid": "026febac-1530-4949-80b6-d59a746c0ba5",
+      "isrc": "DELV41501106",
+      "createdAt": "2025-11-15T02:57:20.917Z",
+      "updatedAt": "2025-11-15T02:57:20.917Z"
+    },
+    {
+      "id": "d67a9763-5d10-4966-963a-7e81d0ccaf26",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "I Love Rock and Roll - Live",
+      "artist": "Joan Jett & the Blackhearts",
+      "durationSec": 173,
+      "mbid": "452c0c04-e3d0-42cd-a12c-7e3ed77de4a5",
+      "createdAt": "2025-11-15T02:58:28.060Z",
+      "updatedAt": "2025-11-15T02:58:28.060Z"
+    },
+    {
+      "id": "fa0c3587-1c52-44cb-9ef3-6cc14e9632e1",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Living After Midnight",
+      "artist": "Judas Priest",
+      "durationSec": 285,
+      "mbid": "b7c601af-ddd1-4aba-9196-1933038b3999",
+      "isrc": "GBBBN8700024",
+      "createdAt": "2025-11-15T02:58:46.363Z",
+      "updatedAt": "2025-11-15T02:58:46.363Z"
+    },
+    {
+      "id": "368089c1-e462-403d-9891-78b8715ddb84",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Paranoid",
+      "artist": "Black Sabbath",
+      "durationSec": 270,
+      "mbid": "10d191bb-c7c6-45ff-842c-21d725f14059",
+      "isrc": "USSM19704475",
+      "createdAt": "2025-11-15T02:59:13.328Z",
+      "updatedAt": "2025-11-15T02:59:13.328Z"
+    },
+    {
+      "id": "93e0e20e-76bc-4e38-b8c5-36501b66378a",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Tie Your Mother Down",
+      "artist": "Queen",
+      "durationSec": 227,
+      "mbid": "697f5fb7-b3f1-47e0-a454-62f449a24ab7",
+      "createdAt": "2025-11-15T02:59:32.492Z",
+      "updatedAt": "2025-11-15T02:59:32.492Z"
+    },
+    {
+      "id": "b293012d-e5ed-4c8a-85cd-639b393c669d",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Smoke on the Water",
+      "artist": "Deep Purple",
+      "durationSec": 304,
+      "mbid": "e357cfed-e8c9-4936-a453-2a21e3cad1fa",
+      "createdAt": "2025-11-15T02:59:59.030Z",
+      "updatedAt": "2025-11-15T02:59:59.030Z"
+    },
+    {
+      "id": "61dc3b94-a716-4a62-af8b-ce3eee1cd8a6",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Black Night",
+      "artist": "Deep Purple",
+      "durationSec": 190,
+      "mbid": "1603a116-6a3f-491a-a735-eab4f86f2115",
+      "createdAt": "2025-11-15T03:00:13.614Z",
+      "updatedAt": "2025-11-15T03:00:13.614Z"
+    },
+    {
+      "id": "cbd01333-ed3b-4c95-a353-9ac2a9ad3715",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Teenage Kicks",
+      "artist": "The Undertones",
+      "durationSec": 146,
+      "mbid": "fb591523-6e6c-464e-a416-7ecd0a2af967",
+      "isrc": "GBAJE7800192",
+      "createdAt": "2025-11-15T03:01:28.298Z",
+      "updatedAt": "2025-11-15T03:01:28.298Z"
+    },
+    {
+      "id": "bcb188b1-4fd0-48c6-a62e-dd96a77132a2",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Trouble",
+      "artist": "Gillan",
+      "durationSec": 185,
+      "mbid": "6264a0a5-1bec-49e5-80fd-8d5623fb787f",
+      "createdAt": "2025-11-15T03:01:41.837Z",
+      "updatedAt": "2025-11-15T03:01:41.837Z"
+    },
+    {
+      "id": "3d3bb011-b550-471a-a478-b8fec2ee1260",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Whole Lotta Love",
+      "artist": "Led Zeppelin",
+      "durationSec": 185,
+      "mbid": "57b80964-da55-4c02-b69f-86165ec47972",
+      "createdAt": "2025-11-15T03:02:21.363Z",
+      "updatedAt": "2025-11-15T03:02:21.363Z"
+    },
+    {
+      "id": "32fa52dc-93ba-40e4-a332-9236ba32c01f",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "The Trooper",
+      "artist": "Iron Maiden",
+      "durationSec": 253,
+      "mbid": "ab5c6d1d-6c3f-4623-9f8c-8e84eb4d5313",
+      "createdAt": "2025-11-15T03:03:45.087Z",
+      "updatedAt": "2025-11-15T03:03:45.087Z"
+    },
+    {
+      "id": "ba435a00-000f-4828-8d36-7e9128f34b8f",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Run To The Hills",
+      "artist": "Iron Maiden",
+      "durationSec": 230,
+      "mbid": "5119d18a-6f7a-4867-8a7c-ccb7c1f3808e",
+      "createdAt": "2025-11-15T03:04:02.458Z",
+      "updatedAt": "2025-11-15T03:04:02.458Z"
+    },
+    {
+      "id": "f8f2f084-5281-442b-9da0-5bde5c8bedef",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "We're Not Gonna Take It",
+      "artist": "Twisted Sister",
+      "durationSec": 220,
+      "mbid": "81e6ef05-73e6-40e3-b61f-60edb456c746",
+      "isrc": "USRH12400698",
+      "createdAt": "2025-11-15T03:04:23.430Z",
+      "updatedAt": "2025-11-15T03:04:23.430Z"
+    },
+    {
+      "id": "e8eeb1d7-d0ae-46d4-8027-f175c1475677",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Don���t Stop Believin���",
+      "artist": "Journey",
+      "durationSec": 283,
+      "mbid": "d8524df6-d7b2-4ed2-8823-2df911c60b4f",
+      "createdAt": "2025-11-15T03:35:21.090Z",
+      "updatedAt": "2025-11-15T03:35:21.090Z"
+    },
+    {
+      "id": "0c0ae34c-3bb8-4a1e-8a12-7bc28ba8ff0a",
+      "userId": "lRrJ8G8TE8dLaZilyBI2EmRrwI52",
+      "title": "Whiskey in the Jar",
+      "artist": "Metallica",
+      "durationSec": 328,
+      "mbid": "7e9b2d03-b107-41e1-ae98-8e1b905965e8",
+      "createdAt": "2025-11-17T06:35:09.121Z",
+      "updatedAt": "2025-11-17T06:35:09.121Z"
+    },
+    {
+      "id": "778c2e15-b44e-453b-9d8d-c9f2db038d6a",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "title": "Here I Go Again",
+      "artist": "Whitesnake",
+      "durationSec": 349,
+      "mbid": "ba07fd0e-e512-4f82-a3ee-cda10d9c0eea",
+      "key": "Dm",
+      "tempo": 128,
+      "url": "https://open.spotify.com/track/1tQ5TSr1tyeQUbHKBee0jv",
+      "createdAt": "2025-10-29T08:13:22.448Z",
+      "updatedAt": "2025-10-29T08:19:54.937Z"
+    }
+  ],
+  "joinRequests": [],
+  "projectTodo": [
+    {
+      "id": "711af023-b8ae-4792-acd3-d74acd7e8286",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Born in the U.S.A.",
+      "artist": "Bruce Springsteen",
+      "durationSec": 492,
+      "mbid": "04bcaa21-3b4e-4d55-8f05-b741ae3286f8",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:17:09.615Z",
+      "votes": {
+        "b6MG0Wi796bpR5h30xF09mIZy642": "no"
+      }
+    },
+    {
+      "id": "cb9cbb8d-cd18-4393-bc89-6317ecb3e9fd",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Wheel in the Sky",
+      "artist": "Journey",
+      "durationSec": 212,
+      "mbid": "bea681de-5228-4b12-968e-3db163ea4c92",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-28T07:17:09.615Z",
+      "votes": {
+        "b6MG0Wi796bpR5h30xF09mIZy642": "yes"
+      }
+    },
+    {
+      "id": "293d5a18-f07a-412a-83a1-36aa377f7c3b",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Long Live Rock ���n��� Roll",
+      "artist": "Rainbow",
+      "durationSec": 261,
+      "mbid": "ece30374-2a26-4f67-a2de-cbc243ac2f80",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-30T00:39:52.530Z"
+    },
+    {
+      "id": "67267d6b-07fa-4597-84be-74ed55a7df98",
+      "projectId": "c2bf9c8e-3fdd-4fcb-9754-af2d17a7e356",
+      "title": "Alone",
+      "artist": "Heart",
+      "durationSec": 219,
+      "mbid": "d2c1d3fa-31ae-4fd1-b0be-daf95ee06d21",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-30T00:41:06.500Z"
+    },
+    {
+      "id": "a6875648-10eb-41f2-b859-9a59b09615fc",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Long Live Rock ���n��� Roll",
+      "artist": "Rainbow",
+      "durationSec": 214,
+      "mbid": "0e432594-e817-47d5-933e-b01ab52b5260",
+      "isrc": "GB2DY1400083",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-30T00:42:07.725Z"
+    },
+    {
+      "id": "22242c5a-8a55-4a09-bacc-beee0d09f8b1",
+      "projectId": "7dfc63f6-1c2b-46c5-9459-c54dc9b55cf8",
+      "title": "Black Night",
+      "artist": "Deep Purple",
+      "durationSec": 288,
+      "mbid": "6a99ce01-1ac0-4ae0-9997-0a8ede605f7b",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-10-30T04:12:28.229Z"
+    },
+    {
+      "id": "794c8c8e-22af-4719-bc52-d6dc95f4a16b",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Lady Double Dealer",
+      "artist": "Deep Purple",
+      "durationSec": 201,
+      "mbid": "c25a42d8-0e6a-4663-abf4-e0c1dc930d6c",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-11-01T05:16:00.529Z"
+    },
+    {
+      "id": "7a9badc0-8d9f-4a14-973a-2bbd48286c05",
+      "projectId": "68666397-e9fc-4dd7-bd94-78c4f5b032c8",
+      "title": "Guilty Of Love",
+      "artist": "Whitesnake",
+      "mbid": "de55af0c-f89a-448e-89bf-fc3eb77d4ac4",
+      "suggestedBy": "7d9bd818-1e5b-4300-818f-ecb70c926825",
+      "createdAt": "2025-11-01T05:25:48.962Z"
+    }
+  ],
+  "personalPractice": [
+    {
+      "repertoireSongId": "aff926dd-92a4-4916-b112-124a35eb8613",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 1
+    },
+    {
+      "repertoireSongId": "329708e7-5cb9-4d69-be42-4d6ba4192599",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 1,
+      "rating": 4
+    },
+    {
+      "repertoireSongId": "f59018e6-629c-4992-830b-6c61d4e260c4",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 2
+    },
+    {
+      "repertoireSongId": "8279cb72-7d48-45f4-863d-2d62a8afa64c",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 1,
+      "rating": 5
+    },
+    {
+      "repertoireSongId": "54e54f61-9321-4de2-8dff-1ec357a65a23",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 1,
+      "rating": 5
+    },
+    {
+      "repertoireSongId": "ae8ae753-f72d-43f9-8dcd-e7210e03d246",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 4,
+      "lastRehearsed": "2025-10-29"
+    },
+    {
+      "repertoireSongId": "72ba9218-7351-4f2c-9293-5406f66b8ece",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 2
+    },
+    {
+      "repertoireSongId": "048fa7e6-163f-4001-ad8b-894dde3aabb7",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 4
+    },
+    {
+      "repertoireSongId": "6181808d-d7cd-4570-aa96-9705cedd7ed8",
+      "userId": "1UtlnxdKW4XkZdCKjuPAtOiVTVx1",
+      "passes": 0,
+      "rating": 1
+    }
+  ]
+}
