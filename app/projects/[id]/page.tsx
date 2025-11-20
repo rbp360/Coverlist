@@ -207,28 +207,7 @@ export default function ProjectDetailPage() {
                 </button>
                 {avatarError && <span className="text-xs text-red-500">{avatarError}</span>}
               </form>
-              {project.avatarUrl && (
-                <div className="flex items-center gap-2 text-xs mt-2">
-                  <code className="rounded bg-neutral-900 px-1 py-0.5 text-neutral-100 max-w-[22rem] truncate">
-                    {project.avatarUrl}
-                  </code>
-                  <a
-                    className="rounded border px-1 py-0.5"
-                    href={project.avatarUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open
-                  </a>
-                  <button
-                    className="rounded border px-1 py-0.5"
-                    onClick={() => navigator.clipboard.writeText(String(project.avatarUrl))}
-                    title="Copy URL"
-                  >
-                    Copy
-                  </button>
-                </div>
-              )}
+              {/* Removed debug URL display for project avatar */}
             </div>
           )}
         </div>

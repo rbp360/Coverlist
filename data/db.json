@@ -101,7 +101,9 @@
       "createdAt": "2025-10-28T07:18:49.841Z",
       "name": "Bob",
       "username": "drummerbob",
-      "instruments": ["Drums"]
+      "instruments": ["Drums"],
+      "passwordResetToken": "ae2faac19351e9bc9550057bd7c9d32c565db7f768655591be15837dd7e913b4",
+      "passwordResetExpiresAt": 1763576013509
     },
     {
       "id": "e14ec1c8-e7d4-4aef-b5ef-dc243f82b4ef",
